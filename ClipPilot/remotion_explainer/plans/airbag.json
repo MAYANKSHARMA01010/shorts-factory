@@ -1,0 +1,56 @@
+{
+  "slug": "airbag",
+  "title": "Your Airbag Is a Tiny Bomb",
+  "duration_estimate_s": 31,
+  "palette": {
+    "bg_deep": "#0d1117",
+    "bg_panel": "#141b24",
+    "gold": "#FFD23F",
+    "key_explosion": "#FF5722",
+    "nitrogen_blue": "#4FC3F7",
+    "spark_white": "#FFF8E1",
+    "nylon_cream": "#E8DCC4",
+    "ember_orange": "#FF9233",
+    "steel_grey": "#5A6675",
+    "danger_red": "#E03A2F"
+  },
+  "scenes": [
+    {
+      "beat": "This airbag inflates in 30 milliseconds — faster than you can blink.",
+      "visual": "COLD-OPEN HOOK. Dead center on the deep #0d1117 background: one bold object — a plump cream-nylon airbag balloon bursting out of a steel-grey steering-wheel hub, rounded with a glossy top highlight and faint seam lines. Stamped boldly across the bag in gold #FFD23F is a small black-edged warning triangle with an exclamation mark. A large gold badge pill hangs above it reading '30 ms' beside a gold stopwatch icon, and a smaller spark-white sub-label under it reads 'ONE BLINK'. Thin concentric gold shock rings radiate from the hub. The frame is otherwise empty and uncluttered so the bag is unmissable in the first frame.",
+      "animations": "On frame 1 the airbag is ALREADY 80% formed (no slow build) then snaps to full size with a single hard squash-then-overshoot spring (settles in ~250ms). The gold '30 ms' badge slams in 120ms later with a bounce overshoot and a quick gold flash. An eyelid-shaped mask sweeps down-and-up over the entire frame exactly once to literally 'blink'. The concentric gold shock rings draw-on outward and fade. No camera zoom.",
+      "sfx": "a sharp fabric whump as the bag snaps full, tailed by a single soft ticking stopwatch click (cloth pop + clock tick)"
+    },
+    {
+      "beat": "But it isn't pumped full of air — it's blown open by a controlled explosion.",
+      "visual": "Split-screen on two dark #141b24 panels divided by a vertical gold line. LEFT: a grey hand-pump feeding a hose into a limp, wrinkled deflated bag, the whole panel crossed out by a thick diagonal danger-red #E03A2F 'no' slash. RIGHT: the same bag rendered taut with jagged orange #FF5722 explosion-burst spikes radiating behind it and a gold pill label reading 'CONTROLLED BLAST'.",
+      "animations": "Left pump gives two weak pulse-throbs, then the red 'no' slash draws-on diagonally with a hard dead-stop. The gold divider wipes down the center, and the right-side explosion spikes burst outward in a staggered spring pop as orange floods the bag fill. The gold 'CONTROLLED BLAST' pill slams in with overshoot. No zoom.",
+      "sfx": "a wheezy deflating squeak on the left, then a low muffled detonation thud on the right (squeak + blast boom)"
+    },
+    {
+      "beat": "A crash sensor feels the violent stop and fires a spark into a chemical pellet inside the wheel.",
+      "visual": "Cutaway diagram inside the steering hub. LEFT: a square accelerometer chip in steel-grey with gold pins. A glowing gold wire trace snakes RIGHT toward a small cylindrical canister holding a cluster of grey chemical pellets. A red velocity arrow labeled in gold whips forward and slams a wall, freezing with radiating impact crack lines. At the canister a bright spark-white #FFF8E1 electric arc jumps onto the nearest pellet.",
+      "animations": "The red velocity arrow sweeps in fast and dead-stops with a spring jolt and crack lines snapping out. That jolt travels as a bright pulse drawing-on along the gold wire toward the canister. At the end a sharp spark flares with a quick scale-pop and crackle flicker on the pellet, and the chip's gold pins flash in sequence. No zoom.",
+      "sfx": "a metallic impact clack then a short electric spark zap-crackle (impact + electricity)"
+    },
+    {
+      "beat": "That pellet burns instantly, flooding the bag with harmless nitrogen gas.",
+      "visual": "HERO REVEAL — THE MONEY SHOT. Macro on the single pellet igniting at exact frame center: a fierce combustion core layered orange #FF5722 into gold #FFD23F with #FF9233 ember licks and flying spark particles. From the burning pellet, hundreds of small blue #4FC3F7 nitrogen molecules — each a paired-circle 'N2' glyph — erupt and stream upward and outward along curved paths, swirling and multiplying until they pack a translucent cream-nylon bag membrane that swells and tightens around them. A gold corner counter races a volume number upward; a gold 'N2' tag pulses beside the gas cloud; heat-shimmer ripples just above the core. This is the single richest, most detailed frame of the short.",
+      "animations": "The pellet detonates with a bright radial flash-bloom and a fast spark-particle emitter spray (staggered, ~200 particles easing out). Blue N2 glyphs stream-on continuously along curved bezier paths, accelerating as they multiply and pack denser toward the edges. The cream membrane fills and stretches with an elastic scale-spring, its edges quivering on a fast secondary wobble. The gold volume counter ticks up rapidly; the 'N2' tag does a soft pulse-bounce loop. Heat shimmer distorts in a subtle sine warp. Everything fast, no camera zoom — the motion itself sells the mechanism.",
+      "sfx": "a rushing roar of igniting gas ramping up as the bag fills (gas ignition whoosh-rumble)"
+    },
+    {
+      "beat": "The gas slams the nylon outward right as your face arrives — then it's already deflating.",
+      "visual": "Wider shot: the fully bloomed cream-nylon airbag dominates the lower frame, taut with seam lines and a top sheen, small gold gas-escape puffs starting at its side vents. A simplified steel-grey vector head-and-shoulders silhouette lunges in from the top toward the bag. Tiny blue nitrogen pressure arrows push the nylon surface outward to meet the face. A gold timing pill reads 'JUST IN TIME'. Soft cushion-impact rings ripple at the contact point, and the bag visibly begins to soften and vent.",
+      "animations": "The nylon punches outward with a firm spring expansion (the slam). The head silhouette swoops down a fast arc and meets the bag, which absorbs it with a soft squash-and-rebound cushion bounce; cushion ripple rings draw-on at contact. The 'JUST IN TIME' pill snaps in with overshoot at the moment of contact. Immediately the bag relaxes and shrinks on an ease-out as gold vent puffs drift off. No zoom.",
+      "sfx": "a deep padded cushion thud as the face lands, then a soft hiss of escaping gas (cushion catch + vent hiss)"
+    },
+    {
+      "beat": "It inflates and deflates before your body even finishes lunging forward.",
+      "visual": "PAYOFF. The airbag fades fully into the dark #0d1117 background as its last gold vent puffs vanish, leaving a clean black frame. Then the punchline slams in word-by-word, the key word 'BOMB' in gold #FFD23F, the rest in spark-white #FFF8E1: 'A BLINK-FAST BOMB'. Below it a thin gold timeline bar shows a full inflate-and-deflate arc complete-then-empty in a blink, and a gold underline flourish sweeps under the final word.",
+      "animations": "The bag relax-shrinks and fades out. Each of the three words slams in word-by-word with a strong spring overshoot — snap, settle, hold — with 'BOMB' landing hardest and flashing gold. The gold timeline bar fills left-to-right then immediately empties, and a gold underline sweeps under 'BOMB' as the last beat. Hold on the final lockup. No zoom.",
+      "sfx": "a quick gas-vent hiss into a clean confirming gold accent ding on the word 'BOMB' (vent hiss + sting)"
+    }
+  ],
+  "payoff": "A blink-fast bomb."
+}

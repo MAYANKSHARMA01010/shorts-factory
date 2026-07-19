@@ -1,0 +1,97 @@
+{
+  "slug": "diamond",
+  "title": "A Real Diamond Grown In A Microwave",
+  "duration_estimate_s": 38,
+  "palette": {
+    "bg": "#070a16",
+    "bgMid": "#101a33",
+    "ink": "#070a16",
+    "white": "#FFFFFF",
+    "accent": "#8a5bff",
+    "accentLite": "#c9a8ff",
+    "plasma": "#b06bff",
+    "plasmaHot": "#ff66e0",
+    "diamond": "#bfefff",
+    "diamondEdge": "#7fe9ff",
+    "carbon": "#6f7d96",
+    "gold": "#FFD23F",
+    "key": "#8a5bff",
+    "earth": "#7a4a2c",
+    "earthDk": "#4a2c18"
+  },
+  "font": "Poppins",
+  "voice": "edge-tts AndrewMultilingual",
+  "fps": 30,
+  "notes": "House style of SkyBlue/Mirror/HotDog. Every visual is a hand-drawn SVG that DIRECTLY illustrates the CVD (chemical vapor deposition) diamond-growing process. Energy from FAST springs/spins/fills/morphs (use the snappy usePop spring: damping 110-140, mass 0.55, stiffness 180), NOT camera zoom pulses. Cool deep-space indigo background that warms to electric purple during the plasma beat. 3-word karaoke captions are automatic - do NOT add caption text in scenes. Recurring drawn objects to build as reusable components: ChamberBox (the sealed reactor with a thick rounded viewport window), SeedDiamond (faceted brilliant-cut gem with top table + crown facets + pointed pavilion), CarbonAtom (small hexagonal/circle node), PlasmaBall (layered radial-glow orb with crackle bolts). Scene timing will be re-derived from real per-word timestamps in diamond_words.json at build; the boundaries below are the 6 narration sentences split into 7 scenes (hook question is its own scene).",
+  "scenes": [
+    {
+      "id": "hook",
+      "beat": "Could you grow a REAL diamond inside a metal box?",
+      "visual": "Center stage: a sealed steel reactor box (ChamberBox) drawn in cool brushed-metal gradient with bolted corners and a thick round glass viewport in its front face. Through the viewport, a single tiny faceted diamond floats, glinting. A big glowing gold question mark pulses just above/right of the box. Tiny ambient dust drifts in the dark indigo void. The box sits on a subtle drawn lab pedestal/shadow so it reads as a real machine, not a clipart cube.",
+      "animations": "ChamberBox springs in with a snappy overshoot pop (scale 0.4->1, damping 120). Viewport glass does a quick left-to-right sheen sweep. The inner diamond throws a 3-frame sparkle cross every ~25 frames. Gold '?' pulses in opacity + scale on a sine. Whole box has a tiny idle breathing scale so it never feels static.",
+      "sfx": "soft deep sub-whoosh as the box pops in, then a single small UI shimmer/chime on the first diamond glint",
+      "duration_hint_s": 5.5
+    },
+    {
+      "id": "everyday",
+      "beat": "Well, scientists do it every single day.",
+      "visual": "Pull back to a tidy row of three identical reactor boxes on a lab bench (a small 'lab' of ChamberBoxes), each with its viewport softly lit purple. Above them a clean drawn wall calendar / day counter, and a little lab-coat scientist bust silhouette to the side gesturing. A small green CHECK badge stamps onto the scene to say 'this is routine, real, done daily'.",
+      "animations": "The three boxes pop in left-to-right in fast staggered springs (8-frame stagger). Calendar pages flip-rip rapidly (quick day-to-day flick) to sell 'every single day'. Green check badge springs in with an overshoot + a quick ring pulse. Viewport glows breathe in unison.",
+      "sfx": "light paper riffle/flip whoosh on the calendar flick; tiny pop on the check badge",
+      "duration_hint_s": 4.0
+    },
+    {
+      "id": "seed",
+      "beat": "First, a tiny sliver of REAL diamond is placed in a sealed chamber filled with carbon gas.",
+      "visual": "Cutaway / cross-section INTO one chamber (the box opens to reveal its inside). A mechanical tweezer/claw lowers a tiny faceted seed diamond (SeedDiamond) onto a flat circular substrate plate at the chamber floor. A numbered '1' tag or 'SEED' arrow points to it. Then the chamber visibly fills from the bottom up with a translucent teal carbon-gas haze, dotted with small drifting CarbonAtom nodes (each a little C circle). The chamber door swings shut and a seal-line glows to show it's airtight.",
+      "animations": "Tweezer slides down on a spring and gently sets the seed (tiny bounce as it lands). 'SEED' arrow pops in. Carbon-gas haze rises as an animated fill (rect height interpolate bottom->top) with ~14 CarbonAtoms floating on sine paths. Door slides shut fast, seal-line sweeps and glows. Snappy throughout.",
+      "sfx": "mechanical servo/slide tick as the tweezer lowers; a soft pneumatic hiss + click as the door seals",
+      "duration_hint_s": 6.5
+    },
+    {
+      "id": "plasma",
+      "beat": "Then the chamber is blasted with microwave energy until the gas glows like a purple star.",
+      "visual": "The big reveal beat. A microwave waveguide/emitter on the side fires concentric wave rings into the chamber. In the chamber center the carbon gas ignites into a churning PURPLE PLASMA BALL hovering just above the seed - a layered radial-glow orb (deep indigo core -> electric violet -> hot magenta rim) with crackling lightning bolts arcing off it, exactly 'a purple star'. The whole scene background warms from cold indigo to electric violet as the plasma lights up.",
+      "animations": "Microwave emitter pulses; concentric wave-ring arcs travel from emitter into the chamber on a loop. Plasma ball blooms from nothing with a fast scale-up spring, then churns: rotating inner swirl, flickering rim opacity, randomized crackle bolts that snap and redraw every few frames. Background color morphs cold->hot via the mix() helper keyed to this scene. Light flicker on the seed below.",
+      "sfx": "rising electric hum building, then a DRAMATIC plasma-ignite BOOM/cosmic-whoosh on the moment the purple star lights (one of the 2-3 big reveals)",
+      "duration_hint_s": 6.5
+    },
+    {
+      "id": "rain",
+      "beat": "This superheats the carbon until atoms rain DOWN onto the seed, one layer at a time.",
+      "visual": "Tight on the seed at the chamber floor with the plasma glowing above. CarbonAtoms detach from the plasma and RAIN straight down, landing on the seed and snapping into a growing crystal lattice - the seed visibly gains horizontal layers, one stripe at a time, stacking upward. A side caliper/ruler or 'LAYER 1, 2, 3...' counter ticks up to emphasize 'one layer at a time'. A small thermometer/heat shimmer sells 'superheats'.",
+      "animations": "Streams of small carbon dots fall from the plasma on staggered timings (gravity ease), each landing with a tiny snap-pop into a lattice node. The seed's stack grows by discrete layer-bars that pop in sequentially (spring per layer). Layer counter increments with a quick number-flip. Heat-shimmer wavy lines ripple. Fast, rhythmic, satisfying stacking.",
+      "sfx": "soft rhythmic tick/click as each layer snaps into place (sparse, only on layer pops); faint sizzle bed",
+      "duration_hint_s": 6.5
+    },
+    {
+      "id": "grow",
+      "beat": "Over several weeks the crystal grows thicker, identical to one ripped from deep underground.",
+      "visual": "Split-screen comparison. LEFT: the lab-grown crystal in its chamber growing from a chip into a big chunky rough diamond as a fast 'WEEK 1 -> WEEK 6' time bar sweeps. RIGHT: a cross-section of deep EARTH (layered brown/amber strata) with a natural rough diamond embedded in rock, a pickaxe/crack pulling it out. A glowing '=' equals sign or '100% IDENTICAL' stamp snaps between the two to show they are the same material.",
+      "animations": "Left crystal scales/thickens in synced steps as the WEEK time-bar fills fast (compressing weeks into ~2s). Right: earth strata slide up into frame, the natural diamond gets cracked free with a quick shake + debris pop. The central '=' / 'IDENTICAL' stamp springs in big with an overshoot and a flash. Quick mirror-glints on both gems at the end to rhyme them.",
+      "sfx": "time-lapse rising riser as the week bar fills; a rock-crack/thud as the natural diamond breaks free; small ding on the IDENTICAL stamp",
+      "duration_hint_s": 6.0
+    },
+    {
+      "id": "reveal",
+      "beat": "Finally it's cut and polished - and not even a jeweler can tell it was born in a machine.",
+      "visual": "The rough crystal transforms: spinning facet-cut lines slice across it and it MORPHS into a flawless brilliant-cut diamond that drops onto a jeweler's pad. A jeweler's loupe/magnifier swings over it; through the loupe circle we see the gem and a tiny scanning reticle that flips to a red 'CAN'T TELL ?!' then the payoff text lands. Big sparkle burst. The diamond rests center on a soft purple spotlight.",
+      "animations": "Facet lines sweep across the rough stone and it morphs (path/shape interpolate) into the polished brilliant cut, which drops + bounces onto the pad. Loupe swings in on a spring. Radiating sparkle-star burst pops on the finished gem. Payoff line types/springs up. End on a held glint loop so the last frame still shimmers.",
+      "sfx": "polishing zip/whoosh as facets cut; a bright glass/crystal CHIME sting on the final polished sparkle (the closing reveal); subtle held shimmer",
+      "duration_hint_s": 5.5
+    }
+  ],
+  "payoff": "Grown in a microwave. Real as the ones underground.",
+  "payoff_alt": "Born in a box. Indistinguishable from a billion-year-old gem.",
+  "sfx_policy": "Sparse + scene-matched. Slide/whoosh on every scene change. Reserve the big dramatic hits for exactly 3 real reveals: (1) the plasma 'purple star' ignition BOOM, (2) the rock-crack when the natural diamond breaks free in 'grow', (3) the bright crystal CHIME on the final polished diamond in 'reveal'. Layer ticks in 'rain' are tiny and rhythmic, not dramatic.",
+  "build_notes": {
+    "component": "Diamond.tsx",
+    "audio": ["diamond_narration.mp3", "music.mp3 @ volume 0.13-0.16"],
+    "words_json": "diamond_words.json",
+    "reusable_svg": ["ChamberBox (reactor w/ viewport)", "SeedDiamond (brilliant-cut gem path)", "CarbonAtom (C node)", "PlasmaBall (layered radial glow + crackle bolts)", "Calendar/day-counter", "Loupe (jeweler magnifier)", "EarthStrata cross-section"],
+    "spring": "usePop(delay, damping=110-140) with mass 0.55, stiffness 180 for snappy overshoot (matches HotDog)",
+    "background": "deep indigo space gradient (#070a16 -> #101a33) that warms toward electric violet during the plasma scene via mix() keyed to that scene's frames; drifting dust particles like the references",
+    "captions": "automatic 3-word karaoke pages from diamond_words.json, active word in gold, bottom ~250px - do not hand-author",
+    "scene_wrapper": "SceneWrap with fast 8-frame fade-in + scale 1.06->1 and 8-frame fade-out, like HotDog"
+  }
+}

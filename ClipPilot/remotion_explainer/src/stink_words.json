@@ -1,0 +1,475 @@
+{
+"script": "By 1858, the River Thames had become an open sewer, swallowing the waste of millions of people. Then a brutal heatwave hit, baking the riverbanks and cooking the filth into a stench so vile it earned a name: the Great Stink. The smell crept into Parliament itself, and lawmakers gagged behind curtains soaked in chemicals to mask it. They nearly fled the building entirely. But the unbearable reek finally forced them to act, funding a vast network of sewers. So it took a smell, not a disease, to finally clean up the city.",
+"words": [
+{
+"text": "By",
+"start": 0.0,
+"end": 0.3
+},
+{
+"text": "1858,",
+"start": 0.3,
+"end": 1.42
+},
+{
+"text": "the",
+"start": 1.94,
+"end": 1.96
+},
+{
+"text": "River",
+"start": 1.96,
+"end": 2.22
+},
+{
+"text": "Thames",
+"start": 2.22,
+"end": 2.5
+},
+{
+"text": "had",
+"start": 2.5,
+"end": 2.78
+},
+{
+"text": "become",
+"start": 2.78,
+"end": 3.1
+},
+{
+"text": "an",
+"start": 3.1,
+"end": 3.3
+},
+{
+"text": "open",
+"start": 3.3,
+"end": 3.7
+},
+{
+"text": "sewer,",
+"start": 3.7,
+"end": 4.26
+},
+{
+"text": "swallowing",
+"start": 4.68,
+"end": 5.28
+},
+{
+"text": "the",
+"start": 5.28,
+"end": 5.54
+},
+{
+"text": "waste",
+"start": 5.54,
+"end": 5.92
+},
+{
+"text": "of",
+"start": 5.92,
+"end": 6.18
+},
+{
+"text": "millions",
+"start": 6.18,
+"end": 6.6
+},
+{
+"text": "of",
+"start": 6.6,
+"end": 6.88
+},
+{
+"text": "people.",
+"start": 6.88,
+"end": 7.24
+},
+{
+"text": "Then",
+"start": 7.72,
+"end": 7.88
+},
+{
+"text": "a",
+"start": 7.88,
+"end": 8.06
+},
+{
+"text": "brutal",
+"start": 8.06,
+"end": 8.44
+},
+{
+"text": "heat",
+"start": 8.44,
+"end": 8.86
+},
+{
+"text": "wave",
+"start": 8.86,
+"end": 9.14
+},
+{
+"text": "hit,",
+"start": 9.14,
+"end": 9.54
+},
+{
+"text": "baking",
+"start": 9.84,
+"end": 10.14
+},
+{
+"text": "the",
+"start": 10.14,
+"end": 10.34
+},
+{
+"text": "riverbanks",
+"start": 10.34,
+"end": 10.86
+},
+{
+"text": "and",
+"start": 10.86,
+"end": 11.56
+},
+{
+"text": "cooking",
+"start": 11.56,
+"end": 11.86
+},
+{
+"text": "the",
+"start": 11.86,
+"end": 12.08
+},
+{
+"text": "filth",
+"start": 12.08,
+"end": 12.48
+},
+{
+"text": "into",
+"start": 12.48,
+"end": 12.72
+},
+{
+"text": "a",
+"start": 12.72,
+"end": 12.9
+},
+{
+"text": "stench",
+"start": 12.9,
+"end": 13.32
+},
+{
+"text": "so",
+"start": 13.32,
+"end": 13.88
+},
+{
+"text": "vile",
+"start": 13.88,
+"end": 14.24
+},
+{
+"text": "it",
+"start": 14.24,
+"end": 14.44
+},
+{
+"text": "earned",
+"start": 14.44,
+"end": 14.56
+},
+{
+"text": "a",
+"start": 14.56,
+"end": 14.74
+},
+{
+"text": "name.",
+"start": 14.74,
+"end": 14.96
+},
+{
+"text": "The",
+"start": 15.34,
+"end": 15.58
+},
+{
+"text": "great",
+"start": 15.58,
+"end": 15.84
+},
+{
+"text": "stink.",
+"start": 15.84,
+"end": 16.26
+},
+{
+"text": "The",
+"start": 16.8,
+"end": 16.98
+},
+{
+"text": "smell",
+"start": 16.98,
+"end": 17.28
+},
+{
+"text": "crept",
+"start": 17.28,
+"end": 17.66
+},
+{
+"text": "into",
+"start": 17.66,
+"end": 18.04
+},
+{
+"text": "Parliament",
+"start": 18.04,
+"end": 18.42
+},
+{
+"text": "itself,",
+"start": 18.42,
+"end": 19.0
+},
+{
+"text": "and",
+"start": 19.52,
+"end": 19.82
+},
+{
+"text": "lawmakers",
+"start": 19.82,
+"end": 20.22
+},
+{
+"text": "gagged",
+"start": 20.22,
+"end": 20.84
+},
+{
+"text": "behind",
+"start": 20.84,
+"end": 21.36
+},
+{
+"text": "curtains",
+"start": 21.36,
+"end": 22.04
+},
+{
+"text": "soaked",
+"start": 22.04,
+"end": 22.7
+},
+{
+"text": "in",
+"start": 22.7,
+"end": 22.96
+},
+{
+"text": "chemicals",
+"start": 22.96,
+"end": 23.42
+},
+{
+"text": "to",
+"start": 23.42,
+"end": 23.84
+},
+{
+"text": "mask",
+"start": 23.84,
+"end": 24.16
+},
+{
+"text": "it.",
+"start": 24.16,
+"end": 24.5
+},
+{
+"text": "They",
+"start": 24.8,
+"end": 25.02
+},
+{
+"text": "nearly",
+"start": 25.02,
+"end": 25.38
+},
+{
+"text": "fled",
+"start": 25.38,
+"end": 25.78
+},
+{
+"text": "the",
+"start": 25.78,
+"end": 26.14
+},
+{
+"text": "building",
+"start": 26.14,
+"end": 26.64
+},
+{
+"text": "entirely.",
+"start": 26.64,
+"end": 27.36
+},
+{
+"text": "But",
+"start": 28.12,
+"end": 28.24
+},
+{
+"text": "the",
+"start": 28.24,
+"end": 28.36
+},
+{
+"text": "unbearable",
+"start": 28.36,
+"end": 28.96
+},
+{
+"text": "reek",
+"start": 28.96,
+"end": 29.54
+},
+{
+"text": "finally",
+"start": 29.54,
+"end": 30.12
+},
+{
+"text": "forced",
+"start": 30.12,
+"end": 30.6
+},
+{
+"text": "them",
+"start": 30.6,
+"end": 30.9
+},
+{
+"text": "to",
+"start": 30.9,
+"end": 31.1
+},
+{
+"text": "act,",
+"start": 31.1,
+"end": 31.52
+},
+{
+"text": "funding",
+"start": 31.92,
+"end": 32.34
+},
+{
+"text": "a",
+"start": 32.34,
+"end": 32.58
+},
+{
+"text": "vast",
+"start": 32.58,
+"end": 33.0
+},
+{
+"text": "network",
+"start": 33.0,
+"end": 33.44
+},
+{
+"text": "of",
+"start": 33.44,
+"end": 33.64
+},
+{
+"text": "sewers.",
+"start": 33.64,
+"end": 34.1
+},
+{
+"text": "So",
+"start": 34.6,
+"end": 34.84
+},
+{
+"text": "it",
+"start": 34.84,
+"end": 34.94
+},
+{
+"text": "took",
+"start": 34.94,
+"end": 35.06
+},
+{
+"text": "a",
+"start": 35.06,
+"end": 35.2
+},
+{
+"text": "smell,",
+"start": 35.2,
+"end": 35.54
+},
+{
+"text": "not",
+"start": 35.94,
+"end": 36.22
+},
+{
+"text": "a",
+"start": 36.22,
+"end": 36.32
+},
+{
+"text": "disease,",
+"start": 36.32,
+"end": 36.74
+},
+{
+"text": "to",
+"start": 37.1,
+"end": 37.44
+},
+{
+"text": "finally",
+"start": 37.44,
+"end": 37.76
+},
+{
+"text": "clean",
+"start": 37.76,
+"end": 38.08
+},
+{
+"text": "up",
+"start": 38.08,
+"end": 38.24
+},
+{
+"text": "the",
+"start": 38.24,
+"end": 38.4
+},
+{
+"text": "city.",
+"start": 38.4,
+"end": 38.62
+}
+]
+}

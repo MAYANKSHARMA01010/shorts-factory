@@ -1,0 +1,530 @@
+{
+"script": "Your hair stands on end, the air starts to tingle, and you realize you're about to be struck by lightning. There's no time to reach shelter. So do not lie flat, because the ground itself carries the current sideways through your body. Instead, crouch low on the balls of your feet with your heels touching and your hands over your ears. This makes you a small target and gives the current less of you to flow through. And never hide under a lone tall tree. The grim truth? Lightning is five times hotter than the sun, so a near miss can still stop your heart.",
+"words": [
+{
+"text": "Your",
+"start": 0.0,
+"end": 0.26
+},
+{
+"text": "hair",
+"start": 0.26,
+"end": 0.66
+},
+{
+"text": "stands",
+"start": 0.66,
+"end": 1.22
+},
+{
+"text": "on",
+"start": 1.22,
+"end": 1.46
+},
+{
+"text": "end.",
+"start": 1.46,
+"end": 2.0
+},
+{
+"text": "The",
+"start": 2.44,
+"end": 2.56
+},
+{
+"text": "air",
+"start": 2.56,
+"end": 3.0
+},
+{
+"text": "starts",
+"start": 3.0,
+"end": 3.48
+},
+{
+"text": "to",
+"start": 3.48,
+"end": 3.72
+},
+{
+"text": "tingle",
+"start": 3.72,
+"end": 4.08
+},
+{
+"text": "and",
+"start": 4.08,
+"end": 4.68
+},
+{
+"text": "you",
+"start": 4.68,
+"end": 4.8
+},
+{
+"text": "realize",
+"start": 4.8,
+"end": 5.26
+},
+{
+"text": "you're",
+"start": 5.26,
+"end": 5.48
+},
+{
+"text": "about",
+"start": 5.48,
+"end": 5.68
+},
+{
+"text": "to",
+"start": 5.68,
+"end": 5.8
+},
+{
+"text": "be",
+"start": 5.8,
+"end": 5.94
+},
+{
+"text": "struck",
+"start": 5.94,
+"end": 6.26
+},
+{
+"text": "by",
+"start": 6.26,
+"end": 6.52
+},
+{
+"text": "lightning.",
+"start": 6.52,
+"end": 6.92
+},
+{
+"text": "There's",
+"start": 7.52,
+"end": 7.68
+},
+{
+"text": "no",
+"start": 7.68,
+"end": 7.86
+},
+{
+"text": "time",
+"start": 7.86,
+"end": 8.22
+},
+{
+"text": "to",
+"start": 8.22,
+"end": 8.46
+},
+{
+"text": "reach",
+"start": 8.46,
+"end": 8.7
+},
+{
+"text": "shelter.",
+"start": 8.7,
+"end": 9.16
+},
+{
+"text": "So",
+"start": 9.78,
+"end": 9.9
+},
+{
+"text": "do",
+"start": 9.9,
+"end": 10.08
+},
+{
+"text": "not",
+"start": 10.08,
+"end": 10.32
+},
+{
+"text": "lie",
+"start": 10.32,
+"end": 10.6
+},
+{
+"text": "flat",
+"start": 10.6,
+"end": 11.06
+},
+{
+"text": "because",
+"start": 11.06,
+"end": 11.64
+},
+{
+"text": "the",
+"start": 11.64,
+"end": 11.82
+},
+{
+"text": "ground",
+"start": 11.82,
+"end": 12.14
+},
+{
+"text": "itself",
+"start": 12.14,
+"end": 12.6
+},
+{
+"text": "carries",
+"start": 12.6,
+"end": 13.12
+},
+{
+"text": "the",
+"start": 13.12,
+"end": 13.4
+},
+{
+"text": "current",
+"start": 13.4,
+"end": 13.7
+},
+{
+"text": "sideways",
+"start": 13.7,
+"end": 14.28
+},
+{
+"text": "through",
+"start": 14.28,
+"end": 14.72
+},
+{
+"text": "your",
+"start": 14.72,
+"end": 14.84
+},
+{
+"text": "body.",
+"start": 14.84,
+"end": 15.18
+},
+{
+"text": "Instead,",
+"start": 15.72,
+"end": 16.28
+},
+{
+"text": "crouch",
+"start": 16.52,
+"end": 17.0
+},
+{
+"text": "low",
+"start": 17.0,
+"end": 17.22
+},
+{
+"text": "on",
+"start": 17.22,
+"end": 17.42
+},
+{
+"text": "the",
+"start": 17.42,
+"end": 17.54
+},
+{
+"text": "balls",
+"start": 17.54,
+"end": 17.8
+},
+{
+"text": "of",
+"start": 17.8,
+"end": 17.98
+},
+{
+"text": "your",
+"start": 17.98,
+"end": 18.1
+},
+{
+"text": "feet",
+"start": 18.1,
+"end": 18.38
+},
+{
+"text": "with",
+"start": 18.38,
+"end": 18.6
+},
+{
+"text": "your",
+"start": 18.6,
+"end": 18.76
+},
+{
+"text": "heels",
+"start": 18.76,
+"end": 19.06
+},
+{
+"text": "touching",
+"start": 19.06,
+"end": 19.5
+},
+{
+"text": "and",
+"start": 19.5,
+"end": 20.04
+},
+{
+"text": "your",
+"start": 20.04,
+"end": 20.16
+},
+{
+"text": "hands",
+"start": 20.16,
+"end": 20.52
+},
+{
+"text": "over",
+"start": 20.52,
+"end": 20.74
+},
+{
+"text": "your",
+"start": 20.74,
+"end": 20.9
+},
+{
+"text": "ears.",
+"start": 20.9,
+"end": 21.2
+},
+{
+"text": "This",
+"start": 21.7,
+"end": 21.92
+},
+{
+"text": "makes",
+"start": 21.92,
+"end": 22.1
+},
+{
+"text": "you",
+"start": 22.1,
+"end": 22.26
+},
+{
+"text": "a",
+"start": 22.26,
+"end": 22.34
+},
+{
+"text": "small",
+"start": 22.34,
+"end": 22.64
+},
+{
+"text": "target",
+"start": 22.64,
+"end": 23.04
+},
+{
+"text": "and",
+"start": 23.04,
+"end": 23.5
+},
+{
+"text": "gives",
+"start": 23.5,
+"end": 23.72
+},
+{
+"text": "the",
+"start": 23.72,
+"end": 23.9
+},
+{
+"text": "current",
+"start": 23.9,
+"end": 24.22
+},
+{
+"text": "less",
+"start": 24.22,
+"end": 24.58
+},
+{
+"text": "of",
+"start": 24.58,
+"end": 24.78
+},
+{
+"text": "you",
+"start": 24.78,
+"end": 24.96
+},
+{
+"text": "to",
+"start": 24.96,
+"end": 25.22
+},
+{
+"text": "flow",
+"start": 25.22,
+"end": 25.58
+},
+{
+"text": "through",
+"start": 25.58,
+"end": 25.98
+},
+{
+"text": "and",
+"start": 25.98,
+"end": 26.74
+},
+{
+"text": "never",
+"start": 26.74,
+"end": 26.98
+},
+{
+"text": "hide",
+"start": 26.98,
+"end": 27.42
+},
+{
+"text": "under",
+"start": 27.42,
+"end": 27.84
+},
+{
+"text": "a",
+"start": 27.84,
+"end": 28.04
+},
+{
+"text": "lone",
+"start": 28.04,
+"end": 28.36
+},
+{
+"text": "tall",
+"start": 28.36,
+"end": 28.64
+},
+{
+"text": "tree.",
+"start": 28.64,
+"end": 29.08
+},
+{
+"text": "The",
+"start": 29.64,
+"end": 29.72
+},
+{
+"text": "grim",
+"start": 29.72,
+"end": 29.9
+},
+{
+"text": "truth,",
+"start": 29.9,
+"end": 30.28
+},
+{
+"text": "lightning",
+"start": 30.92,
+"end": 31.12
+},
+{
+"text": "is",
+"start": 31.12,
+"end": 31.4
+},
+{
+"text": "five",
+"start": 31.4,
+"end": 31.74
+},
+{
+"text": "times",
+"start": 31.74,
+"end": 32.1
+},
+{
+"text": "hotter",
+"start": 32.1,
+"end": 32.52
+},
+{
+"text": "than",
+"start": 32.52,
+"end": 32.74
+},
+{
+"text": "the",
+"start": 32.74,
+"end": 32.9
+},
+{
+"text": "sun",
+"start": 32.9,
+"end": 33.14
+},
+{
+"text": "so",
+"start": 33.14,
+"end": 33.8
+},
+{
+"text": "a",
+"start": 33.8,
+"end": 33.94
+},
+{
+"text": "near",
+"start": 33.94,
+"end": 34.16
+},
+{
+"text": "miss",
+"start": 34.16,
+"end": 34.56
+},
+{
+"text": "can",
+"start": 34.56,
+"end": 35.02
+},
+{
+"text": "still",
+"start": 35.02,
+"end": 35.36
+},
+{
+"text": "stop",
+"start": 35.36,
+"end": 35.68
+},
+{
+"text": "your",
+"start": 35.68,
+"end": 35.86
+},
+{
+"text": "heart.",
+"start": 35.86,
+"end": 36.1
+}
+]
+}

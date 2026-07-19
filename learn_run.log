@@ -1,0 +1,33 @@
+ 
+============================================================ 
+[02-07-2026 13:56:20.63] LEARNING run STARTING 
+[13:56:23] Docker is up
+
+[13:56:27] Postiz DB ready: True
+Everything is in order. Here's the complete summary of this learning run:
+
+---
+
+**Weekly Learning Run #2 — 2026-07-02 · Complete**
+
+**Metrics snapshot:**
+- Channel: 29 subs, 7,839 views, 28 videos
+- Science avg AVP: **49.7%** (well below ≥80% target) — retention is the bottleneck for science
+- Finance avg AVP: **76.1%** (EOB 89.8%, phone bill 73.5%, credit score 65.1%) — better than science
+- Best: "The Blood That Can Kill You" at **93.9% AVP** (estimated ≤20s) — the model to follow
+- Worst: "What Earwax Really Is" at **39.7% AVP**
+
+**What changed:**
+
+1. **SKILL.md** — `[HYPOTHESIS·length]` promoted to `[SIGNAL·length]`: the 93.9% vs 49.7% AVP split gives real signal that ≤20s scripts outperform ~30s ones. **EXPERIMENT E2 is now active**: next 5 science shorts use ≤20s scripts (55–60 words), target pooled AVP ≥70%. Review **2026-07-09**.
+
+2. **SKILL.md** — New rule `[SIGNAL·retention]`: finance holds viewers 54% better than science. Don't fix finance hooks — the algo distribution lag is the issue, not production quality.
+
+3. **daily_topics.md** — Added 8 new visceral science topics (#023–030): parasite brain, perception delay, banana DNA, liver regeneration, stomach acid, blind spot, dead skin, stellar iron in blood.
+
+4. **DECISIONS_FOR_OWNER.md** — Updated Decision #1: new retention data strengthens the Hybrid recommendation (Option C).
+
+**Open experiments:**
+- E1 (from last week): review 2026-07-08 — niche views gap
+- **E2 (NEW):** review 2026-07-09 — ≤20s science scripts → target AVP ≥70%
+- E3 (passive): does consistent finance posting lift impressions? Track 2026-07-09

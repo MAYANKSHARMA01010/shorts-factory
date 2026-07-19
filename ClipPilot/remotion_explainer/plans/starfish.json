@@ -1,0 +1,57 @@
+{
+  "slug": "starfish",
+  "title": "It Pushes Its Stomach Out To Eat",
+  "duration_estimate_s": 32,
+  "palette": {
+    "bg_deep": "#0b1620",
+    "bg_mid": "#13212e",
+    "gold": "#FFD23F",
+    "starfish_orange": "#FF7A3D",
+    "starfish_shadow": "#C8552A",
+    "clam_shell": "#E8D9B5",
+    "clam_flesh": "#F2A6B8",
+    "tube_feet_teal": "#3FE0C5",
+    "digest_green": "#9BE564",
+    "water_blue": "#2E8FD6",
+    "membrane_white": "#FBEFF2"
+  },
+  "scenes": [
+    {
+      "beat": "This starfish has no teeth, no jaw, no way to bite. So how does it eat a clam?",
+      "visual": "One giant five-armed starfish dead center, filling 70% of the frame, drawn in warm orange (#FF7A3D) with a darker #C8552A stippled texture and a raised bumpy ridge down each arm. Background is a deep teal-to-navy radial gradient seabed (#0b1620 center to #13212e edge) with faint drifting plankton dots. A bold gold pill badge (#FFD23F) sits just above the star reading 'NO TEETH. NO JAW.' At the exact center of the starfish, a small dark mouth-ring is highlighted with a thin gold question-mark loop drawn around it, drawing the eye to where the mystery lives. Three faint crossed-out icons (a tooth, a jaw, a fork) float low behind the badge.",
+      "animations": "Starfish spring-pops in fast from 0.5 scale with a single bouncy overshoot (settles in ~0.4s), then a very slow 10s idle rotation drift. The gold 'NO TEETH. NO JAW.' pill slams down 0.15s later with spring overshoot and a tight wobble settle. The gold question-mark loop draws-on around the center mouth in one quick stroke right after. The three crossed-out icons stamp in one-by-one with a small punch. Plankton parallax-floats upward on a slow loop.",
+      "sfx": "soft underwater bubble-glug ambience with one low sonar ping landing exactly on the badge slam"
+    },
+    {
+      "beat": "When it finds a clam, it crawls on top and grips the shell with hundreds of tiny suction feet.",
+      "visual": "A closed clam (#E8D9B5 cream shell with concentric growth-ring arcs) sits lower-center on the seabed. The orange starfish arcs over it from the top. On the contact underside, dozens of tiny teal (#3FE0C5) stalked tube-feet appear as little suction cups gripping the shell ridges, each with a soft glowing tip. A gold counter chip in the top corner ticks '0 -> 250 FEET'.",
+      "animations": "Starfish sweeps down over the clam along a smooth arc and settles with a soft squash-and-settle. Tube-feet pop on in a staggered cascade rippling outward from center (many quick spring pops) so the count visibly fills the contact zone. The gold counter number-rolls up fast. Each suction tip gives a quick pulse-glow as it grips.",
+      "sfx": "a tight cluster of wet suction-cup pop-pop-pops (sticky grip), rising in density"
+    },
+    {
+      "beat": "Then it slowly pries the shell open, just a crack, no wider than a hair.",
+      "visual": "Side-profile cross-section of the clam, framed large, hinged at the right. Cream shell halves with teal tube-feet stretched like taut elastic tethers, two anchored per half, straining. A razor-thin gold sliver of gap opens at the shell lip on the left. A gold caliper bracket labels it 'A HAIR WIDE' next to a hairline reference line. Inside the dark gap, a sliver of pink clam flesh (#F2A6B8) just barely peeks.",
+      "animations": "The tube-foot tethers stretch and quiver under visible tension. The top shell half rotates open only a few degrees with a slow, deliberate strain-easing (never snappy). The gold sliver-gap fill-grows from zero width. The caliper bracket draws-on and the 'A HAIR WIDE' label springs in. A faint strain-shimmer pulses along the straining feet.",
+      "sfx": "a tense low shell-creak groan that slowly bends upward in pitch under load"
+    },
+    {
+      "beat": "Then it does something impossible: it pushes its own stomach out through its mouth and into that crack.",
+      "visual": "THE MONEY SHOT. Large anatomical cross-section of the starfish body, its central mouth a dark ring. From that ring, a translucent pink-membraned stomach (gradient #F2A6B8 to glassy #FBEFF2, semi-transparent with visible internal folds, veins and a wet sheen) EVERTS and balloons OUTWARD, unfurling downward like an inside-out sac. It threads through the hair-thin shell gap with a pinched waist and pools onto the pink clam flesh inside. Faint #9BE564 digestive-fluid channels glow within it. A gold label pill 'STOMACH = OUTSIDE ITS BODY' tags the everting sac. This is the glossiest, most detailed element on screen, lit from above.",
+      "animations": "The translucent stomach everts on a morphing path that visibly turns inside-out, with a gooey jelly-wobble and a slow breathing pulse. As it reaches the slit it squeeze-deforms into a thin pinched waist to thread through, then blooms and spreads over the flesh with a soft spring settle. Internal fold-lines and vein channels draw-on as it unfurls. A wet sheen highlight sweeps across the membrane. The gold label pill spring-pops in last with a strong overshoot.",
+      "sfx": "one deep wet visceral squelch-stretch — the signature gross reveal accent, slow and stretchy"
+    },
+    {
+      "beat": "Inside the shell, the stomach dissolves the clam alive and digests it into soup.",
+      "visual": "Tight on the shell gap: the pink clam flesh is engulfed by the translucent stomach. Green (#9BE564) enzyme bubbles bloom and creep across the flesh. The solid pink clam shape progressively melts into a swirling green-pink liquid soup with rising bubbles; small chunks shrink and blur into the swirl. A gold word 'ALIVE' flickers ominously beside the dissolving flesh.",
+      "animations": "Green enzyme spots bloom-and-spread in a creeping fill across the flesh. The solid clam silhouette melt-morphs into a churning rotational liquid swirl that loops. Bubbles rise-and-pop on staggered timers. The gold 'ALIVE' word pulses with a slow ominous throb. The whole soup gently sloshes side to side.",
+      "sfx": "a fizzing corrosive acid-dissolve sizzle layered with low bubbling"
+    },
+    {
+      "beat": "Then it sucks its stomach back in — meal finished, shell never even opened.",
+      "visual": "Wide shot: the starfish sits over the now-empty, clean cream shell. The translucent stomach retracts up through the mouth, drawing the last green soup up in a thin streamline, leaving the shell hollow. The starfish glows a satisfied warm orange. Then the payoff text slams in centered and huge in gold and white: 'IT EATS INSIDE-OUT'. The starfish gives a tiny content settle beneath the text.",
+      "animations": "The stomach retracts on a reverse-unfurl suck-in (fast inward morph, the exact opposite of the hero evert), pulling the green liquid up in a thin streamline. The empty shell does a small settle. Then the payoff slams in word-by-word — 'IT' / 'EATS' / 'INSIDE-OUT' — each word punching in with strong spring overshoot before settling. A final gold underline sweeps under the line.",
+      "sfx": "a reverse wet slurp suck-in, then a single clean low confirmation thump landing on 'INSIDE-OUT'"
+    }
+  ],
+  "payoff": "IT EATS INSIDE-OUT"
+}

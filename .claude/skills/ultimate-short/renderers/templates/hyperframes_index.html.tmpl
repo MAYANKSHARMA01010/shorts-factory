@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=__W__, height=__H__" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: __W__px; height: __H__px; overflow: hidden;
+        background: radial-gradient(circle at 50% 38%, __BG2__ 0%, __BG__ 62%, #000 100%);
+        font-family: "Arial Black", Arial, sans-serif; }
+      #root { position: relative; width: __W__px; height: __H__px; }
+      #ring { position: absolute; top: 470px; left: 240px; width: 600px; height: 600px;
+        border: 10px dashed __ACCENT__; border-radius: 50%; opacity: 0.85; }
+      #ring2 { position: absolute; top: 560px; left: 330px; width: 420px; height: 420px;
+        border: 4px solid __SHAPE__; border-radius: 50%; opacity: 0.55; }
+      #core { position: absolute; top: 600px; left: 350px; width: 380px; height: 380px;
+        border-radius: 50%; background: radial-gradient(circle, __SHAPE__ 0%, transparent 70%); opacity: 0.65; }
+      .bar { position: absolute; bottom: 470px; width: 46px; height: 150px; border-radius: 23px;
+        transform-origin: bottom center; }
+      .dot { position: absolute; width: 26px; height: 26px; border-radius: 50%; background: __ACCENT__; opacity: 0.9; }
+      #sweep { position: absolute; top: -200px; left: -300px; width: 240px; height: 2600px;
+        background: linear-gradient(90deg, transparent, __TEXT__, transparent); opacity: 0.10;
+        transform: rotate(22deg); }
+      #kicker { position: absolute; top: 360px; left: 0; width: __W__px; text-align: center; }
+      #kicker span { display: inline-block; padding: 16px 34px; background: __ACCENT__; color: #0b0b0b;
+        font-size: 40px; font-weight: 900; letter-spacing: 3px; border-radius: 14px; }
+      #kicker:empty, #kicker span:empty { display: none; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="__DURATION__"
+         data-width="__W__" data-height="__H__">
+      <div id="sweep"></div>
+      <div id="core"></div>
+      <div id="ring2"></div>
+      <div id="ring"></div>
+      <div id="kicker"><span>__KICKER__</span></div>
+      <div class="bars"></div>
+      <div class="dots"></div>
+    </div>
+    <script>
+      var DURATION = __DURATION__;
+      var SHAPE = "__SHAPE__", ACCENT = "__ACCENT__";
+      var root = document.getElementById("root");
+      // build 7 bars centered horizontally
+      var nb = 7, bw = 46, gap = 22, total = nb * bw + (nb - 1) * gap, x0 = (__W__ - total) / 2;
+      var bars = [];
+      for (var i = 0; i < nb; i++) {
+        var b = document.createElement("div");
+        b.className = "bar";
+        b.style.left = (x0 + i * (bw + gap)) + "px";
+        b.style.background = (i % 2 === 0) ? SHAPE : ACCENT;
+        b.style.height = (110 + (i % 3) * 60) + "px";
+        root.appendChild(b); bars.push(b);
+      }
+      // build drifting dots (deterministic positions, no randomness)
+      var dots = [];
+      for (var j = 0; j < 16; j++) {
+        var d = document.createElement("div");
+        d.className = "dot";
+        d.style.left = (90 + (j * 61) % (__W__ - 180)) + "px";
+        d.style.top = (1500 + (j % 5) * 70) + "px";
+        d.style.background = (j % 2 === 0) ? ACCENT : SHAPE;
+        root.appendChild(d); dots.push(d);
+      }
+      window.__timelines = window.__timelines || {};
+      var tl = gsap.timeline({ paused: true });
+      // continuous motion across the whole clip
+      tl.to("#ring", { rotation: 360, duration: DURATION, ease: "none" }, 0);
+      tl.to("#ring2", { rotation: -360, duration: DURATION, ease: "none" }, 0);
+      tl.to("#core", { scale: 1.18, duration: 0.9, yoyo: true, repeat: Math.ceil(DURATION / 0.9), ease: "sine.inOut" }, 0);
+      tl.to("#sweep", { x: __W__ + 600, duration: Math.max(1.2, DURATION * 0.8), ease: "power1.inOut" }, 0.1);
+      // entrances
+      tl.from("#ring", { opacity: 0, scale: 0.4, duration: 0.5, ease: "power3.out" }, 0);
+      tl.from("#kicker span", { opacity: 0, y: -40, scale: 0.7, duration: 0.5, ease: "back.out(2)" }, 0.15);
+      bars.forEach(function (b, i) {
+        tl.from(b, { scaleY: 0, opacity: 0, duration: 0.45, ease: "power3.out" }, 0.25 + i * 0.05);
+        tl.to(b, { scaleY: "+=0.5", duration: 0.4 + (i % 3) * 0.12, yoyo: true,
+                   repeat: Math.ceil(DURATION / 0.5), ease: "sine.inOut" }, 0.7);
+      });
+      dots.forEach(function (d, i) {
+        tl.from(d, { opacity: 0, duration: 0.4 }, 0.3 + i * 0.03);
+        tl.to(d, { y: -240 - (i % 4) * 60, duration: DURATION, ease: "none" }, 0);
+      });
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

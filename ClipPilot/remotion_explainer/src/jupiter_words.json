@@ -1,0 +1,515 @@
+{
+"script": "Could you ever stand on the surface of Jupiter? Here's the twist: there is no surface to stand on. As you fall in, the clouds look solid, but you'd plunge straight through them. Then the winds hit, screaming past at over a thousand miles an hour, faster than any storm on Earth. Keep falling and the gas around you thickens into a hot, crushing soup. The pressure soon grows strong enough to flatten a submarine. And deeper still, the gas turns into liquid metal. You'd never hit ground, because there is none, just an endless fall into a planet with no floor.",
+"words": [
+{
+"text": "Could",
+"start": 0.0,
+"end": 0.26
+},
+{
+"text": "you",
+"start": 0.26,
+"end": 0.44
+},
+{
+"text": "ever",
+"start": 0.44,
+"end": 0.78
+},
+{
+"text": "stand",
+"start": 0.78,
+"end": 1.22
+},
+{
+"text": "on",
+"start": 1.22,
+"end": 1.64
+},
+{
+"text": "the",
+"start": 1.64,
+"end": 1.74
+},
+{
+"text": "surface",
+"start": 1.74,
+"end": 2.1
+},
+{
+"text": "of",
+"start": 2.1,
+"end": 2.44
+},
+{
+"text": "Jupiter?",
+"start": 2.44,
+"end": 2.72
+},
+{
+"text": "Here's",
+"start": 3.3,
+"end": 3.58
+},
+{
+"text": "the",
+"start": 3.58,
+"end": 3.72
+},
+{
+"text": "twist.",
+"start": 3.72,
+"end": 4.1
+},
+{
+"text": "There",
+"start": 4.6,
+"end": 4.72
+},
+{
+"text": "is",
+"start": 4.72,
+"end": 4.82
+},
+{
+"text": "no",
+"start": 4.82,
+"end": 5.0
+},
+{
+"text": "surface",
+"start": 5.0,
+"end": 5.44
+},
+{
+"text": "to",
+"start": 5.44,
+"end": 5.68
+},
+{
+"text": "stand",
+"start": 5.68,
+"end": 5.96
+},
+{
+"text": "on.",
+"start": 5.96,
+"end": 6.28
+},
+{
+"text": "As",
+"start": 6.6,
+"end": 6.84
+},
+{
+"text": "you",
+"start": 6.84,
+"end": 6.98
+},
+{
+"text": "fall",
+"start": 6.98,
+"end": 7.2
+},
+{
+"text": "in,",
+"start": 7.2,
+"end": 7.52
+},
+{
+"text": "the",
+"start": 7.74,
+"end": 7.86
+},
+{
+"text": "clouds",
+"start": 7.86,
+"end": 8.14
+},
+{
+"text": "look",
+"start": 8.14,
+"end": 8.36
+},
+{
+"text": "solid,",
+"start": 8.36,
+"end": 8.78
+},
+{
+"text": "but",
+"start": 9.02,
+"end": 9.22
+},
+{
+"text": "you'd",
+"start": 9.22,
+"end": 9.52
+},
+{
+"text": "plunge",
+"start": 9.52,
+"end": 9.92
+},
+{
+"text": "straight",
+"start": 9.92,
+"end": 10.44
+},
+{
+"text": "through",
+"start": 10.44,
+"end": 10.76
+},
+{
+"text": "them.",
+"start": 10.76,
+"end": 11.06
+},
+{
+"text": "Then",
+"start": 11.36,
+"end": 11.54
+},
+{
+"text": "the",
+"start": 11.54,
+"end": 11.7
+},
+{
+"text": "winds",
+"start": 11.7,
+"end": 11.98
+},
+{
+"text": "hit,",
+"start": 11.98,
+"end": 12.32
+},
+{
+"text": "screaming",
+"start": 12.78,
+"end": 13.08
+},
+{
+"text": "past",
+"start": 13.08,
+"end": 13.62
+},
+{
+"text": "at",
+"start": 13.62,
+"end": 14.0
+},
+{
+"text": "over",
+"start": 14.0,
+"end": 14.22
+},
+{
+"text": "a",
+"start": 14.22,
+"end": 14.38
+},
+{
+"text": "thousand",
+"start": 14.38,
+"end": 14.76
+},
+{
+"text": "miles",
+"start": 14.76,
+"end": 15.0
+},
+{
+"text": "an",
+"start": 15.0,
+"end": 15.2
+},
+{
+"text": "hour,",
+"start": 15.2,
+"end": 15.58
+},
+{
+"text": "faster",
+"start": 15.94,
+"end": 16.4
+},
+{
+"text": "than",
+"start": 16.4,
+"end": 16.7
+},
+{
+"text": "any",
+"start": 16.7,
+"end": 17.06
+},
+{
+"text": "storm",
+"start": 17.06,
+"end": 17.36
+},
+{
+"text": "on",
+"start": 17.36,
+"end": 17.6
+},
+{
+"text": "Earth.",
+"start": 17.6,
+"end": 17.78
+},
+{
+"text": "Keep",
+"start": 18.42,
+"end": 18.62
+},
+{
+"text": "falling,",
+"start": 18.62,
+"end": 19.14
+},
+{
+"text": "and",
+"start": 19.28,
+"end": 19.44
+},
+{
+"text": "the",
+"start": 19.44,
+"end": 19.56
+},
+{
+"text": "gas",
+"start": 19.56,
+"end": 19.88
+},
+{
+"text": "around",
+"start": 19.88,
+"end": 20.22
+},
+{
+"text": "you",
+"start": 20.22,
+"end": 20.42
+},
+{
+"text": "thickens",
+"start": 20.42,
+"end": 20.98
+},
+{
+"text": "into",
+"start": 20.98,
+"end": 21.42
+},
+{
+"text": "a",
+"start": 21.42,
+"end": 21.64
+},
+{
+"text": "hot,",
+"start": 21.64,
+"end": 22.02
+},
+{
+"text": "crushing",
+"start": 22.5,
+"end": 22.92
+},
+{
+"text": "soup.",
+"start": 22.92,
+"end": 23.32
+},
+{
+"text": "The",
+"start": 23.78,
+"end": 23.98
+},
+{
+"text": "pressure",
+"start": 23.98,
+"end": 24.24
+},
+{
+"text": "soon",
+"start": 24.24,
+"end": 24.7
+},
+{
+"text": "grows",
+"start": 24.7,
+"end": 25.14
+},
+{
+"text": "strong",
+"start": 25.14,
+"end": 25.68
+},
+{
+"text": "enough",
+"start": 25.68,
+"end": 26.02
+},
+{
+"text": "to",
+"start": 26.02,
+"end": 26.4
+},
+{
+"text": "flatten",
+"start": 26.4,
+"end": 27.04
+},
+{
+"text": "a",
+"start": 27.04,
+"end": 27.38
+},
+{
+"text": "submarine.",
+"start": 27.38,
+"end": 27.86
+},
+{
+"text": "And",
+"start": 28.46,
+"end": 28.6
+},
+{
+"text": "deeper",
+"start": 28.6,
+"end": 29.06
+},
+{
+"text": "still,",
+"start": 29.06,
+"end": 29.6
+},
+{
+"text": "the",
+"start": 30.12,
+"end": 30.16
+},
+{
+"text": "gas",
+"start": 30.16,
+"end": 30.6
+},
+{
+"text": "turns",
+"start": 30.6,
+"end": 31.24
+},
+{
+"text": "into",
+"start": 31.24,
+"end": 31.52
+},
+{
+"text": "liquid",
+"start": 31.52,
+"end": 31.9
+},
+{
+"text": "metal.",
+"start": 31.9,
+"end": 32.3
+},
+{
+"text": "You'd",
+"start": 32.84,
+"end": 33.08
+},
+{
+"text": "never",
+"start": 33.08,
+"end": 33.32
+},
+{
+"text": "hit",
+"start": 33.32,
+"end": 33.54
+},
+{
+"text": "ground,",
+"start": 33.54,
+"end": 33.94
+},
+{
+"text": "because",
+"start": 34.3,
+"end": 34.6
+},
+{
+"text": "there",
+"start": 34.6,
+"end": 34.78
+},
+{
+"text": "is",
+"start": 34.78,
+"end": 34.94
+},
+{
+"text": "none,",
+"start": 34.94,
+"end": 35.28
+},
+{
+"text": "just",
+"start": 35.72,
+"end": 35.84
+},
+{
+"text": "an",
+"start": 35.84,
+"end": 36.04
+},
+{
+"text": "endless",
+"start": 36.04,
+"end": 36.5
+},
+{
+"text": "fall",
+"start": 36.5,
+"end": 36.9
+},
+{
+"text": "into",
+"start": 36.9,
+"end": 37.18
+},
+{
+"text": "a",
+"start": 37.18,
+"end": 37.34
+},
+{
+"text": "planet",
+"start": 37.34,
+"end": 37.66
+},
+{
+"text": "with",
+"start": 37.66,
+"end": 38.0
+},
+{
+"text": "no",
+"start": 38.0,
+"end": 38.34
+},
+{
+"text": "floor.",
+"start": 38.34,
+"end": 38.8
+}
+]
+}

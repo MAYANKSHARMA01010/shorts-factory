@@ -1,0 +1,57 @@
+{
+  "slug": "earwax",
+  "title": "Why Your Ear Makes Sticky Goo",
+  "duration_estimate_s": 32,
+  "palette": {
+    "bg_deep": "#0e1014",
+    "bg_canal": "#161a22",
+    "gold": "#FFD23F",
+    "wax_amber": "#E89B3B",
+    "oil_glow": "#F4B860",
+    "skin_pink": "#C98B7A",
+    "germ_green": "#5BD6A0",
+    "acid_teal": "#3FC9C9",
+    "dust_grey": "#8A8F9A",
+    "danger_red": "#FF5A52",
+    "white": "#F5F3EE"
+  },
+  "scenes": [
+    {
+      "beat": "This sticky yellow goo in your ear is alive on purpose.",
+      "visual": "HOOK. Dead-center on the deep #0e1014 stage sits ONE huge glossy blob of earwax — a fat amber teardrop (#E89B3B fill, soft #F4B860 specular highlight crescent top-left, thin gold rim-light). It fills most of the frame, unmissable. A bold gold pill badge (#FFD23F, dark text) is stamped across its belly reading 'ON PURPOSE'. Above the blob, a single white line of text: 'this isn't dirt'. The blob has a faint warm glow halo so it reads instantly against the dark. No ear yet — just the goo, big and weird, posing the mystery: why would your body make this?",
+      "animations": "The amber blob springs in from 0 scale with a squishy overshoot pop (spring, ~0.35s) then a wet gelatin jiggle settle that ripples its silhouette twice. The specular highlight slides as it settles. The gold 'ON PURPOSE' badge slams down from above with a hard spring overshoot (~0.25s) and a tiny dust-puff on impact. The white 'this isn't dirt' line fades up underneath. The whole blob holds with a slow breathing pulse so the first frame is loud and stable.",
+      "sfx": "a thick wet gloop-plop as the blob lands, with a tiny bright ting on the gold badge stamp"
+    },
+    {
+      "beat": "Glands deep in your ear canal ooze a sticky oil that mixes with dead skin to make it.",
+      "visual": "Cutaway cross-section of the ear canal — a curved tunnel carved through #161a22 with soft #C98B7A skin-pink walls and subtle gold contour lines. Clustered along the upper wall are rows of round bulb-shaped glands glowing #F4B860, each with a tiny dark pore mouth. Fat beads of #E89B3B oil swell and drip from the pores. Drifting in from the canal walls are flat flaky polygons of pale dead skin (dust-grey, semi-transparent). Oil droplets and skin flakes converge at the canal floor and fuse into a building amber wax ridge. Two small floating labels in dust-grey: 'oil' (on a droplet) and 'dead skin' (on a flake).",
+      "animations": "Canal cross-section wipes in with a downward reveal sweep (~0.4s). Glands inflate one-by-one in a quick staggered spring cascade (left to right). Oil beads swell, neck, then drip downward on eased gravity arcs leaving glistening trails that fade. Skin flakes tumble-rotate inward. Where an oil drop meets a flake they merge with a small squish-and-fill that grows the amber ridge via a left-to-right liquid fill. Labels pop in with a soft spring then settle.",
+      "sfx": "a slow viscous drip-drip, like thick honey, two or three fat drops landing"
+    },
+    {
+      "beat": "It works like flypaper — trapping dust, germs, and even tiny bugs before they reach your eardrum.",
+      "visual": "HERO REVEAL — the money shot. The canal becomes a horizontal gauntlet across the frame. Far RIGHT: a delicate translucent eardrum membrane, a taut gold-ringed oval (#FFD23F rim, faint pearly fill) that breathes with a soft pulse — the thing being protected. Stretched vertically across the MIDDLE of the canal is a thick sticky sheet of amber flypaper-wax (#E89B3B), its surface glossy with stretchy stringy strands sagging like honey-webbing. Charging in from the LEFT, in a staggered row, three clearly-drawn threats: (1) a jagged grey dust mote (spiky polygon), (2) a wobbly germ-green bacterium (#5BD6A0 oval with three wiggling flagella tails), (3) a tiny black six-legged insect silhouette with antennae. Each slams into the wax sheet and sticks — legs frozen mid-stride, body half-sunk into the goo, sticky strands stretching off it. A gold 'TRAPPED' burst badge stamps over the stuck cluster. The eardrum behind stays untouched and safe.",
+      "animations": "Eardrum draws on (path) then breathes with a gentle 3% scale pulse loop. The wax sheet ripples once as it settles, strands swaying. The three threats sprint in left-to-right with squash-and-stretch (each stretched horizontally while moving, squashing on impact), staggered ~0.12s apart. On contact each does a hard sticky-snap arrest — instant stop, a recoil shudder, then a slow vertical sink-and-settle into the amber as elastic wax strands stretch and twang off its trailing edge. The bacterium's flagella keep twitching weakly. The gold 'TRAPPED' badge slams in with spring overshoot and a quick radial shimmer ring. Richest, most-detailed shot — everything else is simpler than this.",
+      "sfx": "a sticky tape-rip schlock on the first hit, then a faint insect skitter that abruptly cuts to a muffled dead stick"
+    },
+    {
+      "beat": "The wax is also slightly acidic, so it dissolves germs on contact.",
+      "visual": "Tight push-in on the trapped germ-green bacterium embedded in the amber wax. An acid-teal (#3FC9C9) glow halo blooms outward from the surrounding wax, washing over the germ. A small corner badge in acid-teal reads 'pH ACID'. As the teal wash hits the bacterium its membrane fizzes — tiny bubbles peel off and pop — and it crumples, dissolving into a scatter of faint fading particles. A gold checkmark blinks on where it died.",
+      "animations": "Acid-teal glow blooms outward as an expanding radial ring (~0.4s). The bacterium shudders, its flagella curl, then it dissolves via a dot-fizz disintegration — particles popping off its edge and fading upward. Tiny acid bubbles rise and pop in quick sequence. The gold checkmark draws on stroke-by-stroke with a final spring tick.",
+      "sfx": "a fizzing acidic sizzle, like a tablet dissolving in soda, ending on a soft pop"
+    },
+    {
+      "beat": "Then chewing and talking slowly pushes the old wax out, carrying all the trapped junk with it.",
+      "visual": "Pulled back to the full ear-and-jaw side profile in clean gold line-art on #0e1014. The jaw hinge is marked with a gold pivot dot. Deep in the canal sits the amber wax plug, now visibly speckled with the stuck grey dust, green germ, and black insect. A faint conveyor of gold chevron arrows runs along the canal pointing toward the ear opening. With each jaw motion the wax plug ratchets one step outward, junk riding inside, until it emerges at the rim.",
+      "animations": "The jaw opens and closes on a spring hinge rotation in a chew rhythm (2-3 cycles). Synced to each jaw-close, the gold chevron arrows pulse bright and the amber wax plug steps outward in ratcheting increments (stepped translate with ease-out). The speckled junk translates along inside it. At the rim the plug gives a final little squeeze-pop as it clears the opening and drops off-frame.",
+      "sfx": "a soft rhythmic jaw-click chew, two or three beats, ending on a tiny pop as it clears"
+    },
+    {
+      "beat": "So your ear is self-cleaning flypaper.",
+      "visual": "PAYOFF. Clean dark #0e1014 stage. A simplified gold ear glyph sits center with a single glossy amber wax strand dangling beneath it like flypaper, one tiny grey speck stuck on the strand. The punchline slams in word-by-word, centered, large and bold: 'YOUR EAR' in white (#F5F3EE), then 'CLEANS' in gold (#FFD23F), then 'ITSELF' in white. A gold underline sweeps beneath the final word.",
+      "animations": "The amber strand sways once on a pendulum spring. Each word flies in one at a time with a hard spring overshoot and settle (word-by-word kinetic slam, ~0.18s apart). The gold word 'CLEANS' gets an extra scale-punch and a brief glow flare. A gold underline draws on left-to-right under 'ITSELF' as the final accent, then the strand gives one last sway.",
+      "sfx": "a bright confident gold chime sting landing exactly on the final word"
+    }
+  ],
+  "payoff": "YOUR EAR CLEANS ITSELF"
+}

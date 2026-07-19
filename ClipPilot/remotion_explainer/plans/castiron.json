@@ -1,0 +1,62 @@
+{
+  "slug": "castiron",
+  "title": "Your Grandma's Pan Was Once LAVA",
+  "duration_estimate_s": 41,
+  "palette": {
+    "bg": "#140a06",
+    "bgTop": "#241008",
+    "bgMid": "#2a1408",
+    "bgBot": "#0f0704",
+    "accent": "#ff7a18",
+    "key": "#ffd23f",
+    "lava": "#ff5b1e",
+    "lavaHot": "#ffd070",
+    "iron": "#3a3f4a",
+    "ironDk": "#23272f",
+    "ironLite": "#6b7280",
+    "sand": "#e8c785",
+    "sandDk": "#b8954f",
+    "oilSheen": "#5b4a2a",
+    "smoke": "#b9bcc4",
+    "white": "#FFFFFF"
+  },
+  "scenes": [
+    {
+      "beat": "Your grandmother's humble cast iron pan was once a literal river of molten fire.",
+      "visual": "A worn, dark cast-iron skillet sits center, drawn as a thick rounded pan with a stub handle and a subtle radial sheen. Behind/through it, a glowing molten-orange lava texture pulses, as if the pan is x-rayed back to its fiery origin. A small 'once was...' tag and a flickering ember field rise around it. The pan silhouette is the hero; lava glows from inside its outline.",
+      "animations": "Pan springs in from scale 0.4 with a snappy overshoot (low-damping spring), then a fast wipe of molten-orange gradient floods upward inside the pan outline (interpolate fill mask 0->1 over ~18f). Heat-shimmer wobble (sine) on the pan edge; embers drift up fast; a gold underline snaps out to full width.",
+      "sfx": "deep cinematic ember/lava rumble swelling in on the pan pop (one of the 2-3 dramatic booms)"
+    },
+    {
+      "beat": "Chunks of scrap iron are dropped into a furnace and heated past 2,000 degrees until they melt completely.",
+      "visual": "A cutaway industrial furnace (a thick steel crucible with a brick-lined mouth) center-bottom. Jagged grey scrap-iron chunks tumble in from the top. Inside, a rising orange-to-white molten pool. A big bold thermometer/gauge on the right ticks up past a glowing '2000 F' redline. Solid chunks visibly slump and melt into the glowing pool.",
+      "animations": "Scrap chunks fall fast with tumbling rotation (spin) and plop in with a quick squash. Furnace mouth flares; molten pool level rises (interpolate height). Thermometer mercury shoots up fast and the '2000 F' number pops with a spring + red flash. Chunks morph (scale-down + color mix grey->lava) as they melt. Fast flame-tongue licks flicker at the rim.",
+      "sfx": "metal clank as chunks drop, then a rising roaring furnace whoosh; tiny 'ding' tick when the gauge passes 2000"
+    },
+    {
+      "beat": "Then this glowing orange liquid is poured into a sand mold shaped exactly like a pan.",
+      "visual": "A tilted crucible/ladle on the upper-left pours a smooth ribbon of glowing orange molten iron down into a two-part sand mold on the right. The sand mold is shown in cutaway: a tan, grainy block split top/bottom with a pan-shaped cavity hollow inside. The molten stream fills the pan-shaped cavity, lighting it up orange from within.",
+      "animations": "Ladle tips fast (rotate spring), a continuous glowing pour-stream draws down with subtle wobble + glow. The pan-cavity fills bottom-up (interpolate mask) with hot orange that cools slightly at the surface. Sparks fly on impact (fast radial burst). The mold's pan-cavity outline ignites/glows as it fills. Steam puffs rise quickly off the sand.",
+      "sfx": "liquid-pour sizzle/whoosh, faint crackle of sparks on contact"
+    },
+    {
+      "beat": "And here's the clever part: that very same sand can be smashed apart and reused again and again.",
+      "visual": "The hardened sand mold (with the now-solid grey pan inside) sits center. A mallet/hammer swings in and the sand block shatters into loose tan grains that cascade down into a bin. Then a recycle loop arrow sweeps the grains back up to re-form a fresh mold block. A bold '♻ REUSED' / 'again & again' tag. The freed grey pan casting drops out.",
+      "animations": "Hammer swings in fast (rotate spring) and on impact the sand block EXPLODES into grains (fast scatter burst, scale-pop) — this is a reveal. Grains tumble down with gravity. A circular recycle arrow draws/spins around fast (stroke-dashoffset sweep) and grains funnel back up to reassemble a clean mold (reverse fill). The 'again & again' badge springs in with a bounce.",
+      "sfx": "sharp glass/rock SHATTER crack on the smash (the second dramatic boom), then a light granular sand-pour rustle and a soft recycle chime"
+    },
+    {
+      "beat": "Next, the cooled grey pan is blasted clean and rubbed with oil that's baked onto its surface.",
+      "visual": "The bare grey cast-iron pan center. First a blast-cleaning nozzle on the left fires a cone of fast grit/particles that strip dull crust off, leaving a clean matte-grey surface. Then a cloth/brush sweeps a glistening amber oil sheen across the pan, and the pan slides into a glowing oven where the oil bakes (heat lines + warm glow). Pan surface visibly darkens/seasons.",
+      "animations": "Grit blast: fast particle stream sprays diagonally, crust flecks fly off (quick fade) revealing clean pan beneath (mask wipe). Oil cloth sweeps left->right fast leaving a moving amber sheen highlight. Pan slides right into oven (translate spring); oven glow pulses; oil sheen color mixes amber->dark seasoned over ~20f. Heat-shimmer wobble.",
+      "sfx": "gritty sandblast hiss on the blast, soft cloth swish on the oil rub, low oven whoomph as it slides in"
+    },
+    {
+      "beat": "Finally that oil hardens into a natural nonstick coating, which is exactly why old pans only get better with age.",
+      "visual": "Macro cross-section of the pan's surface: a thick dark iron layer at the bottom, and on top a smooth glossy black 'seasoning' coating building up in glassy layers, labeled 'NATURAL NONSTICK'. A fried egg slides effortlessly across the slick surface (nonstick proof). Then pull back to the finished black skillet glowing with pride; an age dial/arrow points up: 'gets BETTER with age'. Punchline text lands.",
+      "animations": "Cross-section layers stack up fast one-by-one (each springs in). The glossy coating sweeps a shine highlight. A fried egg zips across frictionlessly (fast slide, no drag) and a green check pops. Pull-back: finished skillet springs to center with a final sheen sweep; an upward age-arrow draws fast; payoff line scales in with a bounce + gold underline snap.",
+      "sfx": "satisfying slick 'swoosh' as the egg glides, then a warm success chime/sting on the final payoff reveal (the third dramatic accent)"
+    }
+  ],
+  "payoff": "Forged from fire. Seasoned by time. The only pan that gets BETTER with age."
+}

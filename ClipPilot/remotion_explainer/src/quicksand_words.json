@@ -1,0 +1,490 @@
+{
+"script": "You step forward and the ground swallows your boot, then your shin, then your knee. Every movie says you'll vanish completely, but the truth is stranger. Quicksand is denser than your body, so you literally cannot sink past your waist. The real danger is struggling, because each frantic pull creates a vacuum that locks your legs tighter. So stop moving. Lean back slowly until you're almost floating, and your legs will gently rise free. Then roll to solid ground. The catch? If the tide is coming in, that slow patience could be the thing that drowns you.",
+"words": [
+{
+"text": "You",
+"start": 0.0,
+"end": 0.28
+},
+{
+"text": "step",
+"start": 0.28,
+"end": 0.52
+},
+{
+"text": "forward",
+"start": 0.52,
+"end": 0.96
+},
+{
+"text": "and",
+"start": 0.96,
+"end": 1.26
+},
+{
+"text": "the",
+"start": 1.26,
+"end": 1.36
+},
+{
+"text": "ground",
+"start": 1.36,
+"end": 1.68
+},
+{
+"text": "swallows",
+"start": 1.68,
+"end": 2.26
+},
+{
+"text": "your",
+"start": 2.26,
+"end": 2.42
+},
+{
+"text": "boot,",
+"start": 2.42,
+"end": 2.76
+},
+{
+"text": "then",
+"start": 3.22,
+"end": 3.22
+},
+{
+"text": "your",
+"start": 3.22,
+"end": 3.42
+},
+{
+"text": "shin,",
+"start": 3.42,
+"end": 3.76
+},
+{
+"text": "then",
+"start": 4.18,
+"end": 4.28
+},
+{
+"text": "your",
+"start": 4.28,
+"end": 4.42
+},
+{
+"text": "knee.",
+"start": 4.42,
+"end": 4.7
+},
+{
+"text": "Every",
+"start": 5.18,
+"end": 5.44
+},
+{
+"text": "movie",
+"start": 5.44,
+"end": 5.9
+},
+{
+"text": "says",
+"start": 5.9,
+"end": 6.48
+},
+{
+"text": "you'll",
+"start": 6.48,
+"end": 6.8
+},
+{
+"text": "vanish",
+"start": 6.8,
+"end": 7.12
+},
+{
+"text": "completely,",
+"start": 7.12,
+"end": 7.68
+},
+{
+"text": "but",
+"start": 8.18,
+"end": 8.52
+},
+{
+"text": "the",
+"start": 8.52,
+"end": 8.68
+},
+{
+"text": "truth",
+"start": 8.68,
+"end": 8.98
+},
+{
+"text": "is",
+"start": 8.98,
+"end": 9.3
+},
+{
+"text": "stranger.",
+"start": 9.3,
+"end": 9.8
+},
+{
+"text": "Quicksand",
+"start": 10.52,
+"end": 10.92
+},
+{
+"text": "is",
+"start": 10.92,
+"end": 11.24
+},
+{
+"text": "denser",
+"start": 11.24,
+"end": 11.84
+},
+{
+"text": "than",
+"start": 11.84,
+"end": 11.96
+},
+{
+"text": "your",
+"start": 11.96,
+"end": 12.08
+},
+{
+"text": "body,",
+"start": 12.08,
+"end": 12.46
+},
+{
+"text": "so",
+"start": 12.72,
+"end": 13.08
+},
+{
+"text": "you",
+"start": 13.08,
+"end": 13.3
+},
+{
+"text": "literally",
+"start": 13.3,
+"end": 13.54
+},
+{
+"text": "cannot",
+"start": 13.54,
+"end": 14.14
+},
+{
+"text": "sink",
+"start": 14.14,
+"end": 14.7
+},
+{
+"text": "past",
+"start": 14.7,
+"end": 15.04
+},
+{
+"text": "your",
+"start": 15.04,
+"end": 15.26
+},
+{
+"text": "waist.",
+"start": 15.26,
+"end": 15.56
+},
+{
+"text": "The",
+"start": 16.12,
+"end": 16.28
+},
+{
+"text": "real",
+"start": 16.28,
+"end": 16.52
+},
+{
+"text": "danger",
+"start": 16.52,
+"end": 16.88
+},
+{
+"text": "is",
+"start": 16.88,
+"end": 17.42
+},
+{
+"text": "struggling,",
+"start": 17.42,
+"end": 17.94
+},
+{
+"text": "because",
+"start": 18.22,
+"end": 18.7
+},
+{
+"text": "each",
+"start": 18.7,
+"end": 18.94
+},
+{
+"text": "frantic",
+"start": 18.94,
+"end": 19.46
+},
+{
+"text": "pull",
+"start": 19.46,
+"end": 19.94
+},
+{
+"text": "creates",
+"start": 19.94,
+"end": 20.3
+},
+{
+"text": "a",
+"start": 20.3,
+"end": 20.5
+},
+{
+"text": "vacuum",
+"start": 20.5,
+"end": 21.04
+},
+{
+"text": "that",
+"start": 21.04,
+"end": 21.46
+},
+{
+"text": "locks",
+"start": 21.46,
+"end": 21.78
+},
+{
+"text": "your",
+"start": 21.78,
+"end": 22.02
+},
+{
+"text": "legs",
+"start": 22.02,
+"end": 22.28
+},
+{
+"text": "tighter.",
+"start": 22.28,
+"end": 22.68
+},
+{
+"text": "So",
+"start": 23.28,
+"end": 23.46
+},
+{
+"text": "stop",
+"start": 23.46,
+"end": 23.72
+},
+{
+"text": "moving.",
+"start": 23.72,
+"end": 24.16
+},
+{
+"text": "Lean",
+"start": 24.16,
+"end": 24.8
+},
+{
+"text": "back",
+"start": 24.8,
+"end": 25.14
+},
+{
+"text": "slowly",
+"start": 25.14,
+"end": 25.6
+},
+{
+"text": "until",
+"start": 25.6,
+"end": 26.02
+},
+{
+"text": "you're",
+"start": 26.02,
+"end": 26.2
+},
+{
+"text": "almost",
+"start": 26.2,
+"end": 26.52
+},
+{
+"text": "floating",
+"start": 26.52,
+"end": 27.16
+},
+{
+"text": "and",
+"start": 27.16,
+"end": 27.8
+},
+{
+"text": "your",
+"start": 27.8,
+"end": 27.92
+},
+{
+"text": "legs",
+"start": 27.92,
+"end": 28.2
+},
+{
+"text": "will",
+"start": 28.2,
+"end": 28.4
+},
+{
+"text": "gently",
+"start": 28.4,
+"end": 28.76
+},
+{
+"text": "rise",
+"start": 28.76,
+"end": 29.22
+},
+{
+"text": "free.",
+"start": 29.22,
+"end": 29.66
+},
+{
+"text": "Then",
+"start": 30.22,
+"end": 30.36
+},
+{
+"text": "roll",
+"start": 30.36,
+"end": 30.62
+},
+{
+"text": "to",
+"start": 30.62,
+"end": 30.84
+},
+{
+"text": "solid",
+"start": 30.84,
+"end": 31.14
+},
+{
+"text": "ground.",
+"start": 31.14,
+"end": 31.5
+},
+{
+"text": "The",
+"start": 32.04,
+"end": 32.18
+},
+{
+"text": "catch?",
+"start": 32.18,
+"end": 32.4
+},
+{
+"text": "If",
+"start": 32.94,
+"end": 33.16
+},
+{
+"text": "the",
+"start": 33.16,
+"end": 33.28
+},
+{
+"text": "tide",
+"start": 33.28,
+"end": 33.64
+},
+{
+"text": "is",
+"start": 33.64,
+"end": 34.06
+},
+{
+"text": "coming",
+"start": 34.06,
+"end": 34.32
+},
+{
+"text": "in,",
+"start": 34.32,
+"end": 34.84
+},
+{
+"text": "that",
+"start": 35.14,
+"end": 35.2
+},
+{
+"text": "slow",
+"start": 35.2,
+"end": 35.68
+},
+{
+"text": "patience",
+"start": 35.68,
+"end": 36.2
+},
+{
+"text": "could",
+"start": 36.2,
+"end": 36.44
+},
+{
+"text": "be",
+"start": 36.44,
+"end": 36.56
+},
+{
+"text": "the",
+"start": 36.56,
+"end": 36.7
+},
+{
+"text": "thing",
+"start": 36.7,
+"end": 36.98
+},
+{
+"text": "that",
+"start": 36.98,
+"end": 37.22
+},
+{
+"text": "drowns",
+"start": 37.22,
+"end": 37.74
+},
+{
+"text": "you.",
+"start": 37.74,
+"end": 37.88
+}
+]
+}

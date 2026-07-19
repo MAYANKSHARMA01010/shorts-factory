@@ -1,0 +1,460 @@
+{
+"script": "In the summer of 1518, a woman stepped into a street in Strasbourg and began to dance, and she would not stop. Within days, dozens had joined her, twitching and spinning with no music at all. Soon hundreds were dancing without rest, some for nearly a week straight. You see, the authorities decided the cure was more dancing, so they built a stage and hired musicians. But people kept collapsing, dropping dead from strokes and exhaustion. To this day, nobody truly knows what made an entire town dance itself to death.",
+"words": [
+{
+"text": "In",
+"start": 0.0,
+"end": 0.24
+},
+{
+"text": "the",
+"start": 0.24,
+"end": 0.36
+},
+{
+"text": "summer",
+"start": 0.36,
+"end": 0.6
+},
+{
+"text": "of",
+"start": 0.6,
+"end": 0.74
+},
+{
+"text": "1518,",
+"start": 0.74,
+"end": 1.62
+},
+{
+"text": "a",
+"start": 2.1,
+"end": 2.2
+},
+{
+"text": "woman",
+"start": 2.2,
+"end": 2.38
+},
+{
+"text": "stepped",
+"start": 2.38,
+"end": 2.72
+},
+{
+"text": "into",
+"start": 2.72,
+"end": 2.98
+},
+{
+"text": "a",
+"start": 2.98,
+"end": 3.12
+},
+{
+"text": "street",
+"start": 3.12,
+"end": 3.42
+},
+{
+"text": "in",
+"start": 3.42,
+"end": 3.7
+},
+{
+"text": "Strasbourg",
+"start": 3.7,
+"end": 4.38
+},
+{
+"text": "and",
+"start": 4.38,
+"end": 4.92
+},
+{
+"text": "began",
+"start": 4.92,
+"end": 5.22
+},
+{
+"text": "to",
+"start": 5.22,
+"end": 5.44
+},
+{
+"text": "dance,",
+"start": 5.44,
+"end": 5.78
+},
+{
+"text": "and",
+"start": 6.16,
+"end": 6.54
+},
+{
+"text": "she",
+"start": 6.54,
+"end": 6.72
+},
+{
+"text": "would",
+"start": 6.72,
+"end": 6.84
+},
+{
+"text": "not",
+"start": 6.84,
+"end": 7.06
+},
+{
+"text": "stop.",
+"start": 7.06,
+"end": 7.5
+},
+{
+"text": "Within",
+"start": 8.04,
+"end": 8.26
+},
+{
+"text": "days,",
+"start": 8.26,
+"end": 8.8
+},
+{
+"text": "dozens",
+"start": 9.18,
+"end": 9.4
+},
+{
+"text": "had",
+"start": 9.4,
+"end": 9.62
+},
+{
+"text": "joined",
+"start": 9.62,
+"end": 9.92
+},
+{
+"text": "her,",
+"start": 9.92,
+"end": 10.16
+},
+{
+"text": "twitching",
+"start": 10.46,
+"end": 10.86
+},
+{
+"text": "and",
+"start": 10.86,
+"end": 11.14
+},
+{
+"text": "spinning",
+"start": 11.14,
+"end": 11.56
+},
+{
+"text": "with",
+"start": 11.56,
+"end": 11.8
+},
+{
+"text": "no",
+"start": 11.8,
+"end": 12.1
+},
+{
+"text": "music",
+"start": 12.1,
+"end": 12.42
+},
+{
+"text": "at",
+"start": 12.42,
+"end": 12.56
+},
+{
+"text": "all.",
+"start": 12.56,
+"end": 12.84
+},
+{
+"text": "Soon,",
+"start": 13.4,
+"end": 13.54
+},
+{
+"text": "hundreds",
+"start": 13.66,
+"end": 13.92
+},
+{
+"text": "were",
+"start": 13.92,
+"end": 14.14
+},
+{
+"text": "dancing",
+"start": 14.14,
+"end": 14.72
+},
+{
+"text": "without",
+"start": 14.72,
+"end": 15.22
+},
+{
+"text": "rest,",
+"start": 15.22,
+"end": 15.78
+},
+{
+"text": "some",
+"start": 16.18,
+"end": 16.54
+},
+{
+"text": "for",
+"start": 16.54,
+"end": 16.76
+},
+{
+"text": "nearly",
+"start": 16.76,
+"end": 17.1
+},
+{
+"text": "a",
+"start": 17.1,
+"end": 17.36
+},
+{
+"text": "week",
+"start": 17.36,
+"end": 17.54
+},
+{
+"text": "straight.",
+"start": 17.54,
+"end": 17.96
+},
+{
+"text": "You",
+"start": 18.48,
+"end": 18.66
+},
+{
+"text": "see,",
+"start": 18.66,
+"end": 19.0
+},
+{
+"text": "the",
+"start": 19.56,
+"end": 19.76
+},
+{
+"text": "authorities",
+"start": 19.76,
+"end": 20.2
+},
+{
+"text": "decided",
+"start": 20.2,
+"end": 20.78
+},
+{
+"text": "the",
+"start": 20.78,
+"end": 20.98
+},
+{
+"text": "cure",
+"start": 20.98,
+"end": 21.2
+},
+{
+"text": "was",
+"start": 21.2,
+"end": 21.5
+},
+{
+"text": "more",
+"start": 21.5,
+"end": 21.84
+},
+{
+"text": "dancing,",
+"start": 21.84,
+"end": 22.4
+},
+{
+"text": "so",
+"start": 22.42,
+"end": 22.98
+},
+{
+"text": "they",
+"start": 22.98,
+"end": 23.12
+},
+{
+"text": "built",
+"start": 23.12,
+"end": 23.3
+},
+{
+"text": "a",
+"start": 23.3,
+"end": 23.48
+},
+{
+"text": "stage",
+"start": 23.48,
+"end": 23.9
+},
+{
+"text": "and",
+"start": 23.9,
+"end": 24.34
+},
+{
+"text": "hired",
+"start": 24.34,
+"end": 24.62
+},
+{
+"text": "musicians.",
+"start": 24.62,
+"end": 25.06
+},
+{
+"text": "But",
+"start": 25.6,
+"end": 26.0
+},
+{
+"text": "people",
+"start": 26.0,
+"end": 26.3
+},
+{
+"text": "kept",
+"start": 26.3,
+"end": 26.54
+},
+{
+"text": "collapsing,",
+"start": 26.54,
+"end": 27.26
+},
+{
+"text": "dropping",
+"start": 27.66,
+"end": 28.0
+},
+{
+"text": "dead",
+"start": 28.0,
+"end": 28.38
+},
+{
+"text": "from",
+"start": 28.38,
+"end": 28.6
+},
+{
+"text": "strokes",
+"start": 28.6,
+"end": 29.14
+},
+{
+"text": "and",
+"start": 29.14,
+"end": 29.66
+},
+{
+"text": "exhaustion.",
+"start": 29.66,
+"end": 30.2
+},
+{
+"text": "To",
+"start": 30.76,
+"end": 30.84
+},
+{
+"text": "this",
+"start": 30.84,
+"end": 31.04
+},
+{
+"text": "day,",
+"start": 31.04,
+"end": 31.4
+},
+{
+"text": "nobody",
+"start": 31.94,
+"end": 32.16
+},
+{
+"text": "truly",
+"start": 32.16,
+"end": 32.72
+},
+{
+"text": "knows",
+"start": 32.72,
+"end": 33.14
+},
+{
+"text": "what",
+"start": 33.14,
+"end": 33.5
+},
+{
+"text": "made",
+"start": 33.5,
+"end": 33.84
+},
+{
+"text": "an",
+"start": 33.84,
+"end": 34.0
+},
+{
+"text": "entire",
+"start": 34.0,
+"end": 34.44
+},
+{
+"text": "town",
+"start": 34.44,
+"end": 34.92
+},
+{
+"text": "dance",
+"start": 34.92,
+"end": 35.4
+},
+{
+"text": "itself",
+"start": 35.4,
+"end": 35.88
+},
+{
+"text": "to",
+"start": 35.88,
+"end": 36.14
+},
+{
+"text": "death.",
+"start": 36.14,
+"end": 36.36
+}
+]
+}

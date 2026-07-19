@@ -1,0 +1,485 @@
+{
+"script": "Cut off this animal's leg, and it just grows a perfect new one. The axolotl is a salamander that never quite grows up, keeping its feathery gills for life. But its real superpower is healing. Lose a limb, and within weeks the bones, muscles, and nerves rebuild themselves, good as new. And it doesn't stop at legs. It can regrow parts of its heart, its spine, even pieces of its own brain, with no scar left behind. Scientists study it obsessively, because if we could copy this trick, we might one day heal the same way.",
+"words": [
+{
+"text": "cut",
+"start": 0.0,
+"end": 0.34
+},
+{
+"text": "off",
+"start": 0.34,
+"end": 0.58
+},
+{
+"text": "this",
+"start": 0.58,
+"end": 0.84
+},
+{
+"text": "animal's",
+"start": 0.84,
+"end": 1.34
+},
+{
+"text": "leg,",
+"start": 1.34,
+"end": 1.6
+},
+{
+"text": "and",
+"start": 2.12,
+"end": 2.18
+},
+{
+"text": "it",
+"start": 2.18,
+"end": 2.28
+},
+{
+"text": "just",
+"start": 2.28,
+"end": 2.42
+},
+{
+"text": "grows",
+"start": 2.42,
+"end": 2.66
+},
+{
+"text": "a",
+"start": 2.66,
+"end": 2.88
+},
+{
+"text": "perfect",
+"start": 2.88,
+"end": 3.3
+},
+{
+"text": "new",
+"start": 3.3,
+"end": 3.62
+},
+{
+"text": "one.",
+"start": 3.62,
+"end": 3.94
+},
+{
+"text": "The",
+"start": 4.4,
+"end": 4.54
+},
+{
+"text": "axolotl",
+"start": 4.54,
+"end": 5.32
+},
+{
+"text": "is",
+"start": 5.32,
+"end": 5.74
+},
+{
+"text": "a",
+"start": 5.74,
+"end": 5.98
+},
+{
+"text": "salamander",
+"start": 5.98,
+"end": 6.46
+},
+{
+"text": "that",
+"start": 6.46,
+"end": 6.72
+},
+{
+"text": "never",
+"start": 6.72,
+"end": 7.14
+},
+{
+"text": "quite",
+"start": 7.14,
+"end": 7.52
+},
+{
+"text": "grows",
+"start": 7.52,
+"end": 7.94
+},
+{
+"text": "up,",
+"start": 7.94,
+"end": 8.44
+},
+{
+"text": "keeping",
+"start": 8.86,
+"end": 9.14
+},
+{
+"text": "its",
+"start": 9.14,
+"end": 9.34
+},
+{
+"text": "feathery",
+"start": 9.34,
+"end": 9.84
+},
+{
+"text": "gills",
+"start": 9.84,
+"end": 10.0
+},
+{
+"text": "for",
+"start": 10.0,
+"end": 10.22
+},
+{
+"text": "life.",
+"start": 10.22,
+"end": 10.48
+},
+{
+"text": "But",
+"start": 10.96,
+"end": 11.2
+},
+{
+"text": "its",
+"start": 11.2,
+"end": 11.32
+},
+{
+"text": "real",
+"start": 11.32,
+"end": 11.62
+},
+{
+"text": "superpower",
+"start": 11.62,
+"end": 12.34
+},
+{
+"text": "is",
+"start": 12.34,
+"end": 12.98
+},
+{
+"text": "healing.",
+"start": 12.98,
+"end": 13.38
+},
+{
+"text": "Lose",
+"start": 13.84,
+"end": 14.08
+},
+{
+"text": "a",
+"start": 14.08,
+"end": 14.28
+},
+{
+"text": "limb,",
+"start": 14.28,
+"end": 14.6
+},
+{
+"text": "and",
+"start": 15.04,
+"end": 15.26
+},
+{
+"text": "within",
+"start": 15.26,
+"end": 15.48
+},
+{
+"text": "weeks",
+"start": 15.48,
+"end": 15.72
+},
+{
+"text": "the",
+"start": 15.72,
+"end": 15.94
+},
+{
+"text": "bones,",
+"start": 15.94,
+"end": 16.36
+},
+{
+"text": "muscles,",
+"start": 16.74,
+"end": 17.2
+},
+{
+"text": "and",
+"start": 17.48,
+"end": 17.52
+},
+{
+"text": "nerves",
+"start": 17.52,
+"end": 17.82
+},
+{
+"text": "rebuild",
+"start": 17.82,
+"end": 18.3
+},
+{
+"text": "themselves.",
+"start": 18.3,
+"end": 19.02
+},
+{
+"text": "Good",
+"start": 19.54,
+"end": 19.64
+},
+{
+"text": "is",
+"start": 19.64,
+"end": 19.82
+},
+{
+"text": "new.",
+"start": 19.82,
+"end": 20.18
+},
+{
+"text": "And",
+"start": 20.6,
+"end": 20.78
+},
+{
+"text": "it",
+"start": 20.78,
+"end": 20.84
+},
+{
+"text": "doesn't",
+"start": 20.84,
+"end": 21.12
+},
+{
+"text": "stop",
+"start": 21.12,
+"end": 21.36
+},
+{
+"text": "at",
+"start": 21.36,
+"end": 21.52
+},
+{
+"text": "legs.",
+"start": 21.52,
+"end": 21.82
+},
+{
+"text": "It",
+"start": 22.4,
+"end": 22.6
+},
+{
+"text": "can",
+"start": 22.6,
+"end": 22.74
+},
+{
+"text": "regrow",
+"start": 22.74,
+"end": 23.28
+},
+{
+"text": "parts",
+"start": 23.28,
+"end": 23.6
+},
+{
+"text": "of",
+"start": 23.6,
+"end": 23.76
+},
+{
+"text": "its",
+"start": 23.76,
+"end": 23.88
+},
+{
+"text": "heart,",
+"start": 23.88,
+"end": 24.18
+},
+{
+"text": "its",
+"start": 24.62,
+"end": 24.78
+},
+{
+"text": "spine,",
+"start": 24.78,
+"end": 25.3
+},
+{
+"text": "even",
+"start": 25.3,
+"end": 26.06
+},
+{
+"text": "pieces",
+"start": 26.06,
+"end": 26.52
+},
+{
+"text": "of",
+"start": 26.52,
+"end": 26.8
+},
+{
+"text": "its",
+"start": 26.8,
+"end": 26.9
+},
+{
+"text": "own",
+"start": 26.9,
+"end": 27.1
+},
+{
+"text": "brain",
+"start": 27.1,
+"end": 27.56
+},
+{
+"text": "with",
+"start": 27.56,
+"end": 28.08
+},
+{
+"text": "no",
+"start": 28.08,
+"end": 28.34
+},
+{
+"text": "scar",
+"start": 28.34,
+"end": 28.64
+},
+{
+"text": "left",
+"start": 28.64,
+"end": 28.86
+},
+{
+"text": "behind.",
+"start": 28.86,
+"end": 29.4
+},
+{
+"text": "Scientists",
+"start": 30.44,
+"end": 30.44
+},
+{
+"text": "study",
+"start": 30.44,
+"end": 30.96
+},
+{
+"text": "it",
+"start": 30.96,
+"end": 31.4
+},
+{
+"text": "obsessively,",
+"start": 31.4,
+"end": 32.3
+},
+{
+"text": "because",
+"start": 32.54,
+"end": 32.84
+},
+{
+"text": "if",
+"start": 32.84,
+"end": 32.98
+},
+{
+"text": "we",
+"start": 32.98,
+"end": 33.08
+},
+{
+"text": "could",
+"start": 33.08,
+"end": 33.22
+},
+{
+"text": "copy",
+"start": 33.22,
+"end": 33.56
+},
+{
+"text": "this",
+"start": 33.56,
+"end": 33.78
+},
+{
+"text": "trick,",
+"start": 33.78,
+"end": 34.12
+},
+{
+"text": "we",
+"start": 34.46,
+"end": 34.62
+},
+{
+"text": "might",
+"start": 34.62,
+"end": 34.78
+},
+{
+"text": "one",
+"start": 34.78,
+"end": 35.14
+},
+{
+"text": "day",
+"start": 35.14,
+"end": 35.5
+},
+{
+"text": "heal",
+"start": 35.5,
+"end": 36.02
+},
+{
+"text": "the",
+"start": 36.02,
+"end": 36.2
+},
+{
+"text": "same",
+"start": 36.2,
+"end": 36.46
+},
+{
+"text": "way.",
+"start": 36.46,
+"end": 36.8
+}
+]
+}

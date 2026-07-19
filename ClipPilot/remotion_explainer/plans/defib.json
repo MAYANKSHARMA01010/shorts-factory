@@ -1,0 +1,56 @@
+{
+  "slug": "defib",
+  "title": "Why The Shock Stops Your Heart",
+  "duration_estimate_s": 32,
+  "palette": {
+    "bg_deep": "#0b0e14",
+    "bg_panel": "#12161f",
+    "gold": "#FFD23F",
+    "key_electric": "#3FE0FF",
+    "heart_red": "#FF4D5E",
+    "chaos_magenta": "#E84CC4",
+    "flatline_cyan": "#7FF0D8",
+    "pulse_green": "#4DF08A",
+    "grid_grey": "#1c2330",
+    "white": "#FFFFFF"
+  },
+  "scenes": [
+    {
+      "beat": "When the paddles scream CLEAR, you think the shock restarts a stopped heart.",
+      "visual": "ONE bold object owns the frame: a big smooth red anatomical heart drawn as a single SVG silhouette, dead-center on the deep navy stage, sitting on a faint hospital ECG-grid backdrop. Two rounded grey defib paddles with bright cyan rims hover above and below it, clamping inward. The hook lives in the top-right: a fat gold pill badge reads 'CLEAR' in heavy black caps on #FFD23F with a small lightning glyph, and directly under it a second smaller gold tag poses the mystery: 'RESTARTS IT?'. The heart is deliberately dim and motionless so it reads as in-trouble, not healthy.",
+      "animations": "Heart path stroke-draws in ~10 frames then snap-fills red with a snappy usePop spring (scale 0.5->1, damping 120, overshoot ~6%). Paddles slide in from top and bottom and clamp toward the heart with a fast spring settle. The gold 'CLEAR' pill slams in with spring overshoot plus a single white sheen sweep across its face; the 'RESTARTS IT?' tag drops under it ~8f later with a small bounce. ECG grid fades up behind. A flatline pulse crawls once across the grid baseline to seed dread. Tiny idle paddle-charge flicker on the cyan rims.",
+      "sfx": "steady single-tone hospital flatline beep as the bed, capped by a short rising capacitor-charge whine"
+    },
+    {
+      "beat": "But it does the exact opposite.",
+      "visual": "Hard cut to near-black. One huge gold word 'OPPOSITE' owns center screen in heavy condensed caps, framed by a curved double-headed arrow that loops around it and reverses direction. The heart shrinks to a tiny dim icon tucked in the corner so the single idea is isolated.",
+      "animations": "Hard cut (no transition). 'OPPOSITE' slams in letter-by-letter with staggered spring overshoot (each glyph drops and settles, 2-frame stagger). The looping arrow draws on as one stroke then flips direction with a snappy spring rotation. A brief gold flash-fill pulses behind the word on the beat, then settles.",
+      "sfx": "a single deep reverse-swoosh into a tape-stop / record-scratch hit to mark the twist"
+    },
+    {
+      "beat": "In real cardiac arrest the heart isn't stopped, it's quivering chaotically, every cell firing out of sync, so no blood is pumped.",
+      "visual": "The heart returns large at center, now built from a dense lattice of ~40 small rounded cell-tiles packed into the heart shape. Each cell glows its OWN out-of-sync color, flickering between heart-red and chaos-magenta at random phases so the whole organ shimmers like static. Stray lightning sparks jitter between random neighboring cells. Below sits a frantic jagged ECG scribble with no clean peaks. A muted grey-red pill 'NO BLOOD FLOW' sits at the bottom; two faint vessel arrows at the top hold blood dots that stall and never escape.",
+      "animations": "Cells pop in on a staggered spring cascade, then each flickers on its own randomized loop so no two ever match (visible quiver). The chaotic ECG draws left-to-right as a nervous scribble. Blood dots in the vessels twitch upward a little then stall and fall back. Continuous subtle jitter on the whole cell cluster; random spark arcs flash every few frames.",
+      "sfx": "irregular buzzing, crackling out-of-sync electrical static (uneven sparking) under the quiver"
+    },
+    {
+      "beat": "The defibrillator slams one massive jolt through every cell at once, forcing all of them to stop and reset in the same instant.",
+      "visual": "HERO REVEAL — the one money shot. A single enormous electric-blue lightning bolt (#3FE0FF, white-hot core) fires from the top paddle and stabs straight down through the entire heart-lattice. A bright horizontal SYNC WAVEFRONT of light sweeps top-to-bottom across the heart; every chaotic flickering cell the wave touches instantly snaps to the SAME state and goes dark-quiet in unison, so you literally watch chaos turn to order line by line. A cyan shock-ring blasts outward from the bolt across all cells. After the sweep, all ~40 cells sit perfectly identical, dim uniform cyan, frozen. The frantic ECG below is violently overwritten by a dead-flat flatline. A gold 'RESET' badge spring-stamps over the heart.",
+      "animations": "Lightning bolt draws top-to-bottom in one fast jagged stroke (~6 frames) with a full-frame white flash on impact. A sweep-mask travels down the heart converting each row of flickering cells to uniform cyan on contact — a clearly visible synchronizing wave, not a fade. The cyan shock-ring scales from 0->2.5x and fades in ~12f. All cells then lock to one identical color with a single unison spring pop (damping 130). The flatline snaps across the ECG instantly. 'RESET' badge spring-stamps in with overshoot (scale 0.4->1) and a gold flash. This scene is the richest: biggest motion, brightest contrast, longest hold of the synced frame.",
+      "sfx": "a huge defibrillator discharge ZAP into a deep capacitor thump — the single biggest accent in the video"
+    },
+    {
+      "beat": "Then, in that silence, the heart's own pacemaker fires a clean beat.",
+      "visual": "From the quiet uniform heart, one bright gold node lights up at the top-right of the lattice — the SA node — tagged with a small gold 'PACEMAKER' label. A clean pulse-green wavefront ripples outward from that node across all cells in an orderly radial fan, turning them healthy green in smooth sequence (the exact inverse of the earlier chaos). Below, a textbook ECG draws on: flat line, then one crisp PQRST spike. The top vessel arrows now fill with green dots that stream upward and out.",
+      "animations": "Pacemaker node pulses on with a gold spring pop and a soft glow halo. An orderly expanding ripple sweeps green across the cells in a clean radial wave. The whole heart does ONE satisfying spring beat-pump (scale 1->1.12->1, settle). The clean ECG spike draws left-to-right timed to the pump. Green blood dots launch up the vessels on the beat.",
+      "sfx": "a single clean resonant lub-dub heartbeat thump with a soft rising chime on the pump"
+    },
+    {
+      "beat": "So we shock a heart to death to bring it back to life.",
+      "visual": "Final payoff card. Dark stage; the healthy green heart beats steadily, small, at top. The punchline fills the lower two-thirds in big bold caps on three stacked lines: 'SHOCK IT' / 'TO DEATH' / 'TO LIVE'. 'DEATH' is gold #FFD23F, 'LIVE' is gold #FFD23F, the rest clean white. A thin gold underline sweeps under the final line; a small gold pulse glyph blinks beside the heart.",
+      "animations": "Words slam in one at a time with strong spring overshoot, each landing with a tiny settle bounce, timed to the beating heart (3 beats, 3 lines). 'DEATH' flashes once in heart-red before resolving to gold; 'LIVE' gets a bright gold flash-fill on arrival. The gold underline sweeps left-to-right under the last line. Heart keeps a steady spring beat-loop through the hold.",
+      "sfx": "a final punchy gold success sting / confident chime landing exactly on the word 'LIVE'"
+    }
+  ],
+  "payoff": "SHOCK IT TO DEATH TO LIVE"
+}

@@ -1,0 +1,65 @@
+{
+  "slug": "match",
+  "title": "A Match Is A Tiny Bomb You Hold",
+  "duration_estimate_s": 33,
+  "palette": {
+    "bg": "#14100c",
+    "bgMid": "#1c1410",
+    "accent": "#ff7a1a",
+    "accentHot": "#ffd23f",
+    "key": "#ff3b1f",
+    "wood": "#c98a4b",
+    "woodDk": "#8a5a2b",
+    "sulfur": "#e8c14a",
+    "glass": "#bfe6ff",
+    "phosphorus": "#a3372b",
+    "white": "#FFFFFF",
+    "ink": "#0c0907",
+    "ember": "#ff5b2e"
+  },
+  "scenes": [
+    {
+      "beat": "That tiny match in your hand holds a controlled explosion.",
+      "visual": "A single hand-drawn matchstick sits centered and harmless on a dark warm stage: pale wood stick with a rounded red-brown tip, a thin sheen highlight along the wood. It pops in, then a translucent red 'danger' aura outline traces around just the match head and a bold caution-triangle badge with '!' snaps in beside it. Inside the head, a tiny coiled fuse / clenched explosion glyph (concentric shock rings) pulses to imply a bomb hiding in plain sight.",
+      "animations": "Matchstick spring-pops up from scale 0.4 with a slight overshoot and settles upright; caution badge snaps in at delay ~12f with a quick scale overshoot; the danger aura strokes itself on via stroke-dashoffset; shock-ring glyph in the head pulses (scale 0.9->1.1 loop); a fast nervous 1-2deg wobble on the whole match after the badge lands.",
+      "sfx": "soft low sub-boom swell on the match pop, then a short tense UI tick when the caution badge snaps in"
+    },
+    {
+      "beat": "First, thin sticks of wood are soaked in chemicals so they smolder slowly instead of bursting into flame.",
+      "visual": "Cross-section process shot: 3-4 bare matchsticks line up and dip down into a shallow chemical bath tank (labeled pill 'soaked in chemicals'). A blue-green liquid level wave laps at the wood; as each stick submerges, the wood tint shifts and tiny absorption dots travel UP the grain into the stick. Split comparison on the right: a treated stick shows a slow orange smolder glow (a creeping ember edge, thin smoke wisp) while a crossed-out ghost stick shows a fast yellow flame burst with a red NO slash over it.",
+      "animations": "Sticks slide-drop into the tank in a quick staggered cascade; liquid level rises with a spring; absorption dots stream upward along each stick (looping particles); on the comparison, the smolder ember creeps slowly with a gentle pulse while the crossed-out flame flares fast then the red NO-slash wipes across it; label pill drops in from top with overshoot.",
+      "sfx": "wet dip / liquid plip whoosh on the dunk, faint sizzle bed under the smolder"
+    },
+    {
+      "beat": "Then the tips are dunked into a paste of sulfur and a touch of powdered glass.",
+      "visual": "Zoomed match head being lowered tip-first into a glossy yellow paste pot (label 'sulfur paste'). The tip emerges thickly coated, growing a rounded bulb. A magnified inset circle (caliper lines pointing to it) reveals the paste's makeup: yellow sulfur blobs PLUS scattered sharp angular glass shards glinting with tiny star sparkles. A small callout tag reads 'sulfur + powdered glass'.",
+      "animations": "Match dips down into the paste then lifts with a viscous stretch (paste string snaps), tip bulb grows via spring scale; magnifier inset zooms open from the tip (scale 0.2->1) with a lens ring; glass shards twinkle with quick random sparkle pops; the 'powdered glass' part of the tag flashes gold to foreshadow the next reveal.",
+      "sfx": "thick squelchy dunk, then a tiny glassy chime cluster as the shards sparkle in"
+    },
+    {
+      "beat": "And that glass is the trick, because when you strike it, the friction creates instant heat.",
+      "visual": "THE KEY REVEAL. The coated match head drags hard across a striker strip, leaving a friction motion-blur streak. Zoom into the contact zone: angular glass shards in the head grind against the rough strip surface, throwing a burst of bright friction sparks. A heat gauge / thermometer on the side rockets up and a radiating heat-shimmer ring blooms at the contact point. Bold word 'FRICTION = HEAT' stamps in.",
+      "animations": "Head streaks fast left-to-right across the strip with trailing speed-lines; at contact, glass-vs-strip sparks burst outward radially (fast spawn + fade); thermometer mercury shoots up with a snappy spring; heat-shimmer ring expands and fades; 'FRICTION = HEAT' text stamps in with a hard scale-down impact and a screen flash.",
+      "sfx": "sharp strike scrape whoosh into a dramatic spark CRACK boom (this is reveal #1)"
+    },
+    {
+      "beat": "Next, that heat ignites a chemical on the side of the box called red phosphorus.",
+      "visual": "Pull back to show the matchbox: a hand-drawn box with its brown striker strip down the side, now labeled and magnified to expose a granular dark-red layer ('red phosphorus'). The hot match tip from the previous scene touches the strip and a small chemical reaction sparkle ignites right ON the strip surface, with little molecule dots converting (red phosphorus -> white phosphorus puff). An arrow points from the strip back toward the match head.",
+      "animations": "Matchbox slides in and rotates slightly to face camera; magnifier ring opens on the strip revealing the grainy red layer; the heat point lands and triggers a quick chain of igniting sparkle dots along the strip; molecule dots flip color (dark red -> pale) with tiny pop bursts; the return arrow draws itself from strip to match head.",
+      "sfx": "slide whoosh as the box enters, light crackling fizz as the strip ignites"
+    },
+    {
+      "beat": "This means the fire isn't really in the match at all.",
+      "visual": "Mind-twist diagram. Center: the match head shown 'cold' / empty with a crossed-out flame icon and a magnifier finding NOTHING inside it. To the side: the matchbox striker strip glows as the TRUE origin, with a bright dashed arrow looping from the STRIP to the MATCH carrying a small fireball along the path. Two labeled signposts: 'NOT here' (over the match) vs 'STARTS here' (over the strip), making the misconception flip explicit.",
+      "animations": "Crossed-out flame over the match snaps in with the red NO-slash; the 'STARTS here' label and glow pulse on the strip; a small fireball travels along the dashed arc from strip to match (fast tween, looping); the two signposts pop in alternately with a quick beat; subtle shake on the 'NOT here' label for emphasis.",
+      "sfx": "a record-scratch-style stop tick on the 'isn't here' beat, low whoosh as the fireball travels the arc"
+    },
+    {
+      "beat": "Finally, the spark jumps across, and the whole tip erupts into flame.",
+      "visual": "PAYOFF. The spark leaps from the strip to the match head along the arc and on contact the entire tip ERUPTS: a full hand-drawn flame blooms (layered orange/gold/white teardrop flame with flickering edges), radiating light, rising heat shimmer and ember sparks flying upward. The match now burns bright and proud, center stage. Closing payoff line stamps under it.",
+      "animations": "Spark zips across fast and SLAMS into the tip; flame blooms outward with a big spring scale from 0 with overshoot; flame tongues flicker via fast sine wobble on the path points; embers shoot up and drift; a warm light flash washes the whole frame; payoff text scales in hard with overshoot.",
+      "sfx": "spark zip whoosh into a big FWOOMP ignition boom + warm flame crackle bed (this is reveal #2, the climax)"
+    }
+  ],
+  "payoff": "The fire was never in the match. It's friction, glass, and a chemical on the box."
+}

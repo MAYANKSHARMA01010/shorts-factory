@@ -1,0 +1,6 @@
+ 
+[01-07-2026 23:00:01.34] DIGEST run 
+ 
+[02-07-2026 13:52:58.97] DIGEST run 
+daily_digest: email NOT sent (not configured yet: no config at C:\Users\diksh\.config\shorts\email.json. Run:  python notify_email.py --set-password "<app password>"). Digest content saved to digest_last.html -- run 'python notify_email.py --set-password "<app password>"' to enable emailing.
+[02-07-2026 13:53:09.43] DIGEST done 

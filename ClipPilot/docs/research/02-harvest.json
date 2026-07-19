@@ -1,0 +1,560 @@
+[
+    {
+        "repo":  "MoneyPrinterTurbo-main (at C:\\Dikshant\\Money making\\MoneyPrinterTurbo-main\\MoneyPrinterTurbo-main\\)",
+        "license":  "MIT License (Copyright (c) 2024 Harry) — confirmed at C:\\Dikshant\\Money making\\MoneyPrinterTurbo-main\\MoneyPrinterTurbo-main\\LICENSE. Fully permissive: import/modify/sell in a closed-source for-profit app is allowed as long as the MIT notice is retained.",
+        "reusable":  [
+                         {
+                             "path":  "app\\services\\llm.py",
+                             "symbol":  "generate_social_metadata / build_social_metadata_prompt / _parse_social_metadata / _normalize_hashtags / _fallback_social_metadata / SOCIAL_PLATFORMS",
+                             "what":  "Self-contained LLM social-metadata generator. Takes (video_subject, video_script, language, platform) and returns a fixed dict {title, caption, hashtags:[...]} with per-platform length/hashtag-count caps, JSON-with-code-fence-recovery parsing, and a heuristic fallback when the LLM is down. This is exactly ClipPilot\u0027s missing \u0027metadata\u0027 stage and it already drives the YouTube upload path.",
+                             "clippilot_stage":  "metadata",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "MIT so import is legal, BUT _generate_response is bound to MoneyPrinter\u0027s config.toml provider zoo (40+ branches). For ClipPilot, PORT the pure pieces and swap the model call for your existing Claude vision brain. Reusable as-is: the per-platform spec table SOCIAL_PLATFORMS = {\u0027tiktok\u0027:{\u0027title_max\u0027:100,\u0027caption_max\u0027:2200,\u0027hashtag_count\u0027:5},\u0027youtube_shorts\u0027:{\u0027title_max\u0027:100,\u0027caption_max\u0027:5000,\u0027hashtag_count\u0027:3},\u0027instagram_reels\u0027:{\u0027title_max\u0027:125,\u0027caption_max\u0027:2200,\u0027hashtag_count\u0027:8},\u0027facebook_reels\u0027:{\u0027title_max\u0027:125,\u0027caption_max\u0027:2200,\u0027hashtag_count\u0027:5}}. The prompt contract: \u0027Respond ONLY with a single valid minified JSON object ... keys: title, caption, hashtags ... hashtags: a JSON array of exactly N strings each starting with # no spaces\u0027. Reuse verbatim: _normalize_hashtags() (regex re.sub(r\u0027[^\\w]\u0027,\u0027\u0027,item,flags=re.UNICODE), dedupe by .lower(), prefix \u0027#\u0027, cap to count) and _parse_social_metadata()\u0027s recovery: try json.loads(_strip_code_fence(r)); except, re.search(r\u0027\\{.*\\}\u0027, r, re.DOTALL). Feed it the existing understand_video output as video_script."
+                         },
+                         {
+                             "path":  "app\\services\\upload_post.py",
+                             "symbol":  "UploadPostService.upload_video / cross_post_video / check_status",
+                             "what":  "Complete multi-platform publisher: one multipart POST cross-posts a single mp4 to TikTok + Instagram + YouTube Shorts + Facebook via the Upload-Post.com SaaS gateway. Solves ClipPilot\u0027s hardest missing stage (OAuth to 3 platforms) by delegating to one API key — no per-platform OAuth, no google-api-python-client. Pure requests + stdlib, Windows/CPU-clean.",
+                             "clippilot_stage":  "publish",
+                             "integration":  "import",
+                             "license_ok":  true,
+                             "notes":  "MIT, zero heavy deps (requests only) — drop the file in directly and replace config.app.get() with your settings. Exact API call shape: POST https://api.upload-post.com/api/upload, headers={\u0027Authorization\u0027:\u0027Apikey \u003cKEY\u003e\u0027}, multipart files={\u0027video\u0027:\u003cfh\u003e}, data as repeated tuples: (\u0027user\u0027,username),(\u0027title\u0027,title[:2200]),(\u0027privacy_level\u0027,\u0027PUBLIC_TO_EVERYONE\u0027), then one (\u0027platform[]\u0027, p) per platform. YouTube extras only when \u0027youtube\u0027 in platforms: (\u0027youtube_title\u0027, t[:100]),(\u0027youtube_description\u0027,d),(\u0027tags[]\u0027,tag) per tag,(\u0027privacyStatus\u0027,\u0027public\u0027|\u0027unlisted\u0027),(\u0027containsSyntheticMedia\u0027,\u0027true\u0027). timeout=300. Response: {\u0027success\u0027:bool,\u0027request_id\u0027:...}. Status poll: GET /api/uploadposts/status?request_id=. Caveat: Upload-Post is a PAID 3rd-party SaaS (needs api_key+username) — it is NOT a free direct uploader; if you want first-party uploads you\u0027d still write the YouTube Data API path yourself. containsSyntheticMedia is hardcoded \u0027true\u0027 for AI-content disclosure."
+                         },
+                         {
+                             "path":  "app\\services\\task.py",
+                             "symbol":  "start() cross-post block (lines 422-454)",
+                             "what":  "The end-to-end wiring recipe: after final render, if upload is configured+auto, generate youtube_shorts metadata via llm.generate_social_metadata, build youtube_extra={youtube_title,youtube_description,tags,privacyStatus,containsSyntheticMedia}, then loop final_video_paths calling cross_post_video. Shows exactly how metadata + publish stages connect.",
+                             "clippilot_stage":  "publish",
+                             "integration":  "reference",
+                             "license_ok":  true,
+                             "notes":  "Design template for ClipPilot\u0027s post-render step in the SQLite job engine. Key shape: youtube_extra = {\u0027youtube_title\u0027: metadata.get(\u0027title\u0027, subject), \u0027youtube_description\u0027: metadata.get(\u0027caption\u0027,\u0027\u0027), \u0027tags\u0027: metadata.get(\u0027hashtags\u0027,[]), \u0027privacyStatus\u0027: \u003ccfg\u003e, \u0027containsSyntheticMedia\u0027: True}. Note it generates metadata with platform=\u0027youtube_shorts\u0027 specifically (for the 100-char title cap) while passing video_subject as the generic TikTok/IG title. Collect per-video results into cross_post_results for the job record."
+                         },
+                         {
+                             "path":  "app\\services\\voice.py",
+                             "symbol":  "tts / create_edge_tts_communicate / stream_edge_tts_chunks + SubMaker-\u003eSRT path",
+                             "what":  "Free CPU-only TTS via edge_tts (Microsoft Edge online voices) with WordBoundary events converted into SRT subtitle timing — directly usable for Section B (script-\u003eTTS) AND for word-timed captions without re-running whisper on the TTS output.",
+                             "clippilot_stage":  "generate_B",
+                             "integration":  "import",
+                             "license_ok":  true,
+                             "notes":  "edge_tts is free, no API key, no GPU, Windows-fine (it\u0027s an online MS endpoint, so needs network). create_edge_tts_communicate() probes Communicate signature and passes boundary=\u0027WordBoundary\u0027 to get per-word timing; stream_edge_tts_chunks() consumes stream_sync() with a daemon-thread timeout wrapper (good defensive pattern). The WordBoundary-\u003eSubMaker-\u003eget_srt() flow gives you script-synced caption timestamps for free in the faceless-funnel pipeline. SiliconFlow/Azure-v2 branches are paid/key-gated — ignore those, take only the edge_tts path. Python 3.14: verify edge_tts wheel availability."
+                         }
+                     ],
+        "best_for_clippilot":  "app\\services\\upload_post.py — the UploadPostService.upload_video cross-poster. It is a tiny (137-line), MIT-licensed, requests-only module that collapses ClipPilot\u0027s entire unbuilt PUBLISHING stage (TikTok + Instagram/Reels + YouTube Shorts + Facebook, with AI-synthetic-media disclosure and YouTube title/description/tags) into one multipart POST, sidestepping three separate OAuth integrations. Import it nearly verbatim. Full path: C:\\Dikshant\\Money making\\MoneyPrinterTurbo-main\\MoneyPrinterTurbo-main\\app\\services\\upload_post.py",
+        "do_not_use":  "Do NOT lift llm.py\u0027s _generate_response() — it is a 440-line tangle of 40+ provider branches (g4f/qwen/ernie/cloudflare/pollinations etc.) bound to config.toml; route ClipPilot\u0027s metadata prompt through your existing Claude brain instead. Do NOT depend on Upload-Post as if it were free — it is a PAID third-party SaaS gateway requiring api_key+username (no key = no publish); it is not a self-hosted uploader. In voice.py, skip the siliconflow_tts and azure_tts_v2 branches (paid/key-gated) — take only the free edge_tts path. Nothing here is GPL and nothing is GPU-mandatory, but everything network-dependent (edge_tts, Upload-Post, all LLM calls) needs connectivity, so they are not offline-capable.",
+        "effort":  "low"
+    },
+    {
+        "repo":  "ShortGPT-stable (RayVentura/ShortGPT) at C:\\Dikshant\\Money making\\ShortGPT-stable\\ShortGPT-stable\\",
+        "license":  "MIT License (Copyright (c) 2024 Ray Ventura) — verified at C:\\Dikshant\\Money making\\ShortGPT-stable\\ShortGPT-stable\\LICENSE. Permissive; safe to import/port/redistribute in a closed-source for-profit Windows app with attribution.",
+        "best_for_clippilot":  "C:\\Dikshant\\Money making\\ShortGPT-stable\\ShortGPT-stable\\shortGPT\\gpt\\gpt_yt.py (generate_title_description_dict) together with its prompt at shortGPT\\prompt_templates\\yt_title_description.yaml — a complete, drop-in social METADATA generator (title + description + hashtags) that ClipPilot has not built yet. Port both: feed the Claude understanding/transcript as \u003c\u003cCONTENT\u003e\u003e, keep the loop-until-valid-JSON pattern, and route the LLM call through ClipPilot\u0027s existing Claude brain instead of OpenAI/Gemini.",
+        "do_not_use":  "Do NOT import the rendering engine: shortGPT\\editing_framework\\core_editing_engine.py and editing_engine.py are MoviePy-based (CompositeVideoClip/TextClip, moviepy==2.1.2 API with .with_start/.with_effects) — ClipPilot already has real ffmpeg clip/caption(libass)/compose, so this is redundant and adds a heavy MoviePy+numpy dependency. Do NOT use the captions for styled rendering as-is (they render via MoviePy TextClip with stroke, not ASS). Do NOT harvest publishing — there is NONE in this repo (grep for upload/youtube/instagram/oauth returns only Gradio upload widgets and a ready_to_upload boolean flag; no YouTube Data API or Instagram Graph API code exists). Ignore api_utils\\* (Pexels/ElevenLabs/image API are paid-API wrappers). The LLM layer (gpt_utils.llm_completion) is hardwired to OpenAI/Gemini — reference only, swap for Claude.",
+        "effort":  "medium",
+        "reusable":  [
+                         {
+                             "path":  "shortGPT\\gpt\\gpt_yt.py",
+                             "symbol":  "generate_title_description_dict",
+                             "what":  "Generates a YouTube/Shorts title + description (with hashtags) from a transcript/understanding. Exactly ClipPilot\u0027s missing METADATA stage. Loops until the LLM returns valid JSON with title+description keys.",
+                             "clippilot_stage":  "metadata",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "Port the body, swap llm_completion for ClipPilot\u0027s Claude call. Core: out={\u0027title\u0027:\u0027\u0027,\u0027description\u0027:\u0027\u0027}; chat,system=load_yaml(\u0027yt_title_description.yaml\u0027); chat=chat.replace(\u0027\u003c\u003cCONTENT\u003e\u003e\u0027,content); while not out[\u0027title\u0027] or not out[\u0027description\u0027]: r=llm(chat_prompt=chat,system=system,temp=1); resp=json.loads(r); out.update(resp). Pair with the YAML prompt (next item). Guard the while-loop with a max-retry counter — original can spin forever if the model never emits valid JSON."
+                         },
+                         {
+                             "path":  "shortGPT\\prompt_templates\\yt_title_description.yaml",
+                             "symbol":  "yt_title_description (system_prompt/chat_prompt)",
+                             "what":  "The actual prompt that produces catchy \u003c80-char title (max 2 emojis) + \u003c=240-char description with hashtags as strict JSON. This is the load-bearing IP for metadata.",
+                             "clippilot_stage":  "metadata",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "system_prompt verbatim: \u0027You are a youtube shorts title and description expert writer... Use only MAXIMUM 2 emojis in the title... use hashtags in the description. The title has to be less than 80 characters... description maximum 240 characters... give the title and description in a perfect json format... key `title` and `description`. In your JSON, use the double quotes \"\" instead of \u0027\u0027.\u0027 chat_prompt is just \u0027\u003c\u003cCONTENT\u003e\u003e\u0027. Tighten to instruct a dedicated `hashtags` array if ClipPilot wants structured tags for cross-posting."
+                         },
+                         {
+                             "path":  "shortGPT\\prompt_templates\\editing_generate_videos.yaml",
+                             "symbol":  "editing_generate_videos (chat_prompt) + gpt_editing.getVideoSearchQueriesTimed",
+                             "what":  "Prompt + parser that turn timed captions into 4-5s segments each with three 1-2 word concrete visual B-ROLL search queries (monetization-safe). Directly feeds a B-roll/stock-footage fetch stage.",
+                             "clippilot_stage":  "broll",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "Prompt enforces: ONLY English, 1-2 words, concrete visual nouns/actions, family-friendly, output strict JSON {video_segments:[{time_range:[s,e],queries:[q1,q2,q3]}]}. Parser (gpt_editing.py L53-98) validates 0\u003c=t0\u003ct1\u003c=end, pads to exactly 3 queries, retries 4x. Port the prompt + the validation loop; wire queries to a stock provider (Pexels/local library). Pairs with getImageQueryPairs (L12) for image variant."
+                         },
+                         {
+                             "path":  "shortGPT\\editing_utils\\captions.py",
+                             "symbol":  "getCaptionsWithTime / getTimestampMapping / splitWordsBySize",
+                             "what":  "Pure-python word-timing chunker: converts whisper word-level segments into on-screen caption lines split by maxCaptionSize, punctuation boundaries, and a 5-word cap. Useful for ClipPilot\u0027s richer styled-caption timing even though ClipPilot burns via libass.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "import",
+                             "license_ok":  true,
+                             "notes":  "No heavy deps (only re). getCaptionsWithTime(whisper, maxCaptionSize=15) returns [((start,end), \u0027TEXT\u0027), ...] ready to emit as ASS Dialogue lines. ClipPilot can import this to decide line breaks/timing, then format each tuple into its own ASS style instead of MoviePy. should_split logic keys on len\u003emaxCaptionSize OR trailing punctuation OR len(line)\u003e=5 words."
+                         },
+                         {
+                             "path":  "shortGPT\\editing_framework\\editing_steps\\make_caption.json",
+                             "symbol":  "caption style schema",
+                             "what":  "The concrete caption look ShortGPT ships: big bold centered word-chunk with stroke outline. Gives ClipPilot ready style values to translate into an ASS style line.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "reference",
+                             "license_ok":  true,
+                             "notes":  "Style params: font=fonts/LuckiestGuy-Regular.ttf, font_size=100, color=white, stroke_width=3, stroke_color=black, method=caption, size=[900,450], position=center, text uppercased by caller (text.upper()). Translate to libass: Fontname=Luckiest Guy,Fontsize=100,PrimaryColour=\u0026H00FFFFFF,OutlineColour=\u0026H00000000,Outline=3,Alignment=5,Bold=1. LuckiestGuy font ships in repo fonts/ (check its OFL license before bundling)."
+                         },
+                         {
+                             "path":  "shortGPT\\engine\\facts_short_engine.py",
+                             "symbol":  "FactsShortEngine + facts_gpt.generateFacts / generateFactSubjects + facts_generator.yaml / facts_subjects_generation.yaml",
+                             "what":  "Theme-\u003escript generator for faceless/ad-share shorts (Section B/C): generateFactSubjects(n) invents original \u0027X facts\u0027 themes, generateFacts(type) writes a \u003c140-word hook+facts script. The script-\u003eTTS-\u003ecaptions-\u003ecompose ordering (content_short_engine.stepDict 1-12) is the exact funnel ClipPilot needs.",
+                             "clippilot_stage":  "generate_B",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "Use the step ORDER from content_short_engine.py (generateScript-\u003eTTS-\u003espeedUp-\u003etimeCaptions-\u003eimageSearchTerms-\u003eimageUrls-\u003ebgMusic-\u003ebgVideo-\u003erender-\u003emetadata) as ClipPilot\u0027s Section B/C state machine. facts_generator.yaml system_prompt gives a strong few-shot \u0027hook then facts, \u003c50s/~140 words, captivating+original\u0027 template. facts_subjects_generation.yaml: \u0027pick a random subject, be original, `Subject` facts format, json-parseable array\u0027 for Section C theme seeding. Swap llm_completion for Claude; temp 1.3-1.69 in originals for variety."
+                         },
+                         {
+                             "path":  "shortGPT\\audio\\edge_voice_module.py",
+                             "symbol":  "EdgeTTSVoiceModule.generate_voice / async_generate_voice",
+                             "what":  "Free, CPU-only, offline-capable TTS via Microsoft edge-tts (no API key, unlimited chars). Fills the TTS step of Section B faceless-funnel generation without a paid voice API.",
+                             "clippilot_stage":  "generate_B",
+                             "integration":  "import",
+                             "license_ok":  true,
+                             "notes":  "edge-tts is permissive and pip-installable on Windows/py3.14. Core async: communicate=edge_tts.Communicate(text, voiceName); async for chunk in communicate.stream(): if chunk[\u0027type\u0027]==\u0027audio\u0027: file.write(chunk[\u0027data\u0027]). Note the repo\u0027s event-loop wrapper (run_in_executor over run_until_complete) is awkward and can race; for ClipPilot just call asyncio.run(communicate.save(outputfile)) directly. Voice name e.g. \u0027en-US-AriaNeural\u0027. get_remaining_characters returns infinity (unmetered)."
+                         }
+                     ]
+    },
+    {
+        "repo":  "Pixelle-Video-main (AIDC-AI / Pixelle-Video) at C:\\Dikshant\\Money making\\Pixelle-Video-main\\Pixelle-Video-main\\",
+        "license":  "Apache License 2.0 (LICENSE file is the full Apache 2.0 text; every .py carries the \"Copyright (C) 2025 AIDC-AI / Licensed under the Apache License, Version 2.0\" header). Permissive — safe to IMPORT/COPY into a closed-source for-profit app provided NOTICE/attribution is preserved.",
+        "reusable":  [
+                         {
+                             "path":  "pixelle_video\\pipelines\\standard.py",
+                             "symbol":  "StandardPipeline (setup_environment / generate_content / determine_title / plan_visuals / initialize_storyboard / produce_assets / post_production / finalize)",
+                             "what":  "End-to-end theme-\u003evideo orchestration: topic -\u003e LLM narrations -\u003e (optional) image/video prompts -\u003e per-frame TTS+render -\u003e concat+BGM. This IS the Section B faceless-funnel and Section C ad-share generation skeleton (script-\u003eTTS-\u003evisuals-\u003ecompose), already wired as an async template-method lifecycle. mode=\u0027generate\u0027 (LLM writes the script from a theme) and mode=\u0027fixed\u0027 (use a supplied script verbatim) cover both B and C.",
+                             "clippilot_stage":  "generate_B",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "Port the lifecycle, not the class verbatim (it depends on ComfyUI/RunningHub media services ClipPilot won\u0027t use). Key reusable shape: generate_content() calls generate_narrations_from_topic(llm, topic, n_scenes, min_words, max_words); plan_visuals() detects template_type and SKIPS media gen for static templates (\u0027Static template - skip media generation pipeline\u0027 =\u003e faster/cheaper, no GPU) — exactly ClipPilot\u0027s CPU path; post_production() = video_service.concat_videos(segment_paths, out, bgm_path, bgm_volume, bgm_mode). Reuse the static-template branch to make a faceless funnel with zero image generation."
+                         },
+                         {
+                             "path":  "pixelle_video\\prompts\\topic_narration.py",
+                             "symbol":  "TOPIC_NARRATION_PROMPT / build_topic_narration_prompt(topic, n_storyboard, min_words, max_words)",
+                             "what":  "Battle-tested LLM prompt that turns a theme into N short-video storyboard narrations as strict JSON {\"narrations\":[...]}. Heavy anti-repetition / opening-diversity / language-consistency rules and a self-check pass. Directly drives Section B/C script generation.",
+                             "clippilot_stage":  "generate_B",
+                             "integration":  "import",
+                             "license_ok":  true,
+                             "notes":  "Single self-contained .format() template, no deps. Output contract: ```json {\"narrations\": [\"...\",\"...\"]}``` with word count clamped to {min_words}~{max_words}. Pair with the JSON extractor _parse_json() from content_generators.py. content_narration.py is the same shape for \u0027expand existing content\u0027 (build_content_narration_prompt). Copy the file, keep the Apache header."
+                         },
+                         {
+                             "path":  "pixelle_video\\utils\\content_generators.py",
+                             "symbol":  "generate_title(...), generate_narrations_from_topic(...), generate_narrations_from_content(...), split_narration_script(...), _parse_json(...)",
+                             "what":  "Stateless async helpers around the prompts: theme-\u003enarrations, content-\u003enarrations, fixed-script splitter (paragraph/line/sentence), and a robust LLM-JSON extractor with markdown-fence + brace fallback. generate_title is a ready-made METADATA generator (short attractive titles with strict char limit and trailing-punctuation cleanup).",
+                             "clippilot_stage":  "metadata",
+                             "integration":  "import",
+                             "license_ok":  true,
+                             "notes":  "Only dep is an llm_service with signature `await llm(prompt, temperature, max_tokens) -\u003e str` — trivially satisfied by ClipPilot\u0027s existing Claude brain. generate_title(llm, content, strategy=\u0027auto\u0027|\u0027direct\u0027|\u0027llm\u0027, max_length=15) gives titles for the metadata stage today; extend the same pattern (new prompt returning {\"title\":..,\"description\":..,\"hashtags\":[..]}) to cover full social metadata. _parse_json handles ```json fences, raw object, and a narrations/image_prompts-keyed regex fallback."
+                         },
+                         {
+                             "path":  "pixelle_video\\utils\\tts_util.py",
+                             "symbol":  "edge_tts(text, voice, rate, volume, pitch, output_path, retry_count, retry_base_delay) -\u003e bytes ; speed_to_rate (in tts_voices.py) ; list_voices()",
+                             "what":  "Production CPU-only, free, no-API-key TTS via Microsoft Edge (edge-tts SDK): 400+ voices/100+ languages, returns MP3 bytes and writes file. Includes exponential-backoff retry for 401/NoAudioReceived, certifi SSL, a per-event-loop concurrency semaphore (max 3) and pre-request jitter to dodge rate limits. This is the TTS engine for Sections B and C.",
+                             "clippilot_stage":  "generate_B",
+                             "integration":  "import",
+                             "license_ok":  true,
+                             "notes":  "pip install edge-tts certifi aiohttp. Core call: communicate = edge_tts_sdk.Communicate(text, voice, rate, volume, pitch); async for chunk in communicate.stream(): if chunk[\u0027type\u0027]==\u0027audio\u0027: audio_chunks.append(chunk[\u0027data\u0027]). voice format used elsewhere is the raw ShortName e.g. \u0027zh-CN-YunjianNeural\u0027 / \u0027en-US-JennyNeural\u0027; rate is a \u0027+20%\u0027 string from speed_to_rate(speed). The 401-retry + semaphore logic is the load-bearing part to copy — Edge TTS rate-limits hard without it. (Note: edge-tts itself is GPL-3.0 as a dependency — SUBPROCESS/pip-call it, do NOT vendor its source; this wrapper file is Apache and safe to copy.)"
+                         },
+                         {
+                             "path":  "pixelle_video\\services\\video.py",
+                             "symbol":  "VideoService.concat_videos / merge_audio_video / create_video_from_image / add_bgm / overlay_image_on_video / _pad_video_to_duration / _trim_video_to_duration",
+                             "what":  "Complete ffmpeg-python compose toolkit for assembling Section B/C shorts: concat (stream-copy demuxer OR re-encoding filter), looped/faded BGM mix, static-image+audio -\u003e mp4 segment, transparent-PNG overlay onto scaled 9:16 video, and intelligent audio/video duration reconciliation (freeze last frame vs trim vs silence-pad).",
+                             "clippilot_stage":  "generate_C",
+                             "integration":  "import",
+                             "license_ok":  true,
+                             "notes":  "pip install ffmpeg-python (needs ffmpeg on PATH; check_ffmpeg() already validates). Reusable recipes: demuxer concat =\u003e ffmpeg -f concat -safe 0 -i filelist.txt -c copy out.mp4 ; image-\u003evideo =\u003e ffmpeg.input(image, loop=1, framerate=fps)+input(audio) .output(t=audio_duration, vcodec=\u0027libx264\u0027, acodec=\u0027aac\u0027, pix_fmt=\u0027yuv420p\u0027, crf=23) ; BGM loop+mix =\u003e bgm_input=ffmpeg.input(bgm, stream_loop=-1); bgm.audio.filter(\u0027volume\u0027, vol).filter(\u0027afade\u0027,type=\u0027in\u0027,duration=fi); ffmpeg.filter([video.audio,bgm],\u0027amix\u0027,inputs=2,duration=\u0027first\u0027) ; freeze-pad =\u003e video_stream.filter(\u0027tpad\u0027, stop_mode=\u0027clone\u0027, stop_duration=pad). overlay_image_on_video gives the styled-caption compositing path (see frame_html). Pure-stdlib/ffmpeg, no GPU."
+                         },
+                         {
+                             "path":  "pixelle_video\\services\\frame_html.py",
+                             "symbol":  "HTMLFrameGenerator.generate_frame(title, text, image, ext, output_path) / _replace_parameters / parse_template_parameters",
+                             "what":  "The repo\u0027s \u0027styled captions\u0027 mechanism: render an HTML/CSS template (with {{param:type=default}} DSL and meta-tag-driven media size) to a transparent PNG via headless Playwright Chromium, then overlay it on the video. This is how Pixelle does rounded-box/kinetic-style caption+title cards WITHOUT libass/ASS — full CSS styling instead.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "reference",
+                             "license_ok":  true,
+                             "notes":  "Reference/port, not a drop-in: heavyweight (pip install playwright + `playwright install chromium`, ~spins a browser). ClipPilot already burns captions via libass which is lighter for kinetic word-timed subs. Take the IDEA for richer styled cards (per-frame title/CTA overlays for Section C ads): author a 1080x1920 HTML template with CSS, render to transparent PNG (page.screenshot(omit_background=True)), then VideoService.overlay_image_on_video(video, png, out, scale_mode=\u0027cover\u0027). DSL: {{text}}, {{title}}, {{image}} are preset; custom {{cta:text=Shop Now}}, {{accent:color=#FF0000}} parsed by parse_template_parameters."
+                         },
+                         {
+                             "path":  "pixelle_video\\services\\llm_service.py",
+                             "symbol":  "LLMService.__call__ / _call_with_structured_output / _get_json_schema_instruction / _parse_response_as_model",
+                             "what":  "Provider-agnostic LLM wrapper over the OpenAI SDK that explicitly supports Anthropic Claude AND local Ollama (free) via base_url override, plus structured output: it injects the Pydantic model_json_schema() into the prompt and parses the reply back into the model (works on providers lacking native json_schema, e.g. Ollama/Qwen). Useful as the metadata/script generator\u0027s structured-output layer.",
+                             "clippilot_stage":  "metadata",
+                             "integration":  "reference",
+                             "license_ok":  true,
+                             "notes":  "ClipPilot already has a Claude brain, so this is mostly a reference for the schema-injection trick: enhanced_prompt = prompt + _get_json_schema_instruction(Model) where the instruction embeds json.dumps(Model.model_json_schema()) and demands \u0027ONLY a valid JSON object\u0027; then _parse_response_as_model tries json.loads, then ```json fences, then first{..last}. This is the robust cross-provider path to get {title,description,hashtags} as a Pydantic object from Claude OR a local Ollama model. base_url switches Claude\u003c-\u003eOllama\u003c-\u003eOpenAI. Note the docstring lists claude-sonnet-4-5/opus/haiku as supported model ids via OpenAI-compatible endpoint."
+                         }
+                     ],
+        "best_for_clippilot":  "pixelle_video\\\\pipelines\\\\standard.py (StandardPipeline) — it is the ready-made Section B/C generation orchestration (theme -\u003e LLM narrations -\u003e per-frame TTS -\u003e compose+BGM) with a CPU-only static-template branch that skips all image/video generation. Port its lifecycle and wire in ClipPilot\u0027s Claude brain + the repo\u0027s edge_tts wrapper (tts_util.py) and VideoService (video.py), and you have the faceless-funnel + ad-share pipelines with no GPU and no paid APIs. The single highest-leverage supporting asset is pixelle_video\\\\prompts\\\\topic_narration.py for the actual script generation.",
+        "do_not_use":  "1) Do NOT vendor the edge-tts package source — edge-tts itself is GPL-3.0; pip-install and call it (the Apache wrapper tts_util.py is fine to copy). 2) Do NOT pull in the ComfyUI/RunningHub media generation stack (services\\\\comfy_base_service.py, services\\\\api_services\\\\*, services\\\\media.py, image/video_*.py) — those are GPU/paid-cloud (DashScope, Kling, Seedance, SeeDream, GPT-image) media generators, the exact opposite of CPU-only; the asset_based/standard pipelines reference them but the static-template path avoids them. 3) frame_html.py is a Playwright/Chromium dependency (heavy, launches a browser) — reference the styling idea only; ClipPilot\u0027s existing libass caption burn is lighter. 4) There is NO publishing/uploader code and NO YouTube/Instagram/Facebook API code anywhere in this repo, and NO ASS/libass styled-caption code — do not expect to harvest the \u0027publish\u0027 or native-ASS \u0027captions\u0027 stages here; captions are done via HTML-\u003ePNG overlay, not .ass.",
+        "effort":  "medium"
+    },
+    {
+        "repo":  "hyperframes-main (HeyGen HyperFrames) at C:\\Dikshant\\Money making\\hyperframes-main\\hyperframes-main",
+        "license":  "Apache License 2.0 (Copyright 2026 HeyGen, Inc.) — LICENSE at C:\\Dikshant\\Money making\\hyperframes-main\\hyperframes-main\\LICENSE. Fully permissive: import/port/subprocess all allowed for a closed-source for-profit Windows app. Only obligation is retaining the NOTICE/attribution if you redistribute their source files.",
+        "reusable":  [
+                         {
+                             "path":  "packages\\cli\\src\\templates (whole repo is Node/TypeScript, not Python)",
+                             "symbol":  "N/A — language mismatch",
+                             "what":  "HyperFrames itself is a Node.js 22+ / TypeScript CLI (`npx hyperframes`), NOT a Python package. ClipPilot is Python 3.14. So nothing here can be pip-imported. The reusable value is (a) PORTING the deterministic data recipes to Python and (b) optionally SUBPROCESSING the `hyperframes` CLI if Node is acceptable on the box.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "reference",
+                             "license_ok":  true,
+                             "notes":  "Establishes the integration constraint: this is a JS render engine (headless Chrome + ffmpeg). For a pure-Python CPU app, prefer PORT of the algorithms below over importing. CLI requires Node 22 + FFmpeg installed."
+                         },
+                         {
+                             "path":  "skills\\faceless-explainer\\scripts\\captions.mjs",
+                             "symbol":  "runGroup() — deterministic whisper-words → caption groups (lines 61-349)",
+                             "what":  "The single best harvest. Pure-data algorithm that turns whisper word lists ([{text,start,end}]) into styled, render-ready, non-overlapping caption GROUPS. This is exactly ClipPilot\u0027s missing styled-caption grouping brain and is trivially portable to Python (no GPL, no GPU, no Chrome — just list math).",
+                             "clippilot_stage":  "captions",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "PORT this to Python verbatim. Core recipe: (1) CLEAN: drop music ♪/♯, drop tokens with no [A-Za-z0-9], drop dur\u003c0.05s, drop fillers {uh,um,ah,oh,huh} when dur\u003c0.1s. (2) GROUP with hard splits: scene boundary, silence gap (word.start - prev.end \u003e 0.18s), sentence-end punctuation /[.?!,;:—]$/ closes AFTER the word, and a DENSITY-MODULATED word cap: local words within [t,t+1.0s) \u003e3.5→cap2, \u003e2.5→cap3, else 4. (3) TAIL_PAD=0.12s hold on last word but clamp to next group\u0027s start (`end = Math.min(lastWord.end+0.12, nextStart)`) — prevents two groups on screen at once. (4) free emphasis tagging: is-allcaps (\u003e=2 letters, no lowercase), is-numeric (^[0-9]). (5) overlap invariant check. Each group → {id,start,end,text,words:[{text,start,end,classes}]}."
+                         },
+                         {
+                             "path":  "skills\\faceless-explainer\\scripts\\captions.mjs",
+                             "symbol":  "runHtml() / buildPresetSkin() — caption_groups.json → render-ready HTML (lines 419-1176)",
+                             "what":  "Deterministically injects the grouped words + total duration + brand tokens into a \u0027caption skin\u0027 HTML template and self-lints it (brand-strict: no bare hex/rgb, canonical .caption-group/.caption-word hooks, window.__timelines key). This is the glue between grouping output and a renderable composition.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "PORT the buildPresetSkin() contract (lines 553-619): a skin HTML has 3 reserved holes — `var GROUPS = [];`, `var DURATION = 0;`, `\u003cstyle data-brand-tokens\u003e\u003c/style\u003e` and `data-duration=\"0\"` — that you fill with JSON.stringify(groups), the real duration, and your brand CSS. In Python: read the skin .html, str.replace those 4 literals, write out. Skip the npm `hyperframes add` registry-install path. The self-lint regex set (lines 1095-1145) is a useful copy-paste QA gate."
+                         },
+                         {
+                             "path":  "skills\\product-launch-video\\phases\\design-system\\style-presets\\liquid-glass\\caption-skin.html",
+                             "symbol":  "liquid-glass caption skin (HTML/CSS/GSAP) — .caption-pill / .caption-word.is-active 3-state karaoke",
+                             "what":  "A complete, self-contained, brand-token-strict kinetic/styled caption template (frosted-glass rounded pill, per-word karaoke highlight). Drop-in example of the \u0027richer styled captions (ASS/rounded-box/kinetic)\u0027 ClipPilot wants. ~50 sibling skins exist (block-frame, capsule, claude, neo-brutalism, retro-zine, 8-bit-orbit, etc.).",
+                             "clippilot_stage":  "captions",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "The CSS IS the kinetic-caption recipe — reusable directly. Rounded box: `.caption-pill{padding:18px 40px 22px;border-radius:36px;backdrop-filter:blur(24px) saturate(1.3);border:1px solid var(--lg-rim-mid);box-shadow:inset 0 1px 0 var(--lg-rim-hi),0 18px 48px var(--lg-base-shadow-deep)}`. Per-word karaoke: `.caption-word.is-active{color:var(--ink-on-glass);background:linear-gradient(120deg,var(--brand-primary),var(--brand-secondary));border-radius:14px}`. Seek-safe animation uses gsap.set({className}) on a paused timeline (NOT .call callbacks). If ClipPilot stays ffmpeg/libass (no Chrome), translate these to ASS \\an/\\pos/\\c/\\bord/\\shad + \\t karaoke tags; if you adopt an HTML renderer, use as-is. Browse skins under skills\\*\\phases\\design-system\\style-presets\\*\\caption-skin.html and registry\\components\\caption-*\\."
+                         },
+                         {
+                             "path":  "registry\\components\\caption-kinetic-slam\\caption-kinetic-slam.html",
+                             "symbol":  "caption-kinetic-slam — per-word GSAP slam entrance (WORDS[], KEYWORDS set, fitFontSize())",
+                             "what":  "Self-contained kinetic word-by-word caption block (Anton font, big uppercase, 4 rotating entrance modes: drop/slide-L/slide-R/scale-pop, gold keyword highlight). Pure CSS+GSAP, deterministic seek-safe timeline. The literal \u0027kinetic captions\u0027 asset named in the focus.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "Reusable recipe: 4 entrance variants chosen by `wi % 4` — drop `{y:-120,opacity:0}-\u003e{y:0,duration:0.22,ease:\u0027back.out(1.7)\u0027}`, slide `{x:±300}-\u003e{x:0,ease:\u0027expo.out\u0027}`, scale `{scale:0.4}-\u003e{scale:1,ease:\u0027back.out(2.2)\u0027}`. Includes a portable canvas-measureText `fitFontSize(text,base,weight,family,maxWidth)` shrink-to-fit helper (lines 99-110) and a deterministic mulberry32 PRNG (no Math.random — important: ClipPilot needs determinism too). 15 more siblings in registry\\components\\caption-* (glitch-rgb, neon-glow, pill-karaoke, gradient-fill, highlight, particle-burst, emoji-pop)."
+                         },
+                         {
+                             "path":  "packages\\cli\\src\\background-removal\\pipeline.ts",
+                             "symbol":  "renderBackgroundRemoval pipeline (u2net_human_seg, ffmpeg yuva420p + alpha_mode=1)",
+                             "what":  "CPU-capable subject matting → RGBA video (WebM VP9-alpha / ProRes 4444), with an optional inverse-alpha background plate. Directly serves ClipPilot\u0027s NOT-YET-BUILT B-roll / subject-cutout stage.",
+                             "clippilot_stage":  "broll",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "Model is u2net_human_seg (Apache-2.0, ~168MB auto-download, CPU EP — SKILL.md explicitly bans CoreML and runs CPU-only ~2fps@1080p). Key reusable ffmpeg ALPHA-ENCODE recipe (port to Python/onnxruntime + ffmpeg subprocess): decode frames → per-frame onnx alpha → encode with `-pix_fmt yuva420p -metadata:s:v:0 alpha_mode=1` (that metadata tag is what makes Chrome/browsers decode the alpha plane). QUALITY_CRF presets webm: fast=30/balanced=18/best=12. `backgroundOutputPath` yields a hole-cut plate (not inpainted) for compositing graphics behind the subject. Port the recipe; do not import the TS."
+                         },
+                         {
+                             "path":  "packages\\cli\\src\\commands\\tts.ts",
+                             "symbol":  "tts command — local Kokoro-82M ONNX TTS (DEFAULT_VOICE, 54 voices, --speed/--lang)",
+                             "what":  "Local, offline, CPU TTS (Kokoro-82M via kokoro-onnx) producing narration .wav. Serves ClipPilot\u0027s Section B faceless-funnel GENERATION (script-\u003eTTS-\u003e...) without any paid API.",
+                             "clippilot_stage":  "generate_B",
+                             "integration":  "subprocess",
+                             "license_ok":  true,
+                             "notes":  "kokoro-onnx is a separate MIT/Apache Python+ONNX package (github.com/thewh1teagle/kokoro-onnx, 54 voices) — ClipPilot can pip-install and call it DIRECTLY in Python (better than subprocessing the hyperframes CLI). HyperFrames TTS returns audio only (no word timings) for Kokoro/ElevenLabs; per skills\\hyperframes-media\\references\\tts-to-captions.md you then run whisper to get word timings → feed into runGroup() above. (HeyGen provider returns words inline but is a paid API — reject that path.)"
+                         },
+                         {
+                             "path":  "skills\\embedded-captions\\SKILL.md + skills\\faceless-explainer\\ + skills\\product-launch-video\\",
+                             "symbol":  "Claude-Code SKILL packages (embedded-captions, faceless-explainer, product-launch-video, pr-to-video)",
+                             "what":  "Full agent SKILL.md playbooks for the exact pipelines ClipPilot is building: caption craft/placement rules, faceless explainer generation, and product-launch video. Reusable as design references and potentially as installed Claude-Code skills.",
+                             "clippilot_stage":  "other",
+                             "integration":  "skill",
+                             "license_ok":  true,
+                             "notes":  "embedded-captions\\SKILL.md is the densest design reference: rail-vs-embed caption model, scarcity rules (\u003c=1 hero per beat), occlusion/matte rules, the decision gate (refuse multi-speaker/no-face/burned-in-caption clips), WCAG contrast + determinism non-negotiables (no Math.random/Date.now/repeat:-1). Since ClipPilot already uses Claude-as-brain via MCP, these SKILL.md files can be adopted near-verbatim as system guidance. faceless-explainer\\ is the structural blueprint for Section B."
+                         }
+                     ],
+        "best_for_clippilot":  "skills\\faceless-explainer\\scripts\\captions.mjs — specifically the runGroup() function (lines 61-349). It is the deterministic whisper-words → styled-caption-groups engine ClipPilot is missing: cleaning, density-modulated grouping, silence/punctuation/scene splits, tail-pad clamping that guarantees no two captions overlap, and free all-caps/numeric emphasis tagging. It is pure list math (no Chrome, no ffmpeg, no GPU, no GPL), so it ports to Python almost line-for-line, and its sibling runHtml()/buildPresetSkin() plus the caption-skin.html templates give you the styled/kinetic render layer on top.",
+        "do_not_use":  "(1) Do NOT try to pip-import HyperFrames — it is Node.js/TypeScript, not a Python package; treat it as port/subprocess only. (2) Do NOT take the render ENGINE (packages/engine, producer) as code: it is headless-Chrome (Puppeteer) + multi-worker + Docker — heavy, Node-only, and ClipPilot already has its own real ffmpeg clip/caption/compose pipeline. Importing it duplicates what\u0027s built. (3) Do NOT use the HeyGen TTS provider path (tts-to-captions Path A) — it is a paid cloud API; use local Kokoro-onnx + whisper instead. (4) Do NOT use --gpu / --browser-gpu / WebGL shader-transitions paths — GPU-oriented and irrelevant to a CPU-only target. (5) Do NOT copy the npm-registry skin-install path in runHtml() (`npx hyperframes add caption-*`) — it needs network/registry; instead embed the caption-skin.html templates locally and fill the 3 reserved holes directly.",
+        "effort":  "medium"
+    },
+    {
+        "repo":  "moviepy-master (moviepy 2.2.0) at C:\\Dikshant\\Money making\\moviepy-master\\moviepy-master\\",
+        "license":  "MIT License (Copyright (c) 2015 Zulko), confirmed in C:\\Dikshant\\Money making\\moviepy-master\\moviepy-master\\LICENCE.txt. pyproject.toml restates \"MIT License\". Fully permissive for a closed-source, for-profit Windows app: import freely, keep the copyright notice in a NOTICES file.",
+        "reusable":  [
+                         {
+                             "path":  "moviepy/video/VideoClip.py",
+                             "symbol":  "TextClip (class, lines 1559-2116)",
+                             "what":  "Pure Pillow+numpy text-to-image renderer. Renders styled caption frames entirely with PIL ImageDraw.multiline_text (color, bg_color, stroke_color/stroke_width outline, per-line text_align, horizontal/vertical_align, interline spacing, margins, TTF font_size) and exposes the result as an RGBA numpy frame. method=\u0027caption\u0027 auto-wraps text to a fixed box and auto-fits font size via binary search (__find_optimum_font_size); method=\u0027label\u0027 auto-sizes the box to the text. NO ffmpeg and NO GPU at render time - the rendering is 100% CPU PIL. This is exactly the \u0027richer STYLED captions\u0027 primitive ClipPilot lacks: it produces transparent caption PNG frames you can either burn with your existing ffmpeg overlay path OR composite in-proc.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "import",
+                             "license_ok":  true,
+                             "notes":  "CPU-only, no cv2 (opencv is only imported by fx/Rotate,Resize,HeadBlur - not by TextClip). The core blit recipe to reuse even if you don\u0027t want the whole clip object: build the frame with PIL then take np.array(img). Excerpt of the load-bearing draw call:\n\nimg = Image.new(\u0027RGBA\u0027,(w,h),color=(0,0,0,0))\npil_font = ImageFont.truetype(font, font_size)\ndraw = ImageDraw.Draw(img)\ndraw.multiline_text(xy=(x,y), text=text, fill=color, font=pil_font, spacing=interline, align=text_align, stroke_width=stroke_width, stroke_fill=stroke_color, anchor=\u0027ls\u0027)\nframe = np.array(img)  # RGBA, alpha is your caption mask\n\nThe \u0027ls\u0027 (left-baseline) anchor + y+=ascent trick (lines 1853-1865) is the key to predictable vertical placement with stroke - port that exactly. For a rounded-box karaoke look, draw.rounded_rectangle the bg before the text. To use as a clip: TextClip(font=\u0027C:/path/font.ttf\u0027, text=line, font_size=64, color=\u0027white\u0027, stroke_color=\u0027black\u0027, stroke_width=3, method=\u0027caption\u0027, size=(1080,None), text_align=\u0027center\u0027). Gotcha: font is now a REQUIRED path to a .ttf/.otf (no fontconfig); ship a bundled font. Needs pillow\u003e=9.2 (you likely already have it)."
+                         },
+                         {
+                             "path":  "moviepy/video/tools/subtitles.py",
+                             "symbol":  "SubtitlesClip (class) + file_to_subtitles() (lines 176-198)",
+                             "what":  "Lazy SRT-driven subtitle track: parses an .srt into [((start,end),text),...] and, via a user-supplied make_textclip(txt) factory, generates one styled TextClip per cue ONLY when that time is reached (memoized in self.textclips). Gives time-synced caption rendering for free if you feed it whisper output converted to SRT. file_to_subtitles is a standalone, dependency-light SRT parser you can lift verbatim.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "Port rather than import the whole class - it couples to moviepy\u0027s VideoClip frame model. The directly liftable part is the SRT parser (regex \u0027([0-9]*:[0-9]*:[0-9]*,[0-9]*)\u0027 -\u003e convert_to_seconds, blank-line delimits cues). The valuable design pattern: a make_textclip callback so ClipPilot picks the style per cue. If you adopt moviepy wholesale, use it as-is with your faster-whisper SRT: SubtitlesClip(\u0027cues.srt\u0027, make_textclip=lambda t: TextClip(font=..., text=t, method=\u0027caption\u0027, size=(1080,None), ...)). Only supports .srt (not .vtt)."
+                         },
+                         {
+                             "path":  "moviepy/video/compositing/CompositeVideoClip.py",
+                             "symbol":  "CompositeVideoClip (class) + concatenate_videoclips() (lines 298-410)",
+                             "what":  "In-proc layering (caption-over-video, logo/watermark overlays, lower-thirds) via pure-numpy alpha blit (frame_function lines 156-209, using clip.compose_on at VideoClip.py:720 which is pure numpy), and concatenate_videoclips for joining segments with method=\u0027chain\u0027 (fast, same-size) or method=\u0027compose\u0027 (auto-pad mismatched sizes) plus a transition clip and padding for crossfades. This is the moviepy equivalent of your ffmpeg overlay+concat.",
+                             "clippilot_stage":  "broll",
+                             "integration":  "reference",
+                             "license_ok":  true,
+                             "notes":  "Reference/optional-import, do NOT replace your working ffmpeg compose path with this. moviepy compositing decodes/re-encodes through Python frame-by-frame, which on CPU is markedly slower than your existing ffmpeg-subprocess concat/overlay (filtergraph runs in native code). Keep ffmpeg for clip/compose. The one place CompositeVideoClip earns its keep: compositing a TextClip/overlay that has a true alpha mask onto frames where you\u0027d otherwise fight ffmpeg overlay alpha. concatenate_videoclips(..., transition=xfade_clip, padding=-0.5) is a clean recipe to PORT into an ffmpeg xfade filtergraph rather than run in-proc. Note write step uses ffmpeg_write_video (imageio_ffmpeg bundled binary)."
+                         }
+                     ],
+        "best_for_clippilot":  "moviepy/video/VideoClip.py :: TextClip class (C:\\Dikshant\\Money making\\moviepy-master\\moviepy-master\\moviepy\\video\\VideoClip.py, lines 1559-2116). It is the single highest-value asset: a self-contained, CPU-only, ffmpeg-free Pillow+numpy styled-text renderer (stroke outline, bg box, alignment, auto-wrap, auto-fit font size) that outputs an RGBA frame whose alpha is a ready-made caption mask. Import moviepy and call TextClip directly, or port just the PIL multiline_text recipe (the \u0027ls\u0027 baseline anchor + ascent offset is the load-bearing detail) to produce transparent caption PNGs that ClipPilot burns via its existing ffmpeg overlay path. This delivers the missing \u0027richer styled captions (rounded-box/kinetic)\u0027 with no architectural change.",
+        "do_not_use":  "Do NOT route your video compose/concat/overlay through CompositeVideoClip / concatenate_videoclips for production output - moviepy composites by decoding+re-encoding frame-by-frame in Python, which is materially slower on CPU than your already-built ffmpeg-subprocess concat/overlay (native filtergraph). Use them only as design references or to generate alpha caption frames. Also avoid moviepy\u0027s fx that pull in opencv (video/fx/Rotate.py, Resize.py, HeadBlur.py import cv2) if you want to stay lean - they are not needed for the caption path. Nothing here is GPU-mandatory, paid, or GPL.",
+        "effort":  "medium"
+    },
+    {
+        "repo":  "VideoCaptioner-master (C:\\Dikshant\\Money making\\VideoCaptioner-master\\VideoCaptioner-master\\)",
+        "license":  "GNU GPL v3 (confirmed via C:\\Dikshant\\Money making\\VideoCaptioner-master\\VideoCaptioner-master\\LICENSE, line 1-2: \"GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007\"). Copyleft - we must NOT import/copy any .py source. Recipes only: ASS style strings, ffmpeg command/filtergraph shapes, and color-math formulas are facts/command strings, not copyrightable, so they may be re-authored (PORT).",
+        "reusable":  [
+                         {
+                             "path":  "videocaptioner\\core\\subtitle\\style_manager.py",
+                             "symbol":  "SubtitleStyle.to_ass_string() + _hex_to_ass()",
+                             "what":  "Cleanest recipe in the repo for emitting a styled ASS [V4+ Styles] block from high-level params (font, primary/outline color, bold, spacing, outline width, margin). Two named styles Default+Secondary for bilingual. This is exactly the \u0027styled ASS subtitle\u0027 recipe ClipPilot needs for richer captions.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "GPL - re-author, do not import. Color hex-\u003eASS \u0026HAABBGGRR (note byte order is B,G,R not R,G,B): def hex_to_ass(h):h=h.lstrip(\u0027#\u0027); if len(h)==8:a,r,g,b=h[0:2],h[2:4],h[4:6],h[6:8];return f\u0027\u0026H{a}{b}{g}{r}\u0027; r,g,b=h[0:2],h[2:4],h[4:6];return f\u0027\u0026H00{b}{g}{r}\u0027. Style line recipe (Format: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding): \u0027Style: Default,{font},{size},{primary},\u0026H000000FF,{outline},\u0026H00000000,{-1 if bold else 0},0,0,0,100,100,{spacing},0,1,{outline_width},0,2,10,10,{margin_bottom},1\u0027. BorderStyle=1=outline; Alignment=2=bottom-center. Verified concrete preset values exist in resource\\subtitle_style\\ass-default.json (Noto Sans SC, size40, white #ffffff, black outline, width2.0, bold, spacing3.2, margin30) and ass-anime.json (orange outline #f58709, width2.6)."
+                         },
+                         {
+                             "path":  "videocaptioner\\core\\asr\\asr_data.py",
+                             "symbol":  "ASRData.to_ass() + _ms_to_ass_ts()",
+                             "what":  "Recipe for assembling the full .ass file: [Script Info] with PlayResX/Y, the style block, [Events] Format header, and per-segment Dialogue lines. Also the bilingual layout trick (write Secondary line first so it renders below, Default after so it renders on top) and \\n-\u003e\\N newline conversion.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "GPL - re-author. ASS timestamp format is H:MM:SS.cc (centiseconds, single-digit hour). Dialogue template: \u0027Dialogue: 0,{start},{end},{StyleName},,0,0,0,,{text}\u0027. Script header: \u0027[Script Info]\\nScriptType: v4.00+\\nPlayResX: {w}\\nPlayResY: {h}\\n\\n{style_block}\\n\\n[Events]\\nFormat: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text\\n\u0027. For bilingual stacking the order of Dialogue lines (not \\an tags) controls vertical stacking."
+                         },
+                         {
+                             "path":  "videocaptioner\\core\\subtitle\\ass_renderer.py",
+                             "symbol":  "render_ass_video() / render_ass_preview()",
+                             "what":  "The ffmpeg burn-in filtergraph + the 720p-reference style auto-scaling recipe (_scale_ass_style scales Fontsize[2], Spacing[13], Outline[16], MarginV[21] by height/720). Shows the exact -vf ass=... invocation and Windows path escaping.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "GPL - re-author the command shape (filtergraph strings are not copyrightable). Burn filtergraph: -vf \"ass=\u0027{ass_path}\u0027:fontsdir=\u0027{fonts_dir}\u0027\". Windows path escaping is load-bearing: ass_path = Path(p).as_posix().replace(\u0027:\u0027, \u0027\\\\:\u0027) so \u0027C:/x.ass\u0027 -\u003e \u0027C\\\\:/x.ass\u0027. Full cmd: ffmpeg -i in.mp4 -acodec copy -vcodec libx264 -crf 23 -preset medium -vf ass=\u0027...\u0027:fontsdir=\u0027...\u0027 -y out.mp4. Scaling: parse Style: line, split(\u0027,\u0027), multiply parts[2],[13],[16],[21] by scale_factor. ClipPilot already has ffmpeg+libass burn per its built list, so this is mainly the fontsdir+escaping+scaling refinements."
+                         },
+                         {
+                             "path":  "videocaptioner\\core\\subtitle\\rounded_renderer.py",
+                             "symbol":  "render_text_block() + render_subtitle_image() + render_rounded_video()",
+                             "what":  "Alternative TRUE rounded-box caption recipe that does NOT rely on libass: draws each subtitle as a transparent RGBA PNG with PIL draw.rounded_rectangle() background + centered text, then overlays PNGs onto video via ffmpeg overlay with enable=\u0027between(t,start,end)\u0027. This is the rounded-box/box-highlight look that libass cannot do cleanly (BorderStyle=3 gives a rectangle, not rounded corners).",
+                             "clippilot_stage":  "captions",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "GPL - re-author (it is pure PIL+ffmpeg, trivial to re-implement, CPU-only - perfect fit). Key calls: draw.rounded_rectangle([l,t,r,b], radius=corner_radius, fill=(r,g,b,a)); font.getbbox(text) for sizing; bg_width=max_line_width+padding_h*2, bg_height=total_text_height+padding_v*2. Overlay filtergraph per batch (BATCH_SIZE=50 to dodge ffmpeg input limits): chain \u0027[0:v][1:v]overlay=0:0:enable=between(t,s,e)[v1];[v1][2:v]overlay=0:0:enable=...[v2]...\u0027 then -map [vN] -map 0:a? -t {duration}. Use -t {video_duration} to stop overlay from truncating. Concrete preset: rounded-default.json bg #0de3ffe5 (cyan, alpha e5), text #000000, radius14, padding_h18/v16. Style dataclass default RoundedBgStyle: bg #191919C8 (dark translucent), text #FFFFFF, radius12, padding 28x14, margin_bottom60. Needs PIL/Pillow (permissive)."
+                         },
+                         {
+                             "path":  "videocaptioner\\core\\subtitle\\text_utils.py",
+                             "symbol":  "hex_to_rgba()",
+                             "what":  "Tiny helper supporting the rounded renderer: parses #RRGGBB and #RRGGBBAA into an RGBA tuple for PIL fills (so the translucent box alpha works).",
+                             "clippilot_stage":  "captions",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "GPL but trivial fact: hex.lstrip(\u0027#\u0027); 6 chars -\u003e (r,g,b,255); 8 chars -\u003e (r,g,b,a) via int(slice,16). Pair with the rounded_renderer port."
+                         }
+                     ],
+        "best_for_clippilot":  "The rounded-box caption recipe in C:\\Dikshant\\Money making\\VideoCaptioner-master\\VideoCaptioner-master\\videocaptioner\\core\\subtitle\\rounded_renderer.py (render_text_block + render_subtitle_image + render_rounded_video). PORT it. It is the one capability libass genuinely cannot produce - TRUE rounded-corner background boxes behind captions - and it is pure CPU PIL drawing (draw.rounded_rectangle) plus a simple ffmpeg overlay=enable=\u0027between(t,s,e)\u0027 filtergraph, which fits ClipPilot\u0027s CPU-only Windows constraint perfectly and complements the libass burn it already has. Second-best, take alongside it: style_manager.py to_ass_string()/_hex_to_ass() for the styled-ASS V4+ style-string recipe and the #RRGGBB-\u003e\u0026HAABBGGRR color conversion (the byte-swap is the easy thing to get wrong).",
+        "do_not_use":  "Do NOT import or copy any .py files from this repo - it is GPL v3 and the app is closed-source for-profit; only re-author the recipes/command strings/ASS style lines (those are facts, not copyrightable). Do not pull in the PyQt5/qfluentwidgets UI layer (ui/view/subtitle_style_interface.py etc.) - it is desktop-GUI bloat irrelevant to a headless pipeline. Ignore the CUDA path in ass_renderer.render_ass_video (_check_cuda_available / -hwaccel cuda) - ClipPilot is CPU-only, just always use libx264 software encode. Skip the CJK-only auto-wrap machinery (ass_utils.auto_wrap_ass_file + font_utils get_ass_to_pil_ratio) unless you specifically need Chinese line-wrapping; for English, libass auto-wraps and the extra PIL font-ratio code is unnecessary complexity.",
+        "effort":  "medium"
+    },
+    {
+        "repo":  "ffsubsync-master (C:\\Dikshant\\Money making\\ffsubsync-master\\ffsubsync-master\\)",
+        "license":  "MIT (Copyright 2019 Stephen Macke; LICENSE file at repo root). The vendored Pipeline/TransformerMixin in ffsubsync/sklearn_shim.py are BSD-3-Clause (scikit-learn), attributed in-file. Both permissive and fine for a closed-source for-profit Windows app.",
+        "reusable":  [
+                         {
+                             "path":  "ffsubsync/aligners.py",
+                             "symbol":  "FFTAligner (FFTAligner.fit / _compute_argmax)",
+                             "what":  "Language-agnostic FFT cross-correlation that finds the optimal integer-sample time offset between two binary speech-presence signals. This is the actual resync engine: given a reference signal and a subtitle-derived signal it returns (best_score, best_offset_samples). Pure numpy, CPU-only, no GPL deps. For ClipPilot this realigns an externally-edited/corrected caption SRT against the whisper-timed SRT (or against any reference signal) without re-running ASR.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "import",
+                             "license_ok":  true,
+                             "notes":  "Core recipe (re-authorable but importable as MIT): map each signal to +/-1, zero-pad to next power of two, multiply FFTs, take argmax of real(ifft). Body: refstring,substring = map(lambda s: 2*np.array(s).astype(float)-1, [refstring,substring]); total_bits=math.log(len(substring)+len(refstring),2); total_length=int(2**math.ceil(total_bits)); extra_zeros=total_length-len(substring)-len(refstring); subft=np.fft.fft(np.append(np.zeros(extra_zeros+len(refstring)),substring)); refft=np.fft.fft(np.flip(np.append(refstring,np.zeros(len(substring)+extra_zeros)),0)); convolve=np.real(np.fft.ifft(subft*refft)); best_idx=int(np.argmax(convolve)); best_offset=len(convolve)-1-best_idx-len(substring); best_score=convolve[best_idx]. max_offset_samples clamps implausible offsets (set = max_offset_seconds*SAMPLE_RATE). Deps: numpy only. Raises FailedToFindAlignmentException on empty input."
+                         },
+                         {
+                             "path":  "ffsubsync/speech_transformers.py",
+                             "symbol":  "SubtitleSpeechTransformer.fit (line 946) + make_subtitle_speech_pipeline (line 56) + _is_metadata (line 926)",
+                             "what":  "Converts a parsed SRT into the 100 Hz binary speech-presence numpy vector that FFTAligner consumes. Rasterizes each cue: samples[start:end]=1.0 over [sub.start, sub.end] at SAMPLE_RATE=100. _is_metadata drops music-note/bracketed/non-dialogue cues so they do not pollute the signal. This is how you turn ANY .srt (reference or input) into an alignable signal with zero ffmpeg/audio.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "import",
+                             "license_ok":  true,
+                             "notes":  "Rasterization core: samples=np.zeros(int(max_time*sample_rate)+2,dtype=float); for sub in subs: if _is_metadata(...): continue; start=int(round((sub.start.total_seconds()-start_seconds)*sample_rate)); end=start+int(round((sub.end.total_seconds()-sub.start.total_seconds())*sample_rate)); samples[start:end]=min(1.0/framerate_ratio,1.0). SAMPLE_RATE=100 (constants.py) =\u003e 10ms resolution; offset_seconds = offset_samples/100. Deps: numpy, srt, pysubs2. NOTE: importing speech_transformers.py top-level also defines audio/VAD transformers, but auditok(GPL)/webrtcvad are imported lazily INSIDE their functions, so importing this module for the SRT path pulls in NO GPL code."
+                         },
+                         {
+                             "path":  "ffsubsync/ffsubsync.py",
+                             "symbol":  "run() (line 686) / try_sync() (line 177) / _resolve_srtout() (line 104)",
+                             "what":  "Top-level orchestration of an SRT-vs-SRT resync. run() takes an argparse.Namespace, validates, and returns {\u0027sync_was_successful\u0027,\u0027offset_seconds\u0027,\u0027framerate_scale_factor\u0027,\u0027retval\u0027}. try_sync builds srt_pipes, calls MaxScoreAligner(FFTAligner,...).fit_transform(reference_signal, srt_pipes), applies SubtitleShifter(offset_seconds), and writes output. The SRT-only branch is reached when reference is itself a subtitle file (see make_reference_pipe -\u003e make_subtitle_speech_pipeline when _ref_format in SUBTITLE_EXTENSIONS).",
+                             "clippilot_stage":  "captions",
+                             "integration":  "reference",
+                             "license_ok":  true,
+                             "notes":  "Cleanest programmatic entry: build a Namespace (or call ffsubsync.make_parser()), set reference=\u003creference.srt\u003e, srtin=[\u003cinput.srt\u003e], srtout=\u003cout.srt\u003e, no_fix_framerate=True (skip framerate search for same-source captions), vad=None; then result=ffsubsync.run(args). offset_seconds=offset_samples/float(SAMPLE_RATE)+args.apply_offset_seconds (ffsubsync.py:239). assess_alignment_quality()+--skip-sync-on-low-quality (min_score/quality_max_offset/max_framerate_deviation) lets you reject a bad alignment and keep the original SRT - useful for batch ClipPilot jobs. Recommend referencing this flow but calling FFTAligner + SubtitleSpeechTransformer directly to avoid the argparse surface."
+                         },
+                         {
+                             "path":  "ffsubsync/subtitle_transformers.py",
+                             "symbol":  "SubtitleShifter (SubsMixin.offset via GenericSubtitlesFile.offset)",
+                             "what":  "Applies the discovered offset to every cue (timedelta add) producing the resynced subtitle set; GenericSubtitlesFile.write_file then emits srt/ass/vtt. The actual shift step after alignment.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "import",
+                             "license_ok":  true,
+                             "notes":  "SubtitleShifter.__init__ wraps seconds in timedelta; fit: self.subs_=subs.offset(self.td_seconds). offset() in generic_subtitles.py: [GenericSubtitle(sub.start+td, sub.end+td, sub.inner) for sub in subs]. write_file supports srt and (via pysubs2) ass/ssa/vtt, so ClipPilot can resync then re-emit styled ASS. Deps: srt, pysubs2."
+                         },
+                         {
+                             "path":  "ffsubsync/subtitle_parser.py",
+                             "symbol":  "GenericSubtitleParser / make_subtitle_parser",
+                             "what":  "Robust encoding-detecting SRT/ASS/SSA/VTT parser (tries cchardet/charset_normalizer/chardet) with max-subtitle-duration clamping and tolerant error handling. Useful standalone for ingesting arbitrary user-supplied .srt before alignment.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "import",
+                             "license_ok":  true,
+                             "notes":  "fmt=\u0027srt\u0027 -\u003e srt.parse(decoded, ignore_errors=not strict); fmt in (\u0027ass\u0027,\u0027ssa\u0027,\u0027sub\u0027,\u0027vtt\u0027) -\u003e pysubs2.SSAFile.from_string. Encoding \u0027infer\u0027 loops cchardet/charset_normalizer/chardet. Deps: srt\u003e=3.0.0, pysubs2\u003e=1.2.0, charset_normalizer (chardet optional, faust-cchardet only on py\u003c3.13 so on Python 3.14 it falls back to charset_normalizer - fine)."
+                         }
+                     ],
+        "best_for_clippilot":  "ffsubsync/aligners.py -\u003e FFTAligner (with ffsubsync/speech_transformers.py:946 SubtitleSpeechTransformer to rasterize the SRT). Together they are a self-contained, MIT, CPU-only, pure-numpy SRT-resync core: rasterize two SRTs to 100 Hz binary signals, FFT-cross-correlate, get offset_seconds = best_offset/100. Import these two (plus subtitle_parser + SubtitleShifter) to realign an edited/corrected caption SRT to ClipPilot\u0027s whisper timing without re-running ASR, and to snap externally-supplied .srt onto a clip.",
+        "do_not_use":  "Do NOT touch the audio/video reference paths: VideoSpeechTransformer / MultiSegmentVideoSpeechTransformer / _make_auditok_detector / _make_webrtcvad_detector in speech_transformers.py. auditok==0.1.5 is GPLv3 (the repo itself warns importing it creates a GPLv3 derivative work - poison for a closed-source for-profit app) and webrtcvad pulls native VAD; both are unnecessary for the SRT-to-SRT focus. Stick to subtitle-only inputs (reference must be a .srt/.ass), pass vad=None and avoid --vad. Also skip the GUI (ffsubsync_gui.py), PGS/ffmpeg subtitle-extraction (extract_subtitles_from_reference), and the framerate-ratio search for same-source captions (set no_fix_framerate=True) since both sides share whisper timing.",
+        "effort":  "low"
+    },
+    {
+        "repo":  "backgroundremover-main (nadermx/backgroundremover v0.4.4)",
+        "license":  "MIT License (LICENSE.txt: Copyright (c) 2021 Johnathan Nader et al.; setup.py license=\"MIT\"). Fully permissive — import, port, subprocess, or sell all allowed with attribution.",
+        "reusable":  [
+                         {
+                             "path":  "C:\\Dikshant\\Money making\\backgroundremover-main\\backgroundremover-main\\backgroundremover\\utilities.py",
+                             "symbol":  "transparentvideooverimage()",
+                             "what":  "Mattes the video subject (U2-Net alpha) and composites it, centered, over a still image background. This is exactly ClipPilot\u0027s B-roll/subject-cutout-over-background need: speaker cut out, dropped onto a generated backdrop.",
+                             "clippilot_stage":  "broll",
+                             "integration":  "subprocess",
+                             "license_ok":  true,
+                             "notes":  "MIT. import-time line 15 `multiprocessing.set_start_method(\u0027spawn\u0027, force=True)` clashes with PySide6/Qt, so DO NOT import — run via CLI: `backgroundremover -i clip.mp4 -toi -bi bg.png -o out.mov --alpha-codec prores_ks`. The load-bearing part is the final ffmpeg filtergraph (filtergraphs are not copyrightable, so you may also PORT this string directly onto ClipPilot\u0027s own matte without the package): matte_key produces a grayscale mask mp4, then: ffmpeg -i bg.jpg -i clip.mp4 -i matte.mp4 -filter_complex \"[2][1]scale2ref[mask][main];[main][mask]alphamerge[fg];[0:v]scale2ref[bg][fg];[bg][fg]overlay=(W-w)/2:(H-h)/2:shortest=1[out]\" -map [out] -map 1:a? -shortest out.mov . Note it first normalizes the bg image with `scale2ref[img][vid];[img]setsar=1;[vid]nullsink`."
+                         },
+                         {
+                             "path":  "C:\\Dikshant\\Money making\\backgroundremover-main\\backgroundremover-main\\backgroundremover\\utilities.py",
+                             "symbol":  "transparentvideo() + _alpha_encoding_args()",
+                             "what":  "Produces a true alpha-channel video (transparent background) of the subject — a reusable overlay asset ClipPilot can composite over ANY generated B-roll/backdrop later, not just a fixed image.",
+                             "clippilot_stage":  "broll",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "MIT. The reusable recipe is the alpha-merge + codec selection. Core filtergraph (port directly): `[1][0]scale2ref[mask][main];[main][mask]alphamerge[v]` -map [v] -map 0:a? -shortest. The codec logic in _alpha_encoding_args is the genuinely useful, easy-to-miss part for Windows CPU output: .webm =\u003e libvpx-vp9 args `[\u0027-c:v\u0027,\u0027libvpx-vp9\u0027,\u0027-crf\u0027,\u002730\u0027,\u0027-b:v\u0027,\u00270\u0027,\u0027-pix_fmt\u0027,\u0027yuva420p\u0027]`; otherwise ProRes 4444 `[\u0027-c:v\u0027,\u0027prores_ks\u0027,\u0027-profile:v\u0027,\u00274\u0027,\u0027-pix_fmt\u0027,\u0027yuva444p10le\u0027]`; qtrle option =\u003e `[\u0027-c:v\u0027,\u0027qtrle\u0027,\u0027-pix_fmt\u0027,\u0027argb\u0027]`. Use libvpx-vp9/yuva420p for web-friendly transparent overlays; prores_ks is large but CPU-fast and lossless-ish."
+                         },
+                         {
+                             "path":  "C:\\Dikshant\\Money making\\backgroundremover-main\\backgroundremover-main\\backgroundremover\\bg.py",
+                             "symbol":  "remove()",
+                             "what":  "Single-image subject cutout via U2-Net producing RGBA PNG; supports background_color, background_image compositing, only_mask (returns the matte), and mask_threshold for hard edges. Useful for cutout thumbnails / static B-roll subject stills.",
+                             "clippilot_stage":  "broll",
+                             "integration":  "subprocess",
+                             "license_ok":  true,
+                             "notes":  "MIT but pulls heavy torch+pymatting+u2net deps and downloads a ~175MB .pth on first run; runs CPU-only fine (bg.py lines 42-44 fall back to torch.device(\u0027cpu\u0027)). Because of the same module-level spawn() in utilities (imported transitively) and Qt clash, prefer subprocess: `backgroundremover -i in.png -o out.png` (add `-om` for mask-only, `-mt 128` hard edges, `-bc \u00270,255,0\u0027` for greenscreen fill, `-bi bg.png` to composite). Per-frame mask is only_mask=True returning PNG buffer. Model auto-downloads to ~/.u2net/."
+                         },
+                         {
+                             "path":  "C:\\Dikshant\\Money making\\backgroundremover-main\\backgroundremover-main\\backgroundremover\\utilities.py",
+                             "symbol":  "transparentvideoovervideo()",
+                             "what":  "Composites the matted subject over a background VIDEO (e.g. a generated motion B-roll loop behind the speaker).",
+                             "clippilot_stage":  "broll",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "MIT. Filtergraph to port: `[1][0]scale2ref[mask][main];[main][mask]alphamerge[vid];[vid][2:v]scale2ref[fg][bg];[bg][fg]overlay[out]` -map [out] -map 2:a? -shortest. Same spawn/Qt caveat — port the recipe or subprocess the CLI (`-tov -bv background.mp4`)."
+                         }
+                     ],
+        "best_for_clippilot":  "transparentvideooverimage() in C:\\Dikshant\\Money making\\backgroundremover-main\\backgroundremover-main\\backgroundremover\\utilities.py — it is the end-to-end subject-cutout-over-background-B-roll capability ClipPilot lacks. Take it as a subprocess CLI call (`backgroundremover -i clip.mp4 -toi -bi bg.png -o out.mov`), and port the bare alphamerge+overlay filtergraph onto ClipPilot\u0027s own ffmpeg pipeline so you skip the heavy import entirely.",
+        "do_not_use":  "Do NOT import the package in-process: utilities.py line 15 `multiprocessing.set_start_method(\u0027spawn\u0027, force=True)` runs at import time and clashes with PySide6/Qt\u0027s event loop (the documented spawn clash) — always subprocess it. Do NOT depend on the GPU/CUDA paths (bg.py max_workers VRAM math, DEVICE=cuda, torch.jit.trace on GPU) — ClipPilot is CPU-only; the CPU fallback works but multi-worker frame ripping is slow and memory-heavy. Avoid re-harvesting bg.py\u0027s U2-Net inference itself if ClipPilot already has a matting/vision path; the value here is the ffmpeg alpha compositing recipes, not the model. Note the ~175MB model auto-download and torch/pymatting dependency weight before bundling.",
+        "effort":  "low"
+    },
+    {
+        "repo":  "Open-Generative-AI-main (SamurAIGPT) at C:\\Dikshant\\Money making\\Open-Generative-AI-main\\Open-Generative-AI-main\\",
+        "license":  "MIT (LICENSE: \"Copyright (c) 2026 Open Generative AI Contributors\", full MIT text). Permissive - import/port/subprocess all allowed.",
+        "reusable":  [
+                         {
+                             "path":  "packages/studio/src/components/CinemaStudio.jsx",
+                             "symbol":  "buildNanoBananaPrompt() + CAMERA_MAP / LENS_MAP / FOCAL_PERSPECTIVE / APERTURE_EFFECT dicts (lines 8-105)",
+                             "what":  "Pure, dependency-free prompt-templating function: takes a base scene prompt + cinematography selections (camera, lens, focal length, aperture) and concatenates them with fixed quality tags into a rich text-to-image prompt. No MuAPI/network/React inside this function - plain data + string-join. Reusable for ClipPilot Section B (faceless funnel) and Section C (ad-share) to turn a scene beat into a high-quality image/video prompt for the vision brain or any T2I/T2V backend.",
+                             "clippilot_stage":  "generate_B",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "Signature: buildNanoBananaPrompt(basePrompt, camera, lens, focalLength, aperture). Re-author in Python (~25 lines). The 4 maps are the value (real cinematography vocabulary). Recipe: parts=[basePrompt, f\u0027shot on a {CAMERA_MAP[camera]}\u0027, f\u0027using a {LENS_MAP[lens]} at {focal}mm ({FOCAL_PERSPECTIVE[focal]})\u0027, f\u0027aperture {aperture}\u0027, APERTURE_EFFECT[aperture], \u0027cinematic lighting\u0027, \u0027natural color science\u0027, \u0027high dynamic range\u0027, \u0027professional photography, ultra-detailed, 8K resolution\u0027]; return \u0027, \u0027.join(p for p in parts if p and p.strip()). Sample data: APERTURE_EFFECT={\u0027f/1.4\u0027:\u0027shallow depth of field, creamy bokeh\u0027,\u0027f/4\u0027:\u0027balanced depth of field\u0027,\u0027f/11\u0027:\u0027deep focus clarity, sharp foreground to background\u0027}; FOCAL_PERSPECTIVE={35:\u0027natural cinematic perspective\u0027,85:\u0027classic portrait perspective\u0027}. Pure data/string = copyright-safe to port."
+                         },
+                         {
+                             "path":  "packages/studio/src/muapi.js",
+                             "symbol":  "submitAndPoll() + pollForResult() (lines 17-61)",
+                             "what":  "Generic async \u0027submit job -\u003e poll predictions endpoint until terminal status\u0027 client recipe used by every studio. POST returns request_id; loop GET /predictions/{id}/result every 2s up to maxAttempts; status in {completed,succeeded,success}=done, {failed,error}=fail, HTTP 5xx=retryable; normalize output via result.outputs[0]||result.url||result.output?.url. A reference shape if ClipPilot ever wraps a hosted (non-CPU) generation backend behind its existing SQLite job engine.",
+                             "clippilot_stage":  "generate_C",
+                             "integration":  "reference",
+                             "license_ok":  true,
+                             "notes":  "ClipPilot already owns a SQLite job engine + real ffmpeg/faster-whisper, so do NOT adopt this as code - only mirror the terminal-status set and the outputs[0]||url||output.url normalization when wrapping a future polled provider. Video/audio use maxAttempts=900, interval=2000 (30 min ceiling). All calls hit api.muapi.ai with header x-api-key (PAID) - port the control-flow idea only, never the endpoint."
+                         }
+                     ],
+        "best_for_clippilot":  "packages/studio/src/components/CinemaStudio.jsx - the buildNanoBananaPrompt() function plus its CAMERA_MAP/LENS_MAP/FOCAL_PERSPECTIVE/APERTURE_EFFECT cinematography dictionaries (lines 8-105). It is the only self-contained, network-free, copyright-safe piece of real IP in the repo: a ready-made recipe for converting a scene description into a rich cinematic image/video prompt. Port it to Python (~25 lines) to power visual-prompt generation in ClipPilot Section B and C.",
+        "do_not_use":  "Do NOT take any *Studio.jsx generation path or src/lib/muapi.js / packages/studio/src/muapi.js network code (generateMarketingStudioAd, generateAudio, generateImage/Video/I2V, runClipping, WorkflowStudio engine): every one is a thin wrapper over the PAID MuAPI aggregator (https://api.muapi.ai, x-api-key) - flag MuAPI as a paid dependency to avoid. There is NO real social publishing here: \u0027publish\u0027/getPublishedWorkflows is just a community-templates tab, and the repo has zero YouTube/Instagram/Facebook/TikTok or OAuth uploader code (grep confirmed). \u0027Generative-Media-Skills\u0027 is an EXTERNAL GitHub repo only linked from README/McpCliStudio.jsx, not bundled - nothing local to harvest for it. UploadPicker.js / uploadHistory.js are browser-only DOM/localStorage widgets (not portable to PySide6) and their \u0027upload\u0027 is MuAPI asset hosting, not cross-posting. The whole repo is JS/React/Electron - no Python, no CPU-only model code.",
+        "effort":  "low"
+    },
+    {
+        "repo":  "remotion-main (Remotion monorepo) at C:\\Dikshant\\Money making\\remotion-main\\remotion-main\\",
+        "license":  "DUAL / SOLO-LICENSED. Repo-root C:\\Dikshant\\Money making\\remotion-main\\remotion-main\\LICENSE.md is the custom \"Remotion License\" (NOT OSI): free for individuals, non-profits, and for-profit orgs with up to 3 employees; a paid Company License from remotion.pro is REQUIRED for larger for-profit entities. Explicitly disallows copying/modifying Remotion to sell a derivative. SEPARATELY, the @remotion/captions sub-package (packages/captions/package.json) declares \"license\": \"MIT\" with zero dependencies — its pure-TS algorithms are MIT and safe to port. The render RUNTIME (remotion, @remotion/cli, studio) is solo-licensed, not MIT.",
+        "reusable":  [
+                         {
+                             "path":  "packages/captions/src/create-tiktok-style-captions.ts",
+                             "symbol":  "createTikTokStyleCaptions",
+                             "what":  "Pure function that groups word/token-level caption entries into karaoke \u0027pages\u0027 with per-token from/to timings, the core algorithm for word-by-word highlighted (kinetic) captions. Input: Caption[] {text,startMs,endMs,timestampMs,confidence} + combineTokensWithinMilliseconds. Output: {pages:[{text,startMs,durationMs,tokens:[{text,fromMs,toMs}]}]}. This is exactly the data structure ClipPilot needs to drive an ASS karaoke (\\k) burn or a per-word highlight overlay.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "MIT, no deps, ~70 lines. Port to Python. Core rule: a new page starts when text.startsWith(\u0027 \u0027) AND (currentTo-currentFrom) \u003e combineTokensWithinMilliseconds; otherwise append token. First token of a page is trimStart()\u0027d; durationMs of page N is set to pages[N+1].startMs - pages[N].startMs (last page = currentTo-startMs). Typical combineTokensWithinMilliseconds=1200 (one short phrase per page) per template-tiktok index.tsx SWITCH_CAPTIONS_EVERY_MS. The {fromMs,toMs} per token map directly to ASS \\kf karaoke or to a frame range where you swap a word\u0027s color to the highlight (template uses HIGHLIGHT_COLOR=#39E508)."
+                         },
+                         {
+                             "path":  "packages/captions/src/ensure-max-characters-per-line.ts",
+                             "symbol":  "ensureMaxCharactersPerLine / splitWords",
+                             "what":  "Pure line-wrapping for captions: splits captions into individual words then packs them into segments under maxCharsPerLine, with orphan-word prevention so a line doesn\u0027t end with 1 dangling word. Needed so burned captions never overflow the 1080-wide 9:16 frame.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "MIT, no deps. Algorithm: splitWords prefixes a leading space on the first word of each source caption. Then accumulate words while sum(len) stays \u003c= maxCharsPerLine; break when adding next word exceeds maxCharsPerLine OR preventOrphanWord = (remainingWords.length\u003c4 \u0026\u0026 \u003e1 \u0026\u0026 filledCharacters\u003emaxCharsPerLine/2). Returns {segments: Caption[][]}, each inner array = one line. Pair with serializeSrt to emit a wrapped .srt for ffmpeg subtitles= burn-in."
+                         },
+                         {
+                             "path":  "packages/captions/src/serialize-srt.ts",
+                             "symbol":  "serializeSrt / formatSingleSrtTimestamp",
+                             "what":  "Serializes Caption[][] (lines) into a valid .srt string with HH:MM:SS,mmm timestamps. Directly produces the subtitle file ClipPilot can hand to ffmpeg\u0027s subtitles/ass filter for burn-in.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "MIT, no deps, ~40 lines. Timestamp formatter: hours=floor(ms/3600000); minutes=floor((ms%3600000)/60000); seconds=floor((ms%60000)/1000); millis=floor(ms%1000); format `${HH}:${MM}:${SS},${mmm}` zero-padded (millis to 3). Each block = index\\nSTART --\u003e END\\ntext, joined by blank lines. Trivial Python rewrite."
+                         },
+                         {
+                             "path":  "packages/captions/src/parse-srt.ts",
+                             "symbol":  "parseSrt / toSeconds",
+                             "what":  "Parses an .srt string back into Caption[] (startMs/endMs/timestampMs). Useful if ClipPilot ingests externally-supplied SRTs or round-trips after manual edits.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "port",
+                             "license_ok":  true,
+                             "notes":  "MIT, no deps. toSeconds splits \u0027HH:MM:SS,mmm\u0027 and computes h*3600+m*60+s+mmm/1000. Sets confidence=1, timestampMs=midpoint. Minor: assumes \\n line endings, so normalize \\r\\n first in the Python port."
+                         },
+                         {
+                             "path":  "packages/template-tiktok/src/CaptionedVideo/Page.tsx",
+                             "symbol":  "Page (React component)",
+                             "what":  "Visual spec for the TikTok/Reels kinetic caption look: bold uppercase, white fill with thick black stroke (paintOrder stroke), spring scale+translateY entrance, active word swapped to green highlight. Defines the exact styling ClipPilot should replicate when authoring an ASS style.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "reference",
+                             "license_ok":  false,
+                             "notes":  "Do NOT import — needs the solo-licensed Remotion runtime + headless Chrome (heavy, GPU-leaning, license trap). Use as a DESIGN spec to author an equivalent ASS style for ffmpeg libass burn (ClipPilot already does libass). Recipe to replicate: font \u0027TheBoldFont\u0027 bold, DESIRED_FONT_SIZE=120 px clamped via fit-to-width(0.9*W), color white, WebkitTextStroke 20px black -\u003e ASS Outline≈8-10 with OutlineColour \u0026H000000 and BorderStyle=1, textTransform uppercase, HIGHLIGHT active token #39E508 -\u003e ASS \\1c\u0026H08E539\u0026 (BGR) via \\kf karaoke. ASS style line e.g.: \u0027Style: Pop,TheBoldFont,120,\u0026H00FFFFFF,\u0026H0008E539,\u0026H00000000,\u0026H00000000,-1,0,0,0,100,100,0,0,1,9,0,2,40,40,120,1\u0027. Active-word timing comes straight from the token fromMs/toMs of createTikTokStyleCaptions."
+                         },
+                         {
+                             "path":  "packages/template-tiktok/src/CaptionedVideo/index.tsx",
+                             "symbol":  "CaptionedVideo / SWITCH_CAPTIONS_EVERY_MS",
+                             "what":  "Reference wiring showing how subtitles.json (Caption[]) -\u003e createTikTokStyleCaptions(combineTokensWithinMilliseconds=1200) -\u003e per-page Sequences. Confirms recommended grouping window and the .mp4-\u003e.json sidecar convention.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "reference",
+                             "license_ok":  false,
+                             "notes":  "Runtime-bound (Remotion), reference only. Key constants to carry over: SWITCH_CAPTIONS_EVERY_MS=1200; comment notes 1500=many words/page, 200=one word/page — gives ClipPilot a tunable knob for caption density."
+                         },
+                         {
+                             "path":  "packages/template-tiktok/sub.mjs",
+                             "symbol":  "extractToTempAudioFile / processVideo",
+                             "what":  "End-to-end faceless-caption pipeline reference: extract 16kHz mono wav via ffmpeg, whisper.cpp transcribe with tokenLevelTimestamps+splitOnWord, write Caption[] JSON sidecar next to the video. Mirrors what ClipPilot already does but confirms the exact whisper flags for word-level karaoke timing.",
+                             "clippilot_stage":  "captions",
+                             "integration":  "reference",
+                             "license_ok":  true,
+                             "notes":  "sub.mjs file is UNLICENSED template code — use as recipe only, do not copy file. ffmpeg audio-prep string is not copyrightable: `ffmpeg -i input.mp4 -ar 16000 out.wav -y` (16kHz wav for whisper). Whisper flags that matter for kinetic captions: tokenLevelTimestamps:true + splitOnWord:true -\u003e per-word from/to offsets that feed createTikTokStyleCaptions. ClipPilot already has faster-whisper; just ensure word_timestamps=True to get the same token granularity."
+                         }
+                     ],
+        "best_for_clippilot":  "packages/captions/src/create-tiktok-style-captions.ts — the createTikTokStyleCaptions algorithm. It is MIT, dependency-free, ~70 lines, and produces exactly the page+per-token {fromMs,toMs} timing structure needed to drive karaoke/kinetic styled captions (ASS \\kf or per-word color swap) in ClipPilot\u0027s existing ffmpeg libass burn. Port it to Python and feed it faster-whisper word timestamps.",
+        "do_not_use":  "Do NOT import or ship the Remotion render RUNTIME (the `remotion`, `@remotion/cli`, `@remotion/studio` packages or `npx remotion render`/`remotion bundle`): the repo-root LICENSE.md is solo/company-licensed (paid Company License required for non-tiny for-profits and selling a derivative is disallowed) — a legal + cost trap for a closed-source for-profit app, and it renders via headless Chrome which is heavy and GPU-leaning. Do NOT import the JSX caption components (Page.tsx, SubtitlePage.tsx, BoxedSingleCaption SingleCaption.tsx) — they require that runtime; treat them as visual/design reference only. The MIT exception applies ONLY to the @remotion/captions sub-package\u0027s pure-TS algorithms, which you port, not import.",
+        "effort":  "low"
+    }
+]

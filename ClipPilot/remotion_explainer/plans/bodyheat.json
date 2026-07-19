@@ -1,0 +1,55 @@
+{
+  "slug": "bodyheat",
+  "title": "Why Your Body Cooks Itself On Purpose",
+  "duration_estimate_s": 32,
+  "palette": {
+    "bg_deep": "#0c1118",
+    "bg_panel": "#141b26",
+    "gold": "#FFD23F",
+    "fever_red": "#FF4D3D",
+    "ember_orange": "#FF8A3D",
+    "cool_blue": "#3DB8FF",
+    "immune_teal": "#2FE0C4",
+    "germ_violet": "#9B6CFF",
+    "ash_white": "#E8EEF5"
+  },
+  "scenes": [
+    {
+      "beat": "When a germ invades, your brain does something that sounds insane: it deliberately turns up your body's heat.",
+      "visual": "Bold centered scroll-stopper on #0c1118. The HERO of the hook is one giant vector THERMOMETER standing dead-center, bulb at bottom, numbered ticks 35-42 up the glass, fluid sitting LOW and cool-blue at a '37C' marker. Wrapped tight around the thermometer's glass is a glowing immune-teal human-body silhouette (head-to-toe outline), as if the body IS the thermometer. One fat violet germ blob (wobbly amoeba outline, three flagella) has just punched through the silhouette's outline near the chest, leaving a small jagged breach. Top-center: the gold HOOK badge — a chunky #FFD23F rounded pill reading 'ON PURPOSE?!' with a tiny gold spark-coin beside it. The whole frame reads in under a second: body + thermometer + an intruder + the shock question.",
+      "animations": "Thermometer draws-on as a single fast stroke path (0.4s). The teal body silhouette traces on around it (0.3s, overlapping). Violet germ SLAMS in from left and punches the breach with a hard spring overshoot + recoil at 0.5s, jagged breach lines crack-draw outward. Gold 'ON PURPOSE?!' badge spring-pops at 0.7s with overshoot and a 3-degree rotation settle, spark-coin flicks once. The blue fluid teases UP exactly two ticks then holds (still blue) — promising the heat to come. No zoom.",
+      "sfx": "a deep wet membrane-pop / squelch-thud as the violet germ punches through the body outline (organic invasion impact, not a whoosh)"
+    },
+    {
+      "beat": "Your immune cells fire off chemical alarms that order your hypothalamus to crank the heat — which is why you shiver even while you feel like you're burning.",
+      "visual": "Two immune-teal cells (round outlines with surface bumps) sit lower-left, puffing small gold dots labeled by a gold pill 'PYROGENS'. A dotted gold signal line traces up into a head-profile silhouette upper-right, landing on a glowing gold knob tagged 'HYPOTHALAMUS'. Bottom-right: a small ash-white stick figure shows the paradox literally — light-blue shiver motion-ticks AND wavy ember-orange heat lines rising off it at once. Teal dominates; gold appears only on the two labels and the knob.",
+      "animations": "Immune cells emit gold dots in a staggered left-to-right pop sequence. The dotted gold line draws-on upward, then the HYPOTHALAMUS knob spring-pulses gold once. Stick figure does a fast 6-oscillation left-right jitter-shake while orange heat wavy-lines sweep upward on a tight loop. Calm-but-fast, no zoom.",
+      "sfx": "a crisp electric nerve-tick / tingle ascending in pitch as the alarm signal races the dotted line up to the brain"
+    },
+    {
+      "beat": "And here's the twist: this fever is not a malfunction. It's a weapon.",
+      "visual": "Sharp cut to a near-empty dark stage. A red-outlined tag reading 'malfunction' sits center with a red strike-through. It dissolves as a gold-outlined SHIELD draws on in its place and snaps/morphs into a sleek upward blade silhouette — all #FFD23F outline on #0c1118. Ember-orange sparks flick off the blade tip. Minimal, punchy, one idea.",
+      "animations": "The red 'malfunction' tag gets a fast strike-through draw-on, then dissolves. Shield outline draws-on, then spring-snaps into the blade shape with an overshoot recoil and firm settle. Ember sparks burst in a tiny radial pop at the tip. No zoom.",
+      "sfx": "a clean metallic blade-ring SHING as the shield snaps into a weapon (bright metal, matched to 'weapon')"
+    },
+    {
+      "beat": "Most bacteria and viruses thrive at your normal temperature — but a few degrees hotter slows them, cracks them, and kills them.",
+      "visual": "HERO REVEAL — the money shot. The hook's giant THERMOMETER returns, now dominating center-stage, glass bulb glowing, numbered ticks 35-42, with a gold-rimmed digital readout pill beside the top reading the live temperature. The fluid column is the star. Clustered around the bulb: several germs — violet bacteria RODS and round VIRUSES — bouncing happily at the bottom by a cool-blue '37C / NORMAL' marker. As the mechanism fires, the column SURGES upward and morphs color blue -> ember-orange -> fever-red, the readout counter rolls 37 -> 38 -> 39 -> 40, and each germ visibly DIES: outlines wobble, then crack with draw-on fracture lines, flagella snap off and drift, bodies slump, shrink, and grey out, sinking to the floor. A fever-red heat-glow halo blooms and pulses behind the entire thermometer. This is the richest, most layered frame — body-as-thermometer hook now paying off as the kill mechanism.",
+      "animations": "Mercury column fills upward as a fast vertical wipe with a blue->orange->red gradient sweep (0.6s). The numeric readout counter rolls 37->40 in perfect sync. Germs first do a frantic faster-jitter (panic), then a staggered spring-collapse: each germ shrinks ~40%, cracks (fracture lines draw-on), flagella spring-detach, then droops with a wilting heavy ease-out and greys to ash. Fever-red halo scales out from the bulb and pulses exactly twice. The single emotional peak — most detail, most motion, no camera zoom.",
+      "sfx": "a rising sizzling fever-swell (heat building, pitch climbing) capped by a low crackling DENATURE-crunch as the germ outlines fracture and buckle (signature reveal accent)"
+    },
+    {
+      "beat": "And in that heat, your white blood cells move faster and hunt harder than ever.",
+      "visual": "Warm fever-red tinted stage. Three immune-teal-and-white blood cells (round outlines with a soft inner nucleus) streak along curved gold trajectory arcs across frame, chasing the last greyed germs. Speed-streak lines trail each cell. A gold 'HUNTING' label pill tags the lead cell. One cornered germ gets surrounded and engulfed.",
+      "animations": "Blood cells accelerate along draw-on curved arc paths with trailing speed-streaks (fast sweep across frame). Lead cell spring-pops the gold 'HUNTING' pill. The engulf: a cell stretches its outline around a germ and snaps closed with a membrane-pinch spring. Energetic, calm-but-fast, no zoom.",
+      "sfx": "a quick rhythmic gulp-pop / wet snap as a white blood cell engulfs a germ (organic capture sound, distinct from the squelch in scene 1)"
+    },
+    {
+      "beat": "So that miserable burning feeling? That's your own body cooking the invaders alive to save you.",
+      "visual": "PAYOFF. Dark stage cools with a low ember-orange floor glow. Center: the full ash-white body stick-figure outline, all germs gone, ringed by a steady protective fever-red heat aura — calm and victorious. The punchline slams in word-by-word in bold ash-white, with the operative words in gold #FFD23F. A single gold shield/checkmark coin pops beneath the text at the end.",
+      "animations": "Each word of the payoff flies in one at a time with a hard spring overshoot and settle (word-by-word slam, ~0.18s apart). 'COOKED' lands in gold with an extra ember-flare pulse. Final gold shield coin spring-pops with a quick spin-settle. Heat aura breathes once and holds. No zoom.",
+      "sfx": "a warm triumphant ember-thump / rising success sting landing exactly on the final word (signature payoff accent)"
+    }
+  ],
+  "payoff": "YOUR FEVER COOKED THEM ALIVE"
+}

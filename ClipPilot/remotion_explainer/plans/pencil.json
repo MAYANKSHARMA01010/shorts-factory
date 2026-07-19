@@ -1,0 +1,182 @@
+{
+  "slug": "pencil",
+  "title": "Your Pencil Has Been Lying To You",
+  "comp_name": "Pencil",
+  "transcript_source": "reimagined transcripts/006_no-lead-in-your-pencil.txt",
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "note": "DURATION_IN_FRAMES + scene start frames are set from the real per-word timestamps in pencil_words.json once narration is rendered. The frames below are PLACEHOLDER estimates so the plan is buildable before timing exists."
+  },
+  "voice": "edge-tts en-US-AndrewMultilingual (house narrator)",
+  "audio": {
+    "narration": "pencil_narration.mp3",
+    "music": "music.mp3",
+    "music_volume": 0.14
+  },
+  "words_json": "pencil_words.json",
+  "duration_estimate_s": 39,
+  "energy_doctrine": "FAST snappy in-composition motion (spring pops via usePop damping~120 mass~0.55, fast spins, fills, slices, conveyor) NOT camera zoom pulses. 8-frame scene fade in/out. 3-word karaoke captions are automatic.",
+  "palette": {
+    "bg": "#1a140d",
+    "bgMid": "#241a10",
+    "bgBot": "#120d08",
+    "accent": "#FFC21E",
+    "key": "#3a3f4a",
+    "graphite": "#3a3f4a",
+    "graphiteLite": "#5d6470",
+    "clay": "#a8895f",
+    "clayWet": "#7a5c38",
+    "cedar": "#d9a066",
+    "cedarDk": "#a8632f",
+    "yellow": "#FFC21E",
+    "yellowDk": "#e0a000",
+    "eraser": "#ff6f8e",
+    "ferrule": "#cdd5e0",
+    "white": "#FFFFFF",
+    "gold": "#FFD23F",
+    "ink": "#1a140d",
+    "red": "#ff5b4d",
+    "ovenGlow": "#ff7a3c"
+  },
+  "palette_rationale": "Warm woodshop/factory dark backdrop (cedar + graphite world). Graphite = cool slate grey to KILL the 'lead' myth on screen; clay = earthy tan; cedar = warm orange-brown; the payoff pencil = the iconic #FFC21E yellow with a pink eraser. Gold accent for labels/reveals.",
+  "shared_components": [
+    "Svg/Defs wrapper with glow, soft, oven-glow filters and gradients: graphiteG (slate), clayG (tan), cedarG (woodgrain orange), yellowG (pencil paint), metalG (ferrule)",
+    "SceneWrap: 8-frame fast fade + 1.06 scale-settle (HotDog cadence)",
+    "Label pill (usePop entrance) top y=250",
+    "usePop(delay, damping=120) snappy overshoot spring; useEnter(delay) gentle spring for hero text",
+    "Background: warm dark gradient + drifting sawdust/graphite-dust specks (32) + warmGlow radial",
+    "Captions: 3-word karaoke pages, active word -> gold + scale 1.13, bottom 250"
+  ],
+  "scenes": [
+    {
+      "id": "hook",
+      "order": 1,
+      "start_frame": 0,
+      "beat": "Your pencil has been lying to you — there is no lead inside it at all.",
+      "narration_sentence": "Your pencil has been lying to you, because there's no lead inside it at all.",
+      "label": null,
+      "visual": "A big classic yellow #2 pencil pops in center-screen, tilted, hero. A magnifier lens slides over its sharpened tip; inside the lens the dark core is X-rayed to a cross-section. A bold strikethrough crosses the word 'LEAD' on a tag pinned to the core, and it morphs/relabels to 'GRAPHITE'. A red '!' warning badge pops at the eraser end. The pencil gives a tiny nervous wobble.",
+      "draw": [
+        "Pencil body: long rounded hex prism in yellow (yellowG), painted ferrule (metalG) + pink eraser cap (eraser), sharpened cedar cone tip (cedarG) with a dark graphite point",
+        "Magnifier: ring (metalG stroke) + faint glass fill + handle, sweeps from off-screen onto the tip on usePop",
+        "Cross-section disc inside the lens: concentric — cedar ring, then solid graphite core (graphite, NOT shiny metal)",
+        "Myth tag: rounded pill reading 'LEAD' in red, a strikethrough line wipes across it, then text crossfades to 'GRAPHITE' in gold",
+        "Warning badge: red circle + white '!' (HotDog SceneHook pattern)"
+      ],
+      "animations": "Pencil springs in from scale 0.4 with overshoot (usePop damping 110). Lens slides in x over ~18f. Cross-section atoms/rings fade up staggered. Strikethrough draws across 'LEAD' (interpolate width 0->tagWidth) then label morphs to 'GRAPHITE' via opacity crossfade + gold pop. '!' badge pops at f~40. Pencil nervous wobble rotate 2.2*sin(f/2.4) after the reveal.",
+      "sfx": "soft whoosh as pencil pops in; a dramatic glass/chime DING on the 'GRAPHITE not LEAD' tag flip (this is reveal #1)",
+      "duration_frames_est": 230
+    },
+    {
+      "id": "grind",
+      "order": 2,
+      "start_frame": 230,
+      "beat": "First: black graphite mineral is crushed to fine powder and mixed with wet clay.",
+      "narration_sentence": "First, a black mineral called graphite is crushed into fine powder and mixed with wet clay.",
+      "label": "Graphite + wet clay",
+      "visual": "A chunky black graphite rock drops into a steel crusher/mortar; a piston/roller slams down (fast) and shatters it into a falling shower of fine grey powder that piles into a mixing bowl. A spout pours brown wet clay (clayWet) into the same bowl; a paddle spins fast, swirling powder+clay into a smooth grey-brown paste. A tiny '+CLAY' tag pops.",
+      "draw": [
+        "Graphite rock: faceted polygon (graphite) with lighter facet highlights, labeled chip 'GRAPHITE'",
+        "Crusher: steel jaw / piston (metalG) that slams down with a squash on impact",
+        "Powder shower: ~16 small grey specks falling + accumulating pile (animated count)",
+        "Clay pour: a curved stream from a tilted jug (clayWet) filling the bowl, glossy wet highlight",
+        "Mixing bowl + fast paddle: bowl (dark steel), paddle spins f*9, paste morphs graphite->paste color as it blends"
+      ],
+      "animations": "Rock falls + crusher SLAMS (squash/stretch, screen-shake-free, just a quick scale punch on impact at f~26). Powder bursts outward then rains down. Clay stream draws in. Paddle spins fast; bowl fill color interpolates from chunky grey to smooth paste over 60f (morph 0->1). '+CLAY' tag usePop.",
+      "sfx": "crunch/crush impact thud on the crusher slam; light liquid pour glug on the clay; no big boom (save those)",
+      "duration_frames_est": 250
+    },
+    {
+      "id": "extrude",
+      "order": 3,
+      "start_frame": 480,
+      "beat": "Then the paste is squeezed through a tiny hole, forming long spaghetti-like strands.",
+      "narration_sentence": "Then this paste is squeezed through a tiny hole, forming long spaghetti-like strands.",
+      "label": "Squeezed like spaghetti",
+      "visual": "A pressurized extruder cylinder (syringe/press) on the left squeezes the grey paste through a tiny circular die. Out the hole emerge long wiggling spaghetti-like graphite strands that snake rightward across the screen, wobbling like noodles, and coil/drape onto a tray. A zoomed callout circle shows the 'tiny hole' die face. A piston pushes in to drive the extrusion.",
+      "draw": [
+        "Extruder body: horizontal steel cylinder (metalG) + plunger that advances left->right",
+        "Die plate: small dark plate with one tiny bright hole (the 'tiny hole'), callout ring + arrow 'tiny die'",
+        "Strands: 3-4 long sine-wave paths (graphite color) using a sinePath-style helper, animated phase so they wiggle/extrude outward",
+        "Drape tray: strands coil onto a tray at the right; a soft pile builds"
+      ],
+      "animations": "Plunger advances (interpolate x) shrinking the paste reservoir. Strands GROW from the die — path length animates outward (extend end-point) with a live sine wobble (noodle jiggle). Callout ring pops (usePop) zooming the die. Strands sway continuously.",
+      "sfx": "wet squish/extrude squelch as strands emerge; subtle mechanical whir under it",
+      "duration_frames_est": 240
+    },
+    {
+      "id": "bake",
+      "order": 4,
+      "start_frame": 720,
+      "beat": "These strands are baked in an oven until they turn hard and smooth.",
+      "narration_sentence": "And these strands are baked in an oven until they turn hard and smooth.",
+      "label": "Baked rock-hard",
+      "visual": "A glowing kiln/oven: the strands lie on a rack inside; heat waves shimmer and the interior pulses orange (ovenGlow). The strands visibly transform — dull soft grey -> darker, glossy, hard graphite with a sharp specular highlight sweeping along them. A temperature gauge needle swings up fast into the red. Heat-shimmer ripples rise.",
+      "draw": [
+        "Oven: dark chamber box (metalG frame) with a glowing element bar at the bottom, internal radial ovenGlow",
+        "Rack of strands: 4-5 horizontal graphite rods on a wire rack",
+        "Heat shimmer: rising translucent wavy lines (sine) + soft orange glow ramp",
+        "Specular sweep: a white highlight bar sweeps across each rod as it 'hardens' (smooth/glossy)",
+        "Temp gauge: semicircle dial + needle that springs from cold to hot-red, plus 'HARD + SMOOTH' tag"
+      ],
+      "animations": "Oven glow ramps up (interpolate brightness 0->1). Strands color-morph dull->glossy graphite (mix over 70f). Specular highlight sweeps L->R repeatedly. Gauge needle springs into red (usePop). Heat-wave lines scroll upward. Tag 'HARD + SMOOTH' pops at end.",
+      "sfx": "low oven 'whoomph' ignite + sizzling ambience; a satisfying glassy 'ting' when the strand turns glossy/hard (mini reveal)",
+      "duration_frames_est": 230
+    },
+    {
+      "id": "sandwich",
+      "order": 5,
+      "start_frame": 950,
+      "beat": "Next: strands are laid into grooves cut in a cedar slab, and a second slab is glued on top.",
+      "narration_sentence": "Next, they're laid into grooves cut in a slab of cedar wood, and a second slab is glued on top.",
+      "label": "Cedar wood sandwich",
+      "visual": "Cross-section + top view of a cedar plank (cedarG woodgrain) with several parallel half-round GROOVES routed into it. Graphite rods drop one-by-one snapping into each groove. A glue line draws across, then a SECOND cedar slab swings down from above and clamps on top — sealing the rods inside (a literal pencil sandwich). A side cross-section shows the rod hugged by wood top+bottom.",
+      "draw": [
+        "Bottom slab: long cedar board (cedarG) with visible woodgrain stroke lines + 5 routed semicircular grooves",
+        "Graphite rods: 5 rods that fall/snap into the grooves (staggered usePop)",
+        "Glue bead: dashed/solid bead line drawn along the slab top (white-ish), tiny glue-drip dots",
+        "Top slab: matching cedar board that hinges/swings down (rotate from above) and presses flat, with a squash on contact",
+        "Cross-section inset: circle showing cedar | graphite core | cedar, label 'sealed in wood'"
+      ],
+      "animations": "Grooves appear (router pass wipes them in). Rods drop+snap one by one (staggered springs, small bounce). Glue bead draws across (width interpolate). Top slab swings down (rotate -> 0) and clamps with a settle-squash. Cross-section inset pops to confirm the sandwich.",
+      "sfx": "wood clatter as rods seat; a clean 'clack' wood-on-wood when the top slab clamps shut",
+      "duration_frames_est": 250
+    },
+    {
+      "id": "finish",
+      "order": 6,
+      "start_frame": 1200,
+      "beat": "Finally the block is sliced into pencils, painted yellow, and tipped with an eraser nobody asked for.",
+      "narration_sentence": "Finally, the wood is sliced into individual pencils, painted bright yellow, and tipped with an eraser nobody actually asked for.",
+      "label": null,
+      "visual": "The glued cedar block runs under a fast circular saw / blade gang that slices it into individual hex pencils (the slabbed block fans apart into separate pencils). The bare wood pencils ride a conveyor through a paint curtain that coats them BRIGHT YELLOW (sweep fill). At the end a ferrule + pink eraser snaps onto each tip. The hero finished yellow pencil lands center for the payoff line, with a small wry callout on the eraser 'nobody asked for this'.",
+      "draw": [
+        "Saw: spinning circular blade(s) (metalG, fast rotate) descending across the block; cut lines split the block into ~6 hex pencils that separate",
+        "Conveyor: ticking belt carrying bare pencils L->R",
+        "Paint curtain: a vertical falling sheet of yellow; pencils pass under and color-fill bare->yellow (clip wipe)",
+        "Ferrule+eraser assembly: metal band + pink eraser cap that snaps onto the tip (usePop)",
+        "Hero pencil: final iconic yellow #2 pencil, centered, plus payoff text and a sly arrow tag on the eraser"
+      ],
+      "animations": "Blade spins FAST and drops; block splits into pencils that slide apart (staggered x). Conveyor ticks scroll. Paint curtain falls; pencils fill yellow via a wipe-clip as they cross it (bare->yellow). Eraser snaps on with overshoot. Hero pencil springs to center; payoff line rises (useEnter). Eraser callout pops last.",
+      "sfx": "zippy saw whir + slice 'shhk' on the cut; a final bright success CHIME / sting on the finished hero pencil (reveal #2 / payoff)",
+      "duration_frames_est": 230
+    }
+  ],
+  "payoff": "It was never lead. Just baked rock dust, hugged in wood — and a pink eraser nobody asked for.",
+  "payoff_onscreen": {
+    "line1": "Never lead.",
+    "line2": "Baked ROCK in wood.",
+    "line3": "+ an eraser nobody asked for.",
+    "style": "line2 big bold graphite-grey word 'ROCK', line3 in gold, wry tone matching the transcript's last clause"
+  },
+  "sfx_discipline": "Sparse + scene-matched. Whoosh/slide on every scene change. Only TWO dramatic stingers: (1) the 'GRAPHITE not LEAD' tag-flip chime in the hook, (2) the finished-pencil success chime in the payoff. Process scenes use small diegetic sounds (crush, squish, oven whoomph, wood clack, saw shhk) — no boomy stacking.",
+  "build_notes": [
+    "One scene per narration sentence: 6 scenes total (hook + 4 process steps + payoff).",
+    "Replace placeholder start_frame / duration_frames_est + DURATION_IN_FRAMES with real values from pencil_words.json sentence-end timestamps (multiply seconds * 30), exactly like SkyBlue/Mirror/HotDog set their S = {...} object.",
+    "Graphite must read as SLATE GREY, never silver/metal — the whole point is debunking 'lead'. Keep the pencil-yellow ONLY for the finished pencil so the payoff color-pops.",
+    "Reuse HotDog's usePop snappy spring + conveyor + SceneWrap cadence; reuse Mirror/SkyBlue cross-section + glow defs patterns.",
+    "Captions component is identical to the references (3-word pages) — do not author captions here."
+  ]
+}

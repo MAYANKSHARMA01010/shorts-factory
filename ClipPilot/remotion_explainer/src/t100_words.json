@@ -1,0 +1,505 @@
+{
+"script": "Ordinary college students were split into two groups, prisoners and guards, for a simple two-week experiment in a fake basement jail. At first it felt like a game. But within days, something disturbing happened. The guards started inventing cruel punishments, humiliating the prisoners, stripping away their names and replacing them with numbers. And the prisoners broke down, some sobbing, others rebelling. The shift was so fast and so brutal that they shut the whole thing down after just six days. The terrifying lesson? Give normal people a uniform and a little power, and they can turn cruel almost overnight.",
+"words": [
+{
+"text": "Ordinary",
+"start": 0.0,
+"end": 0.5
+},
+{
+"text": "college",
+"start": 0.5,
+"end": 0.8
+},
+{
+"text": "students",
+"start": 0.8,
+"end": 1.18
+},
+{
+"text": "were",
+"start": 1.18,
+"end": 1.4
+},
+{
+"text": "split",
+"start": 1.4,
+"end": 1.82
+},
+{
+"text": "into",
+"start": 1.82,
+"end": 2.2
+},
+{
+"text": "two",
+"start": 2.2,
+"end": 2.58
+},
+{
+"text": "groups,",
+"start": 2.58,
+"end": 3.1
+},
+{
+"text": "prisoners",
+"start": 3.58,
+"end": 3.76
+},
+{
+"text": "and",
+"start": 3.76,
+"end": 4.1
+},
+{
+"text": "guards,",
+"start": 4.1,
+"end": 4.42
+},
+{
+"text": "for",
+"start": 4.54,
+"end": 5.14
+},
+{
+"text": "a",
+"start": 5.14,
+"end": 5.36
+},
+{
+"text": "simple",
+"start": 5.36,
+"end": 5.58
+},
+{
+"text": "two",
+"start": 5.58,
+"end": 5.86
+},
+{
+"text": "-week",
+"start": 5.86,
+"end": 6.1
+},
+{
+"text": "experiment",
+"start": 6.1,
+"end": 6.62
+},
+{
+"text": "in",
+"start": 6.62,
+"end": 6.96
+},
+{
+"text": "a",
+"start": 6.96,
+"end": 7.08
+},
+{
+"text": "fake",
+"start": 7.08,
+"end": 7.4
+},
+{
+"text": "basement",
+"start": 7.4,
+"end": 7.82
+},
+{
+"text": "jail.",
+"start": 7.82,
+"end": 8.14
+},
+{
+"text": "At",
+"start": 8.7,
+"end": 8.82
+},
+{
+"text": "first",
+"start": 8.82,
+"end": 9.04
+},
+{
+"text": "it",
+"start": 9.04,
+"end": 9.18
+},
+{
+"text": "felt",
+"start": 9.18,
+"end": 9.36
+},
+{
+"text": "like",
+"start": 9.36,
+"end": 9.52
+},
+{
+"text": "a",
+"start": 9.52,
+"end": 9.64
+},
+{
+"text": "game,",
+"start": 9.64,
+"end": 9.88
+},
+{
+"text": "but",
+"start": 10.24,
+"end": 10.46
+},
+{
+"text": "within",
+"start": 10.46,
+"end": 10.76
+},
+{
+"text": "days,",
+"start": 10.76,
+"end": 11.28
+},
+{
+"text": "something",
+"start": 11.7,
+"end": 12.04
+},
+{
+"text": "disturbing",
+"start": 12.04,
+"end": 12.58
+},
+{
+"text": "happened.",
+"start": 12.58,
+"end": 13.08
+},
+{
+"text": "The",
+"start": 13.48,
+"end": 13.72
+},
+{
+"text": "guards",
+"start": 13.72,
+"end": 13.94
+},
+{
+"text": "started",
+"start": 13.94,
+"end": 14.36
+},
+{
+"text": "inventing",
+"start": 14.36,
+"end": 15.0
+},
+{
+"text": "cruel",
+"start": 15.0,
+"end": 15.4
+},
+{
+"text": "punishments,",
+"start": 15.4,
+"end": 16.0
+},
+{
+"text": "humiliating",
+"start": 16.56,
+"end": 16.94
+},
+{
+"text": "the",
+"start": 16.94,
+"end": 17.26
+},
+{
+"text": "prisoners,",
+"start": 17.26,
+"end": 17.62
+},
+{
+"text": "stripping",
+"start": 18.12,
+"end": 18.38
+},
+{
+"text": "away",
+"start": 18.38,
+"end": 18.68
+},
+{
+"text": "their",
+"start": 18.68,
+"end": 18.9
+},
+{
+"text": "names,",
+"start": 18.9,
+"end": 19.32
+},
+{
+"text": "and",
+"start": 19.76,
+"end": 19.88
+},
+{
+"text": "replacing",
+"start": 19.88,
+"end": 20.26
+},
+{
+"text": "them",
+"start": 20.26,
+"end": 20.54
+},
+{
+"text": "with",
+"start": 20.54,
+"end": 20.68
+},
+{
+"text": "numbers.",
+"start": 20.68,
+"end": 20.98
+},
+{
+"text": "And",
+"start": 21.6,
+"end": 21.76
+},
+{
+"text": "the",
+"start": 21.76,
+"end": 21.88
+},
+{
+"text": "prisoners",
+"start": 21.88,
+"end": 22.16
+},
+{
+"text": "broke",
+"start": 22.16,
+"end": 22.5
+},
+{
+"text": "down,",
+"start": 22.5,
+"end": 22.88
+},
+{
+"text": "some",
+"start": 23.18,
+"end": 23.42
+},
+{
+"text": "sobbing,",
+"start": 23.42,
+"end": 24.14
+},
+{
+"text": "others",
+"start": 24.46,
+"end": 24.7
+},
+{
+"text": "rebelling.",
+"start": 24.7,
+"end": 25.18
+},
+{
+"text": "The",
+"start": 25.18,
+"end": 25.86
+},
+{
+"text": "shift",
+"start": 25.86,
+"end": 26.1
+},
+{
+"text": "was",
+"start": 26.1,
+"end": 26.36
+},
+{
+"text": "so",
+"start": 26.36,
+"end": 26.76
+},
+{
+"text": "fast",
+"start": 26.76,
+"end": 27.34
+},
+{
+"text": "and",
+"start": 27.34,
+"end": 27.98
+},
+{
+"text": "so",
+"start": 27.98,
+"end": 28.36
+},
+{
+"text": "brutal",
+"start": 28.36,
+"end": 28.76
+},
+{
+"text": "that",
+"start": 28.76,
+"end": 29.02
+},
+{
+"text": "they",
+"start": 29.02,
+"end": 29.16
+},
+{
+"text": "shut",
+"start": 29.16,
+"end": 29.36
+},
+{
+"text": "the",
+"start": 29.36,
+"end": 29.5
+},
+{
+"text": "whole",
+"start": 29.5,
+"end": 29.68
+},
+{
+"text": "thing",
+"start": 29.68,
+"end": 29.92
+},
+{
+"text": "down",
+"start": 29.92,
+"end": 30.28
+},
+{
+"text": "after",
+"start": 30.28,
+"end": 30.6
+},
+{
+"text": "just",
+"start": 30.6,
+"end": 30.78
+},
+{
+"text": "six",
+"start": 30.78,
+"end": 31.0
+},
+{
+"text": "days.",
+"start": 31.0,
+"end": 31.42
+},
+{
+"text": "The",
+"start": 31.9,
+"end": 32.08
+},
+{
+"text": "terrifying",
+"start": 32.08,
+"end": 32.54
+},
+{
+"text": "lesson?",
+"start": 32.54,
+"end": 33.0
+},
+{
+"text": "Give",
+"start": 33.54,
+"end": 33.76
+},
+{
+"text": "normal",
+"start": 33.76,
+"end": 34.1
+},
+{
+"text": "people",
+"start": 34.1,
+"end": 34.48
+},
+{
+"text": "a",
+"start": 34.48,
+"end": 34.68
+},
+{
+"text": "uniform",
+"start": 34.68,
+"end": 35.08
+},
+{
+"text": "and",
+"start": 35.08,
+"end": 35.56
+},
+{
+"text": "a",
+"start": 35.56,
+"end": 35.66
+},
+{
+"text": "little",
+"start": 35.66,
+"end": 35.78
+},
+{
+"text": "power,",
+"start": 35.78,
+"end": 36.16
+},
+{
+"text": "and",
+"start": 36.64,
+"end": 36.84
+},
+{
+"text": "they",
+"start": 36.84,
+"end": 36.94
+},
+{
+"text": "can",
+"start": 36.94,
+"end": 37.08
+},
+{
+"text": "turn",
+"start": 37.08,
+"end": 37.32
+},
+{
+"text": "cruel",
+"start": 37.32,
+"end": 37.68
+},
+{
+"text": "almost",
+"start": 37.68,
+"end": 38.1
+},
+{
+"text": "overnight.",
+"start": 38.1,
+"end": 38.58
+}
+]
+}

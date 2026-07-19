@@ -1,0 +1,485 @@
+{
+"script": "Slip on noise-cancelling headphones, and the roar of a jet engine just vanishes. But the headphones aren't blocking that sound. They're erasing it. You see, a tiny microphone on each earcup listens to the noise coming at you. Then a chip instantly builds a mirror image of that sound wave, flipped perfectly upside down. And when an upward wave meets a downward wave, they cancel each other into silence. This means your headphones are constantly screaming the exact opposite of the world around you, just so your ears end up hearing nothing at all.",
+"words": [
+{
+"text": "slip",
+"start": 0.0,
+"end": 0.4
+},
+{
+"text": "on",
+"start": 0.4,
+"end": 0.78
+},
+{
+"text": "noise",
+"start": 0.78,
+"end": 1.16
+},
+{
+"text": "-canceling",
+"start": 1.16,
+"end": 1.74
+},
+{
+"text": "headphones,",
+"start": 1.74,
+"end": 2.3
+},
+{
+"text": "and",
+"start": 2.92,
+"end": 3.08
+},
+{
+"text": "the",
+"start": 3.08,
+"end": 3.2
+},
+{
+"text": "roar",
+"start": 3.2,
+"end": 3.52
+},
+{
+"text": "of",
+"start": 3.52,
+"end": 3.82
+},
+{
+"text": "a",
+"start": 3.82,
+"end": 3.96
+},
+{
+"text": "jet",
+"start": 3.96,
+"end": 4.12
+},
+{
+"text": "engine",
+"start": 4.12,
+"end": 4.68
+},
+{
+"text": "just",
+"start": 4.68,
+"end": 5.1
+},
+{
+"text": "vanishes.",
+"start": 5.1,
+"end": 5.66
+},
+{
+"text": "But",
+"start": 6.28,
+"end": 6.42
+},
+{
+"text": "the",
+"start": 6.42,
+"end": 6.52
+},
+{
+"text": "headphones",
+"start": 6.52,
+"end": 6.84
+},
+{
+"text": "aren't",
+"start": 6.84,
+"end": 7.24
+},
+{
+"text": "blocking",
+"start": 7.24,
+"end": 7.56
+},
+{
+"text": "that",
+"start": 7.56,
+"end": 7.82
+},
+{
+"text": "sound.",
+"start": 7.82,
+"end": 8.18
+},
+{
+"text": "They're",
+"start": 8.62,
+"end": 8.9
+},
+{
+"text": "erasing",
+"start": 8.9,
+"end": 9.26
+},
+{
+"text": "it.",
+"start": 9.26,
+"end": 9.58
+},
+{
+"text": "You",
+"start": 9.92,
+"end": 10.08
+},
+{
+"text": "see,",
+"start": 10.08,
+"end": 10.4
+},
+{
+"text": "a",
+"start": 10.84,
+"end": 11.02
+},
+{
+"text": "tiny",
+"start": 11.02,
+"end": 11.42
+},
+{
+"text": "microphone",
+"start": 11.42,
+"end": 12.1
+},
+{
+"text": "on",
+"start": 12.1,
+"end": 12.54
+},
+{
+"text": "each",
+"start": 12.54,
+"end": 13.02
+},
+{
+"text": "ear",
+"start": 13.02,
+"end": 13.38
+},
+{
+"text": "cup",
+"start": 13.38,
+"end": 13.7
+},
+{
+"text": "listens",
+"start": 13.7,
+"end": 14.1
+},
+{
+"text": "to",
+"start": 14.1,
+"end": 14.4
+},
+{
+"text": "the",
+"start": 14.4,
+"end": 14.52
+},
+{
+"text": "noise",
+"start": 14.52,
+"end": 14.86
+},
+{
+"text": "coming",
+"start": 14.86,
+"end": 15.14
+},
+{
+"text": "at",
+"start": 15.14,
+"end": 15.36
+},
+{
+"text": "you.",
+"start": 15.36,
+"end": 15.62
+},
+{
+"text": "Then",
+"start": 15.94,
+"end": 16.16
+},
+{
+"text": "a",
+"start": 16.16,
+"end": 16.32
+},
+{
+"text": "chip",
+"start": 16.32,
+"end": 16.48
+},
+{
+"text": "instantly",
+"start": 16.48,
+"end": 17.02
+},
+{
+"text": "builds",
+"start": 17.02,
+"end": 17.5
+},
+{
+"text": "a",
+"start": 17.5,
+"end": 17.8
+},
+{
+"text": "mirror",
+"start": 17.8,
+"end": 18.24
+},
+{
+"text": "image",
+"start": 18.24,
+"end": 18.64
+},
+{
+"text": "of",
+"start": 18.64,
+"end": 18.78
+},
+{
+"text": "that",
+"start": 18.78,
+"end": 18.98
+},
+{
+"text": "sound",
+"start": 18.98,
+"end": 19.24
+},
+{
+"text": "wave,",
+"start": 19.24,
+"end": 19.62
+},
+{
+"text": "flipped",
+"start": 19.9,
+"end": 20.2
+},
+{
+"text": "perfectly",
+"start": 20.2,
+"end": 20.82
+},
+{
+"text": "upside",
+"start": 20.82,
+"end": 21.2
+},
+{
+"text": "down.",
+"start": 21.2,
+"end": 21.66
+},
+{
+"text": "And",
+"start": 22.12,
+"end": 22.26
+},
+{
+"text": "when",
+"start": 22.26,
+"end": 22.36
+},
+{
+"text": "an",
+"start": 22.36,
+"end": 22.48
+},
+{
+"text": "upward",
+"start": 22.48,
+"end": 22.78
+},
+{
+"text": "wave",
+"start": 22.78,
+"end": 23.18
+},
+{
+"text": "meets",
+"start": 23.18,
+"end": 23.54
+},
+{
+"text": "a",
+"start": 23.54,
+"end": 24.02
+},
+{
+"text": "downward",
+"start": 24.02,
+"end": 24.38
+},
+{
+"text": "wave,",
+"start": 24.38,
+"end": 24.92
+},
+{
+"text": "they",
+"start": 24.92,
+"end": 25.5
+},
+{
+"text": "cancel",
+"start": 25.5,
+"end": 25.78
+},
+{
+"text": "each",
+"start": 25.78,
+"end": 26.1
+},
+{
+"text": "other",
+"start": 26.1,
+"end": 26.32
+},
+{
+"text": "into",
+"start": 26.32,
+"end": 26.68
+},
+{
+"text": "silence.",
+"start": 26.68,
+"end": 27.14
+},
+{
+"text": "This",
+"start": 27.9,
+"end": 27.98
+},
+{
+"text": "means",
+"start": 27.98,
+"end": 28.1
+},
+{
+"text": "your",
+"start": 28.1,
+"end": 28.24
+},
+{
+"text": "headphones",
+"start": 28.24,
+"end": 28.68
+},
+{
+"text": "are",
+"start": 28.68,
+"end": 29.06
+},
+{
+"text": "constantly",
+"start": 29.06,
+"end": 29.66
+},
+{
+"text": "screaming",
+"start": 30.2,
+"end": 30.8
+},
+{
+"text": "the",
+"start": 30.8,
+"end": 31.28
+},
+{
+"text": "exact",
+"start": 31.28,
+"end": 31.78
+},
+{
+"text": "opposite",
+"start": 31.78,
+"end": 32.32
+},
+{
+"text": "of",
+"start": 32.32,
+"end": 32.6
+},
+{
+"text": "the",
+"start": 32.6,
+"end": 32.7
+},
+{
+"text": "world",
+"start": 32.7,
+"end": 32.88
+},
+{
+"text": "around",
+"start": 32.88,
+"end": 33.28
+},
+{
+"text": "you,",
+"start": 33.28,
+"end": 33.64
+},
+{
+"text": "just",
+"start": 33.92,
+"end": 34.14
+},
+{
+"text": "so",
+"start": 34.14,
+"end": 34.32
+},
+{
+"text": "your",
+"start": 34.32,
+"end": 34.48
+},
+{
+"text": "ears",
+"start": 34.48,
+"end": 35.08
+},
+{
+"text": "end",
+"start": 35.08,
+"end": 35.52
+},
+{
+"text": "up",
+"start": 35.52,
+"end": 35.72
+},
+{
+"text": "hearing",
+"start": 35.72,
+"end": 36.02
+},
+{
+"text": "nothing",
+"start": 36.02,
+"end": 36.3
+},
+{
+"text": "at",
+"start": 36.3,
+"end": 36.5
+},
+{
+"text": "all.",
+"start": 36.5,
+"end": 36.72
+}
+]
+}

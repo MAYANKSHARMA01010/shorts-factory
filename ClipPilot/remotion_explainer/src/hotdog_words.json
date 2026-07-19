@@ -1,0 +1,490 @@
+{
+"script": "If you saw how a hot dog begins, you might never eat one again. First, leftover scraps of meat are dumped into a giant grinder and blended with ice and seasoning. Then the machine spins so fast the meat turns into a smooth pink paste they actually call batter. And this paste is squirted into long thin tubes, sometimes made from cleaned animal intestines. Next, they're smoked and cooked until firm, and the casings are peeled off in seconds. Finally, they're packed and shipped, and almost nobody guesses their juicy hot dog started life as a slurry.",
+"words": [
+{
+"text": "If",
+"start": 0.0,
+"end": 0.24
+},
+{
+"text": "you",
+"start": 0.24,
+"end": 0.34
+},
+{
+"text": "saw",
+"start": 0.34,
+"end": 0.5
+},
+{
+"text": "how",
+"start": 0.5,
+"end": 0.68
+},
+{
+"text": "a",
+"start": 0.68,
+"end": 0.82
+},
+{
+"text": "hot",
+"start": 0.82,
+"end": 1.04
+},
+{
+"text": "dog",
+"start": 1.04,
+"end": 1.38
+},
+{
+"text": "begins,",
+"start": 1.38,
+"end": 1.84
+},
+{
+"text": "you",
+"start": 2.34,
+"end": 2.52
+},
+{
+"text": "might",
+"start": 2.52,
+"end": 2.68
+},
+{
+"text": "never",
+"start": 2.68,
+"end": 2.96
+},
+{
+"text": "eat",
+"start": 2.96,
+"end": 3.12
+},
+{
+"text": "one",
+"start": 3.12,
+"end": 3.26
+},
+{
+"text": "again.",
+"start": 3.26,
+"end": 3.54
+},
+{
+"text": "First,",
+"start": 4.12,
+"end": 4.4
+},
+{
+"text": "leftover",
+"start": 4.76,
+"end": 5.12
+},
+{
+"text": "scraps",
+"start": 5.12,
+"end": 5.56
+},
+{
+"text": "of",
+"start": 5.56,
+"end": 5.76
+},
+{
+"text": "meat",
+"start": 5.76,
+"end": 6.0
+},
+{
+"text": "are",
+"start": 6.0,
+"end": 6.32
+},
+{
+"text": "dumped",
+"start": 6.32,
+"end": 6.68
+},
+{
+"text": "into",
+"start": 6.68,
+"end": 6.96
+},
+{
+"text": "a",
+"start": 6.96,
+"end": 7.14
+},
+{
+"text": "giant",
+"start": 7.14,
+"end": 7.46
+},
+{
+"text": "grinder",
+"start": 7.46,
+"end": 7.92
+},
+{
+"text": "and",
+"start": 7.92,
+"end": 8.48
+},
+{
+"text": "blended",
+"start": 8.48,
+"end": 8.84
+},
+{
+"text": "with",
+"start": 8.84,
+"end": 9.1
+},
+{
+"text": "ice",
+"start": 9.1,
+"end": 9.36
+},
+{
+"text": "and",
+"start": 9.36,
+"end": 9.62
+},
+{
+"text": "seasoning.",
+"start": 9.62,
+"end": 9.96
+},
+{
+"text": "Then",
+"start": 10.4,
+"end": 10.6
+},
+{
+"text": "a",
+"start": 10.6,
+"end": 10.7
+},
+{
+"text": "machine",
+"start": 10.7,
+"end": 10.96
+},
+{
+"text": "spins",
+"start": 10.96,
+"end": 11.4
+},
+{
+"text": "so",
+"start": 11.4,
+"end": 11.96
+},
+{
+"text": "fast",
+"start": 11.96,
+"end": 12.46
+},
+{
+"text": "the",
+"start": 12.46,
+"end": 12.68
+},
+{
+"text": "meat",
+"start": 12.68,
+"end": 13.0
+},
+{
+"text": "turns",
+"start": 13.0,
+"end": 13.32
+},
+{
+"text": "into",
+"start": 13.32,
+"end": 13.64
+},
+{
+"text": "a",
+"start": 13.64,
+"end": 13.8
+},
+{
+"text": "smooth",
+"start": 13.8,
+"end": 14.2
+},
+{
+"text": "pink",
+"start": 14.2,
+"end": 14.62
+},
+{
+"text": "paste",
+"start": 14.62,
+"end": 15.18
+},
+{
+"text": "they",
+"start": 15.18,
+"end": 15.72
+},
+{
+"text": "actually",
+"start": 15.72,
+"end": 16.04
+},
+{
+"text": "call",
+"start": 16.04,
+"end": 16.32
+},
+{
+"text": "batter.",
+"start": 16.32,
+"end": 16.64
+},
+{
+"text": "And",
+"start": 17.14,
+"end": 17.36
+},
+{
+"text": "this",
+"start": 17.36,
+"end": 17.52
+},
+{
+"text": "paste",
+"start": 17.52,
+"end": 17.94
+},
+{
+"text": "is",
+"start": 17.94,
+"end": 18.48
+},
+{
+"text": "squirted",
+"start": 18.48,
+"end": 19.12
+},
+{
+"text": "into",
+"start": 19.12,
+"end": 19.46
+},
+{
+"text": "long",
+"start": 19.46,
+"end": 19.96
+},
+{
+"text": "thin",
+"start": 19.96,
+"end": 20.58
+},
+{
+"text": "tubes,",
+"start": 20.58,
+"end": 21.28
+},
+{
+"text": "sometimes",
+"start": 21.72,
+"end": 22.14
+},
+{
+"text": "made",
+"start": 22.14,
+"end": 22.5
+},
+{
+"text": "from",
+"start": 22.5,
+"end": 22.76
+},
+{
+"text": "cleaned",
+"start": 22.76,
+"end": 23.28
+},
+{
+"text": "animal",
+"start": 23.28,
+"end": 23.64
+},
+{
+"text": "intestines.",
+"start": 23.64,
+"end": 24.3
+},
+{
+"text": "Next,",
+"start": 24.3,
+"end": 25.14
+},
+{
+"text": "they're",
+"start": 25.38,
+"end": 25.52
+},
+{
+"text": "smoked",
+"start": 25.52,
+"end": 25.84
+},
+{
+"text": "and",
+"start": 25.84,
+"end": 26.34
+},
+{
+"text": "cooked",
+"start": 26.34,
+"end": 26.66
+},
+{
+"text": "until",
+"start": 26.66,
+"end": 27.2
+},
+{
+"text": "firm",
+"start": 27.2,
+"end": 27.66
+},
+{
+"text": "and",
+"start": 27.66,
+"end": 28.32
+},
+{
+"text": "the",
+"start": 28.32,
+"end": 28.42
+},
+{
+"text": "casings",
+"start": 28.42,
+"end": 28.78
+},
+{
+"text": "are",
+"start": 28.78,
+"end": 28.96
+},
+{
+"text": "peeled",
+"start": 28.96,
+"end": 29.24
+},
+{
+"text": "off",
+"start": 29.24,
+"end": 29.52
+},
+{
+"text": "in",
+"start": 29.52,
+"end": 29.7
+},
+{
+"text": "seconds.",
+"start": 29.7,
+"end": 30.1
+},
+{
+"text": "Finally,",
+"start": 30.84,
+"end": 31.16
+},
+{
+"text": "they're",
+"start": 31.4,
+"end": 31.5
+},
+{
+"text": "packed",
+"start": 31.5,
+"end": 31.84
+},
+{
+"text": "and",
+"start": 31.84,
+"end": 32.22
+},
+{
+"text": "shipped",
+"start": 32.22,
+"end": 32.62
+},
+{
+"text": "and",
+"start": 32.62,
+"end": 33.22
+},
+{
+"text": "almost",
+"start": 33.22,
+"end": 33.68
+},
+{
+"text": "nobody",
+"start": 33.68,
+"end": 34.12
+},
+{
+"text": "guesses",
+"start": 34.12,
+"end": 34.46
+},
+{
+"text": "their",
+"start": 34.46,
+"end": 34.74
+},
+{
+"text": "juicy",
+"start": 34.74,
+"end": 35.14
+},
+{
+"text": "hot",
+"start": 35.14,
+"end": 35.52
+},
+{
+"text": "dog",
+"start": 35.52,
+"end": 35.86
+},
+{
+"text": "started",
+"start": 35.86,
+"end": 36.26
+},
+{
+"text": "life",
+"start": 36.26,
+"end": 36.68
+},
+{
+"text": "as",
+"start": 36.68,
+"end": 37.18
+},
+{
+"text": "a",
+"start": 37.18,
+"end": 37.34
+},
+{
+"text": "slurry.",
+"start": 37.34,
+"end": 37.68
+}
+]
+}

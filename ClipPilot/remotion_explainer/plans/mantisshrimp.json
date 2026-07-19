@@ -1,0 +1,55 @@
+{
+  "slug": "mantisshrimp",
+  "title": "The Shrimp That Punches Like a Bullet",
+  "duration_estimate_s": 32,
+  "palette": {
+    "bg_deep": "#0a1622",
+    "bg_ocean": "#0f2436",
+    "gold": "#FFD23F",
+    "shrimp_key": "#FF5C3D",
+    "shell_teal": "#3FE0D0",
+    "cavitation_white": "#F4FBFF",
+    "shockwave_cyan": "#5FC8FF",
+    "crab_amber": "#E89B3C",
+    "danger_red": "#FF3B30"
+  },
+  "scenes": [
+    {
+      "beat": "This shrimp doesn't grab its prey. It punches it.",
+      "visual": "HOOK. Dead-centered on a deep teal-to-navy ocean gradient (#0f2436 to #0a1622) sits ONE bold coral-red (#FF5C3D) mantis shrimp in clean profile, filling ~55% of frame height: segmented body, fan tail, two stalked googly eyes, and ONE oversized folded club-arm cocked under its chin. Filling the whole top third is a fat gold badge pill (#FFD23F) with black uppercase text reading 'PACKS A 1500 N PUNCH' beside a small black fist glyph. A thin gold danger-outline traces ONLY the club-arm to flag the weapon, with two tiny gold 'tension' spark-ticks at the joint to imply it is loaded like a spring. Faint hex water-caustics drift behind.",
+      "animations": "Cold-open is fast: the shrimp springs on from scale 0.86 to 1.0 with a snappy spring overshoot (damping ~12), body segments staggering left-to-right over ~6 frames. The gold badge pill SLAMS down from above frame with a heavy spring overshoot and a 5-degree wobble settle, landing on frame 8. The club-arm gold outline draws on as a fast stroke-dashoffset sweep and the two joint spark-ticks flick once. Background caustics drift slow and continuous. No zoom-pulse.",
+      "sfx": "a deep muffled sub-bass underwater impact thud with a short tension creak tail"
+    },
+    {
+      "beat": "In three thousandths of a second its club fires out faster than a bullet leaves a gun.",
+      "visual": "The club-arm unfolds and FIRES across the frame as a coral-red streak with a tapered motion-trail. Top-right, a big gold digital readout flips up to '0.003 s' beside a thin gold arc-gauge. A ghosted gun-barrel silhouette sits bottom-left firing a faint bullet that streaks in a parallel lane below the arm; a dashed gold comparison line links arm-tip and bullet, and a gold 'FASTER' pill pops the instant the arm tip pulls ahead of the bullet.",
+      "animations": "Club-arm draws on then whip-sweeps left-to-right with a hard ease-out, the trail stretching then snapping back (squash-stretch). The gold readout rolls up to 0.003 with rapid digit flips while the arc-gauge fills in one quick sweep. The ghost bullet sweeps in parallel but visibly lags; at the overtake frame the 'FASTER' pill springs in with overshoot and a single gold glow flash. Calm-but-fast.",
+      "sfx": "a sharp whip-crack air snap layered with a faint distant gunshot pop"
+    },
+    {
+      "beat": "The strike is so violent it boils the water and makes a tiny exploding bubble.",
+      "visual": "HERO REVEAL. The single money-shot, centered and the most layered scene. Extreme focus on the club-arm tip at impact. Around the tip the water is drawn as 4 staggered concentric coral-to-cyan pressure rings. At the exact contact point a brilliant near-white cavitation bubble (#F4FBFF) blooms, wrapped in a hot cyan-to-white plasma halo (#5FC8FF fading to white). Inside the bubble 5-6 jagged white spark-lines flicker to suggest the flash of light and 4500 C heat. The bubble then VIOLENTLY collapses: it implodes inward to a hot white dot, then bursts back out as a radial spray of ~24 fine white bubble-particles plus an outward cyan shockwave ring. A gold '4500 C' flash-label and a red-bordered '~BULLET FORCE' tag punch in at the implosion peak.",
+      "animations": "The 4 pressure rings expand outward in staggered springs (each delayed 2 frames). The cavitation bubble scales 0 to 1.15 to 1.0 with an overshoot bloom and holds ~6 frames as inner sparks flicker on a fast noise loop. Then it implodes inward fast over 3 frames to a pinpoint, and on the next frame explodes: the 24 particles fly out radial with ease-out and fade, the cyan shockwave ring scales up and fades opacity to 0, and the gold '4500 C' label flash-pops once with a bright glow pulse exactly on the implosion frame. This is the emotional peak — richest motion in the whole short.",
+      "sfx": "a crisp cavitation snap-pop with a high fizzing collapse and a quick sizzle tail"
+    },
+    {
+      "beat": "So even if the shrimp misses, the shockwave alone can knock its target out cold.",
+      "visual": "Wide pull-back. Shrimp on the LEFT, club extended but a clear GAP to a small fish-prey silhouette on the RIGHT, the gap marked by a dashed gold 'MISS' bracket. From the club a cyan shockwave ring (#5FC8FF) expands across the gap and washes over the fish, which flips upside-down and drifts limp with two little spiral 'dizzy' loops and X-eyes. A gold 'NO CONTACT' pill sits above.",
+      "animations": "The shockwave ring sweeps left-to-right as an expanding scaling ring with opacity fading to 0 at the edge. When it reaches the fish, the fish does a quick 180-degree flip rotation with a soft settle, then bobs gently up-down. The dizzy spirals draw on above as looping strokes. The 'MISS' bracket and 'NO CONTACT' pill pop in with spring overshoots.",
+      "sfx": "a hollow low pressure-wave whump with a watery ring-out and a soft KO bell ding"
+    },
+    {
+      "beat": "The punch lands like a rifle round, cracking a crab shell or even shattering aquarium glass.",
+      "visual": "Split emphasis. Center-left a teal/amber crab (#3FE0D0 body, #E89B3C legs) takes a coral-red impact-star dead center and cracks along jagged white fracture lines branching outward. Right side, a pane of aquarium glass spider-webs with radiating white crack-lines from one impact point, 2-3 glass shards breaking free. Across the top a bold gold force-meter bar fills to MAX with a red 'RIFLE ROUND' label pill.",
+      "animations": "Impact-star pops onto the crab shell with a spring; fracture lines draw on rapidly, branching outward over ~8 frames. The glass spider-web strokes draw on radiating from the hit point, and 2-3 shards spring loose and tumble with rotation + gravity ease-in. The gold force-meter bar fills left-to-right in one fast sweep and the 'RIFLE ROUND' pill slams in with overshoot.",
+      "sfx": "a sharp glass-shatter crack with a hard metallic shell-crunch underneath"
+    },
+    {
+      "beat": "All from a creature smaller than your hand.",
+      "visual": "PAYOFF. Clean dark ocean background. The coral-red mantis shrimp sits small and centered inside a faint thin-gold human-hand outline (open palm) to prove it fits in a hand. Above it the punchline slams in word-by-word in heavy white, with 'TINY' and 'BULLET FISTS' rendered in gold (#FFD23F). A single gold sparkle twinkles at the club-arm.",
+      "animations": "Each word of the line drops/slams in one at a time on consecutive beats with a spring overshoot and a slight scale-bounce, the gold words flashing a quick glow on arrival. The gold hand-outline draws on softly behind the shrimp as a stroke sweep. The shrimp does ONE tiny confident club-flex pop on the final word as the button.",
+      "sfx": "a clean rising success sting capped by a single bright bell ding"
+    }
+  ],
+  "payoff": "TINY SHRIMP. BULLET FISTS."
+}

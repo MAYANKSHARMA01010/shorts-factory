@@ -1,0 +1,500 @@
+{
+"script": "He swallowed seventy-six hot dogs in ten minutes to win the eating contest, dunking the buns in water to choke them down faster. The crowd roared as he hoisted the golden belt. But here's what nobody saw. To prepare, champions stretch their stomachs for weeks, until the organ balloons to grotesque sizes. And this trains the body to ignore the one signal that screams stop, you're full. Over time, that broken signal can stay broken, leaving them unable to feel full at all. The very skill that makes them legends slowly rewires them to never feel satisfied again.",
+"words": [
+{
+"text": "He",
+"start": 0.0,
+"end": 0.26
+},
+{
+"text": "swallowed",
+"start": 0.26,
+"end": 0.7
+},
+{
+"text": "76",
+"start": 0.7,
+"end": 1.64
+},
+{
+"text": "hot",
+"start": 1.64,
+"end": 2.14
+},
+{
+"text": "dogs",
+"start": 2.14,
+"end": 2.6
+},
+{
+"text": "in",
+"start": 2.6,
+"end": 2.84
+},
+{
+"text": "10",
+"start": 2.84,
+"end": 3.12
+},
+{
+"text": "minutes",
+"start": 3.12,
+"end": 3.4
+},
+{
+"text": "to",
+"start": 3.4,
+"end": 3.98
+},
+{
+"text": "win",
+"start": 3.98,
+"end": 4.26
+},
+{
+"text": "the",
+"start": 4.26,
+"end": 4.42
+},
+{
+"text": "eating",
+"start": 4.42,
+"end": 4.68
+},
+{
+"text": "contest,",
+"start": 4.68,
+"end": 5.34
+},
+{
+"text": "dunking",
+"start": 5.86,
+"end": 6.1
+},
+{
+"text": "the",
+"start": 6.1,
+"end": 6.24
+},
+{
+"text": "buns",
+"start": 6.24,
+"end": 6.5
+},
+{
+"text": "in",
+"start": 6.5,
+"end": 6.7
+},
+{
+"text": "water",
+"start": 6.7,
+"end": 7.04
+},
+{
+"text": "to",
+"start": 7.04,
+"end": 7.44
+},
+{
+"text": "choke",
+"start": 7.44,
+"end": 7.66
+},
+{
+"text": "them",
+"start": 7.66,
+"end": 7.86
+},
+{
+"text": "down",
+"start": 7.86,
+"end": 8.1
+},
+{
+"text": "faster.",
+"start": 8.1,
+"end": 8.58
+},
+{
+"text": "The",
+"start": 9.16,
+"end": 9.3
+},
+{
+"text": "crowd",
+"start": 9.3,
+"end": 9.58
+},
+{
+"text": "roared",
+"start": 9.58,
+"end": 9.92
+},
+{
+"text": "as",
+"start": 9.92,
+"end": 10.22
+},
+{
+"text": "he",
+"start": 10.22,
+"end": 10.4
+},
+{
+"text": "hoisted",
+"start": 10.4,
+"end": 10.82
+},
+{
+"text": "the",
+"start": 10.82,
+"end": 11.02
+},
+{
+"text": "golden",
+"start": 11.02,
+"end": 11.24
+},
+{
+"text": "belt.",
+"start": 11.24,
+"end": 11.58
+},
+{
+"text": "But",
+"start": 12.04,
+"end": 12.18
+},
+{
+"text": "here's",
+"start": 12.18,
+"end": 12.48
+},
+{
+"text": "what",
+"start": 12.48,
+"end": 12.62
+},
+{
+"text": "nobody",
+"start": 12.62,
+"end": 12.9
+},
+{
+"text": "saw.",
+"start": 12.9,
+"end": 13.42
+},
+{
+"text": "To",
+"start": 13.84,
+"end": 14.02
+},
+{
+"text": "prepare,",
+"start": 14.02,
+"end": 14.44
+},
+{
+"text": "champions",
+"start": 15.48,
+"end": 15.48
+},
+{
+"text": "stretched",
+"start": 15.48,
+"end": 15.94
+},
+{
+"text": "their",
+"start": 15.94,
+"end": 16.26
+},
+{
+"text": "stomachs",
+"start": 16.26,
+"end": 16.76
+},
+{
+"text": "for",
+"start": 16.76,
+"end": 16.84
+},
+{
+"text": "weeks,",
+"start": 16.84,
+"end": 17.28
+},
+{
+"text": "until",
+"start": 17.3,
+"end": 17.94
+},
+{
+"text": "the",
+"start": 17.94,
+"end": 18.12
+},
+{
+"text": "organ",
+"start": 18.12,
+"end": 18.38
+},
+{
+"text": "balloons",
+"start": 18.38,
+"end": 18.9
+},
+{
+"text": "to",
+"start": 18.9,
+"end": 19.22
+},
+{
+"text": "grow",
+"start": 19.22,
+"end": 19.52
+},
+{
+"text": "test",
+"start": 19.52,
+"end": 19.88
+},
+{
+"text": "sizes.",
+"start": 19.88,
+"end": 20.48
+},
+{
+"text": "And",
+"start": 21.04,
+"end": 21.22
+},
+{
+"text": "this",
+"start": 21.22,
+"end": 21.36
+},
+{
+"text": "trains",
+"start": 21.36,
+"end": 21.72
+},
+{
+"text": "the",
+"start": 21.72,
+"end": 21.96
+},
+{
+"text": "body",
+"start": 21.96,
+"end": 22.26
+},
+{
+"text": "to",
+"start": 22.26,
+"end": 22.52
+},
+{
+"text": "ignore",
+"start": 22.52,
+"end": 23.04
+},
+{
+"text": "the",
+"start": 23.04,
+"end": 23.48
+},
+{
+"text": "one",
+"start": 23.48,
+"end": 23.82
+},
+{
+"text": "signal",
+"start": 23.82,
+"end": 24.4
+},
+{
+"text": "that",
+"start": 24.4,
+"end": 24.66
+},
+{
+"text": "screams",
+"start": 24.66,
+"end": 25.04
+},
+{
+"text": "stop.",
+"start": 25.04,
+"end": 25.6
+},
+{
+"text": "You're",
+"start": 26.14,
+"end": 26.3
+},
+{
+"text": "full.",
+"start": 26.3,
+"end": 26.62
+},
+{
+"text": "Over",
+"start": 27.18,
+"end": 27.34
+},
+{
+"text": "time,",
+"start": 27.34,
+"end": 27.8
+},
+{
+"text": "that",
+"start": 28.12,
+"end": 28.34
+},
+{
+"text": "broken",
+"start": 28.34,
+"end": 28.68
+},
+{
+"text": "signal",
+"start": 28.68,
+"end": 29.3
+},
+{
+"text": "can",
+"start": 29.3,
+"end": 29.76
+},
+{
+"text": "stay",
+"start": 29.76,
+"end": 30.14
+},
+{
+"text": "broken,",
+"start": 30.14,
+"end": 30.64
+},
+{
+"text": "leaving",
+"start": 30.94,
+"end": 31.38
+},
+{
+"text": "them",
+"start": 31.38,
+"end": 31.62
+},
+{
+"text": "unable",
+"start": 31.62,
+"end": 32.02
+},
+{
+"text": "to",
+"start": 32.02,
+"end": 32.32
+},
+{
+"text": "feel",
+"start": 32.32,
+"end": 32.56
+},
+{
+"text": "full",
+"start": 32.56,
+"end": 32.82
+},
+{
+"text": "at",
+"start": 32.82,
+"end": 32.94
+},
+{
+"text": "all.",
+"start": 32.94,
+"end": 33.16
+},
+{
+"text": "The",
+"start": 33.68,
+"end": 33.78
+},
+{
+"text": "very",
+"start": 33.78,
+"end": 34.06
+},
+{
+"text": "skill",
+"start": 34.06,
+"end": 34.44
+},
+{
+"text": "that",
+"start": 34.44,
+"end": 34.64
+},
+{
+"text": "makes",
+"start": 34.64,
+"end": 34.88
+},
+{
+"text": "them",
+"start": 34.88,
+"end": 35.14
+},
+{
+"text": "legends",
+"start": 35.14,
+"end": 35.58
+},
+{
+"text": "slowly",
+"start": 35.58,
+"end": 36.5
+},
+{
+"text": "rewires",
+"start": 36.5,
+"end": 37.4
+},
+{
+"text": "them",
+"start": 37.4,
+"end": 37.78
+},
+{
+"text": "to",
+"start": 37.78,
+"end": 38.16
+},
+{
+"text": "never",
+"start": 38.16,
+"end": 38.54
+},
+{
+"text": "feel",
+"start": 38.54,
+"end": 39.04
+},
+{
+"text": "satisfied",
+"start": 39.04,
+"end": 39.76
+},
+{
+"text": "again.",
+"start": 39.76,
+"end": 40.1
+}
+]
+}

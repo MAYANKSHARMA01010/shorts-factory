@@ -1,0 +1,490 @@
+{
+"script": "Right now, you're carrying about 38 trillion bacteria on and inside your body. That means microbes actually outnumber your own human cells. Scoop them all into a single pile, and they'd weigh roughly five pounds, about the size of your brain. You see, most of them live in your gut, helping you digest food and fight off invaders. And there are more bacteria in one spoonful of your insides than there are humans on the entire planet. So you're not really one creature at all, you're a walking city of trillions, and you'd quickly die without them.",
+"words": [
+{
+"text": "Right",
+"start": 0.0,
+"end": 0.28
+},
+{
+"text": "now,",
+"start": 0.28,
+"end": 0.66
+},
+{
+"text": "you're",
+"start": 1.06,
+"end": 1.16
+},
+{
+"text": "carrying",
+"start": 1.16,
+"end": 1.46
+},
+{
+"text": "about",
+"start": 1.46,
+"end": 1.76
+},
+{
+"text": "38",
+"start": 1.76,
+"end": 2.32
+},
+{
+"text": "trillion",
+"start": 2.32,
+"end": 2.92
+},
+{
+"text": "bacteria",
+"start": 2.92,
+"end": 3.52
+},
+{
+"text": "on",
+"start": 3.52,
+"end": 4.2
+},
+{
+"text": "and",
+"start": 4.2,
+"end": 4.6
+},
+{
+"text": "inside",
+"start": 4.6,
+"end": 5.04
+},
+{
+"text": "your",
+"start": 5.04,
+"end": 5.24
+},
+{
+"text": "body.",
+"start": 5.24,
+"end": 5.52
+},
+{
+"text": "That",
+"start": 6.04,
+"end": 6.18
+},
+{
+"text": "means",
+"start": 6.18,
+"end": 6.46
+},
+{
+"text": "microbes",
+"start": 6.46,
+"end": 7.18
+},
+{
+"text": "actually",
+"start": 7.18,
+"end": 8.02
+},
+{
+"text": "outnumber",
+"start": 8.02,
+"end": 8.48
+},
+{
+"text": "your",
+"start": 8.48,
+"end": 8.72
+},
+{
+"text": "own",
+"start": 8.72,
+"end": 9.02
+},
+{
+"text": "human",
+"start": 9.02,
+"end": 9.36
+},
+{
+"text": "cells.",
+"start": 9.36,
+"end": 9.92
+},
+{
+"text": "Scoop",
+"start": 10.64,
+"end": 10.74
+},
+{
+"text": "them",
+"start": 10.74,
+"end": 10.88
+},
+{
+"text": "all",
+"start": 10.88,
+"end": 11.28
+},
+{
+"text": "into",
+"start": 11.28,
+"end": 11.64
+},
+{
+"text": "a",
+"start": 11.64,
+"end": 11.84
+},
+{
+"text": "single",
+"start": 11.84,
+"end": 12.1
+},
+{
+"text": "pile",
+"start": 12.1,
+"end": 12.48
+},
+{
+"text": "and",
+"start": 12.48,
+"end": 13.16
+},
+{
+"text": "they",
+"start": 13.16,
+"end": 13.28
+},
+{
+"text": "weigh",
+"start": 13.28,
+"end": 13.46
+},
+{
+"text": "roughly",
+"start": 13.46,
+"end": 14.06
+},
+{
+"text": "five",
+"start": 14.06,
+"end": 14.56
+},
+{
+"text": "pounds",
+"start": 14.56,
+"end": 15.06
+},
+{
+"text": "about",
+"start": 15.06,
+"end": 15.82
+},
+{
+"text": "the",
+"start": 15.82,
+"end": 15.98
+},
+{
+"text": "size",
+"start": 15.98,
+"end": 16.24
+},
+{
+"text": "of",
+"start": 16.24,
+"end": 16.4
+},
+{
+"text": "your",
+"start": 16.4,
+"end": 16.48
+},
+{
+"text": "brain.",
+"start": 16.48,
+"end": 16.76
+},
+{
+"text": "You",
+"start": 17.26,
+"end": 17.36
+},
+{
+"text": "see,",
+"start": 17.36,
+"end": 17.6
+},
+{
+"text": "most",
+"start": 18.1,
+"end": 18.32
+},
+{
+"text": "of",
+"start": 18.32,
+"end": 18.44
+},
+{
+"text": "them",
+"start": 18.44,
+"end": 18.54
+},
+{
+"text": "live",
+"start": 18.54,
+"end": 18.76
+},
+{
+"text": "in",
+"start": 18.76,
+"end": 18.9
+},
+{
+"text": "your",
+"start": 18.9,
+"end": 19.0
+},
+{
+"text": "gut,",
+"start": 19.0,
+"end": 19.22
+},
+{
+"text": "helping",
+"start": 19.68,
+"end": 19.94
+},
+{
+"text": "you",
+"start": 19.94,
+"end": 20.12
+},
+{
+"text": "digest",
+"start": 20.12,
+"end": 20.58
+},
+{
+"text": "food",
+"start": 20.58,
+"end": 21.12
+},
+{
+"text": "and",
+"start": 21.12,
+"end": 21.56
+},
+{
+"text": "fight",
+"start": 21.56,
+"end": 21.94
+},
+{
+"text": "off",
+"start": 21.94,
+"end": 22.18
+},
+{
+"text": "invaders.",
+"start": 22.18,
+"end": 22.54
+},
+{
+"text": "And",
+"start": 23.32,
+"end": 23.42
+},
+{
+"text": "there",
+"start": 23.42,
+"end": 23.54
+},
+{
+"text": "are",
+"start": 23.54,
+"end": 23.64
+},
+{
+"text": "more",
+"start": 23.64,
+"end": 23.86
+},
+{
+"text": "bacteria",
+"start": 23.86,
+"end": 24.46
+},
+{
+"text": "in",
+"start": 24.46,
+"end": 25.04
+},
+{
+"text": "one",
+"start": 25.04,
+"end": 25.36
+},
+{
+"text": "spoonful",
+"start": 25.36,
+"end": 25.94
+},
+{
+"text": "of",
+"start": 25.94,
+"end": 26.08
+},
+{
+"text": "your",
+"start": 26.08,
+"end": 26.2
+},
+{
+"text": "insides",
+"start": 26.2,
+"end": 26.94
+},
+{
+"text": "than",
+"start": 26.94,
+"end": 27.42
+},
+{
+"text": "there",
+"start": 27.42,
+"end": 27.58
+},
+{
+"text": "are",
+"start": 27.58,
+"end": 27.68
+},
+{
+"text": "humans",
+"start": 27.68,
+"end": 28.1
+},
+{
+"text": "on",
+"start": 28.1,
+"end": 28.36
+},
+{
+"text": "the",
+"start": 28.36,
+"end": 28.66
+},
+{
+"text": "entire",
+"start": 28.66,
+"end": 28.82
+},
+{
+"text": "planet.",
+"start": 28.82,
+"end": 29.2
+},
+{
+"text": "So",
+"start": 29.2,
+"end": 29.92
+},
+{
+"text": "you're",
+"start": 29.92,
+"end": 30.06
+},
+{
+"text": "not",
+"start": 30.06,
+"end": 30.24
+},
+{
+"text": "really",
+"start": 30.24,
+"end": 30.52
+},
+{
+"text": "one",
+"start": 30.52,
+"end": 30.78
+},
+{
+"text": "creature",
+"start": 30.78,
+"end": 31.06
+},
+{
+"text": "at",
+"start": 31.06,
+"end": 31.26
+},
+{
+"text": "all.",
+"start": 31.26,
+"end": 31.54
+},
+{
+"text": "You're",
+"start": 32.1,
+"end": 32.2
+},
+{
+"text": "a",
+"start": 32.2,
+"end": 32.34
+},
+{
+"text": "walking",
+"start": 32.34,
+"end": 32.72
+},
+{
+"text": "city",
+"start": 32.72,
+"end": 33.06
+},
+{
+"text": "of",
+"start": 33.06,
+"end": 33.28
+},
+{
+"text": "trillions",
+"start": 33.28,
+"end": 33.7
+},
+{
+"text": "and",
+"start": 33.7,
+"end": 34.42
+},
+{
+"text": "you'd",
+"start": 34.42,
+"end": 34.72
+},
+{
+"text": "quickly",
+"start": 34.72,
+"end": 34.92
+},
+{
+"text": "die",
+"start": 34.92,
+"end": 35.38
+},
+{
+"text": "without",
+"start": 35.38,
+"end": 35.72
+},
+{
+"text": "them.",
+"start": 35.72,
+"end": 36.0
+}
+]
+}

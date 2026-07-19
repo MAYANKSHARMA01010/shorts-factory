@@ -1,0 +1,24 @@
+{
+  "name": "sky-blue-explainer",
+  "version": "1.0.0",
+  "description": "Animated explainer: why is the sky blue (Remotion + edge-tts)",
+  "scripts": {
+    "render": "remotion render src/index.ts SkyBlue out/why_the_sky_is_blue.mp4 --concurrency=2",
+    "render:elephant": "remotion render src/index.ts ElephantKeeper out/elephant_keeper_remotion.mp4 --concurrency=2"
+  },
+  "dependencies": {
+    "@react-three/fiber": "^8.18.0",
+    "@remotion/cli": "^4.0.0",
+    "@remotion/google-fonts": "^4.0.482",
+    "@remotion/three": "^4.0.482",
+    "@types/three": "^0.169.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.0",
+    "three": "^0.169.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.1",
+    "typescript": "^5.4.0"
+  }
+}

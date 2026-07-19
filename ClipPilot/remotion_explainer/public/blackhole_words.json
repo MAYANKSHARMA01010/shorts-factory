@@ -1,0 +1,575 @@
+{
+"script": "What if there was a place where gravity is so strong, that not even light could escape? That's a black hole. It's born when a giant star runs out of fuel and collapses under its own crushing weight, squeezing into an unimaginably dense point. Around it lies the event horizon, the point of no return. Cross that line, and nothing comes back, not even light itself. Drift too close, and gravity stretches you into a long, thin strand. We can't see a black hole directly. But we watch superheated gas glow as it spirals in. So a black hole isn't really a hole at all. It's the most extreme object in the entire universe.",
+"words": [
+{
+"text": "What",
+"start": 0.0,
+"end": 0.46
+},
+{
+"text": "if",
+"start": 0.46,
+"end": 0.74
+},
+{
+"text": "there",
+"start": 0.74,
+"end": 0.96
+},
+{
+"text": "was",
+"start": 0.96,
+"end": 1.1
+},
+{
+"text": "a",
+"start": 1.1,
+"end": 1.24
+},
+{
+"text": "place",
+"start": 1.24,
+"end": 1.48
+},
+{
+"text": "where",
+"start": 1.48,
+"end": 1.78
+},
+{
+"text": "gravity",
+"start": 1.78,
+"end": 2.08
+},
+{
+"text": "is",
+"start": 2.08,
+"end": 2.38
+},
+{
+"text": "so",
+"start": 2.38,
+"end": 2.7
+},
+{
+"text": "strong",
+"start": 2.7,
+"end": 3.18
+},
+{
+"text": "that",
+"start": 3.18,
+"end": 3.72
+},
+{
+"text": "not",
+"start": 3.72,
+"end": 4.0
+},
+{
+"text": "even",
+"start": 4.0,
+"end": 4.32
+},
+{
+"text": "light",
+"start": 4.32,
+"end": 4.6
+},
+{
+"text": "could",
+"start": 4.6,
+"end": 4.86
+},
+{
+"text": "escape?",
+"start": 4.86,
+"end": 5.24
+},
+{
+"text": "That's",
+"start": 5.92,
+"end": 6.2
+},
+{
+"text": "a",
+"start": 6.2,
+"end": 6.28
+},
+{
+"text": "black",
+"start": 6.28,
+"end": 6.42
+},
+{
+"text": "hole.",
+"start": 6.42,
+"end": 6.68
+},
+{
+"text": "It's",
+"start": 7.34,
+"end": 7.6
+},
+{
+"text": "born",
+"start": 7.6,
+"end": 7.82
+},
+{
+"text": "when",
+"start": 7.82,
+"end": 8.04
+},
+{
+"text": "a",
+"start": 8.04,
+"end": 8.18
+},
+{
+"text": "giant",
+"start": 8.18,
+"end": 8.4
+},
+{
+"text": "star",
+"start": 8.4,
+"end": 8.78
+},
+{
+"text": "runs",
+"start": 8.78,
+"end": 9.1
+},
+{
+"text": "out",
+"start": 9.1,
+"end": 9.34
+},
+{
+"text": "of",
+"start": 9.34,
+"end": 9.48
+},
+{
+"text": "fuel",
+"start": 9.48,
+"end": 9.72
+},
+{
+"text": "and",
+"start": 9.72,
+"end": 10.0
+},
+{
+"text": "collapses",
+"start": 10.0,
+"end": 10.44
+},
+{
+"text": "under",
+"start": 10.44,
+"end": 10.8
+},
+{
+"text": "its",
+"start": 10.8,
+"end": 10.98
+},
+{
+"text": "own",
+"start": 10.98,
+"end": 11.24
+},
+{
+"text": "crushing",
+"start": 11.24,
+"end": 11.58
+},
+{
+"text": "weight,",
+"start": 11.58,
+"end": 11.94
+},
+{
+"text": "squeezing",
+"start": 12.3,
+"end": 12.58
+},
+{
+"text": "into",
+"start": 12.58,
+"end": 12.96
+},
+{
+"text": "an",
+"start": 12.96,
+"end": 13.12
+},
+{
+"text": "unimaginably",
+"start": 13.12,
+"end": 13.94
+},
+{
+"text": "dense",
+"start": 13.94,
+"end": 14.26
+},
+{
+"text": "point.",
+"start": 14.26,
+"end": 14.7
+},
+{
+"text": "Around",
+"start": 15.16,
+"end": 15.5
+},
+{
+"text": "it",
+"start": 15.5,
+"end": 15.72
+},
+{
+"text": "lies",
+"start": 15.72,
+"end": 15.92
+},
+{
+"text": "the",
+"start": 15.92,
+"end": 16.22
+},
+{
+"text": "event",
+"start": 16.22,
+"end": 16.48
+},
+{
+"text": "horizon,",
+"start": 16.48,
+"end": 16.84
+},
+{
+"text": "the",
+"start": 17.44,
+"end": 17.58
+},
+{
+"text": "point",
+"start": 17.58,
+"end": 17.82
+},
+{
+"text": "of",
+"start": 17.82,
+"end": 17.98
+},
+{
+"text": "no",
+"start": 17.98,
+"end": 18.2
+},
+{
+"text": "return,",
+"start": 18.2,
+"end": 18.6
+},
+{
+"text": "cross",
+"start": 19.12,
+"end": 19.3
+},
+{
+"text": "that",
+"start": 19.3,
+"end": 19.56
+},
+{
+"text": "line,",
+"start": 19.56,
+"end": 19.88
+},
+{
+"text": "and",
+"start": 20.2,
+"end": 20.32
+},
+{
+"text": "nothing",
+"start": 20.32,
+"end": 20.58
+},
+{
+"text": "comes",
+"start": 20.58,
+"end": 20.86
+},
+{
+"text": "back,",
+"start": 20.86,
+"end": 21.24
+},
+{
+"text": "not",
+"start": 21.62,
+"end": 21.86
+},
+{
+"text": "even",
+"start": 21.86,
+"end": 22.18
+},
+{
+"text": "light",
+"start": 22.18,
+"end": 22.4
+},
+{
+"text": "itself.",
+"start": 22.4,
+"end": 22.82
+},
+{
+"text": "Drift",
+"start": 23.44,
+"end": 23.54
+},
+{
+"text": "too",
+"start": 23.54,
+"end": 23.76
+},
+{
+"text": "close,",
+"start": 23.76,
+"end": 24.08
+},
+{
+"text": "and",
+"start": 24.4,
+"end": 24.64
+},
+{
+"text": "gravity",
+"start": 24.64,
+"end": 24.92
+},
+{
+"text": "stretches",
+"start": 24.92,
+"end": 25.32
+},
+{
+"text": "you",
+"start": 25.32,
+"end": 25.62
+},
+{
+"text": "into",
+"start": 25.62,
+"end": 25.86
+},
+{
+"text": "a",
+"start": 25.86,
+"end": 26.12
+},
+{
+"text": "long,",
+"start": 26.12,
+"end": 26.38
+},
+{
+"text": "thin",
+"start": 26.72,
+"end": 26.9
+},
+{
+"text": "strand.",
+"start": 26.9,
+"end": 27.36
+},
+{
+"text": "We",
+"start": 27.87,
+"end": 28.16
+},
+{
+"text": "can't",
+"start": 28.16,
+"end": 28.54
+},
+{
+"text": "see",
+"start": 28.54,
+"end": 28.72
+},
+{
+"text": "a",
+"start": 28.72,
+"end": 28.94
+},
+{
+"text": "black",
+"start": 28.94,
+"end": 29.16
+},
+{
+"text": "hole",
+"start": 29.16,
+"end": 29.4
+},
+{
+"text": "directly,",
+"start": 29.4,
+"end": 29.8
+},
+{
+"text": "but",
+"start": 30.22,
+"end": 30.44
+},
+{
+"text": "we",
+"start": 30.44,
+"end": 30.62
+},
+{
+"text": "watch",
+"start": 30.62,
+"end": 30.98
+},
+{
+"text": "superheated",
+"start": 30.98,
+"end": 31.86
+},
+{
+"text": "gas",
+"start": 31.86,
+"end": 32.14
+},
+{
+"text": "glow",
+"start": 32.14,
+"end": 32.52
+},
+{
+"text": "as",
+"start": 32.52,
+"end": 32.88
+},
+{
+"text": "it",
+"start": 32.88,
+"end": 33.02
+},
+{
+"text": "spirals",
+"start": 33.02,
+"end": 33.5
+},
+{
+"text": "in.",
+"start": 33.5,
+"end": 33.78
+},
+{
+"text": "So",
+"start": 34.36,
+"end": 34.64
+},
+{
+"text": "a",
+"start": 34.64,
+"end": 34.78
+},
+{
+"text": "black",
+"start": 34.78,
+"end": 35.0
+},
+{
+"text": "hole",
+"start": 35.0,
+"end": 35.32
+},
+{
+"text": "isn't",
+"start": 35.32,
+"end": 35.74
+},
+{
+"text": "really",
+"start": 35.74,
+"end": 35.98
+},
+{
+"text": "a",
+"start": 35.98,
+"end": 36.18
+},
+{
+"text": "hole",
+"start": 36.18,
+"end": 36.44
+},
+{
+"text": "at",
+"start": 36.44,
+"end": 36.68
+},
+{
+"text": "all.",
+"start": 36.68,
+"end": 36.98
+},
+{
+"text": "It's",
+"start": 37.42,
+"end": 37.64
+},
+{
+"text": "the",
+"start": 37.64,
+"end": 37.82
+},
+{
+"text": "most",
+"start": 37.82,
+"end": 38.12
+},
+{
+"text": "extreme",
+"start": 38.12,
+"end": 38.66
+},
+{
+"text": "object",
+"start": 38.66,
+"end": 39.16
+},
+{
+"text": "in",
+"start": 39.16,
+"end": 39.66
+},
+{
+"text": "the",
+"start": 39.66,
+"end": 39.94
+},
+{
+"text": "entire",
+"start": 39.94,
+"end": 40.16
+},
+{
+"text": "universe.",
+"start": 40.16,
+"end": 40.66
+}
+]
+}

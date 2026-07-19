@@ -1,0 +1,58 @@
+{
+  "slug": "zipper",
+  "title": "The Hidden Machine Inside Every Zipper",
+  "duration_estimate_s": 32,
+  "palette": {
+    "bg": "#0b1020",
+    "bgMid": "#13203b",
+    "accent": "#FFD23F",
+    "key": "#3aa0ff",
+    "metal": "#cdd5e0",
+    "metalDk": "#8b97a8",
+    "teeth": "#e3b34a",
+    "teethDk": "#b07d1f",
+    "fabricA": "#3a47e0",
+    "fabricB": "#d24a3d",
+    "danger": "#ff5b4d",
+    "snap": "#7CFFB2"
+  },
+  "scenes": [
+    {
+      "beat": "Hook: a whole zipper, and the ONLY moving part is that tiny slider.",
+      "visual": "A full vertical zipper centered on screen: two fabric tapes (left indigo, right red) studded with interlocking metal teeth running top to bottom, a pull-tab slider riding on it. Everything dims to silhouette EXCEPT the slider, which stays gold-lit with a pulsing spotlight ring and a label pill 'ONLY moving part'. A magnifier loupe glides down and frames the slider. The closed teeth below the slider mesh in a zig-zag; the open tapes above splay apart in a V.",
+      "animations": "Zipper springs in from a thin vertical line that expands to full width (scaleX pop). Teeth stamp in top-to-bottom in a fast staggered cascade. Everything desaturates to dark in ~6 frames while the slider alone pops to gold with an overshoot spring + a breathing glow ring. Loupe slides down on a spring and a soft parallax.",
+      "sfx": "metallic zip-up riser on the teeth cascade, then a soft 'spotlight' shimmer chime when the slider lights up"
+    },
+    {
+      "beat": "The mystery question: how does pulling ONE tab lock TWO rows of teeth shut?",
+      "visual": "Close on the slider with a finger/hand pulling the tab upward. Two rows of open teeth (left + right) feed UP into the slider from below; below the slider they emerge fused into one locked seam. A big gold '?' pulses over the slider. Two thin arrows curve in from the two open rows and merge into one arrow exiting the bottom, labeled 'two rows -> one lock'.",
+      "animations": "Tab yanks up with a quick spring + a 2-3px nervous wobble. Open teeth on both sides slide upward on a conveyor loop into the slider mouth. The merge arrows draw on (stroke-dashoffset sweep). The '?' scales in with overshoot and gently throbs.",
+      "sfx": "short fabric/zipper tug whoosh on the tab pull"
+    },
+    {
+      "beat": "Anatomy reveal: every single tooth has a HOOK on top and a HOLLOW on the bottom.",
+      "visual": "Hero cross-section: one giant single tooth fills the frame, exploded/oversized like a textbook diagram. Top of the tooth has a rounded HOOK bump (gold-outlined, caliper bracket + label 'HOOK'); the bottom has a scooped HOLLOW dimple (label 'HOLLOW'). Faint ghost copies of neighbor teeth above and below show the hook of one nests into the hollow of the next. A dashed centerline runs through.",
+      "animations": "Single tooth pops up huge with an overshoot spring. The HOOK bump grows out of the top (scale from 0) and its label + caliper bracket draw on; then the HOLLOW dimple carves in on the bottom with a quick 'scoop' morph and its label snaps in. Soft highlight sweep travels across the metal.",
+      "sfx": "two quick UI 'tick' pops, one as HOOK labels in, one as HOLLOW labels in"
+    },
+    {
+      "beat": "The Y-channel: as the slider glides up, its Y-shaped track forces each tooth sideways into the gap across from it.",
+      "visual": "Top-down schematic INSIDE the slider: a Y-shaped channel carved into the slider body (two intake mouths at top, merging into one stem at bottom). Two columns of teeth ride into the two top mouths; as the slider moves up, the angled walls of the Y wedge each tooth sideways so it slots into the gap between the two teeth on the opposite row. Show 3-4 teeth caught mid-deflection, arrows showing the sideways push.",
+      "animations": "Slider body slides upward continuously. The Y-channel glows/traces its outline on entry. Teeth flow into the two mouths and visibly cam sideways (x-offset interpolated by their position in the channel) before locking at the stem. Little sideways push-arrows pulse at each contact point. Fast, mechanical, looping feed.",
+      "sfx": "ratchet/click-track tick-tick-tick synced to teeth entering the channel"
+    },
+    {
+      "beat": "The lock: the hook snaps into the hollow, and the tooth BEHIND it holds the whole thing locked.",
+      "visual": "Macro of two opposing teeth meeting: the HOOK of one drives down and SNAPS into the HOLLOW of the other -> green flash + 'LOCKED' burst. Then zoom out one notch to show the tooth directly behind it pressing in, pinning the joint so it can't pull back. A red 'pull-apart' force arrow tries to separate them and gets BLOCKED (bounces back) by the trailing tooth, with a little shield/▮ stopper icon.",
+      "animations": "Hook snaps into hollow with a hard spring (fast overshoot, tiny screen shake). Bright green snap-flash + radial spark burst on contact. The trailing tooth slides in behind on a spring to 'pin'. The red separation arrow lunges, hits the lock, and recoils with a rejected bounce; shield icon pops.",
+      "sfx": "satisfying mechanical CLICK/snap-lock as the hook seats (the one real 'reveal' boom-click of the piece)"
+    },
+    {
+      "beat": "Payoff: one single broken tooth ruins the entire zipper for good.",
+      "visual": "Pull back to the whole zipper again, neatly locked. The chain of teeth flows like a meshed seam. One tooth in the middle CRACKS and snaps off, leaving a gap. From that gap the seam unzips/bursts open in BOTH directions like a run in a chain reaction, the two fabric tapes peeling apart. Final centered payoff text over the broken zipper: 'ONE TOOTH. WHOLE ZIPPER. DEAD.' with the broken tooth circled in red.",
+      "animations": "Whole zipper reassembles quickly. One mid tooth flashes red, then violently snaps off (rotates + flies out with a debris puff). A crack-line rips outward from the gap; teeth on either side pop apart in a fast sequential unzip and the tapes splay. Payoff text slams in word-by-word with a heavy spring + red underline wipe.",
+      "sfx": "sharp metallic SNAP/crack on the break, then a low failure boom + descending zip-burst as the seam fails"
+    }
+  ],
+  "payoff": "ONE tooth breaks -> the WHOLE zipper dies. No moving parts left to save it."
+}

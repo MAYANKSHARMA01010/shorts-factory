@@ -1,0 +1,54 @@
+{
+  "slug": "ballpoint",
+  "title": "Why Your Pen Never Leaks",
+  "duration_estimate_s": 32,
+  "palette": {
+    "bg_deep": "#0c1018",
+    "bg_panel": "#141a26",
+    "gold": "#FFD23F",
+    "ink_blue": "#2B6CFF",
+    "steel_ball": "#C7D0DC",
+    "steel_dark": "#5A6678",
+    "paper_warm": "#F2E9D8",
+    "ink_dark": "#14213A"
+  },
+  "scenes": [
+    {
+      "beat": "A single ballpoint pen can draw a line nearly two miles long, yet it never leaks in your pocket.",
+      "visual": "SCROLL-STOPPER HOOK. One bold oversized ballpoint pen sits dead-center, tilted at a confident 30-degree diagonal, drawn as a clean tapered cylinder: chrome cone tip (steel gradient with one bright specular streak), a slim ink-blue barrel window glowing #2B6CFF, and a crisp clicker cap. It dominates ~60% of the frame so it reads instantly on a phone. Pinned top-right, a large hard gold badge pill reads '2 MILES' in heavy #FFD23F caps; directly under the pen, a second bold gold-outlined tag reads 'NEVER LEAKS?' as the mystery. From the chrome tip, a single ink-blue line shoots out and coils into a tight spiral filling the lower frame, visually 'spending' that two miles of ink. Faint dotted ruler ticks line the bottom edge to imply enormous length.",
+      "animations": "Pen slams in center with a snappy spring pop and a small settle (overshoot, NO camera zoom) in the first 0.4s so the object is unmissable. Immediately the 'NEVER LEAKS?' tag springs in beneath it with a single confident overshoot. The ink-blue line then draws-on continuously from the tip via a stroke-dashoffset sweep, accelerating as it coils into the spiral. The instant the spiral closes, the '2 MILES' gold pill snaps in top-right with spring overshoot and a quick gold glow flash. A tiny odometer counter under the pill flicks up to 2.0 and stops with a hard tick.",
+      "sfx": "a single rising felt pen-on-paper scratch that climbs in pitch as the ink line draws across the spiral"
+    },
+    {
+      "beat": "So how does it lay down ink so smoothly?",
+      "visual": "The whole pen recedes to a dim silhouette at the top edge while a glowing gold loupe ring iris-frames the very tip at screen center, like a magnifier. Inside the loupe, a soft ink-blue question mark hovers over the chrome tip. Thin gold guide-lines radiate from the loupe edge toward the tip to signal a conceptual zoom-in (composition reframe, not a camera move).",
+      "animations": "The gold loupe ring draws-on as a single circular stroke sweep, then the magnified tip fades-and-slides up into focus inside it. The question mark springs in with a light overshoot and pulses once. The gold radial guide-lines wipe outward one by one. Everything outside the loupe dims with a smooth fill. Kept deliberately understated so it does not compete with the later reveal.",
+      "sfx": "a clean glassy focus shimmer, one soft single chime, no whoosh"
+    },
+    {
+      "beat": "At the very tip sits a tiny metal ball, cradled in a socket but free to spin.",
+      "visual": "A clean cross-section of the pen tip fills the frame: the chrome conical housing in steel tones, and nested inside it a polished metal sphere (radial steel gradient with one bright specular highlight) seated in a curved socket. Three tiny steel retaining lips hug the ball's equator. A gold label pill reads 'FREE TO SPIN', and a curved gold rotation arrow wraps the ball.",
+      "animations": "The cross-section housing draws-on as outlined strokes, then fills with the steel gradient. The metal ball drops into its socket with a light spring bounce and settles. The curved gold arrow draws-on, then the ball spins smoothly in place (its specular highlight rotates continuously). The 'FREE TO SPIN' pill pops in with a modest spring. Energetic but visibly restrained, so the next scene clearly reads as THE reveal.",
+      "sfx": "a tiny metallic ball-bearing seat click, one crisp single metal tick"
+    },
+    {
+      "beat": "As you drag the pen, the ball rolls and picks up thick ink from the reservoir behind it.",
+      "visual": "THE HERO MONEY SHOT. This is the single richest frame of the video and the one that nails the mechanism. A wide, high-detail cross-section: at right, the same polished steel ball seated in its socket; directly behind it, a glowing ink-blue reservoir tube rendered as a deep glossy column of thick gel ink with soft inner highlights. The back hemisphere of the ball touches the ink. As the ball rotates, ink wets and clings to its surface as a glistening blue film that wraps around the metal. Stretchy ink menisci bridge the gap where the reservoir meets the ball. A warm paper strip runs along the bottom, the ball poised on it. One bold gold tag reads 'PICKS UP INK'. Every other scene was kept calmer specifically so this frame lands as the unmistakable reveal.",
+      "animations": "The reservoir fills bottom-to-top with a thick, slightly viscous liquid fill (eased, gloopy, not linear). As the steel ball rotates, an ink-blue film paints-on around its circumference following the spin: a rotating mask reveals the wet coating tracking the ball's surface so you literally watch ink climb onto the metal. Two or three sticky ink threads stretch from the reservoir to the ball, thin out, and snap back with elastic spring recoil. A glossy specular highlight sweeps across the freshly-wetted ink. The 'PICKS UP INK' gold tag punches in with the single STRONGEST spring overshoot in the whole video plus a gold glow pulse, reserved only for this scene to crown it as the hero moment.",
+      "sfx": "a thick wet viscous ink gloop and suction squelch as the gel ink grabs the rotating ball"
+    },
+    {
+      "beat": "Then it rolls that ink onto the page, just like a paint roller.",
+      "visual": "Side profile. The steel ball rides along a long warm-paper baseline, leaving a clean ink-blue trail behind it as it travels left to right, exactly like a paint roller laying paint. A ghosted translucent paint-roller icon floats above as the analogy, rolling in parallel and leaving a matching swatch. The freshly laid ink line glistens. A gold pill reads 'LIKE A ROLLER'.",
+      "animations": "The ball rolls across the frame with synced rotation-plus-translation (rolling without slipping); the ink trail draws-on directly behind it as a continuous stroke fill. The ghost paint-roller above rolls in parallel and its swatch wipes on in sync. The 'LIKE A ROLLER' pill springs in with a light overshoot. A soft gold underline sweeps along the finished ink line. Snappy but intentionally less dramatic than the hero reveal.",
+      "sfx": "a smooth tacky paint-roller roll, a soft sticky rolling texture"
+    },
+    {
+      "beat": "And the ink is sticky enough to grip the ball, yet thin enough to flow. That balance is the whole secret.",
+      "visual": "A clean balance-scale composition: center is the steel ball with its blue ink coat. On the left, an ink-blue droplet labeled 'STICKY' (gold caps) pulls down with clingy threads; on the right, an ink-blue droplet labeled 'THIN' flows as a smooth stream. A gold horizontal beam balances level between them. Then the PAYOFF slams in, centered over a darkened panel.",
+      "animations": "The two droplets spring in and the gold beam tips left, then right, then settles dead level with a damped spring. The darkened panel fades up. The payoff line then slams in word by word with strong spring overshoot, each word punching in in sequence: 'STICKY,' then 'YET' then 'FLOWS.' The final word 'FLOWS.' gets a gold glow flash and a tiny settle bounce to land the shock.",
+      "sfx": "a bright confirming success sting, one resolved chime, hitting exactly on the final word 'FLOWS.'"
+    }
+  ],
+  "payoff": "Sticky, yet flows."
+}

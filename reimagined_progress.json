@@ -1,0 +1,284 @@
+{
+  "_about": "Tracks the 100 reimagined-transcript shorts. Pipeline per video: edge-tts(Andrew) narration -> faster-whisper word timings -> bespoke Remotion composition (SkyBlue quality) -> render -> punchy-recut (scene-matched SFX) -> loudnorm -14 LUFS -> FINAL_SHORTS/reimagined. Status: pending | done | skip.",
+  "approach": "bespoke-per-video (Remotion motion-graphics, no stock-image slop)",
+  "voice": "edge-tts en-US-AndrewMultilingualNeural @ -4%",
+  "videos": {
+    "001_mirror-is-really-silver": {
+      "status": "done",
+      "title": "Your Mirror Is Lying To You",
+      "comp": "Mirror",
+      "duration_s": 32.0,
+      "output": "FINAL_SHORTS/reimagined/R001 - Your Mirror Is Lying To You.mp4",
+      "sfx": "slide2+whoosh3 cuts, chime2 reveal impacts",
+      "note": "v1 pacing (zoom-punch grid) — owner found it too busy"
+    },
+    "002_pink-paste-inside-hot-dogs": {
+      "status": "done",
+      "title": "You'll Never Eat A Hot Dog Again",
+      "comp": "HotDog",
+      "duration_s": 34.0,
+      "output": "FINAL_SHORTS/reimagined/R002 - You'll Never Eat A Hot Dog Again.mp4",
+      "pacing": "calm-but-fast: punch 0 (no zoom pulse), scene-boundary cuts, sparse SFX (9 hits), speed 1.12, fast in-comp animation",
+      "sfx": "slide2+whoosh3 cuts, cosmic_boom on 3 reveals"
+    },
+    "003_youre-chewing-plastic": {
+      "status": "done",
+      "title": "You're Chewing Plastic",
+      "comp": "Gum",
+      "duration_s": 33.1,
+      "output": "FINAL_SHORTS/reimagined/R003 - You're Chewing Plastic.mp4",
+      "pacing": "calm-but-fast (punch 0, 5 scene cuts, 7 SFX, no swell, speed 1.12)"
+    },
+    "004_poison-on-every-match": {
+      "status": "done",
+      "title": "A Match Is A Tiny Bomb You Hold",
+      "comp": "Match",
+      "duration_s": 31.7,
+      "output": "FINAL_SHORTS/reimagined/R004 - A Match Is A Tiny Bomb You Hold.mp4",
+      "pacing": "calm-but-fast; 7 scenes incl. friction-reveal + 'fire isn't in the match' twist + flame payoff"
+    },
+    "005_cast-iron-born-from-lava": {
+      "status": "done",
+      "title": "Your Grandmas Pan Was Once Lava",
+      "comp": "CastIron",
+      "duration_s": 33.6,
+      "output": "FINAL_SHORTS/reimagined/R005 - Your Grandmas Pan Was Once Lava.mp4",
+      "pacing": "calm-but-fast; furnace/pour/sand-reuse/season/nonstick + egg-slide payoff"
+    },
+    "006_no-lead-in-your-pencil": {
+      "status": "done",
+      "title": "Your Pencil Has Been Lying To You",
+      "comp": "Pencil",
+      "duration_s": 32.8,
+      "output": "FINAL_SHORTS/reimagined/R006 - Your Pencil Has Been Lying To You.mp4",
+      "pacing": "calm-but-fast; graphite-myth/grind/extrude/bake/cedar-sandwich/finish; chime stingers"
+    },
+    "007_diamonds-grown-in-a-microwave": {
+      "status": "done",
+      "title": "A Real Diamond Grown In A Microwave",
+      "comp": "Diamond",
+      "duration_s": 34.3,
+      "output": "FINAL_SHORTS/reimagined/R007 - A Real Diamond Grown In A Microwave.mp4",
+      "pacing": "calm-but-fast; 7 scenes; plasma 'purple star' + atom-rain lattice + lab-vs-earth + brilliant-cut payoff"
+    },
+    "008_sand-turned-to-glass": {
+      "status": "done",
+      "title": "Beach Sand Becomes Your Glass Bottle",
+      "comp": "SandGlass",
+      "duration_s": 34.6,
+      "output": "FINAL_SHORTS/reimagined/R008 - Beach Sand Becomes Your Glass Bottle.mp4",
+      "pacing": "calm-but-fast; sand-dissolve hook/furnace 3000F/molten-blob/snip-gob/balloon-blow/cool-to-clear loop"
+    },
+    "009_trees-boiled-into-soup": {
+      "status": "done",
+      "title": "Paper Is Just A Tree Boiled Into Soup",
+      "comp": "TreeSoup",
+      "duration_s": 33.0,
+      "output": "FINAL_SHORTS/reimagined/R009 - Paper Is Just A Tree Boiled Into Soup.mp4",
+      "pacing": "calm-but-fast; tree=paper hook/debark/chemical-pulp/drain-screen/press+hot-drums/reel-slice-crumple full-circle"
+    },
+    "010_bug-that-coats-your-candy": {
+      "status": "done",
+      "title": "The Bug Hiding On Your Candy",
+      "comp": "CandyBug",
+      "duration_s": 35.3,
+      "output": "FINAL_SHORTS/reimagined/R010 - The Bug Hiding On Your Candy.mp4",
+      "pacing": "calm-but-fast; jelly-bean+magnifier hook/mold/coating-drum/SHELLAC-beetles hero/brush-gloss/jar payoff"
+    },
+    "011_zipper-teeth-trick": {
+      "status": "done",
+      "title": "The Hidden Machine Inside Every Zipper",
+      "comp": "Zipper",
+      "duration_s": 28.7,
+      "output": "FINAL_SHORTS/reimagined/R011 - The Hidden Machine Inside Every Zipper.mp4",
+      "pacing": "calm-but-fast; 6 scenes: slider-spotlight/pull-mystery/anatomy-HOOK+HOLLOW/Y-channel/snap-lock/chain-failure payoff",
+      "sfx": "VARIED: slide4+whoosh5 metallic cuts + cosmic_boom on snap-lock",
+      "fixes": "had 2 bugs caught post-build: (1) missing <Audio> = silent narration; (2) <Captions> inside <Sequence> = scene-relative caption timing. Both fixed; captions moved to root."
+    },
+    "012_flush-toilet-siphon": {
+      "status": "done",
+      "title": "How Your Toilet Empties Itself",
+      "comp": "Toilet",
+      "duration_s": 30.6,
+      "output": "FINAL_SHORTS/reimagined/R012 - How Your Toilet Empties Itself.mp4",
+      "pacing": "calm-but-fast; 6 scenes: flush+NO-PUMP hook / how-suck ? / x-ray inverted-U SIPHON reveal / tube-fill / gravity-drag PULLED-UP mechanism / air-breaks-chain GLUG payoff",
+      "sfx": "VARIED water sound design BAKED into comp (water_ripples/x-ray chime/splash/drag-boom/toilet_flush gurgle) + sparse slide3/whoosh4/Splash cuts at low gain"
+    },
+    "013_ejector-seat-rocket": {
+      "status": "done",
+      "title": "How Pilots Eject at 600 MPH",
+      "comp": "Ejector",
+      "duration_s": 29.7,
+      "output": "FINAL_SHORTS/reimagined/R013 - How Pilots Eject at 600 MPH.mp4",
+      "pacing": "calm-but-fast; 6 scenes: EJECT hook+stopwatch / 600mph spine-SNAP problem / 1-4 bolts blast canopy / 2-4 rocket-on-rails + force-spread inset / 3-4 drogue yanks pilot+seat tumbles / 4-4 main canopy + 4.0s lock payoff; stopwatch+step-counter continuity",
+      "sfx": "VARIED aerospace BAKED (smack spine-crack / cosmic_boom rocket ROAR / chime canopy lock) + sparse whoosh2/slide5 airy cuts; captions now loaded from words.json import"
+    },
+    "014_noise-cancelling-headphones": {
+      "status": "done",
+      "title": "Your Headphones Are Screaming At You",
+      "comp": "Headphones",
+      "duration_s": 33.2,
+      "output": "FINAL_SHORTS/reimagined/R014 - Your Headphones Are Screaming At You.mp4",
+      "pacing": "calm-but-fast; 6 scenes: headphones+jet-rings-die+SCREAMING? hook / BLOCK-vs-ERASE split / MIC listens (red wave+ripples) / violet chip builds anti-wave mirror / HERO wave-cancel→flat SILENCE line w/ gold sparks / payoff 'It SCREAMS the OPPOSITE into SILENCE'",
+      "sfx": "VARIED electronic BAKED (digital DSP blip / cosmic_boom phase-cancel thunk / success sting) + sparse slide1/whoosh1 cuts; sinePath waveform helper"
+    },
+    "015_submarine-ballast-tanks": {
+      "status": "done",
+      "title": "How Does Steel Sink On Command",
+      "comp": "Submarine",
+      "duration_s": 31.2,
+      "output": "FINAL_SHORTS/reimagined/R015 - How Does Steel Sink On Command.mp4",
+      "pacing": "calm-but-fast; 6 scenes: 40M-LBS-FLOATS hook+scale-human / ?-choice up/down arrows / cutaway ballast-tank reveal / HERO flood (seawater rises+bubbles+weight-gauge LIGHT→HEAVY+tonnage+sink to abyss) / compressed-air blast drains+rise / WATER DOWN. AIR UP. payoff",
+      "sfx": "VARIED ocean BAKED (chime sonar-ping / water_ripples+splash flood / airblast / success) + sparse slide6/Splash_Small cuts; bg color-mix teal→abyss"
+    },
+    "016_combination-lock-gates": {
+      "status": "done",
+      "title": "Why Your Lock Has No Computer",
+      "comp": "Combolock",
+      "duration_s": 30.9,
+      "output": "FINAL_SHORTS/reimagined/R016 - Why Your Lock Has No Computer.mp4",
+      "pacing": "calm-but-fast; 6 scenes: padlock+xray NO-CHIP hook / hinge-open 3 stacked wheels / top-down 3 notches diff angles / dial catches each notch up 1/3→3/3 / HERO edge-on notches fuse→gold slot+latch THUNK / shackle POP + 'THREE NOTCHES. ONE SLOT.'",
+      "sfx": "VARIED mechanical BAKED (3 metal click-catches / cosmic_boom latch THUNK / badBoing shackle sproing) + sparse slide2/footstep_metal cuts"
+    },
+    "017_car-airbag-explosion": {
+      "status": "done",
+      "title": "Your Airbag Is a Tiny Bomb",
+      "comp": "Airbag",
+      "duration_s": 32.4,
+      "output": "FINAL_SHORTS/reimagined/R017 - Your Airbag Is a Tiny Bomb.mp4",
+      "pacing": "calm-but-fast; 6 scenes: airbag+30ms-ONE-BLINK hook+blink-mask / NOT-A-PUMP vs CONTROLLED-BLAST split / sensor→wire→pellet spark cutaway / HERO combustion core + N2 glyph flood + 18L counter / face-lunge cushion slam JUST-IN-TIME / 'A BLINK-FAST BOMB' payoff",
+      "sfx": "VARIED explosion BAKED (cosmic_boom detonation+ignition / digital spark zap / airblast gas-roar / smack cushion / success ding) + sparse slide3/whoosh2 cuts; note: renamed inner Airbag balloon→Bag to avoid export name clash"
+    },
+    "018_thermostat-bending-metal": {
+      "status": "done",
+      "title": "How a Dumb Box Feels Heat",
+      "comp": "Thermostat",
+      "duration_s": 30.1,
+      "output": "FINAL_SHORTS/reimagined/R018 - How a Dumb Box Feels Heat.mp4",
+      "pacing": "calm-but-fast; 6 scenes: round dial NO-battery/chip ? hook / iris-open BIMETAL spiral / straight 2-layer bar brass-EXPANDS vs steel-barely + mm counter / HERO live spiral winds tighter/looser w/ thermometer + HEAT/COOL arc / mercury bead rolls→closes green circuit ON / furnace flame + 'METAL FEELS HEAT'",
+      "sfx": "VARIED metal/heat BAKED (relay click / badBoing coil flex / chime tink + digital zap on contact / cosmic_boom furnace whoomph + success) + sparse slide5/whoosh4 cuts; spiralPath helper; fixed mud heat-glow→radial gradient"
+    },
+    "019_ballpoint-pen-ball": {
+      "status": "done",
+      "title": "Why Your Pen Never Leaks",
+      "comp": "Ballpoint",
+      "duration_s": 28.7,
+      "output": "FINAL_SHORTS/reimagined/R019 - Why Your Pen Never Leaks.mp4",
+      "pacing": "calm-but-fast; 6 scenes: tilted pen+2MILES+NEVER-LEAKS? hook+ink-spiral / loupe-zoom ? on tip / cross-section ball-in-socket FREE-TO-SPIN / HERO ball rotates+coats blue ink from reservoir PICKS-UP-INK / rolls on paper LIKE-A-ROLLER / STICKY vs THIN balance beam → 'STICKY, YET FLOWS.'",
+      "sfx": "VARIED pen/ink BAKED (chime focus / metal seat click / water_ripples wet ink gloop / success on FLOWS) + sparse slide1/whoosh3 cuts; reused spiralPath"
+    },
+    "020_microwave-water-spin": {
+      "status": "done",
+      "title": "Why Microwaves Don't Burn The Mug",
+      "comp": "Microwave",
+      "duration_s": 31.7,
+      "output": "FINAL_SHORTS/reimagined/R020 - Why Microwaves Don't Burn The Mug.mp4",
+      "pacing": "calm-but-fast; 6 scenes: boiling-coffee/cool-mug split hook / magnetron fires violet rays ricochet chamber / reticle TARGETS H2O only (Mickey molecules) / HERO huge bent H2O +/- poles flips to chase field, FLIPS/SEC odometer / friction cluster jiggle FRICTION=HEAT + thermometer / mug interior droplets glow → 'YOUR FOOD COOKS ITSELF'",
+      "sfx": "VARIED microwave BAKED (clink+boil gurgle / digital electric buzz / chime radar lock / airblast warble / success) + sparse slide4/whoosh1 cuts; WaterMol component"
+    },
+    "021_mantis-shrimp-punch": {
+      "status": "done",
+      "title": "The Shrimp That Punches Like a Bullet",
+      "comp": "Mantisshrimp",
+      "duration_s": 31.3,
+      "output": "FINAL_SHORTS/reimagined/R021 - The Shrimp That Punches Like a Bullet.mp4",
+      "pacing": "calm-but-fast; 6 scenes: shrimp+1500N-PUNCH hook / club FIRES 0.003s faster-than-bullet / HERO cavitation bubble bloom→implode→explode 4500C / MISS shockwave KOs fish / crab+aquarium-glass crack RIFLE-ROUND / 'TINY SHRIMP. BULLET FISTS.' in-hand payoff",
+      "sfx": "VARIED underwater BAKED (cosmic_boom thud / smack whip / glass+digital cavitation pop / airblast+chime KO / glass+smack crack / success) + sparse whoosh5/Splash cuts; re-timed cavitation to fill scene (no dead air)"
+    },
+    "022_tardigrade-survival": {
+      "status": "done",
+      "title": "The Animal You Cannot Kill",
+      "comp": "Tardigrade",
+      "duration_s": 36.1,
+      "output": "FINAL_SHORTS/reimagined/R022 - The Animal You Cannot Kill.mp4",
+      "pacing": "calm-but-fast; 6 scenes: green water-bear+CAN'T-BE-KILLED? hook+hazard-orbit / HERO tun morph green→grey husk, 96→3% WATER, LIFE/DEATH gauge / frost -272C + radiation shield / ice-block 30-YEARS dormant / water-drop revive grey→green walks off / 'NATURE BUILT SOMETHING YOU CAN'T KILL' payoff w/ hazard X's",
+      "sfx": "VARIED organic BAKED (boing pop / water_ripples drain / digital×2 radiation zap / chime ice / plip+chime revive / success sting) + sparse slide6/whoosh2 cuts; Bear component w/ curl+green morph params"
+    },
+    "023_electric-eel-shock": {
+      "status": "done",
+      "title": "Why This Fish Can Stop Your Heart",
+      "comp": "Electriceel",
+      "duration_s": 32.0,
+      "output": "FINAL_SHORTS/reimagined/R023 - Why This Fish Can Stop Your Heart.mp4",
+      "pacing": "calm-but-fast; 6 scenes: S-curve eel+STOPS-YOUR-HEART? hook+foot-dip / inside battery stack 6000 cells+wire / HERO fire: cells flash→forked lightning bolt→600V gold counter / field rings lock fish into rigid wireframe / eel head swallows PARALYZED fish / eel leaps to predator → '600 VOLTS. NO ESCAPE.'",
+      "sfx": "VARIED electric BAKED (water gloop+sub boom / battery click+chime / digital ZAP+cosmic_boom 600V slam / digital current / plip gulp / digital+success leap) + sparse whoosh1/slide3 cuts; Eel sine-undulation + BatteryRow components"
+    },
+    "024_bombardier-beetle-explosion": {
+      "status": "done",
+      "title": "This Beetle Fires a Boiling Gun",
+      "comp": "Bombardier",
+      "duration_s": 33.0,
+      "output": "FINAL_SHORTS/reimagined/R024 - This Beetle Fires a Boiling Gun.mp4",
+      "pacing": "calm-but-fast; 6 scenes: beetle+? hook+muzzle-glow / x-ray 2 chambers blue+amber SEPARATE / fang strike→divider shatters→liquids mix red swirl / HERO incandescent core 100C gauge→boiling jet+steam+BOILING / swivel protractor aim frog+ant HIT / 'IT LITERALLY EXPLODES ON YOU'",
+      "sfx": "VARIED chemical BAKED (insect click / water gloop / digital fizz / cosmic_boom POP+airblast kettle hiss / chime+digital lock-hits / success) + sparse slide4/whoosh3 cuts; Beetle component"
+    },
+    "025_trees-talk-underground": {
+      "status": "done",
+      "title": "Trees Are Secretly Talking Underground",
+      "comp": "Treestalk",
+      "duration_s": 36.0,
+      "output": "FINAL_SHORTS/reimagined/R025 - Trees Are Secretly Talking Underground.mp4",
+      "pacing": "calm-but-fast; 6 scenes: tree+SHHH? whisper-into-soil hook / roots wrapped in lavender fungal mesh ...miles... / 2 trees trade SUGAR/WATER/SIGNAL packets on web / HERO attacked tree '!'→red chemical alarm sweeps web→neighbors raise green shields / 5-tree WOOD WIDE WEB row / 'THE FOREST IS TALKING'",
+      "sfx": "VARIED forest BAKED (wind swell / soil crackle digital / chime+plip+digital 3 packets / digital zap+chime alarm / success chord / cosmic_boom sub-thump on TALKING) + sparse slide2/whoosh4 cuts; Tree + Web components"
+    },
+    "026_starfish-stomach-eating": {
+      "status": "done",
+      "title": "It Pushes Its Stomach Out To Eat",
+      "comp": "Starfish",
+      "duration_s": 31.5,
+      "output": "FINAL_SHORTS/reimagined/R026 - It Pushes Its Stomach Out To Eat.mp4",
+      "pacing": "calm-but-fast; 6 scenes: 5-arm star+NO-TEETH-NO-JAW? hook / crawls on clam, 250 tube-feet grip / pries shell A-HAIR-WIDE / HERO translucent pink stomach EVERTS through gap onto flesh / green enzyme dissolves clam ALIVE to soup / sucks stomach back→empty shell → 'IT EATS INSIDE-OUT'",
+      "sfx": "VARIED underwater/gross BAKED (glug+sonar chime / plip suction / airblast creak / water_ripples wet squelch evert / digital acid fizz / plip slurp+cosmic_boom thump) + sparse slide5/Splash cuts; Star + Clam components"
+    },
+    "027_immortal-jellyfish": {
+      "status": "done",
+      "title": "This Animal Refuses To Die",
+      "comp": "Jellyfish",
+      "duration_s": 34.7,
+      "output": "FINAL_SHORTS/reimagined/R027 - This Animal Refuses To Die.mp4",
+      "pacing": "calm-but-fast; 6 scenes: translucent pulsing jelly+IT-CAN'T-DIE hook / ~4mm vs fingernail scale / INJURED/STARVING/OLD→blob sinks to seafloor / HERO cell-lens dedifferentiate violet→stem + REWIND + medusa→polyp + butterfly→caterpillar / life-cycle ring ∞ tracer / 'IT NEVER TRULY DIES ∞'",
+      "sfx": "VARIED underwater/bio BAKED (water+sonar chime / measuring chime / glug+cosmic_boom thud / airblast rewind+digital sparkle / chime arpeggio / success bell) + sparse slide6/whoosh1 cuts; Jelly pulsing-bell component"
+    },
+    "028_lyrebird-sound-mimic": {
+      "status": "done",
+      "title": "The Bird That Steals Sounds",
+      "comp": "Lyrebird",
+      "duration_s": 34.2,
+      "output": "FINAL_SHORTS/reimagined/R028 - The Bird That Steals Sounds.mp4",
+      "pacing": "calm-but-fast; 6 scenes: lyre-tail bird+COPIES-ANY-SOUND hook+cyan wave / 12-CALLS bird timeline / camera/car/chainsaw machine sounds NONE-ARE-REAL / HERO REAL-CHAINSAW vs LYREBIRD split waveforms merge IDENTICAL= / FOREST-MIXTAPE courtship display / ghost construction → 'ONE BIRD. A WHOLE WORKSITE.'",
+      "sfx": "VARIED bird/mimic BAKED (whistle chime / arpeggio / shutter click+digital alarm+smack saw / glassy chime+digital morph / success chord / smack clank+cosmic_boom→silence) + sparse whoosh4/slide1 cuts; Bird+wavePath; renamed inner Lyrebird→Bird (export clash)"
+    },
+    "029_axolotl-regeneration": {
+      "status": "done",
+      "title": "It Regrows Its Own Brain",
+      "comp": "Axolotl",
+      "duration_s": 34.6,
+      "output": "FINAL_SHORTS/reimagined/R029 - It Regrows Its Own Brain.mp4",
+      "pacing": "calm-but-fast; 6 scenes: pink axolotl+scissors CUT-IT-OFF hook→stump / grey-adult vs gilled-axolotl NEVER-GROWS-UP / HERO blastema dome regrows bone+muscle+nerve WEEK-counter GOOD-AS-NEW / transparent body heart/spine/brain crack→heal NO-SCAR / petri-dish→human-arm COPY-THE-TRICK? / 'IT HEALS WHAT WE CAN'T'",
+      "sfx": "VARIED regen/medical BAKED (snip click+plip / harp chime / airblast grow+chime / cosmic_boom heartbeat+digital heal / chime ting / cosmic_boom+success) + sparse slide3/whoosh5 cuts; Axo creature renamed (export clash)"
+    },
+    "030_kangaroo-rat-no-water": {
+      "status": "done",
+      "title": "This Rat Never Drinks Water",
+      "comp": "Kangaroorat",
+      "duration_s": 34.8,
+      "output": "FINAL_SHORTS/reimagined/R030 - This Rat Never Drinks Water.mp4",
+      "pacing": "calm-but-fast; 6 scenes: dunes+krat / seeds / metabolic split / kidney throb+saved meter / burrow / camel payoff",
+      "sfx": "VARIED nature/desert BAKED (water, metabolic beads, kidney loops, camel success) + sparse whoosh/slide cuts"
+    },
+    "031_why-your-body-cooks-itself": {
+      "status": "done",
+      "title": "Why Your Body Cooks Itself On Purpose",
+      "comp": "Bodyheat",
+      "duration_s": 34.8,
+      "output": "FINAL_SHORTS/reimagined/R031 - Why Your Body Cooks Itself On Purpose.mp4",
+      "pacing": "calm-but-fast; 6 scenes: germ body/thermometer / pyrogens hypothalamus / malfunction shield morph / fever surge / cell hunt / cooked alive payoff",
+      "sfx": "VARIED bio/fever BAKED (germ punch, pyrogens tick, shield morph shing, fever surge boom, cell engulf pop, victory chime) + sparse whoosh/slide cuts"
+    }
+  },
+  "plans_ready": "ClipPilot/remotion_explainer/plans/ — 014-040 (27 plans written by plan-reimagined-shorts workflow, draft→punch-up)",
+  "sfx_policy": "VARY SFX per video, topic-matched. cosmic_boom lives at assets/sound_effects/derived/cosmic_boom.wav (NOT impacts/). Bake scene-matched hero SFX into the Remotion comp via <Sequence from={frame}><Audio/></Sequence>; vary recut --cut-sfx rotation per topic.",
+  "caption_policy": "<Captions> at ROOT only (never inside a <Sequence> — useCurrentFrame rebases). New comps import words.json directly (import w from './<slug>_words.json') instead of hand-transcribing WRAW.",
+  "milestone": "22/100 done. Batch #011-031 all published, varied SFX, captions synced, audio -16..-18dB.",
+  "next": "032_shocking-a-heart-to-life (plan: plans/defib.json, title 'Shocking A Heart To Life')"
+}

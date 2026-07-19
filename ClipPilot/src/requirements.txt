@@ -1,0 +1,33 @@
+# ClipPilot dependencies, introduced phase-by-phase.
+# Phase 0 uses the Python standard library ONLY.
+#
+# ── Phase 1 — ACTIVE (installed, all import on Python 3.14) ──
+imageio-ffmpeg>=0.5          # bundles a static FFmpeg binary (no system install) — media/
+anthropic>=0.111             # Claude brain — vision-pass video understanding (brain/)
+faster-whisper>=1.0          # transcription, CTranslate2 int8 CPU (media/transcribe.py) — works on 3.14
+PySide6-Essentials>=6.11     # native Windows GUI shell (clippilot/ui/) — abi3 wheel, installs on 3.14
+yt-dlp>=2025.1               # download a source video from a URL for Section-A clipping (media/download.py)
+# (ffsubsync technique re-authored in media/subsync.py using numpy — no ffsubsync dep)
+# httpx is pulled in by anthropic and used by publish/upload_post.py
+#
+# ── Optional add-ons (features degrade gracefully when absent) ──
+# rembg>=2.0                 # subject-cutout b-roll (media/cutout.py) — pulls onnxruntime + a 176MB u2net model
+# manim>=0.18               # OPTIONAL richer explainer animation; needs MSVC build tools (+LaTeX for math).
+#                           # generate/explainer.py already renders explainer cards ffmpeg-natively without it.
+#
+# ── Optional / later (CPU extractors; add only if Claude-vision proves insufficient) ──
+# pyscenedetect>=0.6         # more accurate shot detection (ffmpeg scene filter is the current path)
+# mediapipe>=0.10            # explicit face detection (Claude vision currently flags likeness)
+# easyocr>=1.7               # explicit OCR (Claude vision currently reads on-screen text)
+# open-clip-torch>=2.24      # CLIP embeddings for cross-video search
+# mcp>=1.2                   # official MCP SDK (current server is a stdlib JSON-RPC skeleton)
+#
+# ── Phase 1.5 (GUI) ──
+# PySide6>=6.7               # native Windows shell (3 sections)
+#
+# ── Phase 2 (render + local compute) ──
+# moviepy>=2.0               # compose
+# (hyperframes via npm; LocalAI as a separate local server)
+#
+# NOTE: PySide6 / faster-whisper may lack wheels for Python 3.14 — provision a
+# 3.12 venv for these. See docs/06-decisions-and-product.md §6.4.

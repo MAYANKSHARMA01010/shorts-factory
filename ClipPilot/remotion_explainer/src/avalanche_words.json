@@ -1,0 +1,520 @@
+{
+"script": "The snow above you cracks like thunder and a white wall comes roaring down the mountain. Running won't save you, because an avalanche moves faster than a car. So as it hits, swim. Thrash your arms in a hard backstroke to fight toward the surface and ride on top of the churning snow. Then, just before it stops, thrust one hand straight up and cup the other over your face to carve an air pocket. Now stay still and breathe slow. Here's the cruel part: once it settles, the snow hardens like concrete in seconds, sealing in anyone who didn't reach the top.",
+"words": [
+{
+"text": "The",
+"start": 0.0,
+"end": 0.28
+},
+{
+"text": "snow",
+"start": 0.28,
+"end": 0.56
+},
+{
+"text": "above",
+"start": 0.56,
+"end": 0.9
+},
+{
+"text": "you",
+"start": 0.9,
+"end": 1.08
+},
+{
+"text": "cracks",
+"start": 1.08,
+"end": 1.36
+},
+{
+"text": "like",
+"start": 1.36,
+"end": 1.62
+},
+{
+"text": "thunder",
+"start": 1.62,
+"end": 2.06
+},
+{
+"text": "and",
+"start": 2.06,
+"end": 2.66
+},
+{
+"text": "a",
+"start": 2.66,
+"end": 2.78
+},
+{
+"text": "white",
+"start": 2.78,
+"end": 3.1
+},
+{
+"text": "wall",
+"start": 3.1,
+"end": 3.52
+},
+{
+"text": "comes",
+"start": 3.52,
+"end": 3.88
+},
+{
+"text": "roaring",
+"start": 3.88,
+"end": 4.36
+},
+{
+"text": "down",
+"start": 4.36,
+"end": 4.72
+},
+{
+"text": "the",
+"start": 4.72,
+"end": 4.88
+},
+{
+"text": "mountain.",
+"start": 4.88,
+"end": 5.14
+},
+{
+"text": "Running",
+"start": 5.66,
+"end": 5.8
+},
+{
+"text": "won't",
+"start": 5.8,
+"end": 6.12
+},
+{
+"text": "save",
+"start": 6.12,
+"end": 6.4
+},
+{
+"text": "you",
+"start": 6.4,
+"end": 6.78
+},
+{
+"text": "because",
+"start": 6.78,
+"end": 7.28
+},
+{
+"text": "an",
+"start": 7.28,
+"end": 7.52
+},
+{
+"text": "avalanche",
+"start": 7.52,
+"end": 7.94
+},
+{
+"text": "moves",
+"start": 7.94,
+"end": 8.42
+},
+{
+"text": "faster",
+"start": 8.42,
+"end": 8.96
+},
+{
+"text": "than",
+"start": 8.96,
+"end": 9.26
+},
+{
+"text": "a",
+"start": 9.26,
+"end": 9.38
+},
+{
+"text": "car.",
+"start": 9.38,
+"end": 9.64
+},
+{
+"text": "So",
+"start": 10.1,
+"end": 10.36
+},
+{
+"text": "as",
+"start": 10.36,
+"end": 10.5
+},
+{
+"text": "it",
+"start": 10.5,
+"end": 10.6
+},
+{
+"text": "hits",
+"start": 10.6,
+"end": 10.8
+},
+{
+"text": "swim,",
+"start": 10.8,
+"end": 11.26
+},
+{
+"text": "thrash",
+"start": 11.76,
+"end": 12.18
+},
+{
+"text": "your",
+"start": 12.18,
+"end": 12.34
+},
+{
+"text": "arms",
+"start": 12.34,
+"end": 12.72
+},
+{
+"text": "in",
+"start": 12.72,
+"end": 12.94
+},
+{
+"text": "a",
+"start": 12.94,
+"end": 13.08
+},
+{
+"text": "hard",
+"start": 13.08,
+"end": 13.36
+},
+{
+"text": "backstroke",
+"start": 13.36,
+"end": 14.0
+},
+{
+"text": "to",
+"start": 14.0,
+"end": 14.52
+},
+{
+"text": "fight",
+"start": 14.52,
+"end": 14.96
+},
+{
+"text": "toward",
+"start": 14.96,
+"end": 15.36
+},
+{
+"text": "the",
+"start": 15.36,
+"end": 15.54
+},
+{
+"text": "surface",
+"start": 15.54,
+"end": 15.94
+},
+{
+"text": "and",
+"start": 16.38,
+"end": 16.68
+},
+{
+"text": "ride",
+"start": 16.68,
+"end": 17.02
+},
+{
+"text": "on",
+"start": 17.02,
+"end": 17.26
+},
+{
+"text": "top",
+"start": 17.26,
+"end": 17.58
+},
+{
+"text": "of",
+"start": 17.58,
+"end": 17.78
+},
+{
+"text": "the",
+"start": 17.78,
+"end": 17.88
+},
+{
+"text": "churning",
+"start": 17.88,
+"end": 18.22
+},
+{
+"text": "snow.",
+"start": 18.22,
+"end": 18.54
+},
+{
+"text": "Then",
+"start": 19.06,
+"end": 19.32
+},
+{
+"text": "just",
+"start": 19.32,
+"end": 19.62
+},
+{
+"text": "before",
+"start": 19.62,
+"end": 19.92
+},
+{
+"text": "it",
+"start": 19.92,
+"end": 20.08
+},
+{
+"text": "stops,",
+"start": 20.08,
+"end": 20.5
+},
+{
+"text": "thrust",
+"start": 20.86,
+"end": 21.18
+},
+{
+"text": "one",
+"start": 21.18,
+"end": 21.48
+},
+{
+"text": "hand",
+"start": 21.48,
+"end": 21.72
+},
+{
+"text": "straight",
+"start": 21.72,
+"end": 22.0
+},
+{
+"text": "up",
+"start": 22.0,
+"end": 22.28
+},
+{
+"text": "and",
+"start": 22.28,
+"end": 22.8
+},
+{
+"text": "cup",
+"start": 22.8,
+"end": 22.94
+},
+{
+"text": "the",
+"start": 22.94,
+"end": 23.14
+},
+{
+"text": "other",
+"start": 23.14,
+"end": 23.32
+},
+{
+"text": "over",
+"start": 23.32,
+"end": 23.68
+},
+{
+"text": "your",
+"start": 23.68,
+"end": 23.86
+},
+{
+"text": "face",
+"start": 23.86,
+"end": 24.24
+},
+{
+"text": "to",
+"start": 24.24,
+"end": 24.5
+},
+{
+"text": "carve",
+"start": 24.5,
+"end": 24.76
+},
+{
+"text": "an",
+"start": 24.76,
+"end": 24.9
+},
+{
+"text": "air",
+"start": 24.9,
+"end": 25.02
+},
+{
+"text": "pocket.",
+"start": 25.02,
+"end": 25.32
+},
+{
+"text": "Now",
+"start": 25.8,
+"end": 26.08
+},
+{
+"text": "stay",
+"start": 26.08,
+"end": 26.36
+},
+{
+"text": "still",
+"start": 26.36,
+"end": 26.8
+},
+{
+"text": "and",
+"start": 26.8,
+"end": 27.2
+},
+{
+"text": "breathe",
+"start": 27.2,
+"end": 27.54
+},
+{
+"text": "slow.",
+"start": 27.54,
+"end": 28.02
+},
+{
+"text": "Here's",
+"start": 28.02,
+"end": 28.84
+},
+{
+"text": "the",
+"start": 28.84,
+"end": 28.96
+},
+{
+"text": "cruel",
+"start": 28.96,
+"end": 29.24
+},
+{
+"text": "part.",
+"start": 29.24,
+"end": 29.62
+},
+{
+"text": "Once",
+"start": 30.28,
+"end": 30.46
+},
+{
+"text": "it",
+"start": 30.46,
+"end": 30.62
+},
+{
+"text": "settles,",
+"start": 30.62,
+"end": 31.0
+},
+{
+"text": "the",
+"start": 31.62,
+"end": 31.68
+},
+{
+"text": "snow",
+"start": 31.68,
+"end": 32.02
+},
+{
+"text": "hardens",
+"start": 32.02,
+"end": 32.5
+},
+{
+"text": "like",
+"start": 32.5,
+"end": 32.68
+},
+{
+"text": "concrete",
+"start": 32.68,
+"end": 33.3
+},
+{
+"text": "in",
+"start": 33.3,
+"end": 33.5
+},
+{
+"text": "seconds,",
+"start": 33.5,
+"end": 34.1
+},
+{
+"text": "sealing",
+"start": 34.6,
+"end": 34.9
+},
+{
+"text": "in",
+"start": 34.9,
+"end": 35.16
+},
+{
+"text": "anyone",
+"start": 35.16,
+"end": 35.64
+},
+{
+"text": "who",
+"start": 35.64,
+"end": 35.92
+},
+{
+"text": "didn't",
+"start": 35.92,
+"end": 36.28
+},
+{
+"text": "reach",
+"start": 36.28,
+"end": 36.42
+},
+{
+"text": "the",
+"start": 36.42,
+"end": 36.66
+},
+{
+"text": "top.",
+"start": 36.66,
+"end": 36.88
+}
+]
+}

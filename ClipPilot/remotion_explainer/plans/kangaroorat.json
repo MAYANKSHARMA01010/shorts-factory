@@ -1,0 +1,57 @@
+{
+  "slug": "kangaroorat",
+  "title": "This Rat Never Drinks Water",
+  "duration_estimate_s": 32,
+  "payoff": "BEATS A CAMEL. DRINKS NOTHING.",
+  "palette": {
+    "bgDeep": "#0f0d0a",
+    "bgWarm": "#1a140d",
+    "gold": "#FFD23F",
+    "offWhite": "#f4ecdd",
+    "ratFur": "#d99a4e",
+    "sandDune": "#c98b3a",
+    "seedHusk": "#8a5a2b",
+    "waterBlue": "#3fb8e6",
+    "kidneyRed": "#e0563f",
+    "pasteOchre": "#b9852f",
+    "burrowShadow": "#0a0806"
+  },
+  "scenes": [
+    {
+      "beat": "In one of the driest deserts on Earth, where it can go years without rain, the kangaroo rat thrives without ever taking a single drink.",
+      "visual": "HOOK. Near-black warm stage, almost empty so one object dominates. Dead center sits a single bold stylized kangaroo rat in clean vector form: rounded sandy-fur body, one big glossy dark eye with a gold catch-light, oversized hind feet, long tufted tail curling behind. It is the only character on screen — big, sharp, unmissable. Directly above its head floats a large gold badge pill reading 'NEVER DRINKS WATER', and inside the badge a blue water-drop icon sits struck through by a bold diagonal gold slash. Below the rat, a small gold tally reads 'DAYS WITHOUT A DRINK:' followed by a rolling number. Behind, only two faint tan dune silhouette layers and a thin cracked-earth fracture line under the feet — kept minimal so nothing competes with the rat + badge.",
+      "animations": "Snap open: the rat springs in to full size from 0.6 scale with a firm overshoot and one tiny settle-bounce on its hind feet — lands in under 0.4s so it is the first thing the eye hits. The big gold 'NEVER DRINKS WATER' badge slams in 0.2s later with overshoot, then the bold gold slash draws diagonally across the blue water-drop left-to-right (the shock beat). The 'DAYS WITHOUT A DRINK' counter then rolls up fast from 0 past 9,000 and keeps ticking, underscoring the mystery. The two dune layers ease up from the bottom in light parallax; the cracked-earth line draws outward from under the feet. A faint heat-shimmer wobble breathes off the dunes. No zoom-pulse.",
+      "sfx": "a dry hollow desert-wind gust with a single faint sand-hiss, then a short metallic badge 'ting' as the slash crosses the drop"
+    },
+    {
+      "beat": "You see, it pulls nearly all its water from the dry seeds it eats.",
+      "visual": "Clean dark stage with a soft warm radial glow at center. A small cluster of stylized dry seeds (almond-shaped seedHusk-brown husks with fine vector grain lines) sits center-low. The kangaroo rat's head leans in from the left, one cheek pouch bulging. Above the pile, a bold gold counter climbs toward '90%' beside the gold word 'WATER'. A thin gold curved arrow runs from the seed pile up to a small blue water-drop glyph forming above them.",
+      "animations": "Seeds tumble in one after another and stack with small spring bounces. The gold counter rolls fast 0 to 90% and the word 'WATER' pops in with overshoot exactly as it lands. The curved gold arrow draws on from seeds to the drop; the drop fills from empty to full with a quick blue liquid sweep. The cheek pouch gives one squish-pulse as a seed slips in. Deliberately understated motion — this is setup, it must NOT out-shine the kidney reveal that follows.",
+      "sfx": "a light dry-seed rattle into a crisp single husk crunch"
+    },
+    {
+      "beat": "Its body chemically breaks those seeds down and squeezes the moisture out of them.",
+      "visual": "A single large seed husk, cross-sectioned at center, interior shown as a honeycomb of tiny golden cells. Around it drift a few small vector molecule rings (hexagons with bonded dots). Inside the husk, blue water beads form and gather, then trickle down through a stylized funnel toward the bottom edge of frame. A modest gold label pill reads 'METABOLIC WATER'. Background stays dim and calm.",
+      "animations": "The husk splits open with a clean spring-apart. A couple of hexagon molecules rotate and snap their bonds (quick flicker pops) while the husk visibly pinches inward — a squeeze that wrings blue droplets out. The droplets bead on, grow, and slide down the funnel in a continuous liquid draw. The 'METABOLIC WATER' pill springs in with a gentle overshoot. Pacing stays measured and contained so the energy keeps building toward scene 4 rather than peaking here.",
+      "sfx": "a soft chemical fizz resolving into one tiny droplet 'plink'"
+    },
+    {
+      "beat": "Then it locks that water in, with kidneys so powerful its urine comes out almost as a paste.",
+      "visual": "HERO REVEAL — the single money shot. Background dims to a near-black radial vignette so all light falls on one object. Center frame holds one oversized, anatomically-stylized vector kidney glowing in kidneyRed — bean-shaped outer shell with a soft inner glow, and inside it a lattice of fine curling nephron loops drawn as thin concentric U-shaped tubes (the most detailed, most rendered object in the entire short). A clear inlet tube enters at the TOP carrying a bright fast blue water stream. As the stream travels the nephron loops, glowing blue threads are pulled back UP and out of the flow (reclaim). At the BOTTOM, a single narrow spout releases not a stream but a thick slow ochre paste-blob that swells and clings. On the right, a gold semicircular gauge dial with a needle, and below it a vertical meter labeled 'WATER SAVED'. A gold caption pill reads 'PASTE, NOT PEE'.",
+      "animations": "The kidney scales in from 0.7 with a firm spring, then gives two slow heartbeat throbs (gentle scale in-out, ~6% each, not a zoom-pulse loop). The blue inlet stream draws on fast along the top tube. The nephron loops then illuminate and draw on SEQUENTIALLY one loop at a time, each lighting as flow passes through it, and on each one a glowing blue thread yanks upward out of the flow (the reclaim sweep) — this staged wringer motion is the core mechanism made visible. At the bottom the paste-blob swells slowly, then releases ONE heavy thick drip that squashes flat on landing (slow, weighty, the opposite of a splash). The gold gauge needle springs to 'MAX' with overshoot and the 'WATER SAVED' meter fills near-full in a sweep. 'PASTE, NOT PEE' slams in word-by-word with spring overshoot and a brief gold glow-pulse. This is unmistakably the energetic peak.",
+      "sfx": "a deep resonant water-reclaim gurgle that rises and resolves into one heavy thick 'glop' drip, capped by a soft gold gauge 'ding' on MAX"
+    },
+    {
+      "beat": "It even seals itself in a cool burrow by day to avoid losing a breath of moisture.",
+      "visual": "Cross-section of sandy ground. Above the surface: a hot pale sun and orange heat-shimmer. Below: a cool blue-tinted curving burrow tunnel where the kangaroo rat is curled asleep. A round plug of packed sand seals the tunnel mouth. Inside, soft blue moisture dots drift in a slow contained loop. A red thermometer glyph above the surface and a blue one inside the burrow. A small gold 'SEALED IN' pill tags the plugged entrance.",
+      "animations": "The ground cross-section wipes in horizontally. The sand plug rolls into the tunnel mouth and seals with a small squash settle-thunk. Heat-shimmer ripples above; the surface thermometer's red column rises fast while the burrow's blue column stays low (the two counters move in opposite directions). Trapped blue moisture dots drift gently in their loop. The 'SEALED IN' pill pops in with overshoot.",
+      "sfx": "a muffled soft sand-pack thud sealing down into quiet"
+    },
+    {
+      "beat": "This means it can outlast a camel in the desert.",
+      "visual": "Split comparison on the dark dune stage: left, a large vector camel silhouette; right, the small kangaroo rat. Above each runs a horizontal survival bar — the camel's in muted sand color, the rat's in glowing gold and clearly longer. A tiny gold crown sits ready above the rat. Then the full-screen payoff text takes over: 'BEATS A CAMEL. DRINKS NOTHING.' with 'CAMEL' and 'NOTHING' in gold and the rest in offWhite, over the darkened dunes.",
+      "animations": "Camel and rat slide in from opposite edges. Both survival bars sweep-fill left-to-right; the camel's stops short while the gold rat bar overshoots well past it (a fill race), and the gold crown drops onto the rat with a bounce. The comparison clears and the payoff slams in word-by-word — 'BEATS' 'A' 'CAMEL.' 'DRINKS' 'NOTHING.' — each word springs in with strong overshoot and a settle-bounce, and the two gold words give a brief glow-pulse as they land. Holds on the final frame.",
+      "sfx": "a warm triumphant low-string sting on the final word slam, with a tiny gold sparkle on the glow"
+    }
+  ]
+}

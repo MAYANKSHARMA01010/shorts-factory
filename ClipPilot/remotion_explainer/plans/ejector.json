@@ -1,0 +1,82 @@
+{
+  "slug": "ejector",
+  "title": "How Pilots Eject at 600 MPH",
+  "duration_estimate_s": 32,
+  "palette": {
+    "bg": "#0a1020",
+    "bgMid": "#0f1d33",
+    "accent": "#FFD23F",
+    "key": "#ff5b4d",
+    "rocket": "#ff8c2e",
+    "rocketCore": "#fff2b0",
+    "sky": "#3aa0ff",
+    "skyLite": "#8fd0ff",
+    "steel": "#cdd5e0",
+    "steelDk": "#8b97a8",
+    "chute": "#ff7a3d",
+    "spine": "#9fd0ff",
+    "white": "#FFFFFF",
+    "danger": "#ff3b30"
+  },
+  "scenes": [
+    {
+      "beat": "A fighter pilot pulls the eject handle and four seconds later is floating safely under a parachute.",
+      "visual": "Cold-open hook: a fighter-jet cockpit cross-section (canopy bubble, ejection seat, pilot bust) sits center-bottom. The pilot's hand grips a bright yellow-and-black striped EJECT handle between his knees. A bold stopwatch/timer ring in the top-right starts at 0.0s. A faint ghosted parachute silhouette is pre-drawn high up as a teaser. Big 3D title block 'EJECT' stamped in.",
+      "animations": "Cockpit springs up from below (snappy overshoot, damping 110). The yellow handle YANKS down with a hard spring + 6deg jolt of the whole seat. The stopwatch ring sweeps and the digits flick 0.0 to 4.0 fast. Ghost parachute pulses at 0.7+0.3*sin. A red exclamation/spark pops at the handle on pull.",
+      "sfx": "metallic handle clunk/latch on the yank, low tension riser swelling under the timer",
+      "duration_hint_s": 5.5
+    },
+    {
+      "beat": "But ejecting at 600 mph should snap his spine, so how does he survive?",
+      "visual": "The problem framed as physics: a side-profile pilot torso with a glowing blue SPINE/vertebrae stack drawn segment by segment. A huge '600 MPH' speed gauge needle in the corner pegs to the right. A red force arrow labelled G-FORCE slams down on the head/shoulders; a jagged red 'SNAP!' crack zigzags across one vertebra. A giant pulsing gold question mark hovers beside it.",
+      "animations": "Speed needle whips to 600 with overshoot. The red force arrow drops fast and the spine compresses (squash) then a red lightning crack pops across a vertebra with a flash. Vertebrae flicker red one by one. Gold '?' springs in and pulses. Quick screen-shake on the crack.",
+      "sfx": "sharp whoosh into the scene, a dry bone-crack/impact snap on the SNAP, needle tick",
+      "duration_hint_s": 5.0
+    },
+    {
+      "beat": "First, explosive bolts blast the canopy clear of his head.",
+      "visual": "Step 1 of 4 (a numbered step counter '1/4' top-left). The clear canopy bubble sits over the pilot's head, held by 4 small bolt nodes around its rim, each marked with a tiny orange charge. Detonation: the bolts flash, the whole canopy launches up-and-off the frame trailing motion lines, clearing the pilot's head. Dashed trajectory arc shows the canopy flying away.",
+      "animations": "Step badge '1' pops. The 4 bolt charges flash in a quick 1-2-3-4 ripple, each a tiny orange burst ring. Canopy then ROCKETS upward off-screen with fast trailing speed-lines and a slight spin, following a dashed arc. Pilot's head briefly ducks. Spark debris particles scatter.",
+      "sfx": "crisp bolt-pops (staccato clicks) then a glassy whoosh as the canopy launches",
+      "duration_hint_s": 4.5
+    },
+    {
+      "beat": "Then a rocket motor under the seat fires, shoving him out with rib-cracking force spread across his whole back.",
+      "visual": "Step 2/4 HERO. The ejection seat with pilot is shown rail-mounted; a rocket motor nozzle under the seat ignites with a big orange-white plume. The seat rides up two guide rails out of the cockpit. Inset detail: a back-contour diagram showing the force as MANY small green arrows spread evenly across the whole curved seat-back (vs one concentrated red arrow), captioned to show the load is distributed not pointed.",
+      "animations": "Rocket nozzle erupts: flame plume scales up fast with flickering tongues + bright core, smoke puffs. Seat accelerates up the rails (fast ease-in) with motion-blur speed lines. The inset morphs from one scary red concentrated arrow into a fan of many small green arrows spreading across the seatback (the 'spread' reveal). Subtle screen-shake during burn.",
+      "sfx": "deep rocket-motor ROAR/boom on ignition (one of the 2-3 big hits), rising rumble as the seat climbs",
+      "duration_hint_s": 6.0
+    },
+    {
+      "beat": "Next, a small drogue chute yanks him free of the seat.",
+      "visual": "Step 3/4. Pilot+seat now airborne against open sky (clouds drift). A small drogue parachute deploys from the top of the seat on a cord, snapping open. It yanks the pilot UP and the now-empty heavy seat falls AWAY downward, separating cleanly. A dashed tether shows pilot pulling free; the seat tumbles down with a small 'seat' tag.",
+      "animations": "Drogue chute shoots up on its cord and POPS open (fast spring scale, fabric ripple). On the snap, the pilot lurches upward and the seat detaches and tumbles down-out of frame, spinning, shrinking. Clouds slide horizontally for parallax. Quick taut-cord twang line.",
+      "sfx": "fabric whump/snap as the drogue opens, a rope-twang on the yank, wind whoosh",
+      "duration_hint_s": 4.5
+    },
+    {
+      "beat": "And the main canopy opens before he even realizes he's left the plane behind.",
+      "visual": "Step 4/4 payoff. The big main parachute canopy blooms open at the top, pilot now hanging calmly in his harness, drifting down. Way in the lower background the tiny jet streaks off and away. The stopwatch from scene 1 reappears reading 4.0s and locks. Payoff title fills the screen.",
+      "animations": "Main canopy unfurls in a big satisfying spring-bloom (scale + width ease-out, gentle sway after). Pilot settles and sways softly under the lines. Tiny jet zips off into the distance shrinking to a dot. Stopwatch flicks to 4.0 and locks with a gold flash. Payoff text springs up word by word.",
+      "sfx": "soft canopy whoomp on the bloom, a triumphant chime/sting on the 4.0s lock (a real reveal hit), gentle wind bed",
+      "duration_hint_s": 5.5
+    }
+  ],
+  "payoff": "Four seconds. Explosive bolts, a rocket, two chutes — and his spine intact.",
+  "scene_keys": {
+    "hook": 0,
+    "problem": 1,
+    "bolts": 2,
+    "rocket": 3,
+    "drogue": 4,
+    "canopy": 5
+  },
+  "notes": {
+    "style": "Match SkyBlue/Mirror/HotDog: 1080x1920, FPS 30, all hand-drawn SVG motion graphics, FAST snappy springs (usePop with low damping/mass like HotDog), one scene per sentence, automatic 3-word karaoke captions at bottom. Animated dark aerospace-tech background (deep navy gradient + drifting dust/star specks + faint top glow), per-scene fade/scale SceneWrap.",
+    "energy": "All energy from in-composition animation: handle yank, bolt ripple, rocket plume eruption, chute pop, canopy bloom. NO camera zoom-pulse recut.",
+    "continuity": "A stopwatch/timer motif opens (scene 1, counts up) and closes (scene 6, locks at 4.0s). A persistent step counter (1/4..4/4) ties scenes 3-6 into a clear 4-step sequence. The pilot bust + ejection seat are reused props across scenes so it reads as ONE continuous ejection.",
+    "sfx_discipline": "Sparse: whoosh on each scene change; only ~2-3 real boom/chime hits — the rocket-motor ROAR (scene 4 ignition) and the triumphant chime on the 4.0s lock (scene 6). The bone-crack in scene 2 is the dramatic problem-hit.",
+    "captions": "Big bold 3-word karaoke pages auto-generated from words.json; not authored here.",
+    "fonts": "Poppins weights 600-900, gold active-word highlight (#FFD23F) like the reference comps."
+  }
+}

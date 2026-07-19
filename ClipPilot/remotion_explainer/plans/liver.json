@@ -1,0 +1,56 @@
+{
+  "slug": "liver",
+  "title": "The Only Organ That Grows Back",
+  "duration_estimate_s": 32,
+  "palette": {
+    "bg_deep": "#0c1014",
+    "bg_panel": "#141b22",
+    "gold": "#FFD23F",
+    "liver_key": "#B5384D",
+    "liver_tissue": "#D9576E",
+    "vein_blue": "#3FA7D6",
+    "cell_glow": "#FF8FA3",
+    "scar_grey": "#7C8794",
+    "scalpel_steel": "#C9D4DE",
+    "white": "#F5F7FA"
+  },
+  "scenes": [
+    {
+      "beat": "Surgeons can cut away most of your liver, and it will simply grow back.",
+      "visual": "COLD-OPEN HOOK, single bold central object. A large glossy liver fills the center as a smooth wedge silhouette in deep maroon (#B5384D) with a soft tissue gradient up to #D9576E and three thin vein-blue (#3FA7D6) hepatic-vein lines threading through it, on the flat #0c1014 background. A gleaming steel scalpel (#C9D4DE) angles down from the top-right, its tip kissing the liver's upper edge with a tiny white specular glint. A bright gold badge pill (#FFD23F) sits top-center just above the organ reading 'CUT 70% OFF' with a small gold question mark, and a thin gold dotted cut-line arcs across the right two-thirds of the liver marking the slice to come. Nothing else on screen — one organ, one blade, one question.",
+      "animations": "Liver springs up from scale 0.55 to 1.0 with a single soft overshoot (spring, stiffness ~180, damping ~14) and settles dead-center within 0.4s. The three vein lines draw on left-to-right via stroke-dashoffset over the next 0.3s. The scalpel slides in from off-frame top-right and its tip taps the edge with a 2px recoil. The gold 'CUT 70% OFF' badge snaps in LAST at ~0.8s with a hard spring overshoot plus one quick scale pulse (1.0→1.12→1.0) to lock the hook inside the first second. The dotted cut-line draws on right after. No camera zoom — all motion is in-comp.",
+      "sfx": "a soft wet organ squelch as the liver pops in, with a faint metallic scalpel ting on the tip-tap"
+    },
+    {
+      "beat": "The liver is the only organ in your body with this power, able to regenerate even after two-thirds of it is removed.",
+      "visual": "The liver re-centers and the dotted cut-line resolves into a clean glowing slice that shears off the right two-thirds. The removed chunk drifts off-frame right, desaturating to scar-grey (#7C8794), while the remaining one-third stub on the left flares a brighter maroon. A gold tag '2/3 REMOVED' draws in beside the gap with a thin gold bracket spanning the missing region. In the lower corners sit three small greyed ghost-silhouettes of rival organs — heart, lung, kidney — each getting stamped with a tiny grey X to say 'only the liver can do this'.",
+      "animations": "The scalpel sweeps a fast straight slice line across the liver (linear, 0.18s). On contact the two-thirds chunk shears free and slides right with a crisp ease-out while fading to grey. The remaining stub does one brighter pulse beat. The '2/3 REMOVED' tag and gold bracket draw on together via stroke reveal. The three rival organs fade up dim in sequence, then each takes a grey X stamped on with a small spring tick (scale 1.4→1.0). Calm-but-fast, no zoom.",
+      "sfx": "a clean steel scalpel slice with a short metallic clink on the cut"
+    },
+    {
+      "beat": "Once a chunk is gone, the remaining cells start dividing furiously, swelling the organ back toward its original size in just weeks.",
+      "visual": "THE HERO REVEAL — the unmistakable money shot of the whole short. The camera eases into the cut face of the remaining stub until a cellular field fills the frame: roughly two dozen rounded hexagon-ish liver cells (hepatocytes) in tissue-pink (#D9576E) outlined in darker maroon, each with a glowing #FF8FA3 nucleus dot. A faint ghosted GOLD outline of the liver's ORIGINAL full size floats over everything as the target to refill. Center cell pinches at its waist into an hourglass and cleaves into two daughter cells; those two pinch and split; a visible CASCADE of mitosis then ripples outward across the field in a wave, every division throwing a soft pink glow bloom. As cells multiply, the maroon tissue mass rises like liquid inside the ghost gold outline, filling from the stub outward toward full. A gold counter in the top corner races '33% → 100%' and a small 'WEEKS' label sits opposite it.",
+      "animations": "Camera does one measured push into the cut face over ~0.5s (a slow dolly, NOT a pulse), then HOLDS — no further zoom. First cell does a clear pinch-and-split: the hourglass waist necks over 0.25s then snaps into two daughters with a spring pop (scale 0.7→1.05→1.0 each). Then a staggered cascade fires outward in a radial wave, ~6 cells per 0.15s, each split a tiny scale-pop with a 1-frame glow bloom. The maroon tissue fills the ghost gold outline as a rising-liquid mask, draw-on from stub to full over ~1.2s. The gold percentage counter ramps 33→100 with spring deceleration and SLAMS to 100% exactly as the silhouette completes; on that frame the full gold outline flashes white once. This scene gets the richest, most specific motion of the whole piece.",
+      "sfx": "a rising bubbling effervescent regrowth swell that crescendos into a bright chime ping on the 100% snap"
+    },
+    {
+      "beat": "This is why a living person can donate part of their liver to someone dying, and both halves regrow into full organs.",
+      "visual": "A vertical gold divider splits the frame. Left panel: a simple gold vector body silhouette (donor) standing, with a glowing maroon liver inside its torso; a clean wedge detaches from that liver. Right panel: a recipient body silhouette, dim and grey-tinged, with an empty grey liver bay waiting. A gold arrow arcs over the divider carrying the wedge from donor to recipient. The wedge lands in the empty bay; then BOTH livers — the donor's remainder and the recipient's new piece — swell and regrow outward to full size simultaneously, and the recipient body warms from grey back to healthy maroon. A gold '2 FULL LIVERS' pill snaps in at the bottom.",
+      "animations": "Gold divider wipes down to split the frame (0.2s). The donor wedge detaches with a spring pop and travels along the gold arc, the arc path drawing on as a trail behind it (0.4s). On landing it seats into the empty bay with a small settle. Both livers then run the regrow swell IN PARALLEL — each scaling outward to full with a soft overshoot (0.6s). The recipient body color-fills grey→maroon as a left-to-right warmth sweep. The '2 FULL LIVERS' gold pill snaps in last with a spring overshoot. No zoom.",
+      "sfx": "a warm low heartbeat-style double thump landing on the simultaneous regrow"
+    },
+    {
+      "beat": "But it has limits. Push it too hard with years of damage, and the regrowth turns to scar.",
+      "visual": "Tone shift — colder, darker. A single liver sits center, but instead of clean regrowth, ugly grey scar-tissue (#7C8794) bands creep in from the edges, fracturing the smooth maroon into stiff cracked plates. Along the bottom runs a timeline of gold tally ticks labeled 'YEARS OF DAMAGE'; each tick that stacks on darkens the liver further. The healthy maroon is steadily choked out by grey fibrous webbing and the cell-glow dims to nothing.",
+      "animations": "Gold tally ticks stamp on one by one in a fast row (8 ticks over ~0.8s), a visible counter of accumulating damage. With each tick the grey scar webbing draws on across the liver like spreading cracks, creeping inward via stroke-dashoffset. The maroon desaturates in a sweep toward scar-grey. The earlier regrow-glow flickers twice and dies. Critically, the SPRINGINESS drains out — motion turns rigid and linear here so you FEEL regeneration failing. No zoom.",
+      "sfx": "a dry brittle crackling as the scar webbing spreads, like cracking ice"
+    },
+    {
+      "beat": "Until the liver can no longer save itself.",
+      "visual": "FINAL PAYOFF. The scarred grey liver sits small, still and glow-less, low and center on the deep #0c1014 background. The punchline slams in word-group by word-group in heavy type, white (#F5F7FA) with the verbs in gold #FFD23F, stacked vertically: 'CUT IT' / 'IT REGROWS' / 'UNTIL IT CAN'T'. A single faint gold outline traces the dead liver one last time, then dims to black.",
+      "animations": "Each line flies in word-group by word-group with a hard spring overshoot and settle, stacking top to bottom. 'CUT IT' pops in white. 'IT REGROWS' pops brighter in gold. Then a deliberate ~0.4s beat of silence and stillness. Then 'UNTIL IT CAN'T' SLAMS in heaviest and largest with the strongest overshoot of the entire short. As the last word lands, a single gold outline traces the liver once and dims to black. Six words total, all caps, maximum impact.",
+      "sfx": "one final low resonant heartbeat thud that decays into a flatline tone, then silence"
+    }
+  ],
+  "payoff": "CUT IT. IT REGROWS. UNTIL IT CAN'T."
+}

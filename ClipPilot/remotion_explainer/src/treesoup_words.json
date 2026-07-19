@@ -1,0 +1,490 @@
+{
+"script": "Every sheet of paper you've ever touched began as a tree boiled into soup. First, logs are stripped of their bark and ground into tiny wood chips. Then those chips are cooked in chemicals until they break down into a wet, mushy pulp. And this pulp is sprayed onto a giant moving screen, where the water drains away. Next, the soggy mat is squeezed between heavy rollers and dried over scorching hot drums. Finally, it's pressed flat and wound into rolls the size of cars, before being sliced into the pages you'll one day crumple and throw away.",
+"words": [
+{
+"text": "Every",
+"start": 0.0,
+"end": 0.38
+},
+{
+"text": "sheet",
+"start": 0.38,
+"end": 0.6
+},
+{
+"text": "of",
+"start": 0.6,
+"end": 0.74
+},
+{
+"text": "paper",
+"start": 0.74,
+"end": 1.14
+},
+{
+"text": "you've",
+"start": 1.14,
+"end": 1.5
+},
+{
+"text": "ever",
+"start": 1.5,
+"end": 1.82
+},
+{
+"text": "touched",
+"start": 1.82,
+"end": 2.12
+},
+{
+"text": "began",
+"start": 2.12,
+"end": 2.6
+},
+{
+"text": "as",
+"start": 2.6,
+"end": 3.12
+},
+{
+"text": "a",
+"start": 3.12,
+"end": 3.28
+},
+{
+"text": "tree",
+"start": 3.28,
+"end": 3.54
+},
+{
+"text": "boiled",
+"start": 3.54,
+"end": 4.02
+},
+{
+"text": "into",
+"start": 4.02,
+"end": 4.22
+},
+{
+"text": "soup.",
+"start": 4.22,
+"end": 4.64
+},
+{
+"text": "First,",
+"start": 5.3,
+"end": 5.6
+},
+{
+"text": "logs",
+"start": 6.12,
+"end": 6.2
+},
+{
+"text": "are",
+"start": 6.2,
+"end": 6.42
+},
+{
+"text": "stripped",
+"start": 6.42,
+"end": 6.72
+},
+{
+"text": "of",
+"start": 6.72,
+"end": 6.9
+},
+{
+"text": "their",
+"start": 6.9,
+"end": 7.02
+},
+{
+"text": "bark",
+"start": 7.02,
+"end": 7.28
+},
+{
+"text": "and",
+"start": 7.28,
+"end": 7.5
+},
+{
+"text": "ground",
+"start": 7.5,
+"end": 7.94
+},
+{
+"text": "into",
+"start": 7.94,
+"end": 8.38
+},
+{
+"text": "tiny",
+"start": 8.38,
+"end": 8.74
+},
+{
+"text": "wood",
+"start": 8.74,
+"end": 8.98
+},
+{
+"text": "chips.",
+"start": 8.98,
+"end": 9.36
+},
+{
+"text": "Then",
+"start": 9.96,
+"end": 10.14
+},
+{
+"text": "those",
+"start": 10.14,
+"end": 10.36
+},
+{
+"text": "chips",
+"start": 10.36,
+"end": 10.58
+},
+{
+"text": "are",
+"start": 10.58,
+"end": 10.76
+},
+{
+"text": "cooked",
+"start": 10.76,
+"end": 10.98
+},
+{
+"text": "in",
+"start": 10.98,
+"end": 11.22
+},
+{
+"text": "chemicals",
+"start": 11.22,
+"end": 11.68
+},
+{
+"text": "until",
+"start": 11.68,
+"end": 12.28
+},
+{
+"text": "they",
+"start": 12.28,
+"end": 12.44
+},
+{
+"text": "break",
+"start": 12.44,
+"end": 12.76
+},
+{
+"text": "down",
+"start": 12.76,
+"end": 13.08
+},
+{
+"text": "into",
+"start": 13.08,
+"end": 13.34
+},
+{
+"text": "a",
+"start": 13.34,
+"end": 13.52
+},
+{
+"text": "wet,",
+"start": 13.52,
+"end": 13.9
+},
+{
+"text": "mushy",
+"start": 14.28,
+"end": 14.58
+},
+{
+"text": "pulp.",
+"start": 14.58,
+"end": 14.76
+},
+{
+"text": "And",
+"start": 15.24,
+"end": 15.4
+},
+{
+"text": "this",
+"start": 15.4,
+"end": 15.58
+},
+{
+"text": "pulp",
+"start": 15.58,
+"end": 15.84
+},
+{
+"text": "is",
+"start": 15.84,
+"end": 16.1
+},
+{
+"text": "sprayed",
+"start": 16.1,
+"end": 16.56
+},
+{
+"text": "onto",
+"start": 16.56,
+"end": 17.0
+},
+{
+"text": "a",
+"start": 17.0,
+"end": 17.44
+},
+{
+"text": "giant",
+"start": 17.44,
+"end": 17.74
+},
+{
+"text": "moving",
+"start": 17.74,
+"end": 18.16
+},
+{
+"text": "screen",
+"start": 18.16,
+"end": 18.7
+},
+{
+"text": "where",
+"start": 18.7,
+"end": 19.24
+},
+{
+"text": "the",
+"start": 19.24,
+"end": 19.34
+},
+{
+"text": "water",
+"start": 19.34,
+"end": 19.64
+},
+{
+"text": "drains",
+"start": 19.64,
+"end": 19.96
+},
+{
+"text": "away.",
+"start": 19.96,
+"end": 20.34
+},
+{
+"text": "Next,",
+"start": 20.84,
+"end": 21.22
+},
+{
+"text": "the",
+"start": 21.62,
+"end": 21.7
+},
+{
+"text": "soggy",
+"start": 21.7,
+"end": 22.12
+},
+{
+"text": "mat",
+"start": 22.12,
+"end": 22.32
+},
+{
+"text": "is",
+"start": 22.32,
+"end": 22.52
+},
+{
+"text": "squeezed",
+"start": 22.52,
+"end": 22.86
+},
+{
+"text": "between",
+"start": 22.86,
+"end": 23.34
+},
+{
+"text": "heavy",
+"start": 23.34,
+"end": 23.7
+},
+{
+"text": "rollers",
+"start": 23.7,
+"end": 24.28
+},
+{
+"text": "and",
+"start": 24.28,
+"end": 24.78
+},
+{
+"text": "dried",
+"start": 24.78,
+"end": 25.28
+},
+{
+"text": "over",
+"start": 25.28,
+"end": 25.84
+},
+{
+"text": "scorching",
+"start": 25.84,
+"end": 26.36
+},
+{
+"text": "hotdrones.",
+"start": 26.36,
+"end": 26.88
+},
+{
+"text": "Finally,",
+"start": 27.52,
+"end": 27.88
+},
+{
+"text": "it's",
+"start": 28.2,
+"end": 28.34
+},
+{
+"text": "pressed",
+"start": 28.34,
+"end": 28.58
+},
+{
+"text": "flat",
+"start": 28.58,
+"end": 28.98
+},
+{
+"text": "and",
+"start": 28.98,
+"end": 29.5
+},
+{
+"text": "wounded",
+"start": 29.5,
+"end": 29.9
+},
+{
+"text": "to",
+"start": 29.9,
+"end": 30.1
+},
+{
+"text": "rolls",
+"start": 30.1,
+"end": 30.44
+},
+{
+"text": "the",
+"start": 30.44,
+"end": 30.72
+},
+{
+"text": "size",
+"start": 30.72,
+"end": 31.02
+},
+{
+"text": "of",
+"start": 31.02,
+"end": 31.2
+},
+{
+"text": "cars.",
+"start": 31.2,
+"end": 31.56
+},
+{
+"text": "Before",
+"start": 32.04,
+"end": 32.32
+},
+{
+"text": "being",
+"start": 32.32,
+"end": 32.58
+},
+{
+"text": "sliced",
+"start": 32.58,
+"end": 33.06
+},
+{
+"text": "into",
+"start": 33.06,
+"end": 33.3
+},
+{
+"text": "the",
+"start": 33.3,
+"end": 33.46
+},
+{
+"text": "pages,",
+"start": 33.46,
+"end": 33.76
+},
+{
+"text": "you'll",
+"start": 34.04,
+"end": 34.14
+},
+{
+"text": "one",
+"start": 34.14,
+"end": 34.4
+},
+{
+"text": "day",
+"start": 34.4,
+"end": 34.8
+},
+{
+"text": "crumple",
+"start": 34.8,
+"end": 35.66
+},
+{
+"text": "and",
+"start": 35.66,
+"end": 35.96
+},
+{
+"text": "throw",
+"start": 35.96,
+"end": 36.24
+},
+{
+"text": "away.",
+"start": 36.24,
+"end": 36.56
+}
+]
+}

@@ -1,0 +1,57 @@
+{
+  "slug": "thermostat",
+  "title": "How a Dumb Box Feels Heat",
+  "duration_estimate_s": 32,
+  "palette": {
+    "bg_deep": "#0c1118",
+    "bg_panel": "#141b24",
+    "gold": "#FFD23F",
+    "key_red": "#FF5A3C",
+    "brass": "#C98A3B",
+    "steel_blue": "#5BA8D4",
+    "mercury_silver": "#C7D0DA",
+    "ember_orange": "#FF8A3D",
+    "circuit_green": "#3FE08A",
+    "ghost_gray": "#5b6675",
+    "white": "#F2F5F8"
+  },
+  "scenes": [
+    {
+      "beat": "This little box on your wall switches your heater on and off all day. No battery. No chip. So how does a dumb box feel heat?",
+      "visual": "HOOK. One bold hero object dead-center on the deep #0c1118 background: a chunky retro round wall thermostat drawn as crisp flat vector, oversized so it fills most of the frame. A brushed-brass outer ring (#C98A3B), a cream dial face with evenly spaced tick marks, and a single key-red needle (#FF5A3C) pointing near 70. It sits on a soft floating dark panel card (#141b24) with a gentle radial vignette so the box reads instantly as THE subject. A big gold sticker-pill badge (#FFD23F) with a bold black '?' slaps onto the top-right of the ring, slightly overlapping it. Two ghosted gray glyphs (#5b6675) sit small and quiet in the lower corners: a crossed-out battery (lower-left) and a crossed-out microchip (lower-right), stamping the shock 'no power, no brain'. Everything is code-drawn SVG, no photo.",
+      "animations": "In the first ~0.4s the thermostat ring springs in from scale 0.5 with a snappy low-damping overshoot-and-settle pop so it punches onto a scrolling feed. Immediately the gold '?' badge slaps in from scale 1.5 down to 1.0 with an exaggerated spring overshoot and one soft pulse-glow — this is the scroll-stopper beat, landed by ~1.3s. The red needle then does a quick draw-on sweep from 0 up to 70 and wobbles to rest on a spring. Last, the two crossed-out battery and chip glyphs stamp in one after the other with a tiny punch-scale and a red strike-line that draws across each. Fast in-comp motion, no camera zoom-pulse.",
+      "sfx": "a single dry hollow plastic relay 'clack' — the unmistakable thermostat click — landing exactly on the ring pop"
+    },
+    {
+      "beat": "Crack it open and there's no electronics at all. Just a coiled strip of metal.",
+      "visual": "The thermostat ring thins to a faint outline and irises open to reveal the inside. Centered: a tightly wound flat spiral ribbon drawn as a clean vector coil. Crucially the ribbon is rendered as TWO bonded layers running its whole length — a warm brass top layer (#C98A3B) and a cool steel-blue bottom layer (#5BA8D4) — with a crisp bright seam line between them. A faint cutaway magnifier ring frames the coil to signal 'we're inside now', and a gold label pill reading 'BIMETAL STRIP' sits beside the coil center on the #141b24 panel.",
+      "animations": "The thermostat outline iris-wipes open (radial mask 0->1) to reveal the coil. The spiral path draws on as a stroke-reveal, tracing from the outer end inward, with the brass and steel-blue layers wiping on together so the two-metal seam is obvious. A quick specular light-glint travels along the seam line. The gold 'BIMETAL STRIP' pill springs in last with overshoot. Brisk, clean, no pulsing.",
+      "sfx": "a thin metallic sheet-metal 'shing' / high ringing scrape as the strip draws on (distinct from the plastic click)"
+    },
+    {
+      "beat": "Two different metals, glued back to back. And one of them expands faster when it heats up.",
+      "visual": "Cut to a clean side-on explainer diagram. The coil is uncurled into a single straight horizontal two-layer bar for clarity: brass on top (#C98A3B), steel-blue on bottom (#5BA8D4), bright seam down the middle, pinned at the left end with a small rivet. Under each layer sits a horizontal length-arrow gauge. A warm ember/heat glow (#FF8A3D) rises from below the bar. As heat applies, the brass layer's length-arrow shoots far to the right while the steel-blue arrow barely creeps; a tiny gold counter ticks up the growing gap in millimeters. A gold 'EXPANDS' tag flags the fast brass layer, a muted 'barely moves' note sits under the steel-blue one.",
+      "animations": "The bar springs in flat from the left. The ember heat-glow fades up from the bottom and shimmers with a slow sine wobble. The brass length-arrow sweeps out fast and long; the steel-blue arrow sweeps out slow and short — the contrast deliberately staged so the eye instantly reads 'one wins'. The gold gap-counter ticks up in sync. The gold 'EXPANDS' tag pops onto the brass layer with a spring. Fast, readable, no zoom.",
+      "sfx": "a low rising thermal swell — a soft heat-shimmer / sizzling hum that climbs as the glow rises (a tonal bed, not a whoosh)"
+    },
+    {
+      "beat": "So when the room warms, the strip curls tighter. When it cools, it uncurls. The metal is literally measuring the temperature.",
+      "visual": "HERO REVEAL — the money shot. The two-layer strip snaps back into its coiled spiral, centered LARGE and clean: brass on the outer face (#C98A3B), steel-blue on the inner face (#5BA8D4), bright seam visible along every turn. On the left, a tall thermometer column fills with warm ember liquid (#FF8A3D) and a temperature readout; on the right, a soft heat-aura wedge pulses. The coil's free outer TIP carries a small marker dot. A faint dotted ghost-arc traces the exact path that tip sweeps. Gold '+HEAT' and '-COOL' markers sit pinned at the two ends of that arc. This is the single most detailed object in the whole short.",
+      "animations": "The hero motion: the spiral is a live spring-driven curl. As the thermometer mercury rises, every turn of the coil visibly WINDS TIGHTER toward center and the free tip travels smoothly along its dotted arc to the '+HEAT' end; as the mercury falls, the coil UNWINDS and the tip swings back to the '-COOL' end — a slow, satisfying back-and-forth that is the emotional peak of the short. The tip leaves a short fading motion-trail along the arc. The thermometer fills with a liquid rise and the heat-aura pulses in exact sync with the curl. Gold '+HEAT' / '-COOL' markers pop with light spring overshoot at the extremes. Springs are tuned soft so the curl is the smoothest, richest, most deliberate motion in the piece — calm but precise, no jitter, no zoom-pulse.",
+      "sfx": "a flexing bent-sheet-metal 'wobble' — a springy metallic boing-creak that bends pitch up as the coil tightens and down as it relaxes (the signature accent of the short)"
+    },
+    {
+      "beat": "At the tip, that bend tilts a sealed glass tube — and a drop of mercury rolls down and closes the circuit.",
+      "visual": "Zoom to the free tip of the coil where a small sealed glass ampoule is mounted like a clear horizontal tube. Inside rests a rounded silver mercury bead (#C7D0DA) with a soft specular highlight. Two contact pins enter the right end of the tube. As the coil's bend tilts the ampoule, the mercury bead rolls downhill toward the pins and bridges them. The instant it touches, a circuit-green line (#3FE08A) lights up and bright current-dots race along the wire toward a small furnace icon at the edge. A gold 'ON' pill flips up.",
+      "animations": "The glass tube tips on a spring as the coil bend pushes it. The silver mercury bead rolls with weight and a touch of squash-and-stretch toward the low end, then settles against the contact pins. On contact, the green circuit traces draw on instantly (stroke-reveal) and animated current-dots stream along the wire to the furnace icon. The gold 'ON' pill snaps in with a spring pop and one quick glow flash. Snappy, mechanical, no zoom.",
+      "sfx": "a glassy hollow 'tink' as the mercury bead rolls and settles, immediately chased by a crisp electric 'snap-zap' as the circuit closes"
+    },
+    {
+      "beat": "No battery. No brain. Just a curl of metal that can feel the heat — and that's what fires up your furnace.",
+      "visual": "PAYOFF card. A clean dark #141b24 panel on the deep background. At the bottom a furnace flame ignites (#FF8A3D core, #FF5A3C edges), fed by the circuit-green line carrying over from the previous scene. Above the flame the punchline slams in word-by-word in heavy condensed type: the words 'METAL' and 'FEELS HEAT' in gold (#FFD23F), the connective words in off-white (#F2F5F8). A tiny coiled-strip glyph sits as a full-stop accent at the end of the final line, tying back to the hero.",
+      "animations": "The furnace flame whooshes up to life with a quick flicker-build. Then the payoff words slam in ONE AT A TIME with strong spring overshoot, each landing with a tiny shake; the two gold words flash-glow as they lock into place. The little coil glyph spins once and settles as the final beat. Fast, punchy, decisive — the hardest-hitting motion after the hero.",
+      "sfx": "a deep furnace 'whoomph' ignite as the flame lights, then a short warm success sting locking the final gold words (the closing accent)"
+    }
+  ],
+  "payoff": "Bending metal can feel heat."
+}

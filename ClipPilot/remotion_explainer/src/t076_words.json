@@ -1,0 +1,485 @@
+{
+"script": "Look up at the Sun, and you're not seeing it as it is now. You're seeing it as it was eight minutes ago, because that's how long its light takes to reach you. Light is fast, but space is enormous. The next nearest star you spot at night left its surface over four years ago. And some galaxies you can see are showing you light that started traveling before Earth even existed. This means every time you glance up, you're staring deep into the past. The night sky is a museum of dead and ancient light.",
+"words": [
+{
+"text": "Look",
+"start": 0.0,
+"end": 0.24
+},
+{
+"text": "up",
+"start": 0.24,
+"end": 0.38
+},
+{
+"text": "at",
+"start": 0.38,
+"end": 0.52
+},
+{
+"text": "the",
+"start": 0.52,
+"end": 0.68
+},
+{
+"text": "sun",
+"start": 0.68,
+"end": 0.96
+},
+{
+"text": "and",
+"start": 0.96,
+"end": 1.54
+},
+{
+"text": "you're",
+"start": 1.54,
+"end": 1.68
+},
+{
+"text": "not",
+"start": 1.68,
+"end": 1.82
+},
+{
+"text": "seeing",
+"start": 1.82,
+"end": 2.26
+},
+{
+"text": "it",
+"start": 2.26,
+"end": 2.48
+},
+{
+"text": "as",
+"start": 2.48,
+"end": 2.66
+},
+{
+"text": "it",
+"start": 2.66,
+"end": 2.78
+},
+{
+"text": "is",
+"start": 2.78,
+"end": 2.88
+},
+{
+"text": "now.",
+"start": 2.88,
+"end": 3.24
+},
+{
+"text": "You're",
+"start": 3.76,
+"end": 3.92
+},
+{
+"text": "seeing",
+"start": 3.92,
+"end": 4.18
+},
+{
+"text": "it",
+"start": 4.18,
+"end": 4.44
+},
+{
+"text": "as",
+"start": 4.44,
+"end": 4.66
+},
+{
+"text": "it",
+"start": 4.66,
+"end": 4.76
+},
+{
+"text": "was",
+"start": 4.76,
+"end": 4.9
+},
+{
+"text": "eight",
+"start": 4.9,
+"end": 5.22
+},
+{
+"text": "minutes",
+"start": 5.22,
+"end": 5.52
+},
+{
+"text": "ago",
+"start": 5.52,
+"end": 5.88
+},
+{
+"text": "because",
+"start": 5.88,
+"end": 6.48
+},
+{
+"text": "that's",
+"start": 6.48,
+"end": 6.88
+},
+{
+"text": "how",
+"start": 6.88,
+"end": 7.02
+},
+{
+"text": "long",
+"start": 7.02,
+"end": 7.34
+},
+{
+"text": "its",
+"start": 7.34,
+"end": 7.52
+},
+{
+"text": "light",
+"start": 7.52,
+"end": 7.88
+},
+{
+"text": "takes",
+"start": 7.88,
+"end": 8.28
+},
+{
+"text": "to",
+"start": 8.28,
+"end": 8.5
+},
+{
+"text": "reach",
+"start": 8.5,
+"end": 8.68
+},
+{
+"text": "you.",
+"start": 8.68,
+"end": 9.02
+},
+{
+"text": "Light",
+"start": 9.54,
+"end": 9.62
+},
+{
+"text": "is",
+"start": 9.62,
+"end": 9.78
+},
+{
+"text": "fast",
+"start": 9.78,
+"end": 10.26
+},
+{
+"text": "but",
+"start": 10.26,
+"end": 10.84
+},
+{
+"text": "space",
+"start": 10.84,
+"end": 11.22
+},
+{
+"text": "is",
+"start": 11.22,
+"end": 11.46
+},
+{
+"text": "enormous.",
+"start": 11.46,
+"end": 11.84
+},
+{
+"text": "The",
+"start": 12.52,
+"end": 12.7
+},
+{
+"text": "next",
+"start": 12.7,
+"end": 12.94
+},
+{
+"text": "nearest",
+"start": 12.94,
+"end": 13.3
+},
+{
+"text": "star",
+"start": 13.3,
+"end": 13.6
+},
+{
+"text": "you",
+"start": 13.6,
+"end": 13.78
+},
+{
+"text": "spot",
+"start": 13.78,
+"end": 14.04
+},
+{
+"text": "at",
+"start": 14.04,
+"end": 14.18
+},
+{
+"text": "night",
+"start": 14.18,
+"end": 14.54
+},
+{
+"text": "left",
+"start": 14.54,
+"end": 15.1
+},
+{
+"text": "its",
+"start": 15.1,
+"end": 15.3
+},
+{
+"text": "surface",
+"start": 15.3,
+"end": 15.9
+},
+{
+"text": "over",
+"start": 15.9,
+"end": 16.42
+},
+{
+"text": "four",
+"start": 16.42,
+"end": 16.74
+},
+{
+"text": "years",
+"start": 16.74,
+"end": 17.02
+},
+{
+"text": "ago",
+"start": 17.02,
+"end": 17.4
+},
+{
+"text": "and",
+"start": 17.4,
+"end": 18.04
+},
+{
+"text": "some",
+"start": 18.04,
+"end": 18.3
+},
+{
+"text": "galaxies",
+"start": 18.3,
+"end": 18.78
+},
+{
+"text": "you",
+"start": 18.78,
+"end": 19.06
+},
+{
+"text": "can",
+"start": 19.06,
+"end": 19.2
+},
+{
+"text": "see",
+"start": 19.2,
+"end": 19.42
+},
+{
+"text": "are",
+"start": 19.42,
+"end": 19.66
+},
+{
+"text": "showing",
+"start": 19.66,
+"end": 19.9
+},
+{
+"text": "you",
+"start": 19.9,
+"end": 20.14
+},
+{
+"text": "light",
+"start": 20.14,
+"end": 20.46
+},
+{
+"text": "that",
+"start": 20.46,
+"end": 20.88
+},
+{
+"text": "started",
+"start": 20.88,
+"end": 21.3
+},
+{
+"text": "traveling",
+"start": 21.3,
+"end": 21.86
+},
+{
+"text": "before",
+"start": 21.86,
+"end": 22.38
+},
+{
+"text": "earth",
+"start": 22.38,
+"end": 22.76
+},
+{
+"text": "even",
+"start": 22.76,
+"end": 23.4
+},
+{
+"text": "existed.",
+"start": 23.4,
+"end": 23.84
+},
+{
+"text": "This",
+"start": 24.38,
+"end": 24.52
+},
+{
+"text": "means",
+"start": 24.52,
+"end": 24.7
+},
+{
+"text": "every",
+"start": 24.7,
+"end": 25.18
+},
+{
+"text": "time",
+"start": 25.18,
+"end": 25.44
+},
+{
+"text": "you",
+"start": 25.44,
+"end": 25.64
+},
+{
+"text": "glance",
+"start": 25.64,
+"end": 25.9
+},
+{
+"text": "up",
+"start": 25.9,
+"end": 26.3
+},
+{
+"text": "you're",
+"start": 26.3,
+"end": 26.96
+},
+{
+"text": "staring",
+"start": 26.96,
+"end": 27.38
+},
+{
+"text": "deep",
+"start": 27.38,
+"end": 27.92
+},
+{
+"text": "into",
+"start": 27.92,
+"end": 28.26
+},
+{
+"text": "the",
+"start": 28.26,
+"end": 28.44
+},
+{
+"text": "past.",
+"start": 28.44,
+"end": 28.84
+},
+{
+"text": "The",
+"start": 28.84,
+"end": 29.46
+},
+{
+"text": "night",
+"start": 29.46,
+"end": 29.64
+},
+{
+"text": "sky",
+"start": 29.64,
+"end": 30.04
+},
+{
+"text": "is",
+"start": 30.04,
+"end": 30.3
+},
+{
+"text": "a",
+"start": 30.3,
+"end": 30.42
+},
+{
+"text": "museum",
+"start": 30.42,
+"end": 30.8
+},
+{
+"text": "of",
+"start": 30.8,
+"end": 31.26
+},
+{
+"text": "dead",
+"start": 31.26,
+"end": 31.7
+},
+{
+"text": "and",
+"start": 31.7,
+"end": 32.12
+},
+{
+"text": "ancient",
+"start": 32.12,
+"end": 32.56
+},
+{
+"text": "light.",
+"start": 32.56,
+"end": 32.88
+}
+]
+}

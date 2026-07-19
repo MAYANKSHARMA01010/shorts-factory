@@ -1,0 +1,455 @@
+{
+"script": "Did you know you actually have a second brain inside your body? It's called the enteric nervous system, and it lives entirely in your gut. This network is made up of over 100 million neurons, Which is more than you have in your spinal cord. It's so independent that even if the connection to your actual brain is severed, Your gut will continue to function completely on its own. So the next time you have a \"gut feeling\" about something, It's literally your second brain trying to talk to you.",
+"words": [
+{
+"text": "Did",
+"start": 0.0,
+"end": 0.22
+},
+{
+"text": "you",
+"start": 0.22,
+"end": 0.34
+},
+{
+"text": "know",
+"start": 0.34,
+"end": 0.48
+},
+{
+"text": "you",
+"start": 0.48,
+"end": 0.68
+},
+{
+"text": "actually",
+"start": 0.68,
+"end": 0.98
+},
+{
+"text": "have",
+"start": 0.98,
+"end": 1.18
+},
+{
+"text": "a",
+"start": 1.18,
+"end": 1.4
+},
+{
+"text": "second",
+"start": 1.4,
+"end": 1.6
+},
+{
+"text": "brain",
+"start": 1.6,
+"end": 1.98
+},
+{
+"text": "inside",
+"start": 1.98,
+"end": 2.6
+},
+{
+"text": "your",
+"start": 2.6,
+"end": 2.8
+},
+{
+"text": "body?",
+"start": 2.8,
+"end": 3.04
+},
+{
+"text": "It's",
+"start": 3.56,
+"end": 3.66
+},
+{
+"text": "called",
+"start": 3.66,
+"end": 3.86
+},
+{
+"text": "the",
+"start": 3.86,
+"end": 4.02
+},
+{
+"text": "enteric",
+"start": 4.02,
+"end": 4.62
+},
+{
+"text": "nervous",
+"start": 4.62,
+"end": 4.9
+},
+{
+"text": "system",
+"start": 4.9,
+"end": 5.46
+},
+{
+"text": "and",
+"start": 5.46,
+"end": 6.02
+},
+{
+"text": "it",
+"start": 6.02,
+"end": 6.16
+},
+{
+"text": "lives",
+"start": 6.16,
+"end": 6.52
+},
+{
+"text": "entirely",
+"start": 6.52,
+"end": 7.14
+},
+{
+"text": "in",
+"start": 7.14,
+"end": 7.6
+},
+{
+"text": "your",
+"start": 7.6,
+"end": 7.68
+},
+{
+"text": "gut.",
+"start": 7.68,
+"end": 7.92
+},
+{
+"text": "This",
+"start": 8.38,
+"end": 8.68
+},
+{
+"text": "network",
+"start": 8.68,
+"end": 9.06
+},
+{
+"text": "is",
+"start": 9.06,
+"end": 9.42
+},
+{
+"text": "made",
+"start": 9.42,
+"end": 9.6
+},
+{
+"text": "up",
+"start": 9.6,
+"end": 9.78
+},
+{
+"text": "of",
+"start": 9.78,
+"end": 9.94
+},
+{
+"text": "over",
+"start": 9.94,
+"end": 10.2
+},
+{
+"text": "100",
+"start": 10.2,
+"end": 10.94
+},
+{
+"text": "million",
+"start": 10.94,
+"end": 11.44
+},
+{
+"text": "neurons,",
+"start": 11.44,
+"end": 12.06
+},
+{
+"text": "which",
+"start": 12.24,
+"end": 12.7
+},
+{
+"text": "is",
+"start": 12.7,
+"end": 12.84
+},
+{
+"text": "more",
+"start": 12.84,
+"end": 13.08
+},
+{
+"text": "than",
+"start": 13.08,
+"end": 13.24
+},
+{
+"text": "you",
+"start": 13.24,
+"end": 13.38
+},
+{
+"text": "have",
+"start": 13.38,
+"end": 13.64
+},
+{
+"text": "in",
+"start": 13.64,
+"end": 13.78
+},
+{
+"text": "your",
+"start": 13.78,
+"end": 13.86
+},
+{
+"text": "spinal",
+"start": 13.86,
+"end": 14.12
+},
+{
+"text": "cord.",
+"start": 14.12,
+"end": 14.46
+},
+{
+"text": "It's",
+"start": 14.88,
+"end": 15.14
+},
+{
+"text": "so",
+"start": 15.14,
+"end": 15.36
+},
+{
+"text": "independent",
+"start": 15.36,
+"end": 15.92
+},
+{
+"text": "that",
+"start": 15.92,
+"end": 16.44
+},
+{
+"text": "even",
+"start": 16.44,
+"end": 16.74
+},
+{
+"text": "if",
+"start": 16.74,
+"end": 16.84
+},
+{
+"text": "the",
+"start": 16.84,
+"end": 16.96
+},
+{
+"text": "connection",
+"start": 16.96,
+"end": 17.26
+},
+{
+"text": "to",
+"start": 17.26,
+"end": 17.54
+},
+{
+"text": "your",
+"start": 17.54,
+"end": 17.66
+},
+{
+"text": "actual",
+"start": 17.66,
+"end": 18.08
+},
+{
+"text": "brain",
+"start": 18.08,
+"end": 18.54
+},
+{
+"text": "is",
+"start": 18.54,
+"end": 18.76
+},
+{
+"text": "severed,",
+"start": 18.76,
+"end": 19.2
+},
+{
+"text": "your",
+"start": 19.68,
+"end": 19.9
+},
+{
+"text": "gut",
+"start": 19.9,
+"end": 20.12
+},
+{
+"text": "will",
+"start": 20.12,
+"end": 20.28
+},
+{
+"text": "continue",
+"start": 20.28,
+"end": 20.64
+},
+{
+"text": "to",
+"start": 20.64,
+"end": 20.94
+},
+{
+"text": "function",
+"start": 20.94,
+"end": 21.34
+},
+{
+"text": "completely",
+"start": 21.34,
+"end": 22.04
+},
+{
+"text": "on",
+"start": 22.04,
+"end": 22.34
+},
+{
+"text": "its",
+"start": 22.34,
+"end": 22.44
+},
+{
+"text": "own.",
+"start": 22.44,
+"end": 22.7
+},
+{
+"text": "So",
+"start": 23.18,
+"end": 23.28
+},
+{
+"text": "the",
+"start": 23.28,
+"end": 23.38
+},
+{
+"text": "next",
+"start": 23.38,
+"end": 23.5
+},
+{
+"text": "time",
+"start": 23.5,
+"end": 23.68
+},
+{
+"text": "you",
+"start": 23.68,
+"end": 23.8
+},
+{
+"text": "have",
+"start": 23.8,
+"end": 23.94
+},
+{
+"text": "a",
+"start": 23.94,
+"end": 24.08
+},
+{
+"text": "gut",
+"start": 24.08,
+"end": 24.46
+},
+{
+"text": "feeling",
+"start": 24.46,
+"end": 24.92
+},
+{
+"text": "about",
+"start": 24.92,
+"end": 25.34
+},
+{
+"text": "something,",
+"start": 25.34,
+"end": 25.92
+},
+{
+"text": "it's",
+"start": 26.26,
+"end": 26.58
+},
+{
+"text": "literally",
+"start": 26.58,
+"end": 26.84
+},
+{
+"text": "your",
+"start": 26.84,
+"end": 27.18
+},
+{
+"text": "second",
+"start": 27.18,
+"end": 27.52
+},
+{
+"text": "brain",
+"start": 27.52,
+"end": 28.0
+},
+{
+"text": "trying",
+"start": 28.0,
+"end": 28.42
+},
+{
+"text": "to",
+"start": 28.42,
+"end": 28.54
+},
+{
+"text": "talk",
+"start": 28.54,
+"end": 28.72
+},
+{
+"text": "to",
+"start": 28.72,
+"end": 28.9
+},
+{
+"text": "you.",
+"start": 28.9,
+"end": 29.06
+}
+]
+}

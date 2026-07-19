@@ -1,0 +1,480 @@
+{
+"script": "If you could find a bathtub big enough, Saturn would float in it. This giant is the second largest planet in our solar system, yet it's made mostly of light gases like hydrogen. That makes it less dense than water, the only planet in the Sun's family that could bob on the surface instead of sinking. But don't picture a gentle soak. Underneath those calm-looking rings, winds scream around the planet at over 1,000 miles per hour. So Saturn would float in your tub, while a storm bigger than Earth raged across its clouds.",
+"words": [
+{
+"text": "If",
+"start": 0.0,
+"end": 0.22
+},
+{
+"text": "you",
+"start": 0.22,
+"end": 0.3
+},
+{
+"text": "could",
+"start": 0.3,
+"end": 0.42
+},
+{
+"text": "find",
+"start": 0.42,
+"end": 0.58
+},
+{
+"text": "a",
+"start": 0.58,
+"end": 0.72
+},
+{
+"text": "bathtub",
+"start": 0.72,
+"end": 1.26
+},
+{
+"text": "big",
+"start": 1.26,
+"end": 1.58
+},
+{
+"text": "enough,",
+"start": 1.58,
+"end": 1.94
+},
+{
+"text": "Saturn",
+"start": 2.58,
+"end": 2.58
+},
+{
+"text": "would",
+"start": 2.58,
+"end": 2.82
+},
+{
+"text": "float",
+"start": 2.82,
+"end": 3.08
+},
+{
+"text": "in",
+"start": 3.08,
+"end": 3.24
+},
+{
+"text": "it.",
+"start": 3.24,
+"end": 3.54
+},
+{
+"text": "This",
+"start": 3.84,
+"end": 4.08
+},
+{
+"text": "giant",
+"start": 4.08,
+"end": 4.46
+},
+{
+"text": "is",
+"start": 4.46,
+"end": 5.02
+},
+{
+"text": "the",
+"start": 5.02,
+"end": 5.22
+},
+{
+"text": "second",
+"start": 5.22,
+"end": 5.58
+},
+{
+"text": "largest",
+"start": 5.58,
+"end": 6.14
+},
+{
+"text": "planet",
+"start": 6.14,
+"end": 6.56
+},
+{
+"text": "in",
+"start": 6.56,
+"end": 6.84
+},
+{
+"text": "our",
+"start": 6.84,
+"end": 7.02
+},
+{
+"text": "solar",
+"start": 7.02,
+"end": 7.24
+},
+{
+"text": "system,",
+"start": 7.24,
+"end": 7.82
+},
+{
+"text": "yet",
+"start": 7.9,
+"end": 8.34
+},
+{
+"text": "it's",
+"start": 8.34,
+"end": 8.48
+},
+{
+"text": "made",
+"start": 8.48,
+"end": 8.66
+},
+{
+"text": "mostly",
+"start": 8.66,
+"end": 9.18
+},
+{
+"text": "of",
+"start": 9.18,
+"end": 9.5
+},
+{
+"text": "light",
+"start": 9.5,
+"end": 9.9
+},
+{
+"text": "gases",
+"start": 9.9,
+"end": 10.58
+},
+{
+"text": "like",
+"start": 10.58,
+"end": 10.9
+},
+{
+"text": "hydrogen.",
+"start": 10.9,
+"end": 11.36
+},
+{
+"text": "That",
+"start": 11.72,
+"end": 11.96
+},
+{
+"text": "makes",
+"start": 11.96,
+"end": 12.12
+},
+{
+"text": "it",
+"start": 12.12,
+"end": 12.28
+},
+{
+"text": "less",
+"start": 12.28,
+"end": 12.62
+},
+{
+"text": "dense",
+"start": 12.62,
+"end": 13.14
+},
+{
+"text": "than",
+"start": 13.14,
+"end": 13.52
+},
+{
+"text": "water,",
+"start": 13.52,
+"end": 13.9
+},
+{
+"text": "the",
+"start": 14.36,
+"end": 14.48
+},
+{
+"text": "only",
+"start": 14.48,
+"end": 14.82
+},
+{
+"text": "planet",
+"start": 14.82,
+"end": 15.18
+},
+{
+"text": "in",
+"start": 15.18,
+"end": 15.34
+},
+{
+"text": "the",
+"start": 15.34,
+"end": 15.52
+},
+{
+"text": "sun's",
+"start": 15.52,
+"end": 15.84
+},
+{
+"text": "family",
+"start": 15.84,
+"end": 16.16
+},
+{
+"text": "that",
+"start": 16.16,
+"end": 16.38
+},
+{
+"text": "could",
+"start": 16.38,
+"end": 16.54
+},
+{
+"text": "bob",
+"start": 16.54,
+"end": 16.78
+},
+{
+"text": "on",
+"start": 16.78,
+"end": 16.98
+},
+{
+"text": "the",
+"start": 16.98,
+"end": 17.1
+},
+{
+"text": "surface",
+"start": 17.1,
+"end": 17.54
+},
+{
+"text": "instead",
+"start": 17.54,
+"end": 18.12
+},
+{
+"text": "of",
+"start": 18.12,
+"end": 18.28
+},
+{
+"text": "sinking.",
+"start": 18.28,
+"end": 18.56
+},
+{
+"text": "But",
+"start": 19.04,
+"end": 19.22
+},
+{
+"text": "don't",
+"start": 19.22,
+"end": 19.5
+},
+{
+"text": "picture",
+"start": 19.5,
+"end": 19.8
+},
+{
+"text": "a",
+"start": 19.8,
+"end": 20.0
+},
+{
+"text": "gentle",
+"start": 20.0,
+"end": 20.24
+},
+{
+"text": "soak.",
+"start": 20.24,
+"end": 20.66
+},
+{
+"text": "Underneath",
+"start": 21.2,
+"end": 21.66
+},
+{
+"text": "those",
+"start": 21.66,
+"end": 21.92
+},
+{
+"text": "calm",
+"start": 21.92,
+"end": 22.3
+},
+{
+"text": "looking",
+"start": 22.3,
+"end": 22.56
+},
+{
+"text": "rings,",
+"start": 22.56,
+"end": 23.18
+},
+{
+"text": "wind",
+"start": 23.66,
+"end": 23.8
+},
+{
+"text": "scream",
+"start": 23.8,
+"end": 24.26
+},
+{
+"text": "around",
+"start": 24.26,
+"end": 24.6
+},
+{
+"text": "the",
+"start": 24.6,
+"end": 24.78
+},
+{
+"text": "planet",
+"start": 24.78,
+"end": 25.12
+},
+{
+"text": "at",
+"start": 25.12,
+"end": 25.44
+},
+{
+"text": "over",
+"start": 25.44,
+"end": 25.8
+},
+{
+"text": "1000",
+"start": 25.8,
+"end": 26.64
+},
+{
+"text": "miles",
+"start": 26.64,
+"end": 27.04
+},
+{
+"text": "per",
+"start": 27.04,
+"end": 27.36
+},
+{
+"text": "hour.",
+"start": 27.36,
+"end": 27.7
+},
+{
+"text": "So",
+"start": 27.7,
+"end": 28.36
+},
+{
+"text": "Saturn",
+"start": 28.36,
+"end": 28.76
+},
+{
+"text": "would",
+"start": 28.76,
+"end": 28.96
+},
+{
+"text": "float",
+"start": 28.96,
+"end": 29.36
+},
+{
+"text": "in",
+"start": 29.36,
+"end": 29.56
+},
+{
+"text": "your",
+"start": 29.56,
+"end": 29.68
+},
+{
+"text": "tub,",
+"start": 29.68,
+"end": 30.0
+},
+{
+"text": "while",
+"start": 30.38,
+"end": 30.62
+},
+{
+"text": "a",
+"start": 30.62,
+"end": 30.78
+},
+{
+"text": "storm",
+"start": 30.78,
+"end": 31.04
+},
+{
+"text": "bigger",
+"start": 31.04,
+"end": 31.46
+},
+{
+"text": "than",
+"start": 31.46,
+"end": 31.72
+},
+{
+"text": "Earth",
+"start": 31.72,
+"end": 31.98
+},
+{
+"text": "raged",
+"start": 31.98,
+"end": 32.48
+},
+{
+"text": "across",
+"start": 32.48,
+"end": 32.9
+},
+{
+"text": "its",
+"start": 32.9,
+"end": 33.16
+},
+{
+"text": "clouds.",
+"start": 33.16,
+"end": 33.5
+}
+]
+}

@@ -1,0 +1,465 @@
+{
+"script": "For thousands of years, people believed a toothache meant a tiny worm was burrowing inside your tooth. You see, the throbbing felt exactly like something alive squirming under the surface. So healers tried to lure the worm out by blowing hot smoke from burning henbane seeds into the mouth. Tiny white threads would seem to wriggle free, and everyone believed the worm had been caught. But those threads were just fibers from the plant itself. The real cause was decay, and the smoke did nothing but leave the rotting tooth still aching.",
+"words": [
+{
+"text": "For",
+"start": 0.0,
+"end": 0.24
+},
+{
+"text": "thousands",
+"start": 0.24,
+"end": 0.54
+},
+{
+"text": "of",
+"start": 0.54,
+"end": 0.82
+},
+{
+"text": "years,",
+"start": 0.82,
+"end": 1.14
+},
+{
+"text": "people",
+"start": 1.54,
+"end": 1.82
+},
+{
+"text": "believed",
+"start": 1.82,
+"end": 2.16
+},
+{
+"text": "a",
+"start": 2.16,
+"end": 2.34
+},
+{
+"text": "toothache",
+"start": 2.34,
+"end": 2.9
+},
+{
+"text": "meant",
+"start": 2.9,
+"end": 3.24
+},
+{
+"text": "a",
+"start": 3.24,
+"end": 3.48
+},
+{
+"text": "tiny",
+"start": 3.48,
+"end": 3.74
+},
+{
+"text": "worm",
+"start": 3.74,
+"end": 4.18
+},
+{
+"text": "was",
+"start": 4.18,
+"end": 4.58
+},
+{
+"text": "burrowing",
+"start": 4.58,
+"end": 5.12
+},
+{
+"text": "inside",
+"start": 5.12,
+"end": 5.74
+},
+{
+"text": "your",
+"start": 5.74,
+"end": 5.98
+},
+{
+"text": "tooth.",
+"start": 5.98,
+"end": 6.32
+},
+{
+"text": "You",
+"start": 6.82,
+"end": 7.0
+},
+{
+"text": "see,",
+"start": 7.0,
+"end": 7.32
+},
+{
+"text": "the",
+"start": 7.84,
+"end": 8.02
+},
+{
+"text": "throbbing",
+"start": 8.02,
+"end": 8.56
+},
+{
+"text": "felt",
+"start": 8.56,
+"end": 8.92
+},
+{
+"text": "exactly",
+"start": 8.92,
+"end": 9.58
+},
+{
+"text": "like",
+"start": 9.58,
+"end": 10.04
+},
+{
+"text": "something",
+"start": 10.04,
+"end": 10.46
+},
+{
+"text": "alive",
+"start": 10.46,
+"end": 11.22
+},
+{
+"text": "squirming",
+"start": 11.22,
+"end": 12.2
+},
+{
+"text": "under",
+"start": 12.2,
+"end": 12.62
+},
+{
+"text": "the",
+"start": 12.62,
+"end": 12.78
+},
+{
+"text": "surface.",
+"start": 12.78,
+"end": 13.16
+},
+{
+"text": "So,",
+"start": 13.84,
+"end": 14.04
+},
+{
+"text": "healers",
+"start": 14.12,
+"end": 14.38
+},
+{
+"text": "tried",
+"start": 14.38,
+"end": 14.66
+},
+{
+"text": "to",
+"start": 14.66,
+"end": 14.82
+},
+{
+"text": "lure",
+"start": 14.82,
+"end": 15.06
+},
+{
+"text": "the",
+"start": 15.06,
+"end": 15.22
+},
+{
+"text": "worm",
+"start": 15.22,
+"end": 15.42
+},
+{
+"text": "out",
+"start": 15.42,
+"end": 15.82
+},
+{
+"text": "by",
+"start": 15.82,
+"end": 16.22
+},
+{
+"text": "blowing",
+"start": 16.22,
+"end": 16.68
+},
+{
+"text": "hot",
+"start": 16.68,
+"end": 17.04
+},
+{
+"text": "smoke",
+"start": 17.04,
+"end": 17.52
+},
+{
+"text": "from",
+"start": 17.52,
+"end": 17.98
+},
+{
+"text": "burning",
+"start": 17.98,
+"end": 18.32
+},
+{
+"text": "henbane",
+"start": 18.32,
+"end": 18.8
+},
+{
+"text": "seeds",
+"start": 18.8,
+"end": 19.24
+},
+{
+"text": "into",
+"start": 19.24,
+"end": 19.6
+},
+{
+"text": "the",
+"start": 19.6,
+"end": 19.74
+},
+{
+"text": "mouth.",
+"start": 19.74,
+"end": 20.08
+},
+{
+"text": "Tiny",
+"start": 20.9,
+"end": 20.9
+},
+{
+"text": "white",
+"start": 20.9,
+"end": 21.24
+},
+{
+"text": "threads",
+"start": 21.24,
+"end": 21.78
+},
+{
+"text": "would",
+"start": 21.78,
+"end": 22.02
+},
+{
+"text": "seem",
+"start": 22.02,
+"end": 22.38
+},
+{
+"text": "to",
+"start": 22.38,
+"end": 22.64
+},
+{
+"text": "wriggle",
+"start": 22.64,
+"end": 23.0
+},
+{
+"text": "free,",
+"start": 23.0,
+"end": 23.48
+},
+{
+"text": "and",
+"start": 23.94,
+"end": 24.24
+},
+{
+"text": "everyone",
+"start": 24.24,
+"end": 24.68
+},
+{
+"text": "believed",
+"start": 24.68,
+"end": 25.18
+},
+{
+"text": "the",
+"start": 25.18,
+"end": 25.38
+},
+{
+"text": "worm",
+"start": 25.38,
+"end": 25.56
+},
+{
+"text": "had",
+"start": 25.56,
+"end": 25.72
+},
+{
+"text": "been",
+"start": 25.72,
+"end": 25.84
+},
+{
+"text": "caught.",
+"start": 25.84,
+"end": 26.14
+},
+{
+"text": "But",
+"start": 26.68,
+"end": 26.8
+},
+{
+"text": "those",
+"start": 26.8,
+"end": 27.02
+},
+{
+"text": "threads",
+"start": 27.02,
+"end": 27.38
+},
+{
+"text": "were",
+"start": 27.38,
+"end": 27.62
+},
+{
+"text": "just",
+"start": 27.62,
+"end": 27.86
+},
+{
+"text": "fibers",
+"start": 27.86,
+"end": 28.34
+},
+{
+"text": "from",
+"start": 28.34,
+"end": 28.58
+},
+{
+"text": "the",
+"start": 28.58,
+"end": 28.7
+},
+{
+"text": "plant",
+"start": 28.7,
+"end": 28.96
+},
+{
+"text": "itself.",
+"start": 28.96,
+"end": 29.34
+},
+{
+"text": "The",
+"start": 30.04,
+"end": 30.14
+},
+{
+"text": "real",
+"start": 30.14,
+"end": 30.38
+},
+{
+"text": "cause",
+"start": 30.38,
+"end": 30.78
+},
+{
+"text": "was",
+"start": 30.78,
+"end": 31.06
+},
+{
+"text": "decay,",
+"start": 31.06,
+"end": 31.5
+},
+{
+"text": "and",
+"start": 32.12,
+"end": 32.2
+},
+{
+"text": "the",
+"start": 32.2,
+"end": 32.3
+},
+{
+"text": "smoke",
+"start": 32.3,
+"end": 32.56
+},
+{
+"text": "did",
+"start": 32.56,
+"end": 32.8
+},
+{
+"text": "nothing",
+"start": 32.8,
+"end": 33.18
+},
+{
+"text": "but",
+"start": 33.18,
+"end": 33.5
+},
+{
+"text": "leave",
+"start": 33.5,
+"end": 33.94
+},
+{
+"text": "the",
+"start": 33.94,
+"end": 34.14
+},
+{
+"text": "rotting",
+"start": 34.14,
+"end": 34.5
+},
+{
+"text": "tooth",
+"start": 34.5,
+"end": 35.02
+},
+{
+"text": "still",
+"start": 35.02,
+"end": 35.4
+},
+{
+"text": "aching.",
+"start": 35.4,
+"end": 35.8
+}
+]
+}

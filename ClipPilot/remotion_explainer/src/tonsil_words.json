@@ -1,0 +1,415 @@
+{
+"script": "Do you ever cough up these small, white stones? Well, they are actually called tonsil stones. You see, your tonsils are filled with tiny pits and crevices. And when you eat, small pieces of food can get trapped in these pockets. Over time, bacteria feeds on this food, which creates a foul-smelling film. This film then hardens or calcifies, turning into the little stones that you see. They usually fall out on their own, but they're the main reason for bad breath.",
+"words": [
+{
+"text": "Do",
+"start": 0.0,
+"end": 0.22
+},
+{
+"text": "you",
+"start": 0.22,
+"end": 0.32
+},
+{
+"text": "ever",
+"start": 0.32,
+"end": 0.52
+},
+{
+"text": "cough",
+"start": 0.52,
+"end": 0.74
+},
+{
+"text": "up",
+"start": 0.74,
+"end": 0.94
+},
+{
+"text": "these",
+"start": 0.94,
+"end": 1.12
+},
+{
+"text": "small",
+"start": 1.12,
+"end": 1.5
+},
+{
+"text": "white",
+"start": 1.5,
+"end": 1.76
+},
+{
+"text": "stones?",
+"start": 1.76,
+"end": 2.18
+},
+{
+"text": "Well,",
+"start": 3.0,
+"end": 3.16
+},
+{
+"text": "they're",
+"start": 3.44,
+"end": 3.66
+},
+{
+"text": "actually",
+"start": 3.66,
+"end": 3.96
+},
+{
+"text": "called",
+"start": 3.96,
+"end": 4.26
+},
+{
+"text": "tonsil",
+"start": 4.26,
+"end": 4.74
+},
+{
+"text": "stones.",
+"start": 4.74,
+"end": 5.16
+},
+{
+"text": "You",
+"start": 5.84,
+"end": 5.94
+},
+{
+"text": "see,",
+"start": 5.94,
+"end": 6.26
+},
+{
+"text": "your",
+"start": 6.8,
+"end": 6.98
+},
+{
+"text": "tonsils",
+"start": 6.98,
+"end": 7.42
+},
+{
+"text": "are",
+"start": 7.42,
+"end": 7.64
+},
+{
+"text": "filled",
+"start": 7.64,
+"end": 7.88
+},
+{
+"text": "with",
+"start": 7.88,
+"end": 8.22
+},
+{
+"text": "tiny",
+"start": 8.22,
+"end": 8.62
+},
+{
+"text": "pits",
+"start": 8.62,
+"end": 9.08
+},
+{
+"text": "and",
+"start": 9.08,
+"end": 9.68
+},
+{
+"text": "crevices.",
+"start": 9.68,
+"end": 10.22
+},
+{
+"text": "And",
+"start": 10.88,
+"end": 11.0
+},
+{
+"text": "when",
+"start": 11.0,
+"end": 11.12
+},
+{
+"text": "you",
+"start": 11.12,
+"end": 11.3
+},
+{
+"text": "eat,",
+"start": 11.3,
+"end": 11.6
+},
+{
+"text": "small",
+"start": 12.14,
+"end": 12.3
+},
+{
+"text": "pieces",
+"start": 12.3,
+"end": 12.64
+},
+{
+"text": "of",
+"start": 12.64,
+"end": 12.9
+},
+{
+"text": "food",
+"start": 12.9,
+"end": 13.18
+},
+{
+"text": "can",
+"start": 13.18,
+"end": 13.42
+},
+{
+"text": "get",
+"start": 13.42,
+"end": 13.58
+},
+{
+"text": "trapped",
+"start": 13.58,
+"end": 13.98
+},
+{
+"text": "in",
+"start": 13.98,
+"end": 14.18
+},
+{
+"text": "these",
+"start": 14.18,
+"end": 14.32
+},
+{
+"text": "pockets.",
+"start": 14.32,
+"end": 14.7
+},
+{
+"text": "Over",
+"start": 15.4,
+"end": 15.62
+},
+{
+"text": "time,",
+"start": 15.62,
+"end": 16.1
+},
+{
+"text": "bacteria",
+"start": 16.52,
+"end": 16.86
+},
+{
+"text": "feeds",
+"start": 16.86,
+"end": 17.34
+},
+{
+"text": "on",
+"start": 17.34,
+"end": 17.58
+},
+{
+"text": "this",
+"start": 17.58,
+"end": 17.74
+},
+{
+"text": "food,",
+"start": 17.74,
+"end": 18.14
+},
+{
+"text": "which",
+"start": 18.5,
+"end": 18.7
+},
+{
+"text": "creates",
+"start": 18.7,
+"end": 19.02
+},
+{
+"text": "a",
+"start": 19.02,
+"end": 19.28
+},
+{
+"text": "foul",
+"start": 19.28,
+"end": 19.74
+},
+{
+"text": "-smelling",
+"start": 19.74,
+"end": 20.14
+},
+{
+"text": "film.",
+"start": 20.14,
+"end": 20.58
+},
+{
+"text": "This",
+"start": 21.0,
+"end": 21.26
+},
+{
+"text": "film",
+"start": 21.26,
+"end": 21.66
+},
+{
+"text": "then",
+"start": 21.66,
+"end": 22.02
+},
+{
+"text": "hardens",
+"start": 22.02,
+"end": 22.68
+},
+{
+"text": "or",
+"start": 22.68,
+"end": 23.16
+},
+{
+"text": "calcifies,",
+"start": 23.16,
+"end": 24.0
+},
+{
+"text": "turning",
+"start": 24.58,
+"end": 24.84
+},
+{
+"text": "into",
+"start": 24.84,
+"end": 25.14
+},
+{
+"text": "the",
+"start": 25.14,
+"end": 25.3
+},
+{
+"text": "little",
+"start": 25.3,
+"end": 25.54
+},
+{
+"text": "stones",
+"start": 25.54,
+"end": 26.08
+},
+{
+"text": "that",
+"start": 26.08,
+"end": 26.36
+},
+{
+"text": "you",
+"start": 26.36,
+"end": 26.5
+},
+{
+"text": "see.",
+"start": 26.5,
+"end": 26.8
+},
+{
+"text": "They",
+"start": 26.8,
+"end": 27.4
+},
+{
+"text": "usually",
+"start": 27.4,
+"end": 27.68
+},
+{
+"text": "fall",
+"start": 27.68,
+"end": 28.02
+},
+{
+"text": "out",
+"start": 28.02,
+"end": 28.24
+},
+{
+"text": "on",
+"start": 28.24,
+"end": 28.4
+},
+{
+"text": "their",
+"start": 28.4,
+"end": 28.52
+},
+{
+"text": "own,",
+"start": 28.52,
+"end": 28.86
+},
+{
+"text": "but",
+"start": 29.16,
+"end": 29.28
+},
+{
+"text": "they're",
+"start": 29.28,
+"end": 29.44
+},
+{
+"text": "the",
+"start": 29.44,
+"end": 29.52
+},
+{
+"text": "main",
+"start": 29.52,
+"end": 29.78
+},
+{
+"text": "reason",
+"start": 29.78,
+"end": 30.14
+},
+{
+"text": "for",
+"start": 30.14,
+"end": 30.36
+},
+{
+"text": "bad",
+"start": 30.36,
+"end": 30.72
+},
+{
+"text": "breath.",
+"start": 30.72,
+"end": 31.02
+}
+]
+}

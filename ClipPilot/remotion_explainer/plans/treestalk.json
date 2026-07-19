@@ -1,0 +1,56 @@
+{
+  "slug": "treestalk",
+  "title": "Trees Are Secretly Talking Underground",
+  "duration_estimate_s": 32,
+  "payoff": "THE FOREST IS TALKING",
+  "palette": {
+    "bgDeep": "#0c1410",
+    "bgForest": "#10201a",
+    "gold": "#FFD23F",
+    "fungus": "#E8C8FF",
+    "rootBrown": "#8A5A3C",
+    "leafGreen": "#5FD08A",
+    "sugarAmber": "#F2A65A",
+    "alarmRed": "#FF5C5C",
+    "waterCyan": "#5FC8E8",
+    "offWhite": "#F4F1E8"
+  },
+  "scenes": [
+    {
+      "beat": "Beneath every forest, the trees are secretly talking to each other.",
+      "visual": "SCROLL-STOPPER HOOK. One bold stylized tree dead-center on a dark forest-green radial gradient, filling ~60% of frame height so it reads instantly on a phone: thick rootBrown trunk, a fat rounded canopy of 3 layered leafGreen blobs. A horizontal soil line cuts the lower third; below it the trunk base hints at root tendrils. The mystery is posed by a big gold badge pill that overlaps the upper-right of the canopy reading 'SHHH...' with a small gold speech-bubble icon. From the trunk, two tiny gold dotted speech-bubble lines curl DOWN through the soil line, as if the tree is whispering into the ground. A single bright fungus-lavender glint pulses at one root tip to pre-seed the secret. Background carries slow dim-green dust motes.",
+      "animations": "Trunk draws-on base-to-top as a fast vertical wipe (~0.35s). The 3 canopy blobs spring-pop staggered (~0.06s apart) with slight overshoot. The gold 'SHHH...' badge is the hook payload: it springs from scale 0 to 1.08 then settles to 1.0 with a bouncy 6-degree wobble landing inside the first 1.2s. The two dotted whisper-arcs draw-on stroke-by-stroke toward the soil right after. The lone lavender root-tip glint does one bright pulse. Dust motes drift upward continuously. No camera zoom.",
+      "sfx": "a soft leafy wind-through-branches swell that drops to a hush right as the SHHH badge lands"
+    },
+    {
+      "beat": "Their roots are wrapped in a vast web of fungus, threads so fine they stretch for miles underground.",
+      "visual": "Framing settles below the soil line: a top sliver shows the trunk base, the lower two-thirds is dark underground earth. From the root crown, rootBrown roots fork downward, and wrapping every root is a glowing fungus-lavender (#E8C8FF) mesh — hundreds of ultra-fine filament threads forming a lacy net that spreads to both frame edges. A faint gold '...miles...' label sits at the far-right edge where threads trail off-frame. Small glowing nodes sit where threads cross.",
+      "animations": "Roots draw-on downward in branching strokes. Then fungal filaments draw-on outward from the roots in a rapid radiating sweep (left and right simultaneously), each thread animating tip-extension like growing hyphae (~0.6s). Crossing-nodes do a soft staggered glow-pulse left-to-right. The gold '...miles...' label fades-and-slides in from the right edge exactly as the threads reach it. No zoom.",
+      "sfx": "a dry fibrous soil-crackle — fine high-frequency threading crackle that pans left-to-right with the spreading mesh"
+    },
+    {
+      "beat": "And the trees use this network like a hidden internet, trading sugar, water, and even warning signals.",
+      "visual": "Two trees now stand left and right, both rooted into the shared lavender fungal web that spans between them underground. The web reads as a glowing pipeline highway. Three labeled gold token-packets ride the threads between the trees: an amber (#F2A65A) sugar-crystal hexagon labeled 'SUGAR', a cyan (#5FC8E8) water-droplet labeled 'WATER', and a small gold pulse-glyph labeled 'SIGNAL'. The thread directly beneath each traveling packet brightens into a circuit-like glowing path.",
+      "animations": "Second tree springs up on the right (trunk wipe + 3 staggered canopy pops). The three packets spring-pop into existence at the left tree, then glide along the thread path to the right tree with smooth eased motion, each leaving a brief fading light-trail. Each packet's gold label pops on as it launches (staggered, ~0.15s apart). The thread beneath each packet runs a flowing brightness pulse like data moving. No zoom.",
+      "sfx": "a clean three-note digital transfer chirp — one short ascending UI blip per packet (sugar, water, signal)"
+    },
+    {
+      "beat": "When one tree is attacked by insects, it sends a chemical alarm through the fungus to its neighbors, so the others start pumping out defenses before the bugs ever arrive.",
+      "visual": "HERO REVEAL — the money shot. The LEFT tree is under attack: 4 jagged dark beetle silhouettes cluster and nibble its canopy, leaving a red bite-notch. The tree flashes an alarmRed (#FF5C5C) ring and fires a vivid red chemical-alarm pulse that travels DOWN its trunk, into the roots, and races as a glowing red wavefront across the ENTIRE lavender fungal web toward the neighbor trees. As the red front reaches each neighbor, that neighbor lights a leafGreen (#5FD08A) shield-glow and pops 3 small green shield/spike icons around its canopy. A gold '!' alarm badge slams over the attacked tree. The underground web is the centerpiece: red danger surging left-to-right, green defenses blooming in answer.",
+      "animations": "Beetles spring-pop onto the attacked canopy with tiny jitter. The alarmRed ring expands from the bitten tree with overshoot (scale 0→1.15→1.0). The red chemical pulse animates as a draw-on wavefront sweeping down the trunk (~0.2s) then radiating across every fungal thread in a fast left-to-right sweep (~0.7s, eased) with a glowing leading edge and a fading red trail. The gold '!' badge slams in with hard spring overshoot (scale 0→1.25→1.0) plus a brief screen-edge red accent flash. Each neighbor, on signal-arrival, spring-pops its green shield-glow then 3 staggered green spike-icon pops (~0.05s apart). One synchronized brightness flash across the whole web at the peak frame. No camera zoom — energy comes from the in-comp sweep.",
+      "sfx": "a rising electric chemical zap that snaps into a sharp alarm ping on the '!' slam, then 3 soft green shield-up ticks as neighbors light"
+    },
+    {
+      "beat": "Scientists call it the wood wide web, an entire forest quietly looking out for itself.",
+      "visual": "Pull-back composition reveals a calm row of 5 trees across the top, all sharing one continuous glowing lavender fungal web underground, now pulsing gently in unison with soft green health-glows on every canopy. A clean gold nameplate banner centered reads 'THE WOOD WIDE WEB'. Soft motes drift up; the forest feels alive and connected, breathing as one.",
+      "animations": "Trees pop in left-to-right in quick succession (staggered trunk-wipes, ~0.08s apart). The full fungal web runs one synchronized calm glow-pulse sweep. The gold 'THE WOOD WIDE WEB' nameplate draws-on as an underline-sweep, then the letters fade-up above it. All 5 canopies do one gentle unison breathe-scale (1.0→1.03→1.0). Motes drift gently upward. No zoom-pulse.",
+      "sfx": "a warm harmonic chord resolve with a single soft glowing chime on the nameplate"
+    },
+    {
+      "beat": "PAYOFF — restate the shock in a hard word-by-word slam.",
+      "visual": "Near-black forest background (#0c1410) with the faint lavender web ghosted low behind. Four bold words slam in, centered and stacked: 'THE' / 'FOREST' / 'IS' / 'TALKING' — 'TALKING' in gold #FFD23F and oversized, the other three in offWhite (#F4F1E8). A small gold underground-web glyph sits beneath the text.",
+      "animations": "Each word slams in one-by-one with strong spring overshoot then quick settle (~0.12s apart). 'TALKING' lands last and biggest (scale 0→1.3→1.0) with a gold flash burst behind it. The web glyph draws-on right after the final word. One tiny screen-settle shake on the final frame, then hold. No zoom.",
+      "sfx": "a deep confident sub-bass impact thump landing exactly on 'TALKING', web glyph adds a faint lavender shimmer"
+    }
+  ]
+}

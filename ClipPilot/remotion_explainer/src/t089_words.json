@@ -1,0 +1,495 @@
+{
+"script": "Every single day, roughly 100 tons of space dust and tiny meteorites silently rain down onto the Earth. That's the weight of a fully loaded jumbo jet, falling from the sky as invisible specks. You see, most of these grains are smaller than a sand particle, burning up as the shooting stars you spot at night. And over a year, that's nearly 40,000 tons of cosmic material settling onto rooftops, oceans, and your own backyard. So some of the dust on your windowsill right now traveled millions of miles through space, just to land on your house.",
+"words": [
+{
+"text": "Every",
+"start": 0.0,
+"end": 0.46
+},
+{
+"text": "single",
+"start": 0.46,
+"end": 0.74
+},
+{
+"text": "day,",
+"start": 0.74,
+"end": 1.2
+},
+{
+"text": "roughly",
+"start": 1.64,
+"end": 1.9
+},
+{
+"text": "100",
+"start": 1.9,
+"end": 2.58
+},
+{
+"text": "tons",
+"start": 2.58,
+"end": 2.94
+},
+{
+"text": "of",
+"start": 2.94,
+"end": 3.18
+},
+{
+"text": "space",
+"start": 3.18,
+"end": 3.52
+},
+{
+"text": "dust",
+"start": 3.52,
+"end": 3.94
+},
+{
+"text": "and",
+"start": 3.94,
+"end": 4.78
+},
+{
+"text": "tiny",
+"start": 4.78,
+"end": 5.24
+},
+{
+"text": "meteorites",
+"start": 5.24,
+"end": 6.0
+},
+{
+"text": "silently",
+"start": 6.0,
+"end": 6.64
+},
+{
+"text": "rain",
+"start": 6.64,
+"end": 7.1
+},
+{
+"text": "down",
+"start": 7.1,
+"end": 7.62
+},
+{
+"text": "onto",
+"start": 7.62,
+"end": 8.06
+},
+{
+"text": "the",
+"start": 8.06,
+"end": 8.24
+},
+{
+"text": "earth.",
+"start": 8.24,
+"end": 8.48
+},
+{
+"text": "That's",
+"start": 8.98,
+"end": 9.26
+},
+{
+"text": "the",
+"start": 9.26,
+"end": 9.38
+},
+{
+"text": "weight",
+"start": 9.38,
+"end": 9.7
+},
+{
+"text": "of",
+"start": 9.7,
+"end": 9.98
+},
+{
+"text": "a",
+"start": 9.98,
+"end": 10.12
+},
+{
+"text": "fully",
+"start": 10.12,
+"end": 10.52
+},
+{
+"text": "-loaded",
+"start": 10.52,
+"end": 11.04
+},
+{
+"text": "jumbo",
+"start": 11.04,
+"end": 11.58
+},
+{
+"text": "jet,",
+"start": 11.58,
+"end": 11.98
+},
+{
+"text": "falling",
+"start": 12.52,
+"end": 12.9
+},
+{
+"text": "from",
+"start": 12.9,
+"end": 13.12
+},
+{
+"text": "the",
+"start": 13.12,
+"end": 13.24
+},
+{
+"text": "sky",
+"start": 13.24,
+"end": 13.62
+},
+{
+"text": "as",
+"start": 13.62,
+"end": 14.1
+},
+{
+"text": "invisible",
+"start": 14.1,
+"end": 14.62
+},
+{
+"text": "specks.",
+"start": 14.62,
+"end": 15.48
+},
+{
+"text": "You",
+"start": 15.78,
+"end": 15.9
+},
+{
+"text": "see,",
+"start": 15.9,
+"end": 16.22
+},
+{
+"text": "most",
+"start": 16.62,
+"end": 16.88
+},
+{
+"text": "of",
+"start": 16.88,
+"end": 17.04
+},
+{
+"text": "these",
+"start": 17.04,
+"end": 17.18
+},
+{
+"text": "grains",
+"start": 17.18,
+"end": 17.52
+},
+{
+"text": "are",
+"start": 17.52,
+"end": 17.72
+},
+{
+"text": "smaller",
+"start": 17.72,
+"end": 18.16
+},
+{
+"text": "than",
+"start": 18.16,
+"end": 18.4
+},
+{
+"text": "a",
+"start": 18.4,
+"end": 18.56
+},
+{
+"text": "sand",
+"start": 18.56,
+"end": 18.82
+},
+{
+"text": "particle,",
+"start": 18.82,
+"end": 19.22
+},
+{
+"text": "burning",
+"start": 19.66,
+"end": 19.96
+},
+{
+"text": "up",
+"start": 19.96,
+"end": 20.22
+},
+{
+"text": "as",
+"start": 20.22,
+"end": 20.44
+},
+{
+"text": "the",
+"start": 20.44,
+"end": 20.58
+},
+{
+"text": "shooting",
+"start": 20.58,
+"end": 20.94
+},
+{
+"text": "stars",
+"start": 20.94,
+"end": 21.32
+},
+{
+"text": "you",
+"start": 21.32,
+"end": 21.52
+},
+{
+"text": "spot",
+"start": 21.52,
+"end": 21.78
+},
+{
+"text": "at",
+"start": 21.78,
+"end": 21.92
+},
+{
+"text": "night.",
+"start": 21.92,
+"end": 22.16
+},
+{
+"text": "And",
+"start": 22.62,
+"end": 22.8
+},
+{
+"text": "over",
+"start": 22.8,
+"end": 23.08
+},
+{
+"text": "a",
+"start": 23.08,
+"end": 23.26
+},
+{
+"text": "year,",
+"start": 23.26,
+"end": 23.52
+},
+{
+"text": "that's",
+"start": 23.98,
+"end": 24.32
+},
+{
+"text": "nearly",
+"start": 24.32,
+"end": 24.6
+},
+{
+"text": "40",
+"start": 24.6,
+"end": 25.04
+},
+{
+"text": ",000",
+"start": 25.04,
+"end": 25.58
+},
+{
+"text": "tons",
+"start": 25.58,
+"end": 25.88
+},
+{
+"text": "of",
+"start": 25.88,
+"end": 26.2
+},
+{
+"text": "cosmic",
+"start": 26.2,
+"end": 26.5
+},
+{
+"text": "material",
+"start": 26.5,
+"end": 27.18
+},
+{
+"text": "settling",
+"start": 27.18,
+"end": 28.04
+},
+{
+"text": "onto",
+"start": 28.04,
+"end": 28.44
+},
+{
+"text": "rooftops,",
+"start": 28.44,
+"end": 29.24
+},
+{
+"text": "oceans,",
+"start": 29.74,
+"end": 30.04
+},
+{
+"text": "and",
+"start": 30.62,
+"end": 30.68
+},
+{
+"text": "your",
+"start": 30.68,
+"end": 30.78
+},
+{
+"text": "own",
+"start": 30.78,
+"end": 30.92
+},
+{
+"text": "backyard.",
+"start": 30.92,
+"end": 31.38
+},
+{
+"text": "So",
+"start": 32.04,
+"end": 32.14
+},
+{
+"text": "some",
+"start": 32.14,
+"end": 32.32
+},
+{
+"text": "of",
+"start": 32.32,
+"end": 32.38
+},
+{
+"text": "the",
+"start": 32.38,
+"end": 32.52
+},
+{
+"text": "dust",
+"start": 32.52,
+"end": 32.76
+},
+{
+"text": "on",
+"start": 32.76,
+"end": 32.98
+},
+{
+"text": "your",
+"start": 32.98,
+"end": 33.08
+},
+{
+"text": "windowsill",
+"start": 33.08,
+"end": 33.72
+},
+{
+"text": "right",
+"start": 33.72,
+"end": 34.24
+},
+{
+"text": "now",
+"start": 34.24,
+"end": 34.54
+},
+{
+"text": "traveled",
+"start": 34.54,
+"end": 35.08
+},
+{
+"text": "millions",
+"start": 35.08,
+"end": 35.66
+},
+{
+"text": "of",
+"start": 35.66,
+"end": 35.92
+},
+{
+"text": "miles",
+"start": 35.92,
+"end": 36.18
+},
+{
+"text": "through",
+"start": 36.18,
+"end": 36.54
+},
+{
+"text": "space",
+"start": 36.54,
+"end": 37.04
+},
+{
+"text": "just",
+"start": 37.04,
+"end": 37.72
+},
+{
+"text": "to",
+"start": 37.72,
+"end": 37.84
+},
+{
+"text": "land",
+"start": 37.84,
+"end": 38.04
+},
+{
+"text": "on",
+"start": 38.04,
+"end": 38.2
+},
+{
+"text": "your",
+"start": 38.2,
+"end": 38.3
+},
+{
+"text": "house.",
+"start": 38.3,
+"end": 38.62
+}
+]
+}

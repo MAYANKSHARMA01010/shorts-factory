@@ -1,0 +1,1 @@
+2026-07-02 | Weekly run #2 | SKILL.md: HYPOTHESIS-length->SIGNAL-length (E2 active: next 5 science at 20s, AVP target 70pct vs 49.7pct); new SIGNAL-retention rule (finance AVP 76.1pct > science 49.7pct); 8 new science topics 023-030; DECISIONS_FOR_OWNER #1 updated | review 2026-07-09

@@ -1,0 +1,55 @@
+{
+  "slug": "submarine",
+  "title": "How Does Steel Sink On Command?",
+  "duration_estimate_s": 32,
+  "palette": {
+    "bg_deep": "#0a1626",
+    "bg_abyss": "#0d1f33",
+    "gold": "#FFD23F",
+    "key_steel": "#9fb3c8",
+    "ocean_blue": "#2e6fb0",
+    "seawater": "#1d8fa3",
+    "air_white": "#eaf4ff",
+    "alarm_red": "#e0533d",
+    "hull_shadow": "#16334a"
+  },
+  "scenes": [
+    {
+      "beat": "A submarine weighs thousands of tons, yet it can dive deep and float back up whenever it wants.",
+      "visual": "SCROLL-STOPPER HOOK. Dead-center on a deep navy gradient (#0a1626 top to #0d1f33 bottom) sits one bold side-profile submarine in brushed steel (#9fb3c8) with a dark underbelly (#16334a), rounded conning tower, and a row of porthole dots. It is visibly HUGE: a tiny air-white (#eaf4ff) human silhouette stands on the hull for scale, dwarfed. A single big gold badge pill (#FFD23F) sits top-center punching the shock: '40,000,000 LBS — FLOATS'. A faint waterline runs across the upper third; below the sub, the navy darkens into a hinted abyss. The frame reads as one impossibly heavy steel object hanging weightless in blue.",
+      "animations": "Submarine springs in from center with a firm scale-up overshoot and hard settle (NO continuous zoom-pulse after). The tiny human pops on one beat later so the scale gut-punch lands. The gold badge drops from just above frame on a snappy spring-overshoot, then a fast gold shimmer sweeps left-to-right across 'FLOATS'. Waterline draws-on as a single horizontal sweep. Once settled, a slow 2px buoyancy bob keeps the sub weightless.",
+      "sfx": "single deep submarine sonar ping (low 'pong' with long tail)"
+    },
+    {
+      "beat": "So how does a steel giant choose whether to sink?",
+      "visual": "The submarine eases to the left third. In the open right space a bold gold question-mark '?' badge sits between two thin curved arrows — one looping DOWN toward a darkening abyss, one looping UP toward the waterline — framing an unresolved choice. Inside the hull, two faint dashed chamber outlines begin to glow, teasing the tanks without revealing them.",
+      "animations": "Submarine slides left on a smooth spring. The gold '?' badge spring-pops with overshoot. The two choice-arrows draw-on sequentially via stroke-dash reveal (down-arrow first, then up-arrow). The two internal dashed chambers pulse-glow once in unison to foreshadow the mechanism.",
+      "sfx": "short metallic suspense riser (rising shimmer, tight)"
+    },
+    {
+      "beat": "The secret is hollow tanks built into its hull.",
+      "visual": "The solid hull opens into a clean cutaway cross-section filling frame: steel outline in #9fb3c8 against flat seawater teal (#1d8fa3), with two prominent hollow BALLAST TANKS drawn as rounded chambers outlined in gold (#FFD23F) and filled with air-white (#eaf4ff). A small gold 'BALLAST TANK' tag points to one on a leader line. Tiny valve icons sit at the top vents and bottom inlets of each tank, currently shut.",
+      "animations": "Solid hull does a left-to-right mask-wipe to reveal the cutaway interior. The two tank chambers spring-pop with overshoot. Their gold outlines draw-on as stroke paths. The 'BALLAST TANK' label slides in along its leader line and spring-settles. Valve icons twinkle once to read as 'closed, ready'.",
+      "sfx": "resonant hollow steel hull tap (two knocks)"
+    },
+    {
+      "beat": "To dive, the crew opens valves and lets seawater flood those tanks, making the sub heavier than the water around it. Then it slips beneath the surface.",
+      "visual": "HERO REVEAL — the money shot. The cutaway sub is centered against seawater teal. Both bottom valves SPRING OPEN and glow alarm-red (#e0533d) at the rim. Seawater (#1d8fa3 with a brighter #2e6fb0 surface line) FLOODS up into both ballast tanks from the bottom inlets as two animated rising fill-levels, each topped by a jittering wobbling meniscus; streams of air-white (#eaf4ff) bubbles escape upward out the top vents in two rising columns. On the right, a weight gauge with a gold needle swings clockwise from 'LIGHT' to 'HEAVY' while a tonnage counter ticks up beside it. As the two tanks brim full, the entire submarine eases DOWNWARD on a heavy spring sink; a drawn waterline wipes up and over the conning tower, and the whole background color-fills from teal down to deep abyss (#0d1f33). Fills + bubbles + needle + descent are stacked in one layered shot.",
+      "animations": "Valves spring-rotate open with a red rim-flash. Two eased liquid fill-levels rise together, menisci jittering 1px; bubble particles stream up and out the vents on staggered offsets. The gold weight-needle sweeps clockwise with a slight overshoot at 'HEAVY'; the tonnage counter digit-rolls upward. On full, the sub eases down on a firm spring (gentle overshoot, no rebound up), the waterline mask-wipes up over it, and the background does a smooth top-to-bottom color-fill teal→abyss. This is the richest, most layered beat — everything moves at once but reads cleanly.",
+      "sfx": "rushing seawater inrush gurgle (bubbling flood, builds then settles)"
+    },
+    {
+      "beat": "To rise, they blast compressed air in, shoving all that water back out.",
+      "visual": "Same cutaway, now deep in the dark abyss (#0d1f33). A compressed-air tank glyph along the sub's spine flashes and fires two bright air-white (#eaf4ff) jets into the ballast tanks. Air pressure visibly SHOVES the seawater down and out the bottom valves in arcing teal jets blasting into the abyss. The two tank fill-levels DROP fast as white pressure-lines fill the tops. The weight needle swings back counter-clockwise from 'HEAVY' to 'LIGHT'. The sub lifts toward a faint surface glow at the top of frame.",
+      "animations": "Compressed-air glyph flashes white, then two sharp air-jet lines draw-on into the tanks. Liquid fill-levels drop quickly on a falling-fill ease while expelled-water arcs jet out the bottom valves as particle streams. The gold needle counters back counter-clockwise. The whole sub eases UPWARD on a buoyant spring rise toward the surface glow.",
+      "sfx": "sharp pneumatic compressed-air blast (pressurized hiss)"
+    },
+    {
+      "beat": "And this simple swap between water and air is the only thing keeping the crew off the crushing seafloor.",
+      "visual": "PAYOFF. The submarine sits restored, floating just under a bright surface line at the top. Behind it, a clean half-and-half motif: left half tinted seawater teal (#1d8fa3) with a small water-drop glyph, right half tinted air-white (#eaf4ff) with a small air-puff glyph, split by a thin gold (#FFD23F) divider. Far below, a jagged dark seafloor silhouette (#16334a) looms ominously. Slamming in centered over the sub in bold uppercase, white with the keyword words in gold: 'WATER DOWN. AIR UP.'",
+      "animations": "The water/air split panels wipe in from opposite edges to meet at the gold divider. The seafloor silhouette rises faintly into view at the very bottom. Then the payoff lands word-by-word with strong spring overshoot — 'WATER' then 'DOWN.' then 'AIR' then 'UP.' — each gold word flashing a quick shimmer on impact. Sub holds with a gentle buoyant bob.",
+      "sfx": "combined splash-plus-air-pop sting (final accent)"
+    }
+  ],
+  "payoff": "WATER DOWN. AIR UP."
+}

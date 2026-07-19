@@ -1,0 +1,490 @@
+{
+"script": "A microwave can boil your coffee while the mug stays cool to the touch. So how does it cook food with no flame at all? Inside, a part called the magnetron fires invisible waves into the chamber, bouncing them off the metal walls. And these waves are tuned to hunt one thing: water molecules. They grab each tiny water molecule and flip it back and forth billions of times a second. Then all that frantic jiggling creates friction, and friction is just heat. This means your food is really cooking itself, from the water trapped inside it.",
+"words": [
+{
+"text": "A",
+"start": 0.0,
+"end": 0.24
+},
+{
+"text": "microwave",
+"start": 0.24,
+"end": 0.66
+},
+{
+"text": "can",
+"start": 0.66,
+"end": 0.96
+},
+{
+"text": "boil",
+"start": 0.96,
+"end": 1.2
+},
+{
+"text": "your",
+"start": 1.2,
+"end": 1.38
+},
+{
+"text": "coffee",
+"start": 1.38,
+"end": 1.82
+},
+{
+"text": "while",
+"start": 1.82,
+"end": 2.24
+},
+{
+"text": "the",
+"start": 2.24,
+"end": 2.4
+},
+{
+"text": "mug",
+"start": 2.4,
+"end": 2.6
+},
+{
+"text": "stays",
+"start": 2.6,
+"end": 2.98
+},
+{
+"text": "cool",
+"start": 2.98,
+"end": 3.34
+},
+{
+"text": "to",
+"start": 3.34,
+"end": 3.68
+},
+{
+"text": "the",
+"start": 3.68,
+"end": 3.76
+},
+{
+"text": "touch.",
+"start": 3.76,
+"end": 4.1
+},
+{
+"text": "So",
+"start": 4.82,
+"end": 4.86
+},
+{
+"text": "how",
+"start": 4.86,
+"end": 4.96
+},
+{
+"text": "does",
+"start": 4.96,
+"end": 5.04
+},
+{
+"text": "it",
+"start": 5.04,
+"end": 5.14
+},
+{
+"text": "cook",
+"start": 5.14,
+"end": 5.3
+},
+{
+"text": "food",
+"start": 5.3,
+"end": 5.7
+},
+{
+"text": "with",
+"start": 5.7,
+"end": 5.92
+},
+{
+"text": "no",
+"start": 5.92,
+"end": 6.1
+},
+{
+"text": "flame",
+"start": 6.1,
+"end": 6.38
+},
+{
+"text": "at",
+"start": 6.38,
+"end": 6.48
+},
+{
+"text": "all?",
+"start": 6.48,
+"end": 6.76
+},
+{
+"text": "Inside,",
+"start": 7.3,
+"end": 7.68
+},
+{
+"text": "a",
+"start": 8.24,
+"end": 8.4
+},
+{
+"text": "part",
+"start": 8.4,
+"end": 8.62
+},
+{
+"text": "called",
+"start": 8.62,
+"end": 8.9
+},
+{
+"text": "the",
+"start": 8.9,
+"end": 9.06
+},
+{
+"text": "magnetron",
+"start": 9.06,
+"end": 9.8
+},
+{
+"text": "fires",
+"start": 9.8,
+"end": 10.26
+},
+{
+"text": "invisible",
+"start": 10.26,
+"end": 10.94
+},
+{
+"text": "waves",
+"start": 10.94,
+"end": 11.5
+},
+{
+"text": "into",
+"start": 11.5,
+"end": 11.78
+},
+{
+"text": "the",
+"start": 11.78,
+"end": 11.94
+},
+{
+"text": "chamber,",
+"start": 11.94,
+"end": 12.34
+},
+{
+"text": "bouncing",
+"start": 12.68,
+"end": 13.02
+},
+{
+"text": "them",
+"start": 13.02,
+"end": 13.34
+},
+{
+"text": "off",
+"start": 13.34,
+"end": 13.74
+},
+{
+"text": "the",
+"start": 13.74,
+"end": 13.94
+},
+{
+"text": "metal",
+"start": 13.94,
+"end": 14.18
+},
+{
+"text": "walls.",
+"start": 14.18,
+"end": 14.56
+},
+{
+"text": "And",
+"start": 15.18,
+"end": 15.28
+},
+{
+"text": "these",
+"start": 15.28,
+"end": 15.44
+},
+{
+"text": "waves",
+"start": 15.44,
+"end": 15.72
+},
+{
+"text": "are",
+"start": 15.72,
+"end": 15.96
+},
+{
+"text": "tuned",
+"start": 15.96,
+"end": 16.28
+},
+{
+"text": "to",
+"start": 16.28,
+"end": 16.54
+},
+{
+"text": "hunt",
+"start": 16.54,
+"end": 16.76
+},
+{
+"text": "one",
+"start": 16.76,
+"end": 17.18
+},
+{
+"text": "thing,",
+"start": 17.18,
+"end": 17.68
+},
+{
+"text": "water",
+"start": 18.1,
+"end": 18.26
+},
+{
+"text": "molecules.",
+"start": 18.26,
+"end": 18.78
+},
+{
+"text": "They",
+"start": 19.4,
+"end": 19.62
+},
+{
+"text": "grab",
+"start": 19.62,
+"end": 19.88
+},
+{
+"text": "each",
+"start": 19.88,
+"end": 20.22
+},
+{
+"text": "tiny",
+"start": 20.22,
+"end": 20.62
+},
+{
+"text": "water",
+"start": 20.62,
+"end": 21.02
+},
+{
+"text": "molecule",
+"start": 21.02,
+"end": 21.56
+},
+{
+"text": "and",
+"start": 21.56,
+"end": 22.1
+},
+{
+"text": "flip",
+"start": 22.1,
+"end": 22.3
+},
+{
+"text": "it",
+"start": 22.3,
+"end": 22.46
+},
+{
+"text": "back",
+"start": 22.46,
+"end": 22.7
+},
+{
+"text": "and",
+"start": 22.7,
+"end": 22.88
+},
+{
+"text": "forth",
+"start": 22.88,
+"end": 23.22
+},
+{
+"text": "billions",
+"start": 23.22,
+"end": 23.6
+},
+{
+"text": "of",
+"start": 23.6,
+"end": 23.8
+},
+{
+"text": "times",
+"start": 23.8,
+"end": 24.0
+},
+{
+"text": "a",
+"start": 24.0,
+"end": 24.18
+},
+{
+"text": "second.",
+"start": 24.18,
+"end": 24.44
+},
+{
+"text": "Then",
+"start": 24.74,
+"end": 25.12
+},
+{
+"text": "all",
+"start": 25.12,
+"end": 25.38
+},
+{
+"text": "that",
+"start": 25.38,
+"end": 25.56
+},
+{
+"text": "frantic",
+"start": 25.56,
+"end": 26.1
+},
+{
+"text": "jiggling",
+"start": 26.1,
+"end": 26.78
+},
+{
+"text": "creates",
+"start": 26.78,
+"end": 27.14
+},
+{
+"text": "friction,",
+"start": 27.14,
+"end": 27.68
+},
+{
+"text": "and",
+"start": 28.06,
+"end": 28.28
+},
+{
+"text": "friction",
+"start": 28.28,
+"end": 28.68
+},
+{
+"text": "is",
+"start": 28.68,
+"end": 29.1
+},
+{
+"text": "just",
+"start": 29.1,
+"end": 29.38
+},
+{
+"text": "heat.",
+"start": 29.38,
+"end": 29.72
+},
+{
+"text": "This",
+"start": 30.3,
+"end": 30.38
+},
+{
+"text": "means",
+"start": 30.38,
+"end": 30.52
+},
+{
+"text": "your",
+"start": 30.52,
+"end": 30.68
+},
+{
+"text": "food",
+"start": 30.68,
+"end": 31.1
+},
+{
+"text": "is",
+"start": 31.1,
+"end": 31.44
+},
+{
+"text": "really",
+"start": 31.44,
+"end": 31.84
+},
+{
+"text": "cooking",
+"start": 31.84,
+"end": 32.22
+},
+{
+"text": "itself",
+"start": 32.22,
+"end": 32.78
+},
+{
+"text": "from",
+"start": 32.78,
+"end": 33.44
+},
+{
+"text": "the",
+"start": 33.44,
+"end": 33.58
+},
+{
+"text": "water",
+"start": 33.58,
+"end": 33.9
+},
+{
+"text": "trapped",
+"start": 33.9,
+"end": 34.32
+},
+{
+"text": "inside",
+"start": 34.32,
+"end": 34.76
+},
+{
+"text": "it.",
+"start": 34.76,
+"end": 35.02
+}
+]
+}

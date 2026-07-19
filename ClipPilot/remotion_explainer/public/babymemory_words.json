@@ -1,0 +1,450 @@
+{
+"script": "Why can't you remember being a baby? You've been told your baby brain wasn't recording. That's a lie. Yale, 2025 \u2014 scientists scanned babies just one year old. When a baby saw a familiar face, the hippocampus lit up. That's the exact memory region adults use. The memories are in there. You just can't retrieve them. Why? Your baby brain grows so fast, new neurons overwrite the path to old memories. It's like a hard drive rewriting its own index. So babies don't forget. Adults just can't find the file.",
+"words": [
+{
+"text": "Why",
+"start": 0.0,
+"end": 0.38
+},
+{
+"text": "can't",
+"start": 0.38,
+"end": 0.72
+},
+{
+"text": "you",
+"start": 0.72,
+"end": 0.86
+},
+{
+"text": "remember",
+"start": 0.86,
+"end": 1.14
+},
+{
+"text": "being",
+"start": 1.14,
+"end": 1.44
+},
+{
+"text": "a",
+"start": 1.44,
+"end": 1.62
+},
+{
+"text": "baby?",
+"start": 1.62,
+"end": 1.92
+},
+{
+"text": "You've",
+"start": 2.9,
+"end": 3.16
+},
+{
+"text": "been",
+"start": 3.16,
+"end": 3.32
+},
+{
+"text": "told",
+"start": 3.32,
+"end": 3.58
+},
+{
+"text": "your",
+"start": 3.58,
+"end": 3.82
+},
+{
+"text": "baby",
+"start": 3.82,
+"end": 4.12
+},
+{
+"text": "brain",
+"start": 4.12,
+"end": 4.46
+},
+{
+"text": "wasn't",
+"start": 4.46,
+"end": 4.86
+},
+{
+"text": "recording.",
+"start": 4.86,
+"end": 5.34
+},
+{
+"text": "That's",
+"start": 6.4,
+"end": 6.7
+},
+{
+"text": "a",
+"start": 6.7,
+"end": 6.76
+},
+{
+"text": "lie.",
+"start": 6.76,
+"end": 7.04
+},
+{
+"text": "Yale,",
+"start": 8.4,
+"end": 8.4
+},
+{
+"text": "2025,",
+"start": 8.68,
+"end": 9.74
+},
+{
+"text": "scientists",
+"start": 11.06,
+"end": 11.06
+},
+{
+"text": "scanned",
+"start": 11.06,
+"end": 11.52
+},
+{
+"text": "babies",
+"start": 11.52,
+"end": 11.9
+},
+{
+"text": "just",
+"start": 11.9,
+"end": 12.24
+},
+{
+"text": "one",
+"start": 12.24,
+"end": 12.52
+},
+{
+"text": "year",
+"start": 12.52,
+"end": 12.7
+},
+{
+"text": "old.",
+"start": 12.7,
+"end": 13.1
+},
+{
+"text": "When",
+"start": 14.06,
+"end": 14.18
+},
+{
+"text": "a",
+"start": 14.18,
+"end": 14.3
+},
+{
+"text": "baby",
+"start": 14.3,
+"end": 14.56
+},
+{
+"text": "saw",
+"start": 14.56,
+"end": 14.8
+},
+{
+"text": "a",
+"start": 14.8,
+"end": 14.98
+},
+{
+"text": "familiar",
+"start": 14.98,
+"end": 15.22
+},
+{
+"text": "face,",
+"start": 15.22,
+"end": 15.68
+},
+{
+"text": "the",
+"start": 16.1,
+"end": 16.2
+},
+{
+"text": "hippocampus",
+"start": 16.2,
+"end": 16.5
+},
+{
+"text": "lit",
+"start": 16.5,
+"end": 17.0
+},
+{
+"text": "up.",
+"start": 17.0,
+"end": 17.34
+},
+{
+"text": "That's",
+"start": 18.0,
+"end": 18.44
+},
+{
+"text": "the",
+"start": 18.44,
+"end": 18.56
+},
+{
+"text": "exact",
+"start": 18.56,
+"end": 18.92
+},
+{
+"text": "memory",
+"start": 18.92,
+"end": 19.26
+},
+{
+"text": "region",
+"start": 19.26,
+"end": 19.78
+},
+{
+"text": "adults",
+"start": 19.78,
+"end": 20.12
+},
+{
+"text": "use.",
+"start": 20.12,
+"end": 20.66
+},
+{
+"text": "The",
+"start": 21.68,
+"end": 21.86
+},
+{
+"text": "memories",
+"start": 21.86,
+"end": 22.2
+},
+{
+"text": "are",
+"start": 22.2,
+"end": 22.56
+},
+{
+"text": "in",
+"start": 22.56,
+"end": 22.72
+},
+{
+"text": "there.",
+"start": 22.72,
+"end": 23.02
+},
+{
+"text": "You",
+"start": 23.82,
+"end": 24.1
+},
+{
+"text": "just",
+"start": 24.1,
+"end": 24.34
+},
+{
+"text": "can't",
+"start": 24.34,
+"end": 24.76
+},
+{
+"text": "retrieve",
+"start": 24.76,
+"end": 25.08
+},
+{
+"text": "them.",
+"start": 25.08,
+"end": 25.4
+},
+{
+"text": "Why?",
+"start": 26.3,
+"end": 26.64
+},
+{
+"text": "Your",
+"start": 27.45,
+"end": 27.78
+},
+{
+"text": "baby",
+"start": 27.78,
+"end": 28.1
+},
+{
+"text": "brain",
+"start": 28.1,
+"end": 28.4
+},
+{
+"text": "grows",
+"start": 28.4,
+"end": 28.7
+},
+{
+"text": "so",
+"start": 28.7,
+"end": 29.0
+},
+{
+"text": "fast,",
+"start": 29.0,
+"end": 29.44
+},
+{
+"text": "new",
+"start": 29.82,
+"end": 30.0
+},
+{
+"text": "neurons",
+"start": 30.0,
+"end": 30.38
+},
+{
+"text": "overwrite",
+"start": 30.38,
+"end": 30.92
+},
+{
+"text": "the",
+"start": 30.92,
+"end": 31.14
+},
+{
+"text": "path",
+"start": 31.14,
+"end": 31.4
+},
+{
+"text": "to",
+"start": 31.4,
+"end": 31.66
+},
+{
+"text": "old",
+"start": 31.66,
+"end": 31.92
+},
+{
+"text": "memories.",
+"start": 31.92,
+"end": 32.32
+},
+{
+"text": "It's",
+"start": 33.42,
+"end": 33.58
+},
+{
+"text": "like",
+"start": 33.58,
+"end": 33.76
+},
+{
+"text": "a",
+"start": 33.76,
+"end": 33.92
+},
+{
+"text": "hard",
+"start": 33.92,
+"end": 34.18
+},
+{
+"text": "drive",
+"start": 34.18,
+"end": 34.54
+},
+{
+"text": "rewriting",
+"start": 34.54,
+"end": 34.98
+},
+{
+"text": "its",
+"start": 34.98,
+"end": 35.32
+},
+{
+"text": "own",
+"start": 35.32,
+"end": 35.58
+},
+{
+"text": "index.",
+"start": 35.58,
+"end": 36.08
+},
+{
+"text": "So",
+"start": 37.22,
+"end": 37.4
+},
+{
+"text": "babies",
+"start": 37.4,
+"end": 37.74
+},
+{
+"text": "don't",
+"start": 37.74,
+"end": 38.14
+},
+{
+"text": "forget.",
+"start": 38.14,
+"end": 38.46
+},
+{
+"text": "Adults",
+"start": 39.58,
+"end": 39.78
+},
+{
+"text": "just",
+"start": 39.78,
+"end": 40.14
+},
+{
+"text": "can't",
+"start": 40.14,
+"end": 40.6
+},
+{
+"text": "find",
+"start": 40.6,
+"end": 40.84
+},
+{
+"text": "the",
+"start": 40.84,
+"end": 41.02
+},
+{
+"text": "file.",
+"start": 41.02,
+"end": 41.36
+}
+]
+}

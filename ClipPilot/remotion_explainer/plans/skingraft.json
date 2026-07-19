@@ -1,0 +1,58 @@
+{
+  "slug": "skingraft",
+  "title": "Surgeons Stretch Skin Like a Net",
+  "duration_estimate_s": 33,
+  "palette": {
+    "bg_deep": "#0d0f14",
+    "bg_panel": "#141821",
+    "gold": "#FFD23F",
+    "key_skin": "#F2B79B",
+    "skin_deep": "#C97B5C",
+    "blood_red": "#E2495A",
+    "vessel_crimson": "#9C2A3B",
+    "steel": "#9FB3C8",
+    "tissue_pink": "#F6D9CF",
+    "healing_green": "#5FD0A0",
+    "char": "#2A1A18",
+    "white": "#FFFFFF"
+  },
+  "scenes": [
+    {
+      "beat": "When someone is badly burned, surgeons literally harvest healthy skin from another part of their own body.",
+      "visual": "HOOK - one bold central object on the dark panel. Center: a large clean rectangular swatch of healthy key_skin (rounded corners, soft tissue_pink highlight, faint pore texture) held up like a sample. A steel scalpel hovers at its left edge, blade kissing the skin, a single bead of blood_red welling at the cut point. Below the swatch, a small steel-blue human silhouette has a glowing rectangular DONOR hole missing from its thigh - the exact shape of the swatch - showing the skin was just taken from the body itself. Upper third: a fat gold badge pill reads 'CUT OFF YOUR OWN SKIN?' with a gold '?' coin slamming beside it. Everything else stays near-black so the skin swatch is the unmistakable hero.",
+      "animations": "Skin swatch slams in from scale 0.5 with a low-damping spring overshoot, a quick gold light-sweep raking across its surface. Scalpel snaps to the edge on a fast spring and the blood bead swells then trembles. Gold badge pill drops from the top with a heavy spring bounce; the '?' coin flips in 0.2s later with a spring tick. The donor-hole on the silhouette punches open (mask reveal) in sync with the swatch landing, a faint healing_green rim glowing around the empty patch.",
+      "sfx": "a single sharp heart-monitor beep over a low ominous operating-room hum"
+    },
+    {
+      "beat": "They shave off a paper-thin sheet from somewhere like the thigh, taking only the top layers so the donor site heals on its own.",
+      "visual": "Cross-section diagram of the thigh: stacked horizontal skin layers as labeled color bands - tissue_pink epidermis on top, key_skin dermis below, skin_deep fat at the bottom. A vector dermatome blade (steel, beveled, oscillating edge) glides left to right just beneath the surface, peeling up a curling, paper-thin, translucent ribbon of key_skin that scrolls and coils at the right edge. A gold dotted depth-line marks how shallow the cut is, with a small gold caption pill 'TOP LAYERS ONLY'. Behind the blade the remaining donor bed glows a faint healing_green to signal it will recover.",
+      "animations": "Layer bands fill in bottom-to-top in a quick 4-frame stagger. Blade tracks across on a smooth linear glide while the harvested ribbon peels and curls up with springy ribbon physics (each segment lagging the last). Gold depth-line draws on left to right (stroke-dashoffset). Donor bed blooms a soft healing_green glow-up as the blade clears each section.",
+      "sfx": "a fine oscillating dermatome buzz with a crisp slicing schick as the sheet lifts"
+    },
+    {
+      "beat": "Then they run it through a machine that cuts tiny slits, letting the graft stretch like a net over a far bigger wound.",
+      "visual": "HERO REVEAL - the single money shot, the most detailed and specific frame. Dead center: a vector skin-meshing machine - two steel cylindrical rollers with fine angled cutting ridges, faint specular highlights. The solid key_skin sheet feeds in from the left as a clean rectangle. As it passes between the rollers it emerges on the right transformed into a precise diamond-lattice mesh (clean rows of offset slits, each a thin lens shape). Then the meshed sheet visibly STRETCHES open horizontally - every diamond slit yawning into an open hole - the rectangle widening toward triple its original area, casting soft skin_deep shadows through the open holes onto the panel below to sell real depth. A bold gold counter sits beside it reading '1x -> 3x AREA' with a faint ghost outline of the original small rectangle for scale.",
+      "animations": "Rollers counter-rotate with visible gear-mesh motion. Solid sheet draws on as it feeds in from the left. Slits incise in a fast staggered ripple, row by row across the sheet (stroke-reveal). Then the hero move: a dramatic spring-driven horizontal stretch with elastic overshoot - the lattice expands and the diamond holes open like a fishnet, settling with one bounce. The gold counter rolls 1.0x up to 3.0x perfectly synced to the stretch. Shadows cast through the holes sweep and lengthen as the mesh widens. Brief settle-jiggle on the mesh at the end.",
+      "sfx": "a mechanical roller ratchet-and-cut clatter, resolving into an elastic stretchy net creak as the lattice yawns open"
+    },
+    {
+      "beat": "All those tiny holes let the new skin breathe and drain instead of trapping fluid underneath.",
+      "visual": "Close-up on one section of the open diamond mesh laid flat over tissue. Through the holes, tiny gold air particles rise and escape upward (breathing out), while small blood_red fluid droplets seep downward and drain away through the slits. Faint gold up-arrows curve out of two holes; faint blood_red down-arrows curve out of others. The mesh tissue is warm tissue_pink with key_skin edge highlights, and the surface stays matte and dry where a solid sheet would have bubbled up with trapped fluid (a small ghosted 'X' over a trapped-fluid bubble icon to contrast).",
+      "animations": "Gold breath particles drift up and out of the holes in a gentle continuous rise. Blood_red drain droplets fall through and trickle off the bottom edge with light gravity easing. Up and down arrows fade in with a soft alternating pulse - breathe out, then drain. The ghosted trapped-fluid bubble swells then gets a quick red 'X' stamp to show what the holes prevent.",
+      "sfx": "a soft airy exhale-through-fabric with a faint liquid trickle underneath"
+    },
+    {
+      "beat": "Once it is laid over the burn, fresh blood vessels grow up into it within days and fuse it permanently in place.",
+      "visual": "The meshed graft now sits over the dark charred burn bed (char tones from scene 1's donor body). From the wound bed underneath, branching vessel_crimson and blood_red blood vessels GROW upward, threading through the mesh holes and spreading into the graft like roots taking hold. A small gold day-counter ticks 'DAY 1 ... DAY 4'. As the vessels connect, the graft color warms from pale tissue_pink to a healthy living tissue_pink-red, and a healing_green 'FUSED' check badge stamps in.",
+      "animations": "Blood vessels draw on upward as organically branching paths in a fast staggered bloom (each branch sprouting sub-branches). The graft does a warm color fill-in sweeping across as the vessels connect (interpolate tissue_pink -> living red). Gold day-counter ticks up with each beat. The healing_green 'FUSED' badge pops in with a hard spring stamp and a quick check-mark draw at the end.",
+      "sfx": "a low organic wet pulsing heartbeat thrum that quickens, then a soft confirming heartbeat-lock thud"
+    },
+    {
+      "beat": "So a single hand-sized patch can be stretched to cover an entire back.",
+      "visual": "Split-comparison payoff. Left: a small hand-sized square of meshed key_skin graft glows. A gold arrow sweeps right and it expands into a full-back-sized stretched mesh that blankets the entire torso silhouette from scene 1, now healed and warm-toned with the open lattice clearly visible across the whole back. The payoff text slams in word-by-word in bold white with the shock word in gold: 'ONE PATCH. WHOLE BACK.' A final gold underline streaks beneath it.",
+      "animations": "Small patch springs in on the left with overshoot. Gold arrow sweeps right (stroke-dashoffset). The mesh expands across the back with a big elastic stretch overshoot, the lattice opening wide to fill the torso, settling on one bounce. Payoff text slams in word-by-word with spring overshoot - 'ONE' then 'PATCH.' then 'WHOLE' then 'BACK.' - 'WHOLE BACK' the largest and loudest. Gold underline streaks left to right at the very end.",
+      "sfx": "a bright triumphant reveal sting capped by a final elastic snap on the underline"
+    }
+  ],
+  "payoff": "ONE PATCH. WHOLE BACK."
+}

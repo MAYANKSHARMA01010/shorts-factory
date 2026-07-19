@@ -1,0 +1,57 @@
+{
+  "slug": "toilet",
+  "title": "How Your Toilet Empties Itself",
+  "duration_estimate_s": 33,
+  "palette": {
+    "bg": "#0a1426",
+    "bgMid": "#10223f",
+    "accent": "#FFD23F",
+    "key": "#3aa0ff",
+    "water": "#36a8e0",
+    "waterDk": "#1d6fa8",
+    "porcelain": "#eef3f8",
+    "porcelainShadow": "#b9c6d6",
+    "danger": "#ff5b4d",
+    "ink": "#0a1426"
+  },
+  "scenes": [
+    {
+      "beat": "Press the handle and the toilet empties itself in seconds with no pump at all.",
+      "visual": "Front view of a clean porcelain toilet drawn in SVG (tank + bowl, oval seat in slight perspective, water sitting in the bowl). A flush HANDLE on the tank's left. A finger/thumb shape presses the handle down. The bowl water level is full and calm, then on the press it begins to swirl and the level drops fast. A bold 'NO PUMP' badge sits beside the tank like the HotDog warning badge.",
+      "animations": "Toilet springs up into frame (usePop, scale 0.4->1 overshoot). Handle snaps down ~12deg on the press with a tiny recoil. Water in the bowl starts a fast clockwise swirl (rotating clip of wavy water paths) and the fill-level rect drains downward quickly. 'NO PUMP' badge pops in late with a spring + crossed-out pump icon (small pump glyph with a red slash drawn over it).",
+      "sfx": "soft mechanical handle click on the press, then a quick water-whoosh as the swirl starts"
+    },
+    {
+      "beat": "So how does it suck everything down?",
+      "visual": "The same toilet recedes/dims to a silhouette. A huge glowing gold question mark rises over the bowl. A dashed curiosity arrow curves from the bowl water DOWN behind the porcelain toward an unseen drain, with a '?' at its tip — teasing the hidden mechanism we are about to expose. Small water droplets get 'sucked' along the dashed path toward the drain.",
+      "animations": "Toilet fades to 35% and desaturates. Big '?' scales in with a spring and gently pulses (opacity + scale breathe). The dashed arrow draws on left-to-right (stroke-dashoffset sweep). 3-4 droplet dots travel along the arrow path on a fast loop, shrinking as they vanish into the drain. Slight downward suck-shudder on the whole toilet.",
+      "sfx": "low suction 'gloop' / inhale swoosh, subtle"
+    },
+    {
+      "beat": "Hidden behind the bowl is a curved tube shaped like an upside-down U, called the siphon.",
+      "visual": "CROSS-SECTION reveal: the porcelain turns translucent (x-ray) to expose the internal plumbing. The hero object is a clearly drawn upside-down-U tube (the siphon / S-trap weir) connecting the bowl on the left up over a high bend and down a long exit pipe on the right. A gold brace + label 'THE SIPHON' points at the upside-down-U bend. A small inset shows a literal letter 'U' flipped upside-down morphing into the tube shape.",
+      "visual_note": "This is the key structural reveal — treat the upside-down-U tube as the recurring hero shape reused in scenes 4-6.",
+      "animations": "Porcelain wall wipes to translucent (a clip/opacity wipe top-to-bottom). The U-tube path DRAWS ON following its own curve (stroke-dashoffset, glowing key-blue outline) from bowl, up over the bend, down the long side. The upside-down 'U' letter flips 180deg (rotate spring) and morphs/snaps onto the bend. Gold label brace springs in pointing at the crest.",
+      "sfx": "x-ray reveal chime / glassy shimmer on the translucency wipe — one of the 2-3 real reveal accents (boom/chime)"
+    },
+    {
+      "beat": "When you flush, water rushes in fast and fills that tube completely.",
+      "visual": "Same cross-section. Rim-jet arrows show water rushing into the bowl from the tank. Blue water FILLS the bowl and then climbs UP the short side of the upside-down-U and packs the entire tube solid — no air gap left. A 'FULL' / '100%' tick or a filling gauge confirms the tube is completely charged. Turbulence bubbles ride up the rising column.",
+      "animations": "Fast inflow arrows streak in from the tank (quick repeating slides). Bowl water-level rect rises fast; then a clipped water mask climbs along the U-tube path up to and over the crest (mask offset animates up the curve). Bubbles jitter upward inside the tube. A gauge needle or fill-bar snaps to FULL with a spring tick at the moment the tube seals.",
+      "sfx": "rushing-water fill whoosh that rises in pitch, ending on a soft 'tick' when full"
+    },
+    {
+      "beat": "Gravity drags the water down the long side, pulling the bowl water up and over the bend with it.",
+      "visual": "THE PAYOFF MECHANISM. The full upside-down-U siphon now runs: on the long (right) exit side a heavy falling column of water with a big downward GRAVITY arrow + little weight/mass dots plunges down and out the drain. Because the tube is sealed, that fall PULLS the bowl water — curved chasing arrows show bowl water lifting UP the short side, over the crest, and following the fall. The bowl level visibly drops as the water is dragged over the bend. A 'g' gravity vector labels the long side.",
+      "animations": "Downward water column accelerates (speeds up over time) with motion streaks down the long pipe. Synchronized chasing arrows sweep bowl water up-and-over the bend (stroke-dashoffset flowing along the U). Bowl-level rect drains rapidly in lockstep. Gravity arrow throbs/grows. Quick continuous flow-loop so it reads as a self-sustaining pull (the siphon 'catches').",
+      "sfx": "deep dramatic water-drag boom / suck on the catch (a real reveal accent), then sustained draining gurgle-rush underneath"
+    },
+    {
+      "beat": "The bowl empties until air finally breaks the chain, making that gurgle you hear at the end.",
+      "visual": "Bowl is nearly empty. The connected water 'chain' running through the U-tube is shown as a continuous blue ribbon; an AIR BUBBLE (white gap) gets sucked in at the bottom of the bowl and SNAPS the ribbon — the chain breaks. A burst of gurgle bubbles erupts at the break with a 'GLUG' sound-graphic. Cut to the calm refilled bowl with a small fresh water level and the payoff line.",
+      "animations": "Water ribbon thins to a single strand; a white air bubble rushes up and the strand SNAPS (two ends recoil apart with a spring). Cluster of round gurgle bubbles pops out (staggered spring scale-ins, then float up and fade). Comic 'GLUG GLUG' text pops. Quick wipe to the calm bowl; payoff text springs up.",
+      "sfx": "the signature toilet 'glug-glug' gurgle as the chain breaks, then a soft settle/refill trickle"
+    }
+  ],
+  "payoff": "No pump. Just gravity, a hidden U-bend, and one perfect gurgle."
+}

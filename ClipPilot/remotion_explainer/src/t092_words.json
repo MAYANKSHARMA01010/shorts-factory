@@ -1,0 +1,490 @@
+{
+"script": "A woman was attacked outside her apartment while dozens of neighbors heard her screaming. Lights flicked on. People peered through their curtains. But not one of them called for help, each assuming someone else already had. And this terrible logic let the attack drag on for over half an hour. You see, the more people who witness an emergency, the less likely any single person acts. Psychologists call it the bystander effect, and they named it after that very night. It means in a crowd, you can be surrounded by people and still be completely, fatally alone.",
+"words": [
+{
+"text": "A",
+"start": 0.0,
+"end": 0.28
+},
+{
+"text": "woman",
+"start": 0.28,
+"end": 0.46
+},
+{
+"text": "was",
+"start": 0.46,
+"end": 0.66
+},
+{
+"text": "attacked",
+"start": 0.66,
+"end": 1.08
+},
+{
+"text": "outside",
+"start": 1.08,
+"end": 1.58
+},
+{
+"text": "her",
+"start": 1.58,
+"end": 1.84
+},
+{
+"text": "apartment,",
+"start": 1.84,
+"end": 2.32
+},
+{
+"text": "while",
+"start": 2.62,
+"end": 2.84
+},
+{
+"text": "dozens",
+"start": 2.84,
+"end": 3.22
+},
+{
+"text": "of",
+"start": 3.22,
+"end": 3.5
+},
+{
+"text": "neighbors",
+"start": 3.5,
+"end": 3.8
+},
+{
+"text": "heard",
+"start": 3.8,
+"end": 4.32
+},
+{
+"text": "her",
+"start": 4.32,
+"end": 4.5
+},
+{
+"text": "screaming.",
+"start": 4.5,
+"end": 4.92
+},
+{
+"text": "Lights",
+"start": 5.62,
+"end": 5.66
+},
+{
+"text": "flicked",
+"start": 5.66,
+"end": 5.94
+},
+{
+"text": "on.",
+"start": 5.94,
+"end": 6.22
+},
+{
+"text": "People",
+"start": 6.62,
+"end": 6.88
+},
+{
+"text": "peered",
+"start": 6.88,
+"end": 7.42
+},
+{
+"text": "through",
+"start": 7.42,
+"end": 7.7
+},
+{
+"text": "their",
+"start": 7.7,
+"end": 7.88
+},
+{
+"text": "curtains.",
+"start": 7.88,
+"end": 8.22
+},
+{
+"text": "But",
+"start": 8.78,
+"end": 9.0
+},
+{
+"text": "not",
+"start": 9.0,
+"end": 9.22
+},
+{
+"text": "one",
+"start": 9.22,
+"end": 9.4
+},
+{
+"text": "of",
+"start": 9.4,
+"end": 9.5
+},
+{
+"text": "them",
+"start": 9.5,
+"end": 9.6
+},
+{
+"text": "called",
+"start": 9.6,
+"end": 9.86
+},
+{
+"text": "for",
+"start": 9.86,
+"end": 10.12
+},
+{
+"text": "help,",
+"start": 10.12,
+"end": 10.46
+},
+{
+"text": "each",
+"start": 11.02,
+"end": 11.16
+},
+{
+"text": "assuming",
+"start": 11.16,
+"end": 11.58
+},
+{
+"text": "someone",
+"start": 11.58,
+"end": 11.94
+},
+{
+"text": "else",
+"start": 11.94,
+"end": 12.2
+},
+{
+"text": "already",
+"start": 12.2,
+"end": 12.46
+},
+{
+"text": "had.",
+"start": 12.46,
+"end": 12.86
+},
+{
+"text": "And",
+"start": 13.34,
+"end": 13.46
+},
+{
+"text": "this",
+"start": 13.46,
+"end": 13.64
+},
+{
+"text": "terrible",
+"start": 13.64,
+"end": 14.12
+},
+{
+"text": "logic",
+"start": 14.12,
+"end": 14.64
+},
+{
+"text": "let",
+"start": 14.64,
+"end": 14.92
+},
+{
+"text": "the",
+"start": 14.92,
+"end": 15.08
+},
+{
+"text": "attack",
+"start": 15.08,
+"end": 15.42
+},
+{
+"text": "drag",
+"start": 15.42,
+"end": 15.74
+},
+{
+"text": "on",
+"start": 15.74,
+"end": 16.04
+},
+{
+"text": "for",
+"start": 16.04,
+"end": 16.28
+},
+{
+"text": "over",
+"start": 16.28,
+"end": 16.5
+},
+{
+"text": "half",
+"start": 16.5,
+"end": 16.78
+},
+{
+"text": "an",
+"start": 16.78,
+"end": 16.96
+},
+{
+"text": "hour.",
+"start": 16.96,
+"end": 17.26
+},
+{
+"text": "You",
+"start": 17.7,
+"end": 17.9
+},
+{
+"text": "see,",
+"start": 17.9,
+"end": 18.2
+},
+{
+"text": "the",
+"start": 18.54,
+"end": 18.7
+},
+{
+"text": "more",
+"start": 18.7,
+"end": 18.86
+},
+{
+"text": "people",
+"start": 18.86,
+"end": 19.18
+},
+{
+"text": "who",
+"start": 19.18,
+"end": 19.38
+},
+{
+"text": "witness",
+"start": 19.38,
+"end": 19.74
+},
+{
+"text": "an",
+"start": 19.74,
+"end": 19.92
+},
+{
+"text": "emergency,",
+"start": 19.92,
+"end": 20.42
+},
+{
+"text": "the",
+"start": 20.98,
+"end": 21.14
+},
+{
+"text": "less",
+"start": 21.14,
+"end": 21.36
+},
+{
+"text": "likely",
+"start": 21.36,
+"end": 21.78
+},
+{
+"text": "any",
+"start": 21.78,
+"end": 22.08
+},
+{
+"text": "single",
+"start": 22.08,
+"end": 22.5
+},
+{
+"text": "person",
+"start": 22.5,
+"end": 22.74
+},
+{
+"text": "acts.",
+"start": 22.74,
+"end": 23.18
+},
+{
+"text": "Psychologists",
+"start": 24.0,
+"end": 24.42
+},
+{
+"text": "call",
+"start": 24.42,
+"end": 24.82
+},
+{
+"text": "it",
+"start": 24.82,
+"end": 25.04
+},
+{
+"text": "the",
+"start": 25.04,
+"end": 25.2
+},
+{
+"text": "bystander",
+"start": 25.2,
+"end": 25.8
+},
+{
+"text": "effect,",
+"start": 25.8,
+"end": 26.14
+},
+{
+"text": "and",
+"start": 26.48,
+"end": 26.66
+},
+{
+"text": "they",
+"start": 26.66,
+"end": 26.8
+},
+{
+"text": "named",
+"start": 26.8,
+"end": 27.02
+},
+{
+"text": "it",
+"start": 27.02,
+"end": 27.18
+},
+{
+"text": "after",
+"start": 27.18,
+"end": 27.46
+},
+{
+"text": "that",
+"start": 27.46,
+"end": 27.74
+},
+{
+"text": "very",
+"start": 27.74,
+"end": 28.02
+},
+{
+"text": "night.",
+"start": 28.02,
+"end": 28.4
+},
+{
+"text": "It",
+"start": 28.4,
+"end": 29.02
+},
+{
+"text": "means",
+"start": 29.02,
+"end": 29.2
+},
+{
+"text": "in",
+"start": 29.2,
+"end": 29.34
+},
+{
+"text": "a",
+"start": 29.34,
+"end": 29.46
+},
+{
+"text": "crowd,",
+"start": 29.46,
+"end": 29.78
+},
+{
+"text": "you",
+"start": 30.14,
+"end": 30.46
+},
+{
+"text": "could",
+"start": 30.46,
+"end": 30.54
+},
+{
+"text": "be",
+"start": 30.54,
+"end": 30.66
+},
+{
+"text": "surrounded",
+"start": 30.66,
+"end": 31.06
+},
+{
+"text": "by",
+"start": 31.06,
+"end": 31.34
+},
+{
+"text": "people,",
+"start": 31.34,
+"end": 31.74
+},
+{
+"text": "and",
+"start": 32.2,
+"end": 32.26
+},
+{
+"text": "still",
+"start": 32.26,
+"end": 32.52
+},
+{
+"text": "be",
+"start": 32.52,
+"end": 32.7
+},
+{
+"text": "completely,",
+"start": 32.7,
+"end": 33.42
+},
+{
+"text": "fatally",
+"start": 33.58,
+"end": 34.26
+},
+{
+"text": "alone.",
+"start": 34.26,
+"end": 34.72
+}
+]
+}

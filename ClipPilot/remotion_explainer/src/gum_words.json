@@ -1,0 +1,475 @@
+{
+"script": "Here's a secret hiding in your mouth right now: chewing gum is basically rubber. You see, the chewy base is made from synthetic polymers, the same family of materials used in plastics and glue. Then this base is heated until it melts into a thick, stretchy goo. Next, sweeteners, softeners, and flavors are folded in, and the mixture is rolled flat into long sheets. And this is exactly why gum never dissolves, no matter how long you chew. Finally, it's cut, dusted with powder, and wrapped, ready to be chewed forever and never swallowed.",
+"words": [
+{
+"text": "Here's",
+"start": 0.0,
+"end": 0.34
+},
+{
+"text": "a",
+"start": 0.34,
+"end": 0.58
+},
+{
+"text": "secret",
+"start": 0.58,
+"end": 0.82
+},
+{
+"text": "hiding",
+"start": 0.82,
+"end": 1.24
+},
+{
+"text": "in",
+"start": 1.24,
+"end": 1.42
+},
+{
+"text": "your",
+"start": 1.42,
+"end": 1.52
+},
+{
+"text": "mouth",
+"start": 1.52,
+"end": 1.84
+},
+{
+"text": "right",
+"start": 1.84,
+"end": 2.1
+},
+{
+"text": "now.",
+"start": 2.1,
+"end": 2.56
+},
+{
+"text": "Chewing",
+"start": 3.2,
+"end": 3.38
+},
+{
+"text": "gum",
+"start": 3.38,
+"end": 3.62
+},
+{
+"text": "is",
+"start": 3.62,
+"end": 3.92
+},
+{
+"text": "basically",
+"start": 3.92,
+"end": 4.42
+},
+{
+"text": "rubber.",
+"start": 4.42,
+"end": 4.74
+},
+{
+"text": "You",
+"start": 5.38,
+"end": 5.54
+},
+{
+"text": "see,",
+"start": 5.54,
+"end": 5.82
+},
+{
+"text": "the",
+"start": 6.22,
+"end": 6.4
+},
+{
+"text": "chewy",
+"start": 6.4,
+"end": 6.74
+},
+{
+"text": "base",
+"start": 6.74,
+"end": 7.1
+},
+{
+"text": "is",
+"start": 7.1,
+"end": 7.54
+},
+{
+"text": "made",
+"start": 7.54,
+"end": 7.8
+},
+{
+"text": "from",
+"start": 7.8,
+"end": 8.02
+},
+{
+"text": "synthetic",
+"start": 8.02,
+"end": 8.52
+},
+{
+"text": "polymers,",
+"start": 8.52,
+"end": 9.14
+},
+{
+"text": "the",
+"start": 9.62,
+"end": 9.76
+},
+{
+"text": "same",
+"start": 9.76,
+"end": 10.06
+},
+{
+"text": "family",
+"start": 10.06,
+"end": 10.52
+},
+{
+"text": "of",
+"start": 10.52,
+"end": 10.66
+},
+{
+"text": "materials",
+"start": 10.66,
+"end": 11.06
+},
+{
+"text": "used",
+"start": 11.06,
+"end": 11.42
+},
+{
+"text": "in",
+"start": 11.42,
+"end": 11.6
+},
+{
+"text": "plastics",
+"start": 11.6,
+"end": 12.08
+},
+{
+"text": "and",
+"start": 12.08,
+"end": 12.36
+},
+{
+"text": "glue.",
+"start": 12.36,
+"end": 12.64
+},
+{
+"text": "Then",
+"start": 13.14,
+"end": 13.36
+},
+{
+"text": "this",
+"start": 13.36,
+"end": 13.56
+},
+{
+"text": "base",
+"start": 13.56,
+"end": 13.86
+},
+{
+"text": "is",
+"start": 13.86,
+"end": 14.08
+},
+{
+"text": "heated",
+"start": 14.08,
+"end": 14.38
+},
+{
+"text": "until",
+"start": 14.38,
+"end": 14.72
+},
+{
+"text": "it",
+"start": 14.72,
+"end": 14.82
+},
+{
+"text": "melts",
+"start": 14.82,
+"end": 15.12
+},
+{
+"text": "into",
+"start": 15.12,
+"end": 15.42
+},
+{
+"text": "a",
+"start": 15.42,
+"end": 15.58
+},
+{
+"text": "thick,",
+"start": 15.58,
+"end": 16.06
+},
+{
+"text": "stretchy",
+"start": 16.06,
+"end": 16.82
+},
+{
+"text": "goo.",
+"start": 16.82,
+"end": 17.08
+},
+{
+"text": "Next,",
+"start": 17.66,
+"end": 17.96
+},
+{
+"text": "sweeteners,",
+"start": 18.5,
+"end": 18.9
+},
+{
+"text": "softeners,",
+"start": 19.28,
+"end": 19.7
+},
+{
+"text": "and",
+"start": 20.0,
+"end": 20.12
+},
+{
+"text": "flavors",
+"start": 20.12,
+"end": 20.44
+},
+{
+"text": "are",
+"start": 20.44,
+"end": 20.68
+},
+{
+"text": "folded",
+"start": 20.68,
+"end": 21.0
+},
+{
+"text": "in,",
+"start": 21.0,
+"end": 21.36
+},
+{
+"text": "and",
+"start": 21.62,
+"end": 21.9
+},
+{
+"text": "the",
+"start": 21.9,
+"end": 21.98
+},
+{
+"text": "mixture",
+"start": 21.98,
+"end": 22.26
+},
+{
+"text": "is",
+"start": 22.26,
+"end": 22.58
+},
+{
+"text": "rolled",
+"start": 22.58,
+"end": 22.96
+},
+{
+"text": "flat",
+"start": 22.96,
+"end": 23.48
+},
+{
+"text": "into",
+"start": 23.48,
+"end": 23.88
+},
+{
+"text": "long",
+"start": 23.88,
+"end": 24.2
+},
+{
+"text": "sheets.",
+"start": 24.2,
+"end": 24.6
+},
+{
+"text": "And",
+"start": 25.24,
+"end": 25.42
+},
+{
+"text": "this",
+"start": 25.42,
+"end": 25.54
+},
+{
+"text": "is",
+"start": 25.54,
+"end": 25.68
+},
+{
+"text": "exactly",
+"start": 25.68,
+"end": 26.12
+},
+{
+"text": "why",
+"start": 26.12,
+"end": 26.52
+},
+{
+"text": "gum",
+"start": 26.52,
+"end": 26.94
+},
+{
+"text": "never",
+"start": 26.94,
+"end": 27.46
+},
+{
+"text": "dissolves,",
+"start": 27.46,
+"end": 28.02
+},
+{
+"text": "no",
+"start": 28.02,
+"end": 28.54
+},
+{
+"text": "matter",
+"start": 28.54,
+"end": 28.7
+},
+{
+"text": "how",
+"start": 28.7,
+"end": 28.96
+},
+{
+"text": "long",
+"start": 28.96,
+"end": 29.24
+},
+{
+"text": "you",
+"start": 29.24,
+"end": 29.48
+},
+{
+"text": "chew.",
+"start": 29.48,
+"end": 29.76
+},
+{
+"text": "Finally,",
+"start": 30.46,
+"end": 30.76
+},
+{
+"text": "it's",
+"start": 31.14,
+"end": 31.28
+},
+{
+"text": "cut,",
+"start": 31.28,
+"end": 31.56
+},
+{
+"text": "dusted",
+"start": 31.84,
+"end": 32.16
+},
+{
+"text": "with",
+"start": 32.16,
+"end": 32.36
+},
+{
+"text": "powder,",
+"start": 32.36,
+"end": 32.76
+},
+{
+"text": "and",
+"start": 33.16,
+"end": 33.34
+},
+{
+"text": "wrapped,",
+"start": 33.34,
+"end": 33.7
+},
+{
+"text": "ready",
+"start": 34.28,
+"end": 34.36
+},
+{
+"text": "to",
+"start": 34.36,
+"end": 34.52
+},
+{
+"text": "be",
+"start": 34.52,
+"end": 34.64
+},
+{
+"text": "chewed",
+"start": 34.64,
+"end": 35.06
+},
+{
+"text": "forever",
+"start": 35.06,
+"end": 35.58
+},
+{
+"text": "and",
+"start": 35.58,
+"end": 36.16
+},
+{
+"text": "never",
+"start": 36.16,
+"end": 36.4
+},
+{
+"text": "swallowed.",
+"start": 36.4,
+"end": 36.76
+}
+]
+}

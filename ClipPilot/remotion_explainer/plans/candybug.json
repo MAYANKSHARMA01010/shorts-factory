@@ -1,0 +1,62 @@
+{
+  "slug": "candybug",
+  "title": "The Bug Hiding On Your Candy",
+  "duration_estimate_s": 38,
+  "palette": {
+    "bg": "#1a0f1e",
+    "bgTop": "#2a1430",
+    "bgBot": "#140a18",
+    "accent": "#ff3b6b",
+    "key": "#FFD23F",
+    "candyRed": "#ff4d5e",
+    "candyGreen": "#3fcf6b",
+    "candyOrange": "#ff9d3c",
+    "sugar": "#fff4e6",
+    "shellac": "#c8772e",
+    "shellacDk": "#8a4d18",
+    "beetle": "#7a3b1a",
+    "steel": "#cdd5e0",
+    "steelDk": "#8b97a8",
+    "gloss": "#fff7cf",
+    "ink": "#140a18"
+  },
+  "scenes": [
+    {
+      "beat": "That shiny jelly bean hides a secret coating made from crushed insects.",
+      "visual": "A single glossy candy-red jelly bean centered big, with a long animated specular streak sweeping across its surface to scream 'shiny'. A pulsing gold question mark sits at upper-right; on the reveal a small magnifier slides in and a cracked-open inset shows a tiny silhouetted beetle, with a red banner reading 'made from BUGS?'. Tiny sparkle stars twinkle around the bean to sell the gloss.",
+      "animations": "Bean springs in with overshoot (snappy low-damping pop) and a quick nervous wobble; gloss streak sweeps left-to-right on a fast loop; question mark pulses; magnifier slides in from the right and the bug inset scales up with a spring; sparkles twinkle in/out.",
+      "sfx": "soft pop on bean entrance + a light shimmer/twinkle chime on the gloss sweep; a small 'uh-oh' sting when the bug inset reveals"
+    },
+    {
+      "beat": "First, a soft sugary center is molded and left to firm up for several hours.",
+      "visual": "A tray of starch mold cavities; a nozzle above drips warm liquid candy that fills three bean-shaped pockets (a soft jiggly center). A clock/hourglass icon spins fast to compress 'several hours', and the just-filled centers shift from glassy/translucent to a firmer matte fill as they set. Label pill: 'soft center, molded'.",
+      "animations": "Nozzle drips with droplet springs; cavities fill via a rising clip-mask; the wobbly center jiggles (sine squash) then stops as it firms; hourglass/clock hand spins quickly with motion ticks; matte-set color morph as it firms.",
+      "sfx": "liquid drip/plop ticks as cavities fill; a quick clock fast-forward whir for the time skip; whoosh on scene change"
+    },
+    {
+      "beat": "Then it's tumbled in a spinning drum while layers of sugar are slowly added to build the shell.",
+      "visual": "A big tilted rotating coating drum (panning pan) seen from the side, naked centers tumbling inside as it spins. A sugar chute at top sprinkles white sugar crystals in. A cross-section callout of one bean shows concentric shell rings stacking up one by one (layer 1, 2, 3...) growing the candy shell thicker.",
+      "animations": "Drum rotates continuously (fast spin) with the beans orbiting inside; sugar crystals rain down from the chute in a stream; in the cross-section inset, concentric shell rings pop on one at a time with springs as the bean visibly fattens; speed lines around the drum sell rotation.",
+      "sfx": "continuous rolling/tumbling rumble bed; light granular sugar-pour hiss; a soft tick as each shell layer pops on"
+    },
+    {
+      "beat": "And here's the gross part: the final glossy shine often comes from shellac, a resin secreted by tiny beetles.",
+      "visual": "HERO REVEAL. A branch with a cluster of tiny lac beetles on a twig, oozing amber shellac resin droplets that drip and pool. An arrow connects the resin pool to a glossy jelly bean. A bold label: 'SHELLAC = bug resin'. Drawn beetle bodies are small and stylized (oval body, legs, antennae); resin gleams amber. This is the 'gross part' money shot.",
+      "animations": "Branch and beetles spring in; amber resin droplets swell and drip on a loop (droplet stretch then plop); the resin pool spreads with a fill; a glint travels across the pooled resin; the 'SHELLAC' label slams in with a hard spring + tiny shake; arrow draws itself from resin to bean.",
+      "sfx": "DRAMATIC reveal boom on the beetle/resin slam-in; a wet drip/plop on the resin drop; brief record-scratch flavor on 'gross part'"
+    },
+    {
+      "beat": "Next, that beetle resin is dissolved and brushed onto the beans, drying into a hard sparkling coat.",
+      "visual": "A beaker of dissolved shellac (amber liquid swirling) on the left; a brush dips in and sweeps a glossy amber coat across a row of three beans, left to right. After the brush passes, each bean turns from matte to mirror-gloss with a bright moving highlight, and a small 'dry' heat-wave shimmer rises off them. Label pill: 'dissolved + brushed on'.",
+      "animations": "Liquid in the beaker swirls (rotating swirl); brush dips with a spring then sweeps across; a wipe-mask reveals the glossy coat trailing the brush; matte-to-gloss color morph plus a specular highlight that snaps on per bean; tiny shimmer lines rise as it 'dries'.",
+      "sfx": "brush-swipe whoosh per stroke; light sizzle/shimmer as the coat dries to gloss; scene-change slide"
+    },
+    {
+      "beat": "Finally the beans are polished and packed, and that mirror shine is really thousands of bugs you'll happily eat.",
+      "visual": "A polishing tumbler buffs the beans to a mirror finish, then they pour into a candy jar/bag. PAYOFF: the camera settles on one ultra-glossy bean; a cluster of tiny beetle silhouettes ghosts faintly across its mirror-shine surface, then the punchline text lands: 'That shine? Thousands of BUGS.' A small cartoon hand happily pops one in (or a mouth icon) to nail 'you'll happily eat'.",
+      "animations": "Polishing buffs with a fast back-and-forth + rising gloss; beans pour into the jar with bouncy physics (spring drops); final bean settles and its specular highlight blooms; faint beetle silhouettes drift across the gloss then fade; punchline text slams in word-by-word with spring overshoot.",
+      "sfx": "buffing/polish shimmer riser; candy-pour rattle into the jar; final triumphant-but-ironic chime/boom on the punchline reveal"
+    }
+  ],
+  "payoff": "That mirror shine? Thousands of bugs. Enjoy. 🪲"
+}

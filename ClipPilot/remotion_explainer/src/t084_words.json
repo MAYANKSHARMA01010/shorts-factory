@@ -1,0 +1,490 @@
+{
+"script": "Every single day, the United States prints around 38 million banknotes worth roughly 1.5 billion dollars. Stacked flat, one day's printing would tower higher than a 30-story building. But here's the twist, most of those bills aren't new wealth at all, they're just replacing worn-out ones being shredded. In fact, the mint destroys tons of tattered cash every week, turning it into compost and landfill. And if you laid a single day's bills end to end, they'd stretch over 3,000 miles, reaching clear across the entire country, coast to coast, in fresh green paper.",
+"words": [
+{
+"text": "Every",
+"start": 0.0,
+"end": 0.42
+},
+{
+"text": "single",
+"start": 0.42,
+"end": 0.66
+},
+{
+"text": "day,",
+"start": 0.66,
+"end": 1.06
+},
+{
+"text": "the",
+"start": 1.56,
+"end": 1.58
+},
+{
+"text": "United",
+"start": 1.58,
+"end": 1.82
+},
+{
+"text": "States",
+"start": 1.82,
+"end": 2.18
+},
+{
+"text": "prints",
+"start": 2.18,
+"end": 2.52
+},
+{
+"text": "around",
+"start": 2.52,
+"end": 2.88
+},
+{
+"text": "38",
+"start": 2.88,
+"end": 3.56
+},
+{
+"text": "million",
+"start": 3.56,
+"end": 3.98
+},
+{
+"text": "banknotes",
+"start": 3.98,
+"end": 4.76
+},
+{
+"text": "worth",
+"start": 4.76,
+"end": 5.08
+},
+{
+"text": "roughly",
+"start": 5.08,
+"end": 5.62
+},
+{
+"text": "$1",
+"start": 5.62,
+"end": 6.18
+},
+{
+"text": ".5",
+"start": 6.18,
+"end": 6.94
+},
+{
+"text": "billion.",
+"start": 6.94,
+"end": 7.2
+},
+{
+"text": "Stack",
+"start": 8.08,
+"end": 8.52
+},
+{
+"text": "flat.",
+"start": 8.52,
+"end": 8.92
+},
+{
+"text": "One",
+"start": 9.48,
+"end": 9.7
+},
+{
+"text": "day's",
+"start": 9.7,
+"end": 10.06
+},
+{
+"text": "printing",
+"start": 10.06,
+"end": 10.3
+},
+{
+"text": "would",
+"start": 10.3,
+"end": 10.54
+},
+{
+"text": "tower",
+"start": 10.54,
+"end": 10.9
+},
+{
+"text": "higher",
+"start": 10.9,
+"end": 11.32
+},
+{
+"text": "than",
+"start": 11.32,
+"end": 11.58
+},
+{
+"text": "a",
+"start": 11.58,
+"end": 11.72
+},
+{
+"text": "30",
+"start": 11.72,
+"end": 12.02
+},
+{
+"text": "-story",
+"start": 12.02,
+"end": 12.26
+},
+{
+"text": "building.",
+"start": 12.26,
+"end": 12.68
+},
+{
+"text": "But",
+"start": 13.2,
+"end": 13.3
+},
+{
+"text": "here's",
+"start": 13.3,
+"end": 13.5
+},
+{
+"text": "the",
+"start": 13.5,
+"end": 13.64
+},
+{
+"text": "twist.",
+"start": 13.64,
+"end": 13.98
+},
+{
+"text": "Most",
+"start": 14.48,
+"end": 14.62
+},
+{
+"text": "of",
+"start": 14.62,
+"end": 14.76
+},
+{
+"text": "those",
+"start": 14.76,
+"end": 14.92
+},
+{
+"text": "bills",
+"start": 14.92,
+"end": 15.2
+},
+{
+"text": "aren't",
+"start": 15.2,
+"end": 15.58
+},
+{
+"text": "new",
+"start": 15.58,
+"end": 15.86
+},
+{
+"text": "wealth",
+"start": 15.86,
+"end": 16.18
+},
+{
+"text": "at",
+"start": 16.18,
+"end": 16.3
+},
+{
+"text": "all.",
+"start": 16.3,
+"end": 16.56
+},
+{
+"text": "They're",
+"start": 17.02,
+"end": 17.18
+},
+{
+"text": "just",
+"start": 17.18,
+"end": 17.28
+},
+{
+"text": "replacing",
+"start": 17.28,
+"end": 17.82
+},
+{
+"text": "worn",
+"start": 17.82,
+"end": 18.24
+},
+{
+"text": "-out",
+"start": 18.24,
+"end": 18.46
+},
+{
+"text": "ones",
+"start": 18.46,
+"end": 18.7
+},
+{
+"text": "being",
+"start": 18.7,
+"end": 18.98
+},
+{
+"text": "shredded.",
+"start": 18.98,
+"end": 19.4
+},
+{
+"text": "In",
+"start": 19.98,
+"end": 20.12
+},
+{
+"text": "fact,",
+"start": 20.12,
+"end": 20.48
+},
+{
+"text": "the",
+"start": 20.94,
+"end": 21.02
+},
+{
+"text": "mint",
+"start": 21.02,
+"end": 21.22
+},
+{
+"text": "destroys",
+"start": 21.22,
+"end": 21.82
+},
+{
+"text": "tons",
+"start": 21.82,
+"end": 22.42
+},
+{
+"text": "of",
+"start": 22.42,
+"end": 22.7
+},
+{
+"text": "tattered",
+"start": 22.7,
+"end": 23.12
+},
+{
+"text": "cash",
+"start": 23.12,
+"end": 23.64
+},
+{
+"text": "every",
+"start": 23.64,
+"end": 24.2
+},
+{
+"text": "week,",
+"start": 24.2,
+"end": 24.6
+},
+{
+"text": "turning",
+"start": 24.86,
+"end": 25.18
+},
+{
+"text": "it",
+"start": 25.18,
+"end": 25.32
+},
+{
+"text": "into",
+"start": 25.32,
+"end": 25.52
+},
+{
+"text": "compost",
+"start": 25.52,
+"end": 26.1
+},
+{
+"text": "and",
+"start": 26.1,
+"end": 26.72
+},
+{
+"text": "landfill.",
+"start": 26.72,
+"end": 27.16
+},
+{
+"text": "And",
+"start": 27.16,
+"end": 27.86
+},
+{
+"text": "if",
+"start": 27.86,
+"end": 27.98
+},
+{
+"text": "you",
+"start": 27.98,
+"end": 28.08
+},
+{
+"text": "laid",
+"start": 28.08,
+"end": 28.22
+},
+{
+"text": "a",
+"start": 28.22,
+"end": 28.36
+},
+{
+"text": "single",
+"start": 28.36,
+"end": 28.74
+},
+{
+"text": "day's",
+"start": 28.74,
+"end": 29.22
+},
+{
+"text": "bills",
+"start": 29.22,
+"end": 29.44
+},
+{
+"text": "end",
+"start": 29.44,
+"end": 29.84
+},
+{
+"text": "-to",
+"start": 29.84,
+"end": 29.98
+},
+{
+"text": "-end,",
+"start": 29.98,
+"end": 30.38
+},
+{
+"text": "they'd",
+"start": 30.82,
+"end": 30.94
+},
+{
+"text": "stretch",
+"start": 30.94,
+"end": 31.26
+},
+{
+"text": "over",
+"start": 31.26,
+"end": 31.6
+},
+{
+"text": "3",
+"start": 31.6,
+"end": 32.06
+},
+{
+"text": ",000",
+"start": 32.06,
+"end": 32.56
+},
+{
+"text": "miles,",
+"start": 32.56,
+"end": 33.0
+},
+{
+"text": "reaching",
+"start": 33.44,
+"end": 33.84
+},
+{
+"text": "clear",
+"start": 33.84,
+"end": 34.22
+},
+{
+"text": "across",
+"start": 34.22,
+"end": 34.56
+},
+{
+"text": "the",
+"start": 34.56,
+"end": 34.78
+},
+{
+"text": "entire",
+"start": 34.78,
+"end": 35.18
+},
+{
+"text": "country,",
+"start": 35.18,
+"end": 35.68
+},
+{
+"text": "coast",
+"start": 36.22,
+"end": 36.28
+},
+{
+"text": "-to",
+"start": 36.28,
+"end": 36.46
+},
+{
+"text": "-coast",
+"start": 36.46,
+"end": 36.94
+},
+{
+"text": "in",
+"start": 36.94,
+"end": 37.3
+},
+{
+"text": "fresh",
+"start": 37.3,
+"end": 37.64
+},
+{
+"text": "green",
+"start": 37.64,
+"end": 37.98
+},
+{
+"text": "paper.",
+"start": 37.98,
+"end": 38.3
+}
+]
+}

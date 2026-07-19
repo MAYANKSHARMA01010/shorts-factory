@@ -1,0 +1,56 @@
+{
+  "slug": "adrenaline",
+  "title": "Why You Could Lift A Car",
+  "duration_estimate_s": 33,
+  "palette": {
+    "bg_deep": "#0b0f1a",
+    "bg_panel": "#121829",
+    "gold": "#FFD23F",
+    "adrenaline_red": "#FF3B47",
+    "artery_crimson": "#8B1A2B",
+    "muscle_pink": "#FF6F91",
+    "oxygen_cyan": "#33E0FF",
+    "sugar_amber": "#FF9F1C",
+    "nerve_violet": "#9B6BFF",
+    "bone_white": "#EAF0FF"
+  },
+  "scenes": [
+    {
+      "beat": "There are real stories of ordinary people lifting cars off trapped loved ones — and adrenaline is the reason.",
+      "visual": "INSTANT SCROLL-STOPPER. Dead-center on the deep-navy bg: one bold, oversized vector silhouette of a person in a deep power-stance, both arms locked under the rocker panel of a tilted sedan that fills the upper third of the frame (simple high-contrast SVG car: rounded body, slanted greenhouse/roof, two big wheels, one front wheel lifted clear of a bone-white ground line). The lifter is a solid bone-white silhouette rimmed in a 4px adrenaline-red glow stroke so it reads in 0.3s at thumbnail size. The car is heavy artery-crimson with a thin gold outline. Slammed across the upper-center as the single focal hook: a fat gold badge pill reading '1500 kg' with a huge gold '?' in a glowing #FFD23F disc punched to its right. A soft red radial bloom sits behind the lifter to telegraph raw effort. Nothing else on screen — one object, one question.",
+      "animations": "Car body draws on as a single stroke path (0.25s) then the whole silhouette+car SNAP upward ~16px with a stiff overshoot spring (stiffness 320, damping 14) as the legs straighten — the lift visibly happens. The gold '1500 kg ?' badge punches in 0.25s later with a hard spring overshoot (scale 0.4->1.12->1.0), the '?' doing one extra rubber-band wobble. The red radial bloom pulses outward in ONE slow expanding ring then holds. Camera locked, no zoom — all energy is the lift snap + badge punch.",
+      "sfx": "a deep straining metal-chassis groan rising under a single hard heartbeat thud (the body straining against the weight)"
+    },
+    {
+      "beat": "The instant your brain senses danger, two glands above your kidneys dump a hormone straight into your blood.",
+      "visual": "Cut to a clean front-facing vector torso (thin bone-white stroke) on the panel bg. A small gold brain glyph caps the head and flashes red-alert. Low in the torso sit two kidney-shaped adrenal glands (artery-crimson, each topped with a nerve-violet node). A gold label pill 'ADRENAL GLANDS' tags them. From the glands a branching artery-crimson vessel tree fans out toward the limbs, primed but not yet filled.",
+      "animations": "Brain glyph flashes gold-then-red twice (danger ping). A bright nerve-violet pulse-dot races down a drawn-on spine line from brain to glands. On arrival the two glands swell with a quick spring (1.0->1.18->1.0) and eject 6-8 adrenaline-red droplets that draw-on into the vessel tree, the crimson branches filling from center outward like a spreading flood. 'ADRENAL GLANDS' pill snaps in with spring overshoot.",
+      "sfx": "a wet chemical release squelch-plip (single droplet pop) — the hormone dumping into the blood"
+    },
+    {
+      "beat": "That hormone floods every muscle at once — your heart hammers, your airways blow open, and sugar pours into your blood for instant fuel.",
+      "visual": "HERO REVEAL — the money shot. The whole body becomes a glowing cutaway 'combat dashboard' of the danger response: one central pumping heart with three live readouts firing around it, all fed by crimson vessels. CENTER: a detailed vector heart in adrenaline-red with two visible chambers, crimson aorta + arteries arcing out, beating hard. LEFT DIAL: a circular heart-rate gauge, bone-white tick marks, a red needle, and a big gold BPM number below it. TOP: paired lungs as branching oxygen-cyan airway tubes (bronchi splitting into thinner tubes) that visibly dilate wider. RIGHT: a glucose chute — amber sugar hexagons tumbling down a vessel into the crimson bloodstream. Around the whole rim, muscle-pink fiber bundles flush from dull to bright as the red adrenaline wash crosses them left-to-right. Three gold keyword pills tag each system: 'HEART', 'AIRWAYS', 'SUGAR'.",
+      "animations": "The heart drives the whole scene's energy on a repeating spring scale-pulse 1.0->1.13->1.0 synced to the audio double-thuds (no camera zoom — the BEAT is the motion). The red BPM number rockets up 72 -> 185 on a fast count-up while the gauge needle sweeps from left to right and flicks past redline with a tiny overshoot. The cyan airway tubes draw-on branch by branch then spring-widen their stroke (2px->5px). Amber sugar hexagons cascade down the right chute on a staggered fall, each landing with a small bounce into the bloodstream. The muscle-pink rim fibers do a left-to-right brightness fill-sweep as the adrenaline wash passes. The three gold pills pop in sequentially (HEART, then AIRWAYS, then SUGAR) each with a spring overshoot. Everything lands inside ~2s and then holds, pulsing only on the heart.",
+      "sfx": "a fast rising adrenaline surge that resolves into a pounding double-heartbeat lub-DUB accent (the peak of the short)"
+    },
+    {
+      "beat": "It also dulls your pain and unlocks the safety limit that normally stops your muscles tearing themselves apart.",
+      "visual": "Tight on a single bicep: bundled muscle-pink fibers anchored to a bone-white bone. A nerve-violet pain signal climbs a nerve line toward the brain but slams into a gold 'PAIN' road-sign that gets X'd out. Below sits a gold governor dial labelled 'SAFETY LIMIT' with a red needle resting in a safe green-to-gold zone; an adrenaline-red hand-glyph shoves the needle PAST the redline into a flashing 'OVERRIDE' arc. As the limiter breaks, the muscle fibers stretch visibly longer and thinner.",
+      "animations": "Nerve-violet pain pulse travels up the nerve, hits the gold sign, and a thick red X strikes through it with a snappy spring (pain silenced). The SAFETY LIMIT needle draws to its normal stop, pauses, then JERKS past the redline with an overshoot spring into a flashing overload zone. Muscle fibers spring-stretch (length 1.0->1.25) and thin out. Gold labels pop in with overshoot.",
+      "sfx": "a taut elastic creak-stretch (fibers loading past their limit) with a muffled thud as the pain sign is silenced"
+    },
+    {
+      "beat": "So in that one moment, you can summon strength your body normally hides from you.",
+      "visual": "Return to the opening lifter, now fully energized: the silhouette blazes with an adrenaline-red aura, muscle-pink power-lines radiating off arms and legs, the sedan rising decisively off the bone-white ground line. A tall gold STRENGTH meter stands on the right, filling from a low 'NORMAL' tick all the way up to a glowing 'HIDDEN MAX' cap. Crimson effort streak-lines shoot upward around the body.",
+      "animations": "The strength meter fills bottom-to-top on a fast count and SNAPS at 'HIDDEN MAX', which flares gold with a starburst. The car springs upward another notch with overshoot. Muscle-pink power-lines burst outward in a radial pop. The red aura pulses once, big (scale 1.0->1.2->1.0). Effort streak-lines sweep upward and fade.",
+      "sfx": "a clean rising power-surge swell (energy build, no whoosh) capped by a bright gold ding as the meter hits HIDDEN MAX"
+    },
+    {
+      "beat": "But the bill comes due later — shaking, dead-tired, with muscles you tore and never even felt rip.",
+      "visual": "PAYOFF. The aura is gone. The lifter slumps onto the ground line, desaturated to grey-blue, the car settled back down. The figure trembles. The gold STRENGTH meter now sits near empty. The earlier muscle-pink bicep shows a thin crimson tear-line ripping across it. Centered over the dimmed scene, the punchline slams in word-by-word in heavy bold: 'STRENGTH NOW.' on top, 'PAY LATER.' below in adrenaline-red, the final period a glowing gold dot.",
+      "animations": "Lifter desaturates and slumps with a soft settle, then holds a continuous fine jitter (exhaustion tremor, +-2px). The crimson tear-line draws-on across the muscle. Payoff words slam in ONE AT A TIME with stiff spring overshoot (STRENGTH -> NOW -> PAY -> LATER), each landing with a tiny screen-settle shake; the gold period dot pops dead last with an extra bounce.",
+      "sfx": "a trembling shaky exhale-rattle, then one low hollow muscle-tear thud as the crimson tear-line draws"
+    }
+  ],
+  "payoff": "STRENGTH NOW. PAY LATER."
+}

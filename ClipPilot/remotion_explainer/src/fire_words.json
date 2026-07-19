@@ -1,0 +1,505 @@
+{
+"script": "You wake to a room full of smoke so thick you can't see your own hands. Don't stand up, because the air near the ceiling is a furnace of toxic gas that can knock you out in seconds. Instead, drop to the floor and crawl, where a thin layer of breathable air still hugs the ground. Now feel every door before you open it. If the handle is hot, fire is waiting on the other side, so find another way. The chilling fact? Smoke, not flames, kills most fire victims, often while they're still asleep and never even wake up.",
+"words": [
+{
+"text": "You",
+"start": 0.0,
+"end": 0.26
+},
+{
+"text": "wait",
+"start": 0.26,
+"end": 0.42
+},
+{
+"text": "to",
+"start": 0.42,
+"end": 0.58
+},
+{
+"text": "a",
+"start": 0.58,
+"end": 0.74
+},
+{
+"text": "room",
+"start": 0.74,
+"end": 1.06
+},
+{
+"text": "full",
+"start": 1.06,
+"end": 1.54
+},
+{
+"text": "of",
+"start": 1.54,
+"end": 1.78
+},
+{
+"text": "smoke",
+"start": 1.78,
+"end": 2.12
+},
+{
+"text": "so",
+"start": 2.12,
+"end": 2.58
+},
+{
+"text": "thick",
+"start": 2.58,
+"end": 2.9
+},
+{
+"text": "you",
+"start": 2.9,
+"end": 3.12
+},
+{
+"text": "can't",
+"start": 3.12,
+"end": 3.44
+},
+{
+"text": "see",
+"start": 3.44,
+"end": 3.58
+},
+{
+"text": "your",
+"start": 3.58,
+"end": 3.72
+},
+{
+"text": "own",
+"start": 3.72,
+"end": 3.86
+},
+{
+"text": "hands.",
+"start": 3.86,
+"end": 4.32
+},
+{
+"text": "Don't",
+"start": 4.9,
+"end": 5.08
+},
+{
+"text": "stand",
+"start": 5.08,
+"end": 5.28
+},
+{
+"text": "up",
+"start": 5.28,
+"end": 5.5
+},
+{
+"text": "because",
+"start": 5.5,
+"end": 5.74
+},
+{
+"text": "the",
+"start": 5.74,
+"end": 5.92
+},
+{
+"text": "air",
+"start": 5.92,
+"end": 6.12
+},
+{
+"text": "near",
+"start": 6.12,
+"end": 6.28
+},
+{
+"text": "the",
+"start": 6.28,
+"end": 6.48
+},
+{
+"text": "ceiling",
+"start": 6.48,
+"end": 6.8
+},
+{
+"text": "is",
+"start": 6.8,
+"end": 7.16
+},
+{
+"text": "a",
+"start": 7.16,
+"end": 7.36
+},
+{
+"text": "furnace",
+"start": 7.36,
+"end": 7.7
+},
+{
+"text": "of",
+"start": 7.7,
+"end": 7.96
+},
+{
+"text": "toxic",
+"start": 7.96,
+"end": 8.38
+},
+{
+"text": "gas",
+"start": 8.38,
+"end": 8.8
+},
+{
+"text": "that",
+"start": 8.8,
+"end": 9.08
+},
+{
+"text": "can",
+"start": 9.08,
+"end": 9.18
+},
+{
+"text": "knock",
+"start": 9.18,
+"end": 9.38
+},
+{
+"text": "you",
+"start": 9.38,
+"end": 9.56
+},
+{
+"text": "out",
+"start": 9.56,
+"end": 9.72
+},
+{
+"text": "in",
+"start": 9.72,
+"end": 9.9
+},
+{
+"text": "seconds.",
+"start": 9.9,
+"end": 10.26
+},
+{
+"text": "Instead,",
+"start": 10.88,
+"end": 11.38
+},
+{
+"text": "drop",
+"start": 11.66,
+"end": 11.96
+},
+{
+"text": "to",
+"start": 11.96,
+"end": 12.14
+},
+{
+"text": "the",
+"start": 12.14,
+"end": 12.26
+},
+{
+"text": "floor",
+"start": 12.26,
+"end": 12.64
+},
+{
+"text": "and",
+"start": 12.64,
+"end": 12.94
+},
+{
+"text": "crawl,",
+"start": 12.94,
+"end": 13.3
+},
+{
+"text": "where",
+"start": 13.68,
+"end": 14.04
+},
+{
+"text": "a",
+"start": 14.04,
+"end": 14.26
+},
+{
+"text": "thin",
+"start": 14.26,
+"end": 14.48
+},
+{
+"text": "layer",
+"start": 14.48,
+"end": 14.9
+},
+{
+"text": "of",
+"start": 14.9,
+"end": 15.14
+},
+{
+"text": "breathable",
+"start": 15.14,
+"end": 15.7
+},
+{
+"text": "air",
+"start": 15.7,
+"end": 16.18
+},
+{
+"text": "still",
+"start": 16.18,
+"end": 16.9
+},
+{
+"text": "hugs",
+"start": 16.9,
+"end": 17.28
+},
+{
+"text": "the",
+"start": 17.28,
+"end": 17.5
+},
+{
+"text": "ground.",
+"start": 17.5,
+"end": 17.8
+},
+{
+"text": "Now",
+"start": 18.36,
+"end": 18.56
+},
+{
+"text": "feel",
+"start": 18.56,
+"end": 18.88
+},
+{
+"text": "every",
+"start": 18.88,
+"end": 19.46
+},
+{
+"text": "door",
+"start": 19.46,
+"end": 19.88
+},
+{
+"text": "before",
+"start": 19.88,
+"end": 20.38
+},
+{
+"text": "you",
+"start": 20.38,
+"end": 20.58
+},
+{
+"text": "open",
+"start": 20.58,
+"end": 20.8
+},
+{
+"text": "it.",
+"start": 20.8,
+"end": 21.1
+},
+{
+"text": "If",
+"start": 21.38,
+"end": 21.56
+},
+{
+"text": "the",
+"start": 21.56,
+"end": 21.72
+},
+{
+"text": "handle",
+"start": 21.72,
+"end": 21.98
+},
+{
+"text": "is",
+"start": 21.98,
+"end": 22.2
+},
+{
+"text": "hot,",
+"start": 22.2,
+"end": 22.58
+},
+{
+"text": "fire",
+"start": 23.2,
+"end": 23.46
+},
+{
+"text": "is",
+"start": 23.46,
+"end": 23.72
+},
+{
+"text": "waiting",
+"start": 23.72,
+"end": 24.02
+},
+{
+"text": "on",
+"start": 24.02,
+"end": 24.22
+},
+{
+"text": "the",
+"start": 24.22,
+"end": 24.3
+},
+{
+"text": "other",
+"start": 24.3,
+"end": 24.46
+},
+{
+"text": "side,",
+"start": 24.46,
+"end": 24.86
+},
+{
+"text": "so",
+"start": 25.1,
+"end": 25.38
+},
+{
+"text": "find",
+"start": 25.38,
+"end": 25.68
+},
+{
+"text": "another",
+"start": 25.68,
+"end": 25.9
+},
+{
+"text": "way.",
+"start": 25.9,
+"end": 26.26
+},
+{
+"text": "The",
+"start": 26.7,
+"end": 26.84
+},
+{
+"text": "chilling",
+"start": 26.84,
+"end": 27.06
+},
+{
+"text": "fact?",
+"start": 27.06,
+"end": 27.52
+},
+{
+"text": "Smoke,",
+"start": 27.52,
+"end": 28.44
+},
+{
+"text": "not",
+"start": 28.82,
+"end": 29.12
+},
+{
+"text": "flames,",
+"start": 29.12,
+"end": 29.68
+},
+{
+"text": "kills",
+"start": 30.18,
+"end": 30.32
+},
+{
+"text": "most",
+"start": 30.32,
+"end": 30.66
+},
+{
+"text": "fire",
+"start": 30.66,
+"end": 30.98
+},
+{
+"text": "victims,",
+"start": 30.98,
+"end": 31.44
+},
+{
+"text": "often",
+"start": 32.0,
+"end": 32.2
+},
+{
+"text": "while",
+"start": 32.2,
+"end": 32.42
+},
+{
+"text": "they're",
+"start": 32.42,
+"end": 32.66
+},
+{
+"text": "still",
+"start": 32.66,
+"end": 32.8
+},
+{
+"text": "asleep",
+"start": 32.8,
+"end": 33.28
+},
+{
+"text": "and",
+"start": 33.28,
+"end": 33.94
+},
+{
+"text": "never",
+"start": 33.94,
+"end": 34.2
+},
+{
+"text": "even",
+"start": 34.2,
+"end": 34.36
+},
+{
+"text": "wake",
+"start": 34.36,
+"end": 34.6
+},
+{
+"text": "up.",
+"start": 34.6,
+"end": 34.88
+}
+]
+}

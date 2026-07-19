@@ -1,0 +1,510 @@
+{
+"script": "Could you swim across a pool of liquid mercury? You might think you'd sink like a stone, but mercury is so dense you'd barely break the surface. Your whole body would float high, like a cork bobbing on water. But try to swim, and you'd find it nearly impossible, because the metal is thirteen times heavier than water and shoves back against every stroke. Then the real danger creeps in. Mercury releases an invisible vapor, and just breathing above the pool poisons your nerves. So you'd float there helplessly, slowly going numb, on a shimmering silver mirror that's quietly killing you.",
+"words": [
+{
+"text": "Could",
+"start": 0.0,
+"end": 0.26
+},
+{
+"text": "you",
+"start": 0.26,
+"end": 0.46
+},
+{
+"text": "swim",
+"start": 0.46,
+"end": 0.7
+},
+{
+"text": "across",
+"start": 0.7,
+"end": 1.0
+},
+{
+"text": "a",
+"start": 1.0,
+"end": 1.26
+},
+{
+"text": "pool",
+"start": 1.26,
+"end": 1.52
+},
+{
+"text": "of",
+"start": 1.52,
+"end": 1.94
+},
+{
+"text": "liquid",
+"start": 1.94,
+"end": 2.28
+},
+{
+"text": "mercury?",
+"start": 2.28,
+"end": 2.7
+},
+{
+"text": "You",
+"start": 3.2,
+"end": 3.3
+},
+{
+"text": "might",
+"start": 3.3,
+"end": 3.42
+},
+{
+"text": "think",
+"start": 3.42,
+"end": 3.68
+},
+{
+"text": "you'd",
+"start": 3.68,
+"end": 3.96
+},
+{
+"text": "sink",
+"start": 3.96,
+"end": 4.22
+},
+{
+"text": "like",
+"start": 4.22,
+"end": 4.42
+},
+{
+"text": "a",
+"start": 4.42,
+"end": 4.6
+},
+{
+"text": "stone,",
+"start": 4.6,
+"end": 4.9
+},
+{
+"text": "but",
+"start": 5.38,
+"end": 5.68
+},
+{
+"text": "mercury",
+"start": 5.68,
+"end": 6.14
+},
+{
+"text": "is",
+"start": 6.14,
+"end": 6.5
+},
+{
+"text": "so",
+"start": 6.5,
+"end": 6.86
+},
+{
+"text": "dense",
+"start": 6.86,
+"end": 7.3
+},
+{
+"text": "you'd",
+"start": 7.3,
+"end": 7.7
+},
+{
+"text": "barely",
+"start": 7.7,
+"end": 8.02
+},
+{
+"text": "break",
+"start": 8.02,
+"end": 8.46
+},
+{
+"text": "the",
+"start": 8.46,
+"end": 8.68
+},
+{
+"text": "surface.",
+"start": 8.68,
+"end": 9.04
+},
+{
+"text": "Your",
+"start": 9.74,
+"end": 9.86
+},
+{
+"text": "whole",
+"start": 9.86,
+"end": 10.16
+},
+{
+"text": "body",
+"start": 10.16,
+"end": 10.52
+},
+{
+"text": "would",
+"start": 10.52,
+"end": 10.72
+},
+{
+"text": "float",
+"start": 10.72,
+"end": 10.96
+},
+{
+"text": "high,",
+"start": 10.96,
+"end": 11.4
+},
+{
+"text": "like",
+"start": 11.84,
+"end": 12.06
+},
+{
+"text": "a",
+"start": 12.06,
+"end": 12.2
+},
+{
+"text": "cork",
+"start": 12.2,
+"end": 12.52
+},
+{
+"text": "bobbing",
+"start": 12.52,
+"end": 12.9
+},
+{
+"text": "on",
+"start": 12.9,
+"end": 13.06
+},
+{
+"text": "water.",
+"start": 13.06,
+"end": 13.44
+},
+{
+"text": "But",
+"start": 13.9,
+"end": 14.1
+},
+{
+"text": "try",
+"start": 14.1,
+"end": 14.3
+},
+{
+"text": "to",
+"start": 14.3,
+"end": 14.46
+},
+{
+"text": "swim",
+"start": 14.46,
+"end": 14.78
+},
+{
+"text": "and",
+"start": 14.78,
+"end": 15.5
+},
+{
+"text": "you'd",
+"start": 15.5,
+"end": 15.7
+},
+{
+"text": "find",
+"start": 15.7,
+"end": 15.9
+},
+{
+"text": "it",
+"start": 15.9,
+"end": 16.06
+},
+{
+"text": "nearly",
+"start": 16.06,
+"end": 16.4
+},
+{
+"text": "impossible,",
+"start": 16.4,
+"end": 17.02
+},
+{
+"text": "because",
+"start": 17.26,
+"end": 17.52
+},
+{
+"text": "the",
+"start": 17.52,
+"end": 17.7
+},
+{
+"text": "metal",
+"start": 17.7,
+"end": 17.9
+},
+{
+"text": "is",
+"start": 17.9,
+"end": 18.18
+},
+{
+"text": "13",
+"start": 18.18,
+"end": 18.74
+},
+{
+"text": "times",
+"start": 18.74,
+"end": 19.36
+},
+{
+"text": "heavier",
+"start": 19.36,
+"end": 19.76
+},
+{
+"text": "than",
+"start": 19.76,
+"end": 20.04
+},
+{
+"text": "water",
+"start": 20.04,
+"end": 20.34
+},
+{
+"text": "and",
+"start": 20.34,
+"end": 20.84
+},
+{
+"text": "shoves",
+"start": 20.84,
+"end": 21.16
+},
+{
+"text": "back",
+"start": 21.16,
+"end": 21.5
+},
+{
+"text": "against",
+"start": 21.5,
+"end": 21.84
+},
+{
+"text": "every",
+"start": 21.84,
+"end": 22.32
+},
+{
+"text": "stroke.",
+"start": 22.32,
+"end": 22.74
+},
+{
+"text": "Then",
+"start": 23.26,
+"end": 23.4
+},
+{
+"text": "the",
+"start": 23.4,
+"end": 23.54
+},
+{
+"text": "real",
+"start": 23.54,
+"end": 23.94
+},
+{
+"text": "danger",
+"start": 23.94,
+"end": 24.54
+},
+{
+"text": "creeps",
+"start": 24.54,
+"end": 24.84
+},
+{
+"text": "in.",
+"start": 24.84,
+"end": 25.24
+},
+{
+"text": "Mercury",
+"start": 25.66,
+"end": 26.06
+},
+{
+"text": "releases",
+"start": 26.06,
+"end": 26.68
+},
+{
+"text": "an",
+"start": 26.68,
+"end": 26.96
+},
+{
+"text": "invisible",
+"start": 26.96,
+"end": 27.44
+},
+{
+"text": "vapor,",
+"start": 27.44,
+"end": 27.92
+},
+{
+"text": "and",
+"start": 27.92,
+"end": 28.64
+},
+{
+"text": "just",
+"start": 28.64,
+"end": 28.8
+},
+{
+"text": "breathing",
+"start": 28.8,
+"end": 29.26
+},
+{
+"text": "above",
+"start": 29.26,
+"end": 29.72
+},
+{
+"text": "the",
+"start": 29.72,
+"end": 29.96
+},
+{
+"text": "pool",
+"start": 29.96,
+"end": 30.36
+},
+{
+"text": "poisons",
+"start": 30.36,
+"end": 30.8
+},
+{
+"text": "your",
+"start": 30.8,
+"end": 31.08
+},
+{
+"text": "nerves.",
+"start": 31.08,
+"end": 31.48
+},
+{
+"text": "So",
+"start": 31.96,
+"end": 32.22
+},
+{
+"text": "you'd",
+"start": 32.22,
+"end": 32.46
+},
+{
+"text": "float",
+"start": 32.46,
+"end": 32.7
+},
+{
+"text": "there",
+"start": 32.7,
+"end": 33.06
+},
+{
+"text": "helplessly,",
+"start": 33.06,
+"end": 34.2
+},
+{
+"text": "slowly",
+"start": 34.58,
+"end": 34.84
+},
+{
+"text": "going",
+"start": 34.84,
+"end": 35.36
+},
+{
+"text": "numb,",
+"start": 35.36,
+"end": 35.68
+},
+{
+"text": "on",
+"start": 36.24,
+"end": 36.38
+},
+{
+"text": "a",
+"start": 36.38,
+"end": 36.54
+},
+{
+"text": "shimmering",
+"start": 36.54,
+"end": 37.02
+},
+{
+"text": "silver",
+"start": 37.02,
+"end": 37.34
+},
+{
+"text": "mirror",
+"start": 37.34,
+"end": 37.88
+},
+{
+"text": "that's",
+"start": 37.88,
+"end": 38.18
+},
+{
+"text": "quietly",
+"start": 38.18,
+"end": 38.6
+},
+{
+"text": "killing",
+"start": 38.6,
+"end": 39.04
+},
+{
+"text": "you.",
+"start": 39.04,
+"end": 39.4
+}
+]
+}

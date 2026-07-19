@@ -1,0 +1,470 @@
+{
+"script": "Imagine scooping up a single teaspoon of a dead star. That tiny spoonful would weigh about a billion tons, roughly as much as every car, truck, and ship on Earth combined. It comes from a neutron star, the crushed leftover core of a giant sun. When the star died, gravity squeezed it so hard that the empty space inside its atoms was crushed out completely. Now a ball the size of a city holds more mass than our entire Sun. And if you dropped that spoonful, it would punch straight through the planet.",
+"words": [
+{
+"text": "Imagine",
+"start": 0.0,
+"end": 0.52
+},
+{
+"text": "scooping",
+"start": 0.52,
+"end": 0.96
+},
+{
+"text": "up",
+"start": 0.96,
+"end": 1.06
+},
+{
+"text": "a",
+"start": 1.06,
+"end": 1.24
+},
+{
+"text": "single",
+"start": 1.24,
+"end": 1.54
+},
+{
+"text": "teaspoon",
+"start": 1.54,
+"end": 1.82
+},
+{
+"text": "of",
+"start": 1.82,
+"end": 2.32
+},
+{
+"text": "a",
+"start": 2.32,
+"end": 2.44
+},
+{
+"text": "dead",
+"start": 2.44,
+"end": 2.62
+},
+{
+"text": "star",
+"start": 2.62,
+"end": 2.96
+},
+{
+"text": "that",
+"start": 2.96,
+"end": 3.7
+},
+{
+"text": "tiny",
+"start": 3.7,
+"end": 4.08
+},
+{
+"text": "spoonful",
+"start": 4.08,
+"end": 4.72
+},
+{
+"text": "would",
+"start": 4.72,
+"end": 5.08
+},
+{
+"text": "weigh",
+"start": 5.08,
+"end": 5.28
+},
+{
+"text": "about",
+"start": 5.28,
+"end": 5.52
+},
+{
+"text": "a",
+"start": 5.52,
+"end": 5.66
+},
+{
+"text": "billion",
+"start": 5.66,
+"end": 5.94
+},
+{
+"text": "tons",
+"start": 5.94,
+"end": 6.5
+},
+{
+"text": "Roughly",
+"start": 6.5,
+"end": 7.38
+},
+{
+"text": "as",
+"start": 7.38,
+"end": 7.48
+},
+{
+"text": "much",
+"start": 7.48,
+"end": 7.64
+},
+{
+"text": "as",
+"start": 7.64,
+"end": 7.82
+},
+{
+"text": "every",
+"start": 7.82,
+"end": 8.24
+},
+{
+"text": "car",
+"start": 8.24,
+"end": 8.64
+},
+{
+"text": "truck",
+"start": 8.64,
+"end": 9.24
+},
+{
+"text": "and",
+"start": 9.24,
+"end": 9.7
+},
+{
+"text": "ship",
+"start": 9.7,
+"end": 9.98
+},
+{
+"text": "on",
+"start": 9.98,
+"end": 10.12
+},
+{
+"text": "earth",
+"start": 10.12,
+"end": 10.26
+},
+{
+"text": "combined",
+"start": 10.26,
+"end": 10.7
+},
+{
+"text": "It",
+"start": 10.7,
+"end": 11.32
+},
+{
+"text": "comes",
+"start": 11.32,
+"end": 11.54
+},
+{
+"text": "from",
+"start": 11.54,
+"end": 11.74
+},
+{
+"text": "a",
+"start": 11.74,
+"end": 11.86
+},
+{
+"text": "neutron",
+"start": 11.86,
+"end": 12.22
+},
+{
+"text": "star",
+"start": 12.22,
+"end": 12.72
+},
+{
+"text": "the",
+"start": 12.72,
+"end": 13.24
+},
+{
+"text": "crushed",
+"start": 13.24,
+"end": 13.66
+},
+{
+"text": "leftover",
+"start": 13.66,
+"end": 14.34
+},
+{
+"text": "core",
+"start": 14.34,
+"end": 14.84
+},
+{
+"text": "of",
+"start": 14.84,
+"end": 15.32
+},
+{
+"text": "a",
+"start": 15.32,
+"end": 15.46
+},
+{
+"text": "giant",
+"start": 15.46,
+"end": 15.74
+},
+{
+"text": "Sun",
+"start": 15.74,
+"end": 16.12
+},
+{
+"text": "when",
+"start": 16.12,
+"end": 16.74
+},
+{
+"text": "a",
+"start": 16.74,
+"end": 16.84
+},
+{
+"text": "star",
+"start": 16.84,
+"end": 17.08
+},
+{
+"text": "died",
+"start": 17.08,
+"end": 17.62
+},
+{
+"text": "Gravity",
+"start": 17.62,
+"end": 18.42
+},
+{
+"text": "squeezed",
+"start": 18.42,
+"end": 19.04
+},
+{
+"text": "it",
+"start": 19.04,
+"end": 19.32
+},
+{
+"text": "so",
+"start": 19.32,
+"end": 19.7
+},
+{
+"text": "hard",
+"start": 19.7,
+"end": 20.12
+},
+{
+"text": "that",
+"start": 20.12,
+"end": 20.28
+},
+{
+"text": "the",
+"start": 20.28,
+"end": 20.44
+},
+{
+"text": "empty",
+"start": 20.44,
+"end": 20.74
+},
+{
+"text": "space",
+"start": 20.74,
+"end": 21.24
+},
+{
+"text": "inside",
+"start": 21.24,
+"end": 21.86
+},
+{
+"text": "its",
+"start": 21.86,
+"end": 22.14
+},
+{
+"text": "atoms",
+"start": 22.14,
+"end": 22.52
+},
+{
+"text": "was",
+"start": 22.52,
+"end": 22.78
+},
+{
+"text": "crushed",
+"start": 22.78,
+"end": 23.24
+},
+{
+"text": "out",
+"start": 23.24,
+"end": 23.6
+},
+{
+"text": "completely",
+"start": 23.6,
+"end": 24.1
+},
+{
+"text": "Now",
+"start": 24.1,
+"end": 24.98
+},
+{
+"text": "a",
+"start": 24.98,
+"end": 25.16
+},
+{
+"text": "ball",
+"start": 25.16,
+"end": 25.38
+},
+{
+"text": "the",
+"start": 25.38,
+"end": 25.58
+},
+{
+"text": "size",
+"start": 25.58,
+"end": 25.86
+},
+{
+"text": "of",
+"start": 25.86,
+"end": 26.02
+},
+{
+"text": "a",
+"start": 26.02,
+"end": 26.14
+},
+{
+"text": "city",
+"start": 26.14,
+"end": 26.4
+},
+{
+"text": "holds",
+"start": 26.4,
+"end": 27.06
+},
+{
+"text": "more",
+"start": 27.06,
+"end": 27.5
+},
+{
+"text": "mass",
+"start": 27.5,
+"end": 27.98
+},
+{
+"text": "than",
+"start": 27.98,
+"end": 28.26
+},
+{
+"text": "our",
+"start": 28.26,
+"end": 28.42
+},
+{
+"text": "entire",
+"start": 28.42,
+"end": 28.96
+},
+{
+"text": "Sunday",
+"start": 28.96,
+"end": 29.5
+},
+{
+"text": "And",
+"start": 30.0,
+"end": 30.24
+},
+{
+"text": "if",
+"start": 30.24,
+"end": 30.34
+},
+{
+"text": "you",
+"start": 30.34,
+"end": 30.48
+},
+{
+"text": "drop",
+"start": 30.48,
+"end": 30.76
+},
+{
+"text": "that",
+"start": 30.76,
+"end": 31.0
+},
+{
+"text": "spoonful,",
+"start": 31.0,
+"end": 31.74
+},
+{
+"text": "it",
+"start": 32.2,
+"end": 32.34
+},
+{
+"text": "would",
+"start": 32.34,
+"end": 32.5
+},
+{
+"text": "punch",
+"start": 32.5,
+"end": 32.9
+},
+{
+"text": "straight",
+"start": 32.9,
+"end": 33.44
+},
+{
+"text": "through",
+"start": 33.44,
+"end": 33.7
+},
+{
+"text": "the",
+"start": 33.7,
+"end": 33.84
+},
+{
+"text": "planet",
+"start": 33.84,
+"end": 34.1
+}
+]
+}

@@ -1,0 +1,540 @@
+{
+"script": "The strange truth about breaking a bone is that, for a while, the healed spot becomes stronger than the original. You see, the moment a bone snaps, blood floods the break and clots into a soft scaffold. Then special cells swarm in, first building a bulging lump of cartilage, then slowly replacing it with fresh, hard bone. And this new growth is bigger than what was there before, forming a thick collar around the old fracture. So for months, that spot is actually tougher than the rest of the bone. Eventually your body sands the lump back down, leaving a seam stronger than steel for its weight.",
+"words": [
+{
+"text": "The",
+"start": 0.0,
+"end": 0.24
+},
+{
+"text": "strange",
+"start": 0.24,
+"end": 0.54
+},
+{
+"text": "truth",
+"start": 0.54,
+"end": 0.86
+},
+{
+"text": "about",
+"start": 0.86,
+"end": 1.2
+},
+{
+"text": "breaking",
+"start": 1.2,
+"end": 1.48
+},
+{
+"text": "a",
+"start": 1.48,
+"end": 1.7
+},
+{
+"text": "bone",
+"start": 1.7,
+"end": 1.94
+},
+{
+"text": "is",
+"start": 1.94,
+"end": 2.48
+},
+{
+"text": "that,",
+"start": 2.48,
+"end": 2.84
+},
+{
+"text": "for",
+"start": 2.84,
+"end": 3.4
+},
+{
+"text": "a",
+"start": 3.4,
+"end": 3.5
+},
+{
+"text": "while,",
+"start": 3.5,
+"end": 3.86
+},
+{
+"text": "the",
+"start": 4.3,
+"end": 4.48
+},
+{
+"text": "healed",
+"start": 4.48,
+"end": 4.74
+},
+{
+"text": "spot",
+"start": 4.74,
+"end": 5.08
+},
+{
+"text": "becomes",
+"start": 5.08,
+"end": 5.56
+},
+{
+"text": "stronger",
+"start": 5.56,
+"end": 6.12
+},
+{
+"text": "than",
+"start": 6.12,
+"end": 6.42
+},
+{
+"text": "the",
+"start": 6.42,
+"end": 6.54
+},
+{
+"text": "original.",
+"start": 6.54,
+"end": 6.9
+},
+{
+"text": "You",
+"start": 7.46,
+"end": 7.68
+},
+{
+"text": "see,",
+"start": 7.68,
+"end": 7.94
+},
+{
+"text": "the",
+"start": 8.06,
+"end": 8.14
+},
+{
+"text": "moment",
+"start": 8.14,
+"end": 8.34
+},
+{
+"text": "a",
+"start": 8.34,
+"end": 8.56
+},
+{
+"text": "bone",
+"start": 8.56,
+"end": 8.86
+},
+{
+"text": "snaps,",
+"start": 8.86,
+"end": 9.44
+},
+{
+"text": "blood",
+"start": 10.2,
+"end": 10.32
+},
+{
+"text": "floods",
+"start": 10.32,
+"end": 10.88
+},
+{
+"text": "the",
+"start": 10.88,
+"end": 11.1
+},
+{
+"text": "break",
+"start": 11.1,
+"end": 11.42
+},
+{
+"text": "and",
+"start": 11.42,
+"end": 11.86
+},
+{
+"text": "clots",
+"start": 11.86,
+"end": 12.36
+},
+{
+"text": "into",
+"start": 12.36,
+"end": 12.62
+},
+{
+"text": "a",
+"start": 12.62,
+"end": 12.82
+},
+{
+"text": "soft",
+"start": 12.82,
+"end": 13.08
+},
+{
+"text": "scaffold.",
+"start": 13.08,
+"end": 13.7
+},
+{
+"text": "Then",
+"start": 14.16,
+"end": 14.32
+},
+{
+"text": "special",
+"start": 14.32,
+"end": 14.7
+},
+{
+"text": "cells",
+"start": 14.7,
+"end": 15.12
+},
+{
+"text": "swarm",
+"start": 15.12,
+"end": 15.54
+},
+{
+"text": "in,",
+"start": 15.54,
+"end": 15.92
+},
+{
+"text": "first",
+"start": 16.36,
+"end": 16.6
+},
+{
+"text": "building",
+"start": 16.6,
+"end": 17.04
+},
+{
+"text": "a",
+"start": 17.04,
+"end": 17.3
+},
+{
+"text": "bulging",
+"start": 17.3,
+"end": 17.78
+},
+{
+"text": "lump",
+"start": 17.78,
+"end": 18.12
+},
+{
+"text": "of",
+"start": 18.12,
+"end": 18.34
+},
+{
+"text": "cartilage,",
+"start": 18.34,
+"end": 18.78
+},
+{
+"text": "then",
+"start": 19.28,
+"end": 19.5
+},
+{
+"text": "slowly",
+"start": 19.5,
+"end": 19.92
+},
+{
+"text": "replacing",
+"start": 19.92,
+"end": 20.5
+},
+{
+"text": "it",
+"start": 20.5,
+"end": 20.8
+},
+{
+"text": "with",
+"start": 20.8,
+"end": 21.02
+},
+{
+"text": "fresh",
+"start": 21.02,
+"end": 21.58
+},
+{
+"text": "hard",
+"start": 21.58,
+"end": 22.2
+},
+{
+"text": "bone.",
+"start": 22.2,
+"end": 22.44
+},
+{
+"text": "And",
+"start": 22.94,
+"end": 23.1
+},
+{
+"text": "this",
+"start": 23.1,
+"end": 23.22
+},
+{
+"text": "new",
+"start": 23.22,
+"end": 23.52
+},
+{
+"text": "growth",
+"start": 23.52,
+"end": 23.94
+},
+{
+"text": "is",
+"start": 23.94,
+"end": 24.36
+},
+{
+"text": "bigger",
+"start": 24.36,
+"end": 24.78
+},
+{
+"text": "than",
+"start": 24.78,
+"end": 25.06
+},
+{
+"text": "what",
+"start": 25.06,
+"end": 25.22
+},
+{
+"text": "was",
+"start": 25.22,
+"end": 25.38
+},
+{
+"text": "there",
+"start": 25.38,
+"end": 25.56
+},
+{
+"text": "before,",
+"start": 25.56,
+"end": 26.0
+},
+{
+"text": "forming",
+"start": 26.54,
+"end": 26.84
+},
+{
+"text": "a",
+"start": 26.84,
+"end": 27.06
+},
+{
+"text": "thick",
+"start": 27.06,
+"end": 27.34
+},
+{
+"text": "collar",
+"start": 27.34,
+"end": 27.74
+},
+{
+"text": "around",
+"start": 27.74,
+"end": 28.02
+},
+{
+"text": "the",
+"start": 28.02,
+"end": 28.16
+},
+{
+"text": "old",
+"start": 28.16,
+"end": 28.34
+},
+{
+"text": "fracture.",
+"start": 28.34,
+"end": 28.78
+},
+{
+"text": "So",
+"start": 29.52,
+"end": 29.58
+},
+{
+"text": "for",
+"start": 29.58,
+"end": 29.72
+},
+{
+"text": "months,",
+"start": 29.72,
+"end": 30.12
+},
+{
+"text": "that",
+"start": 30.48,
+"end": 30.7
+},
+{
+"text": "spot",
+"start": 30.7,
+"end": 31.12
+},
+{
+"text": "is",
+"start": 31.12,
+"end": 31.56
+},
+{
+"text": "actually",
+"start": 31.56,
+"end": 31.96
+},
+{
+"text": "tougher",
+"start": 31.96,
+"end": 32.28
+},
+{
+"text": "than",
+"start": 32.28,
+"end": 32.5
+},
+{
+"text": "the",
+"start": 32.5,
+"end": 32.62
+},
+{
+"text": "rest",
+"start": 32.62,
+"end": 32.74
+},
+{
+"text": "of",
+"start": 32.74,
+"end": 32.94
+},
+{
+"text": "the",
+"start": 32.94,
+"end": 33.0
+},
+{
+"text": "bone.",
+"start": 33.0,
+"end": 33.22
+},
+{
+"text": "Eventually",
+"start": 33.88,
+"end": 34.06
+},
+{
+"text": "your",
+"start": 34.06,
+"end": 34.4
+},
+{
+"text": "body",
+"start": 34.4,
+"end": 34.88
+},
+{
+"text": "sands",
+"start": 34.88,
+"end": 35.56
+},
+{
+"text": "the",
+"start": 35.56,
+"end": 35.8
+},
+{
+"text": "lump",
+"start": 35.8,
+"end": 36.14
+},
+{
+"text": "back",
+"start": 36.14,
+"end": 36.52
+},
+{
+"text": "down,",
+"start": 36.52,
+"end": 37.06
+},
+{
+"text": "leaving",
+"start": 37.54,
+"end": 37.78
+},
+{
+"text": "a",
+"start": 37.78,
+"end": 38.0
+},
+{
+"text": "seam",
+"start": 38.0,
+"end": 38.24
+},
+{
+"text": "stronger",
+"start": 38.24,
+"end": 38.82
+},
+{
+"text": "than",
+"start": 38.82,
+"end": 39.12
+},
+{
+"text": "steel",
+"start": 39.12,
+"end": 39.5
+},
+{
+"text": "for",
+"start": 39.5,
+"end": 39.82
+},
+{
+"text": "its",
+"start": 39.82,
+"end": 39.96
+},
+{
+"text": "weight.",
+"start": 39.96,
+"end": 40.2
+}
+]
+}

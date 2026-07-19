@@ -1,0 +1,500 @@
+{
+"script": "Patients with crippling knee pain were wheeled into the operating room, put under, and cut open. The surgeon then repaired the damaged joint. But for some of them, the doctors did absolutely nothing. They just made the incision, sewed it back shut, and faked the entire operation. And here's the unbelievable part. Months later, the patients who got the fake surgery reported the exact same relief as the ones who got the real thing. They walked better. They hurt less. You see, simply believing they'd been healed was powerful enough to rewrite how their bodies actually felt the pain.",
+"words": [
+{
+"text": "Patients",
+"start": 0.0,
+"end": 0.46
+},
+{
+"text": "with",
+"start": 0.46,
+"end": 0.68
+},
+{
+"text": "crippling",
+"start": 0.68,
+"end": 1.06
+},
+{
+"text": "knee",
+"start": 1.06,
+"end": 1.32
+},
+{
+"text": "pain",
+"start": 1.32,
+"end": 1.7
+},
+{
+"text": "were",
+"start": 1.7,
+"end": 2.02
+},
+{
+"text": "wheeled",
+"start": 2.02,
+"end": 2.58
+},
+{
+"text": "into",
+"start": 2.58,
+"end": 2.64
+},
+{
+"text": "the",
+"start": 2.64,
+"end": 2.78
+},
+{
+"text": "operating",
+"start": 2.78,
+"end": 3.16
+},
+{
+"text": "room,",
+"start": 3.16,
+"end": 3.62
+},
+{
+"text": "put",
+"start": 3.62,
+"end": 4.04
+},
+{
+"text": "under,",
+"start": 4.04,
+"end": 4.38
+},
+{
+"text": "and",
+"start": 4.76,
+"end": 4.86
+},
+{
+"text": "cut",
+"start": 4.86,
+"end": 5.14
+},
+{
+"text": "open.",
+"start": 5.14,
+"end": 5.48
+},
+{
+"text": "The",
+"start": 5.88,
+"end": 6.04
+},
+{
+"text": "surgeon",
+"start": 6.04,
+"end": 6.3
+},
+{
+"text": "then",
+"start": 6.3,
+"end": 6.84
+},
+{
+"text": "repaired",
+"start": 6.84,
+"end": 7.24
+},
+{
+"text": "the",
+"start": 7.24,
+"end": 7.54
+},
+{
+"text": "damaged",
+"start": 7.54,
+"end": 7.86
+},
+{
+"text": "joint.",
+"start": 7.86,
+"end": 8.34
+},
+{
+"text": "But",
+"start": 8.76,
+"end": 8.94
+},
+{
+"text": "for",
+"start": 8.94,
+"end": 9.06
+},
+{
+"text": "some",
+"start": 9.06,
+"end": 9.28
+},
+{
+"text": "of",
+"start": 9.28,
+"end": 9.4
+},
+{
+"text": "them,",
+"start": 9.4,
+"end": 9.62
+},
+{
+"text": "the",
+"start": 9.84,
+"end": 10.04
+},
+{
+"text": "doctors",
+"start": 10.04,
+"end": 10.36
+},
+{
+"text": "did",
+"start": 10.36,
+"end": 10.76
+},
+{
+"text": "absolutely",
+"start": 10.76,
+"end": 11.36
+},
+{
+"text": "nothing.",
+"start": 11.36,
+"end": 11.8
+},
+{
+"text": "They",
+"start": 12.34,
+"end": 12.44
+},
+{
+"text": "just",
+"start": 12.44,
+"end": 12.56
+},
+{
+"text": "made",
+"start": 12.56,
+"end": 12.72
+},
+{
+"text": "the",
+"start": 12.72,
+"end": 12.86
+},
+{
+"text": "incision,",
+"start": 12.86,
+"end": 13.4
+},
+{
+"text": "sewed",
+"start": 13.86,
+"end": 13.96
+},
+{
+"text": "it",
+"start": 13.96,
+"end": 14.02
+},
+{
+"text": "back",
+"start": 14.02,
+"end": 14.24
+},
+{
+"text": "shut,",
+"start": 14.24,
+"end": 14.58
+},
+{
+"text": "and",
+"start": 15.0,
+"end": 15.24
+},
+{
+"text": "faked",
+"start": 15.24,
+"end": 15.5
+},
+{
+"text": "the",
+"start": 15.5,
+"end": 15.7
+},
+{
+"text": "entire",
+"start": 15.7,
+"end": 16.14
+},
+{
+"text": "operation.",
+"start": 16.14,
+"end": 16.68
+},
+{
+"text": "And",
+"start": 17.38,
+"end": 17.46
+},
+{
+"text": "here's",
+"start": 17.46,
+"end": 17.74
+},
+{
+"text": "the",
+"start": 17.74,
+"end": 17.9
+},
+{
+"text": "unbelievable",
+"start": 17.9,
+"end": 18.46
+},
+{
+"text": "part.",
+"start": 18.46,
+"end": 19.04
+},
+{
+"text": "Months",
+"start": 19.6,
+"end": 19.7
+},
+{
+"text": "later,",
+"start": 19.7,
+"end": 20.12
+},
+{
+"text": "the",
+"start": 20.46,
+"end": 20.6
+},
+{
+"text": "patients",
+"start": 20.6,
+"end": 20.92
+},
+{
+"text": "who",
+"start": 20.92,
+"end": 21.1
+},
+{
+"text": "got",
+"start": 21.1,
+"end": 21.26
+},
+{
+"text": "the",
+"start": 21.26,
+"end": 21.42
+},
+{
+"text": "fake",
+"start": 21.42,
+"end": 21.68
+},
+{
+"text": "surgery",
+"start": 21.68,
+"end": 22.14
+},
+{
+"text": "reported",
+"start": 22.14,
+"end": 22.66
+},
+{
+"text": "the",
+"start": 22.66,
+"end": 22.94
+},
+{
+"text": "exact",
+"start": 22.94,
+"end": 23.38
+},
+{
+"text": "same",
+"start": 23.38,
+"end": 23.8
+},
+{
+"text": "relief",
+"start": 23.8,
+"end": 24.2
+},
+{
+"text": "as",
+"start": 24.2,
+"end": 24.8
+},
+{
+"text": "the",
+"start": 24.8,
+"end": 24.96
+},
+{
+"text": "ones",
+"start": 24.96,
+"end": 25.18
+},
+{
+"text": "who",
+"start": 25.18,
+"end": 25.36
+},
+{
+"text": "got",
+"start": 25.36,
+"end": 25.5
+},
+{
+"text": "the",
+"start": 25.5,
+"end": 25.64
+},
+{
+"text": "real",
+"start": 25.64,
+"end": 25.8
+},
+{
+"text": "thing.",
+"start": 25.8,
+"end": 26.12
+},
+{
+"text": "They",
+"start": 26.48,
+"end": 26.74
+},
+{
+"text": "walked",
+"start": 26.74,
+"end": 27.0
+},
+{
+"text": "better.",
+"start": 27.0,
+"end": 27.36
+},
+{
+"text": "They",
+"start": 27.84,
+"end": 27.98
+},
+{
+"text": "hurt",
+"start": 27.98,
+"end": 28.16
+},
+{
+"text": "less.",
+"start": 28.16,
+"end": 28.48
+},
+{
+"text": "You",
+"start": 28.88,
+"end": 29.32
+},
+{
+"text": "see,",
+"start": 29.32,
+"end": 29.6
+},
+{
+"text": "simply",
+"start": 30.12,
+"end": 30.24
+},
+{
+"text": "believing",
+"start": 30.24,
+"end": 30.68
+},
+{
+"text": "they'd",
+"start": 30.68,
+"end": 31.0
+},
+{
+"text": "been",
+"start": 31.0,
+"end": 31.12
+},
+{
+"text": "healed",
+"start": 31.12,
+"end": 31.56
+},
+{
+"text": "was",
+"start": 31.56,
+"end": 31.88
+},
+{
+"text": "powerful",
+"start": 31.88,
+"end": 32.34
+},
+{
+"text": "enough",
+"start": 32.34,
+"end": 32.82
+},
+{
+"text": "to",
+"start": 32.82,
+"end": 33.3
+},
+{
+"text": "rewrite",
+"start": 33.3,
+"end": 33.94
+},
+{
+"text": "how",
+"start": 33.94,
+"end": 34.28
+},
+{
+"text": "their",
+"start": 34.28,
+"end": 34.42
+},
+{
+"text": "bodies",
+"start": 34.42,
+"end": 34.88
+},
+{
+"text": "actually",
+"start": 34.88,
+"end": 35.68
+},
+{
+"text": "felt",
+"start": 35.68,
+"end": 35.98
+},
+{
+"text": "the",
+"start": 35.98,
+"end": 36.14
+},
+{
+"text": "pain.",
+"start": 36.14,
+"end": 36.38
+}
+]
+}

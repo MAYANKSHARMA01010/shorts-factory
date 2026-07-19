@@ -1,0 +1,136 @@
+{
+  "slug": "treesoup",
+  "title": "Paper Is Just A Tree Boiled Into Soup",
+  "transcript_source": "reimagined transcripts/009_trees-boiled-into-soup.txt",
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "font": "Poppins",
+    "captions": "automatic 3-word karaoke pages, gold active word, bottom 250px, do not author"
+  },
+  "duration_estimate_s": 35,
+  "narration_voice": "edge-tts en-US-AndrewMultilingual (warm documentary narrator)",
+  "audio": {
+    "narration": "treesoup_narration.mp3",
+    "music": "music.mp3 @ volume 0.13 (low industrial pad, mill-room ambience)",
+    "timing_note": "scene starts (S map) are placeholders in frames @30fps; rebind every scene start to the real sentence-end timestamps in treesoup_words.json before final render"
+  },
+  "design_language": {
+    "vibe": "warm sawmill-to-paper-mill factory cutaway; bark browns, machine steel, hot-drum orange, clean white paper as the gradual reveal",
+    "energy": "FAST snappy in-composition motion only (usePop springs damping 110-150 mass 0.55, spinning grinder drum, sweeping conveyor, draining water, peeling sheet) — NEVER camera zoom pulses",
+    "background": "vertical gradient dark bark-brown #1c130d -> #241a12 -> #120c08 with a soft top warmGlow, plus slow-drifting sawdust motes (warm #e8cda0, ~32 particles) reused from HotDog Background",
+    "shared_helpers": "reuse mix(), usePop(delay,damping), Defs(glow+soft+gradients), Svg wrapper, SceneWrap (fast 8-frame fade + 1.06 scale-in), Label pill, Captions (3-word) — copy structure from HotDog.tsx"
+  },
+  "palette": {
+    "bg": "#1c130d",
+    "bgMid": "#241a12",
+    "bgBot": "#120c08",
+    "accent": "#FFD23F",
+    "key": "#caa06a",
+    "bark": "#6e4a2c",
+    "barkDk": "#3f2a17",
+    "wood": "#d8a86a",
+    "woodLite": "#ecc58f",
+    "chip": "#c79a5e",
+    "pulp": "#cdbf9e",
+    "pulpWet": "#a89a6e",
+    "chem": "#7fd6a0",
+    "chemDk": "#3f9e6b",
+    "water": "#7fc8ff",
+    "steel": "#cdd5e0",
+    "steelDk": "#8b97a8",
+    "drumHot": "#ff7a3c",
+    "drumGlow": "#ffb24d",
+    "paper": "#fbf7ee",
+    "paperEdge": "#e6ddc8",
+    "white": "#FFFFFF",
+    "red": "#ff5b4d"
+  },
+  "svg_defs": [
+    "glow: feGaussianBlur stdDeviation 8 + feMerge (reuse)",
+    "soft: feGaussianBlur stdDeviation 22 (steam/shadow)",
+    "barkG linearGradient: #8a5d36 -> #6e4a2c -> #3f2a17 (log body)",
+    "woodG linearGradient: #ecc58f -> #d8a86a -> #b07f47 (debarked log + chips)",
+    "pulpG linearGradient(vertical): #d8cba8 -> #a89a6e (wet mush)",
+    "chemG linearGradient: #aef0c8 -> #3f9e6b (chemical bath)",
+    "steelG linearGradient: #f1f4f9 -> #bcc6d3 -> #8b97a8 (reuse machinery)",
+    "drumG radialGradient: #ffd79a -> #ff7a3c -> #c63d12 (scorching drum)",
+    "paperG linearGradient: #ffffff -> #fbf7ee -> #e6ddc8 (finished sheet)",
+    "waterG linearGradient(vertical): #bfe9ff -> #7fc8ff stopOpacity fade (draining water)"
+  ],
+  "scene_map_frames_placeholder": {
+    "hook": 0,
+    "debark": 150,
+    "cook": 360,
+    "screen": 600,
+    "press": 840,
+    "finish": 1080,
+    "end": 1335
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "beat": "Every sheet of paper you've ever touched began as a tree boiled into soup.",
+      "visual": "Split-transform hook: a crisp white sheet of paper (paperG rect with subtle corner curl + 'PAPER' tag) sits center; behind/under it a tall tree (barkG trunk, layered green canopy of overlapping ellipses) is the same object. A big bold equals/arrow morph beat hammers tree = paper. Then a cartoon cauldron/cooking pot (steel rim, dark interior) bubbles below with a tiny tree-silhouette sinking into it and steam curling up — literally 'a tree boiled into soup'.",
+      "draw": "Tree: barkG trunk rect 70x420 rounded, 3 stacked leaf-clusters (radial green ellipses #3f8f4f/#2f7a3f) with usePop staggered. Sheet: paperG rect 360x480 rx14 with one peeled corner (path triangle, paperEdge) and a faint ruled line. Pot: steelG ellipse-mouth + dark body path, bubble circles rising (4-6, soft glow), steam = 3 soft-blur ellipses drifting up. Center bold title text 'PAPER = A BOILED TREE' on two lines, gold accent word.",
+      "animations": "Tree springs up from bottom (usePop delay 2, damping 140). At ~delay 22 a fast morph: tree scales/slides toward the pot and a paper sheet pops in (scale 0.4->1 overshoot) as the gold title words snap in word-by-word (translateY 50->0). Bubbles loop rising; steam loops. Quick 2deg nervous wobble on the pot. No camera move.",
+      "sfx": "soft rising whoosh on tree pop-in; a single bubbly 'gloop'/boil sting when the tree drops into the pot reveal (real reveal #1)",
+      "onscreen_text": "PAPER = A BOILED TREE"
+    },
+    {
+      "id": "debark",
+      "beat": "First, logs are stripped of their bark and ground into tiny wood chips.",
+      "visual": "Two-stage factory step. LEFT: a horizontal log (barkG) rotates while a debarking blade/peeler strips the dark bark off — the bark literally peels away as a curling strip, revealing the pale woodG core underneath. RIGHT: the clean pale log feeds into a chipper drum (steelG housing + spinning toothed wheel) that spits a fountain of tiny wood chips (chip-colored quad shapes) arcing into a pile/hopper at the bottom.",
+      "draw": "Log: barkG rounded rect 520x120 with woodG end-circle (tree rings: 3 concentric arcs). Bark strip: a path that grows (interpolate) peeling off the top, dark barkDk, curling at the leading edge. Chipper: steelG box + a rotating gear/blade wheel (spokes, rotate f*14). Chips: 12-16 small Chunk-style quads (chip/wood fills) launched on parabolic arcs (t-based x+parabolic y) into a growing pile rect at bottom. Label pill 'bark off -> wood chips'.",
+      "animations": "Log rolls in from left (usePop). Bark peel: interpolate strip length 0->full over ~28f, snapping free with a tiny pop. Chipper wheel spins fast continuously. Chips spray on a fast loop (staggered phase) and the bottom pile grows (height interpolate). Label pops at delay 2.",
+      "sfx": "mechanical slide/whoosh on scene change; light grinder/chipper rattle loop under (kept sparse, low)",
+      "onscreen_text": "bark off -> wood chips"
+    },
+    {
+      "id": "cook",
+      "beat": "Then those chips are cooked in chemicals until they break down into a wet, mushy pulp.",
+      "visual": "A big industrial digester vat (the 'soup pot' callback): steelG cauldron filled with a green chemG chemical bath. Wood chips tumble in from a chute at top, sink, and visibly DISSOLVE — chip quads shrink/blur and morph (mix chip->pulp) into a swirling tan-grey mushy pulp that rises to fill the vat. Bubbles + heat-steam rise. A thermometer or 'CHEMICALS' label and bubbling motion sell the cooking.",
+      "draw": "Vat: steelG outer body path + dark rim, inner clipPath. Chem bath: chemG fill rising (interpolate level). Chips entering: 8 chip quads falling on staggered t, then within the bath their r shrinks to 0 while pulpG blobs grow (morph 0->1). Swirl: a rotating g (rotate spin=f*7) of soft pulp blobs. Bubbles: 6 rising circles glow. Steam: soft ellipses. Tags: 'cooked in chemicals' label pill; small green droplet icons.",
+      "animations": "Chips drop fast (usePop entrance for vat, delay 2). morph interpolate [10,75] drives chip->pulp dissolve. Pulp level rises (interpolate). Continuous swirl rotation + bubbling loop. A quick gold 'BREAKS DOWN' tag pops (usePop delay ~46) when the last chip dissolves.",
+      "sfx": "wet bubbling/boil loop (low); a soft chemical fizz on entry. No big boom here.",
+      "onscreen_text": "cooked in chemicals -> mushy pulp"
+    },
+    {
+      "id": "screen",
+      "beat": "And this pulp is sprayed onto a giant moving screen, where the water drains away.",
+      "visual": "Side-on view of the paper machine 'wire': a wide moving mesh screen (conveyor of fine grid) travels left-to-right. A nozzle/headbox at the left sprays wet pulp slurry onto it as an even tan layer. As the layer travels right, water DRAINS straight down through the mesh in falling droplet-streams (waterG) into a tray below, and the layer visibly lightens/firms from wet pulpWet to pale paper-mat.",
+      "draw": "Mesh: a long rect with a moving grid pattern (vertical+horizontal ticks offset by conveyor=f*6) tilted slightly. Headbox nozzle (steelG) top-left spraying pulp (fan of pulp droplets). Pulp layer: a rect on the mesh whose fill mixes pulpWet->pulp left-to-right and whose top edge wobbles slightly. Draining water: ~14 vertical droplet streams below the mesh, each a short waterG capsule falling on a loop, collecting in a tray. Label 'water drains out'.",
+      "animations": "Mesh grid scrolls continuously (fast). Spray fans out from nozzle on a loop. Water droplets fall on staggered fast loops (translateY loop, fade at bottom). Pulp layer color firms via interpolate across x. Label pops delay 2. Snappy and continuous.",
+      "sfx": "spray/hiss whoosh on transition; gentle trickling water loop (very low)",
+      "onscreen_text": "water drains out"
+    },
+    {
+      "id": "press",
+      "beat": "Next, the soggy mat is squeezed between heavy rollers and dried over scorching hot drums.",
+      "visual": "Two-part machinery. LEFT: the soggy paper mat passes between a pair of heavy steel press rollers (two big counter-rotating steel cylinders) that SQUEEZE it thin — droplets squirt out the sides as the mat enters, and it exits visibly flatter/thinner. RIGHT: the mat then wraps over a series of glowing scorching-hot drying drums (drumG radial, orange heat glow, heat-shimmer steam rising) and comes off the far side dry and pale, nearly finished paper.",
+      "draw": "Press rollers: two steelG circles (cx stacked vertically) with rotation spokes counter-spinning; the mat = a thin rect threaded through the nip, thickness interpolating thinner past the nip. Squeeze droplets: small water spurts at the nip (left+right) on a loop. Hot drums: 3 drumG circles with glow filter + drumGlow halo, slow rotation, heat-shimmer = soft wavy ellipses rising. Mat color mixes pulp->paper as it crosses the drums (interpolate across x). Labels 'SQUEEZE' near rollers, 'scorching drums' near drums; a tiny rising temperature/heat-line accent.",
+      "animations": "Rollers counter-rotate fast and continuously; mat threads through. Droplets squirt out on a fast loop as the mat hits the nip (interpolate burst). Drums glow-pulse (opacity sine) and shimmer rises. Mat dries (color interpolate) traveling right. Snappy pops on each label (usePop staggered).",
+      "sfx": "heavy roller 'ka-chunk'/press thud on the squeeze; a warm sizzle loop over the hot drums (real reveal #2: dramatic warm boom optional as drums ignite/glow on)",
+      "onscreen_text": "squeezed + dried"
+    },
+    {
+      "id": "finish",
+      "beat": "Finally, it's pressed flat and wound into rolls the size of cars, before being sliced into the pages you'll one day crumple and throw away.",
+      "visual": "Payoff montage in three quick snaps. (1) The finished paper web winds onto a GIANT reel — a huge paperG roll, with a tiny car silhouette beside it for scale ('size of a CAR'). (2) A slitter blade slices the web into neat stacked sheets (a fan of paper rectangles snapping out). (3) Hard cut to one sheet that gets crumpled into a ball and tossed into a bin — the full-circle gut-punch. End card line lands.",
+      "draw": "Giant reel: large paperG circle (r~260) spinning, paper web feeding in from left, growing slightly; small car silhouette (simple rounded body + 2 wheels, steelDk) at its base for scale, 'size of a CAR' tag with a caliper/double-arrow. Slitter: a vertical blade line that sweeps; behind it a fan of 5-6 stacked paper sheets pops out (usePop staggered). Crumple: a single paper sheet path that scrunches (swap to a jagged crumpled-ball path) and arcs into a trash bin (steelDk can), small motion lines. End text 'It started as a TREE.' with TREE in gold/green.",
+      "animations": "Reel spins (rotate f*4), web winds on. 'size of a CAR' caliper pops (usePop). Quick cut feel: slitter blade sweeps across (interpolate), sheet-fan snaps out staggered. Crumple: morph sheet->ball over ~12f then a fast parabolic toss into the bin (translate arc) with a tiny bounce. Final line springs up (usePop delay ~80, translateY 40->0).",
+      "sfx": "winding whir on the giant reel; a crisp slice/snap on the slitter; a paper crumple-scrunch + light bin 'thunk' on the toss (real reveal #3 punchline beat); soft success/period sting under the end line",
+      "onscreen_text": "It started as a TREE."
+    }
+  ],
+  "payoff": "It started as a TREE. — over the crumpled sheet landing in the bin (full-circle: the tree boiled into soup is now the paper you throw away)",
+  "sfx_policy": "Sparse and scene-matched: a slide/whoosh on each scene change (6 total), water-trickle and bubbling are low ambient loops, and only THREE dramatic stings — the boil 'gloop' reveal in the hook, the warm hot-drum sizzle/boom in press, and the crumple-toss punchline in finish.",
+  "build_notes": [
+    "Mirror the HotDog.tsx file structure exactly: imports, FONT, FPS=30, W/H, WORDS from treesoup_words.json, S map, clamp, C palette, mix(), usePop(), Defs, Svg, Background (sawdust motes), SceneWrap (fast 8f), Label, Captions (3-word pages).",
+    "One <Sequence> per scene wrapped in <SceneWrap dur>; 6 scenes hook->debark->cook->screen->press->finish.",
+    "DURATION_IN_FRAMES and every S value MUST be recomputed from real sentence-end word timestamps in treesoup_words.json (the *_frames_placeholder above is only proportional scaffolding ~35s).",
+    "Reuse small components across scenes: a Chunk/Chip quad (from HotDog), a Roller (steel circle w/ spokes), a Droplet (waterG capsule), a Steam puff (soft ellipse). Keep all motion as springs/interpolate loops; absolutely no scale-pulse 'recut' camera trick.",
+    "Captions are automatic — do NOT author caption text; only the bold on-screen TAG/title text per scene is hand-placed."
+  ]
+}

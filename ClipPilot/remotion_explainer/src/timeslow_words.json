@@ -1,0 +1,465 @@
+{
+"script": "Here's something strange: your head is aging faster than your feet. That's because time literally runs slower the closer you are to a strong source of gravity. Down near the ground, Earth's pull is a hair stronger, so clocks there tick a touch slower than clocks up high. Now crank that up near a black hole, where gravity is monstrous. If you watched a friend fall in, you'd see them slow down and freeze at the edge forever. For them, an hour might pass. For you, millions of years could slip by.",
+"words": [
+{
+"text": "Here's",
+"start": 0.0,
+"end": 0.34
+},
+{
+"text": "something",
+"start": 0.34,
+"end": 0.56
+},
+{
+"text": "strange,",
+"start": 0.56,
+"end": 1.06
+},
+{
+"text": "your",
+"start": 1.68,
+"end": 1.86
+},
+{
+"text": "head",
+"start": 1.86,
+"end": 2.16
+},
+{
+"text": "is",
+"start": 2.16,
+"end": 2.54
+},
+{
+"text": "aging",
+"start": 2.54,
+"end": 3.04
+},
+{
+"text": "faster",
+"start": 3.04,
+"end": 3.54
+},
+{
+"text": "than",
+"start": 3.54,
+"end": 3.86
+},
+{
+"text": "your",
+"start": 3.86,
+"end": 4.0
+},
+{
+"text": "feet.",
+"start": 4.0,
+"end": 4.3
+},
+{
+"text": "That's",
+"start": 4.9,
+"end": 5.0
+},
+{
+"text": "because",
+"start": 5.0,
+"end": 5.22
+},
+{
+"text": "time",
+"start": 5.22,
+"end": 5.52
+},
+{
+"text": "literally",
+"start": 5.52,
+"end": 5.9
+},
+{
+"text": "runs",
+"start": 5.9,
+"end": 6.46
+},
+{
+"text": "slower",
+"start": 6.46,
+"end": 7.04
+},
+{
+"text": "the",
+"start": 7.04,
+"end": 7.32
+},
+{
+"text": "closer",
+"start": 7.32,
+"end": 7.64
+},
+{
+"text": "you",
+"start": 7.64,
+"end": 7.92
+},
+{
+"text": "are",
+"start": 7.92,
+"end": 8.22
+},
+{
+"text": "to",
+"start": 8.22,
+"end": 8.4
+},
+{
+"text": "a",
+"start": 8.4,
+"end": 8.62
+},
+{
+"text": "strong",
+"start": 8.62,
+"end": 9.02
+},
+{
+"text": "source",
+"start": 9.02,
+"end": 9.4
+},
+{
+"text": "of",
+"start": 9.4,
+"end": 9.68
+},
+{
+"text": "gravity.",
+"start": 9.68,
+"end": 10.08
+},
+{
+"text": "Down",
+"start": 10.58,
+"end": 10.82
+},
+{
+"text": "near",
+"start": 10.82,
+"end": 10.98
+},
+{
+"text": "the",
+"start": 10.98,
+"end": 11.12
+},
+{
+"text": "ground,",
+"start": 11.12,
+"end": 11.52
+},
+{
+"text": "Earth's",
+"start": 12.06,
+"end": 12.46
+},
+{
+"text": "pull",
+"start": 12.46,
+"end": 12.62
+},
+{
+"text": "is",
+"start": 12.62,
+"end": 13.0
+},
+{
+"text": "a",
+"start": 13.0,
+"end": 13.16
+},
+{
+"text": "hair",
+"start": 13.16,
+"end": 13.36
+},
+{
+"text": "stronger,",
+"start": 13.36,
+"end": 13.84
+},
+{
+"text": "so",
+"start": 14.22,
+"end": 14.52
+},
+{
+"text": "clocks",
+"start": 14.52,
+"end": 14.82
+},
+{
+"text": "there",
+"start": 14.82,
+"end": 15.0
+},
+{
+"text": "take",
+"start": 15.0,
+"end": 15.16
+},
+{
+"text": "a",
+"start": 15.16,
+"end": 15.38
+},
+{
+"text": "touch",
+"start": 15.38,
+"end": 15.62
+},
+{
+"text": "slower",
+"start": 15.62,
+"end": 16.0
+},
+{
+"text": "than",
+"start": 16.0,
+"end": 16.26
+},
+{
+"text": "clocks",
+"start": 16.26,
+"end": 16.5
+},
+{
+"text": "up",
+"start": 16.5,
+"end": 16.72
+},
+{
+"text": "high.",
+"start": 16.72,
+"end": 17.04
+},
+{
+"text": "Now",
+"start": 17.52,
+"end": 17.68
+},
+{
+"text": "crank",
+"start": 17.68,
+"end": 18.04
+},
+{
+"text": "that",
+"start": 18.04,
+"end": 18.28
+},
+{
+"text": "up",
+"start": 18.28,
+"end": 18.44
+},
+{
+"text": "near",
+"start": 18.44,
+"end": 18.58
+},
+{
+"text": "a",
+"start": 18.58,
+"end": 18.76
+},
+{
+"text": "black",
+"start": 18.76,
+"end": 19.02
+},
+{
+"text": "hole,",
+"start": 19.02,
+"end": 19.36
+},
+{
+"text": "where",
+"start": 19.88,
+"end": 20.1
+},
+{
+"text": "gravity",
+"start": 20.1,
+"end": 20.6
+},
+{
+"text": "is",
+"start": 20.6,
+"end": 21.12
+},
+{
+"text": "monstrous.",
+"start": 21.12,
+"end": 21.72
+},
+{
+"text": "If",
+"start": 22.4,
+"end": 22.62
+},
+{
+"text": "you",
+"start": 22.62,
+"end": 22.7
+},
+{
+"text": "watched",
+"start": 22.7,
+"end": 22.84
+},
+{
+"text": "a",
+"start": 22.84,
+"end": 23.02
+},
+{
+"text": "friend",
+"start": 23.02,
+"end": 23.18
+},
+{
+"text": "fall",
+"start": 23.18,
+"end": 23.44
+},
+{
+"text": "in,",
+"start": 23.44,
+"end": 23.78
+},
+{
+"text": "you'd",
+"start": 24.24,
+"end": 24.42
+},
+{
+"text": "see",
+"start": 24.42,
+"end": 24.54
+},
+{
+"text": "them",
+"start": 24.54,
+"end": 24.72
+},
+{
+"text": "slow",
+"start": 24.72,
+"end": 25.08
+},
+{
+"text": "down",
+"start": 25.08,
+"end": 25.58
+},
+{
+"text": "and",
+"start": 25.58,
+"end": 26.08
+},
+{
+"text": "freeze",
+"start": 26.08,
+"end": 26.6
+},
+{
+"text": "at",
+"start": 26.6,
+"end": 26.88
+},
+{
+"text": "the",
+"start": 26.88,
+"end": 27.04
+},
+{
+"text": "edge",
+"start": 27.04,
+"end": 27.46
+},
+{
+"text": "forever.",
+"start": 27.46,
+"end": 27.96
+},
+{
+"text": "For",
+"start": 27.96,
+"end": 28.74
+},
+{
+"text": "them,",
+"start": 28.74,
+"end": 28.98
+},
+{
+"text": "an",
+"start": 29.3,
+"end": 29.4
+},
+{
+"text": "hour",
+"start": 29.4,
+"end": 29.54
+},
+{
+"text": "might",
+"start": 29.54,
+"end": 29.76
+},
+{
+"text": "pass.",
+"start": 29.76,
+"end": 30.2
+},
+{
+"text": "For",
+"start": 30.8,
+"end": 30.94
+},
+{
+"text": "you,",
+"start": 30.94,
+"end": 31.12
+},
+{
+"text": "millions",
+"start": 31.62,
+"end": 31.8
+},
+{
+"text": "of",
+"start": 31.8,
+"end": 32.06
+},
+{
+"text": "years",
+"start": 32.06,
+"end": 32.3
+},
+{
+"text": "could",
+"start": 32.3,
+"end": 32.5
+},
+{
+"text": "slip",
+"start": 32.5,
+"end": 32.84
+},
+{
+"text": "by.",
+"start": 32.84,
+"end": 33.16
+}
+]
+}

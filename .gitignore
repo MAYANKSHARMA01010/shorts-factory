@@ -1,0 +1,91 @@
+# ─────────────────────────────────────────────────────────────
+#  THIRD-PARTY APP INSTALLS WITH REAL FILLED-IN SECRETS — NEVER PUBLISH
+#  (a copy of the Postiz app landed in this working dir; its docker-compose
+#   holds the real GOCSPX client secret, DB password, JWT secret, etc.)
+# ─────────────────────────────────────────────────────────────
+auto posting tool/
+**/postiz-app-main/
+**/postiz-app-main
+
+# ─────────────────────────────────────────────────────────────
+#  SECRETS — never commit these (belt-and-suspenders; none are in the repo)
+# ─────────────────────────────────────────────────────────────
+.env
+*.env
+!.env.example
+email.json
+**/.config/**
+*key
+*.key
+*.pem
+*secret*
+*token*
+!*_token*.md          # allow docs that merely mention the word "token"
+client_secret*.json
+credentials*.json
+service-account*.json
+*.lock
+
+# ─────────────────────────────────────────────────────────────
+#  Python
+# ─────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+env/
+*-env/
+chatterbox-env/
+imggen-env/
+
+# ─────────────────────────────────────────────────────────────
+#  Node / Remotion
+# ─────────────────────────────────────────────────────────────
+node_modules/
+.next/
+dist/
+build/
+out/
+
+# ─────────────────────────────────────────────────────────────
+#  Heavy / generated media & model weights (regenerate, don't track)
+# ─────────────────────────────────────────────────────────────
+*.mp4
+*.mov
+*.mkv
+*.webm
+*.wav
+*.mp3
+*.flac
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.ckpt
+*.onnx
+models/
+downloads/
+hd_sources/
+output/
+FINAL_SHORTS/
+qa_frames/
+transcripts/
+skill_backups/
+**/data/media/
+**/_work_*/
+**/_projects/
+
+# ─────────────────────────────────────────────────────────────
+#  OS / editor
+# ─────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

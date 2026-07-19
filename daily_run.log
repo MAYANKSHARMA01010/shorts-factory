@@ -1,0 +1,72 @@
+ 
+============================================================ 
+[29-06-2026 18:35:28.95] DailyShorts run STARTING 
+[18:35:35] Docker is up
+
+[18:35:41] Postiz API is responding
+**Done. daily002_eob | "Your 'this is not a bill' paper is hiding money" | PUBLISHED now to YouTube "Mango cuts" via Postiz (postId `cmqz8za2k0000o87e2r513dxj`).**
+
+Built end-to-end: transcript (89 words, "What if…" hook) → GATE greenlit (high-CPM health insurance, fresh AI-snap wedge) → 6-scene house-style Remotion explainer (`Eob.tsx`, EobPaper/BillPaper hero components, gold `#FFD23F` accent) → edge-tts narration + faster-whisper word timings → rendered 34.7s → punchy-recut at 1.12× → loudnorm −14 LUFS → 31.1s, mean −17.3 dB. WATCH-BACK QA caught 5 retention leaks (sparse scene opens across hook/setup/numbers/app/payoff); fixed by anchoring all hero elements from frame 0, moving coins outside paper bounds, replacing competing backdrop with clean gold burst rays. Re-rendered, re-QA'd clean, then published. Ledger + topics updated.
+ 
+============================================================ 
+[29-06-2026 21:00:00.84] DailyShorts run STARTING 
+[21:00:03] Docker is up
+
+[21:00:10] Postiz API is responding
+**daily003_phonebill | Your phone bill is lying to you about taxes | PUBLISHED to YouTube (Postiz postId `cmqzdxkjc0001o87eas8dsc2p`)**
+
+Sources used for the GATE check:
+- [T-Mobile Raises Regulatory Fees Again (tmo.report)](https://tmo.report/2025/04/t-mobile-raises-prices-yet-again-via-vague-regulatory-fees/)
+- [T-Mobile fees not a government tax (Android Headlines)](https://www.androidheadlines.com/2025/04/t-mobile-is-raising-fees-again-and-no-its-still-not-a-government-tax.html)
+- [8 Sneaky Charges Hiding on Your Cell Phone Bill (Money.com)](https://money.com/fees-taxes-charges-cell-phone-bill/)
+- [2025 Cell Phone Carrier Extra Fees (Cheapism)](https://www.cheapism.com/lowest-cell-phone-carrier-fees/)
+- [Verizon Government Taxes & Mobile Surcharges](https://www.verizon.com/support/surcharges/)
+ 
+============================================================ 
+[30-06-2026 23:44:24.04] DailyShorts run STARTING 
+[23:44:33] Docker is up
+
+[23:44:39] Postiz API is responding
+[23:44:39] starting in-container media forwarder 4007->5000
+[23:44:39] restarting publisher worker (avoids Temporal cold-start race)
+[23:45:12] publisher ready (worker reconnected, media forwarder up)
+[23:45:18] restarting Postiz publisher worker (avoids the cold-start Temporal race)
+[23:45:51] publisher worker reconnected to Temporal
+**daily004_debttrap | "Your bank wants you in debt forever" | PUBLISHED ✅ https://www.youtube.com/watch?v=F0n3kMh0X18**
+ 
+============================================================ 
+[01-07-2026 12:00:01.87] DailyShorts run STARTING 
+[12:00:04] Docker is up
+
+[12:00:11] Postiz API is responding
+[12:00:12] starting in-container media forwarder 4007->5000
+[12:00:12] restarting publisher worker (avoids Temporal cold-start race)
+[12:00:45] publisher ready (worker reconnected, media forwarder up)
+[12:00:49] restarting Postiz publisher worker (avoids the cold-start Temporal race)
+[12:01:24] publisher worker reconnected to Temporal
+`daily005_savings` | "Your savings account is lying to you" | **NOT LIVE — staged for manual post.** Postiz backend isn't creating Temporal workflows for new posts (no `postWorkflowV105` appears in temporal for 3 retries — after YT-token refresh, backend+orchestrator restart, and delete+repost cycles). Final mp4 is at `ClipPilot/remotion_explainer/out/savings_final.mp4` and staged at `C:\Dikshant\auto posting tool\postiz-app-main\Videos to post\daily005_savings_final.mp4`; ledger + topics updated.
+ 
+============================================================ 
+[01-07-2026 17:00:01.96] DailyShorts run STARTING 
+[17:00:04] Docker is up
+
+[17:00:09] Postiz DB ready: True
+You've hit your limit · resets 7:20pm (Asia/Calcutta)
+ 
+============================================================ 
+[01-07-2026 21:00:01.83] DailyShorts run STARTING 
+[21:00:04] Docker is up
+
+[21:00:09] Postiz DB ready: True
+**daily006_tonguemap | "Why everything you learned about your tongue is wrong" | ✅ published** → https://www.youtube.com/watch?v=xDaqWNC7NhU
+
+Non-finance universal-curiosity per SELF-LEARNED RULE (finance ≤1/day, daily005 already used it). Bright Pop skin (T05/F2/S3/V6/L2/0%/body/mythbust) — 7 axes different from every prior video, DIVERSITY GATE cleanly passed. Real numbers (10,000 taste buds, 1942, 1999) and cited sources (Edwin G. Boring / Chandrashekar et al., Journal of Neuroscience). Final ~19s, -14 LUFS, mean -17.1 dB.
+ 
+============================================================ 
+[02-07-2026 12:56:21.86] DailyShorts run STARTING 
+[12:56:28] Docker is up
+
+[12:56:32] Postiz DB ready: True
+daily007_babymemory | "Nobody tells you why you can't remember being a baby" | ✅ LIVE https://www.youtube.com/shorts/SCnPWCQZOdc
+
+One video, done well. Blueprint skin (S2), F8 what-most-people-miss, V7 Aussie, +4% pace, psychology cluster — passes Diversity Gate (8/8 different vs previous). Cites 2025 Yale Turk-Browne finding (retrieval-failure, not encoding-failure). Frame-0 hook + cover fix applied after watch-back QA. Ledgers updated.

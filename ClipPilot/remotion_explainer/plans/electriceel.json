@@ -1,0 +1,57 @@
+{
+  "slug": "electriceel",
+  "title": "Why This Fish Can Stop Your Heart",
+  "duration_estimate_s": 32,
+  "palette": {
+    "bg_deep": "#0b1014",
+    "bg_river": "#0e1a1f",
+    "gold": "#FFD23F",
+    "eel_key": "#3FE0C8",
+    "eel_spine": "#1c6b63",
+    "voltage_blue": "#5AB8FF",
+    "danger_red": "#FF4D5E",
+    "muscle_amber": "#FF9F4A",
+    "water_teal": "#1FA0A8",
+    "spark_white": "#EAF6FF",
+    "ink": "#06090b"
+  },
+  "scenes": [
+    {
+      "beat": "If you stepped into the wrong river in the Amazon, an electric eel could stop your heart.",
+      "visual": "SCROLL-STOPPER HOOK. The frame is a dark teal river void (bg_river) with a few faint vector ripple lines and 3-4 drifting bubble dots, nothing busy. DEAD CENTER and LARGE is the electric eel as the single bold hero object: a long sinuous tapering vector body in eel_key teal-green, coiled in a clean lazy S-curve that fills most of the frame, with a darker eel_spine dorsal line, a soft spark_white underbelly highlight, and one bright spark_white eye dot. The eel is the unmistakable subject. Directly above it floats the scroll-stop cue: a large gold rounded badge pill with a bold lightning bolt glyph and the shock question text 'STOPS YOUR HEART?' in bold ink lettering. A small human foot/ankle silhouette dips in from the very top edge, toe just breaking the surface, to plant the stakes. Everything else is minimal so the eye locks onto eel + badge instantly.",
+      "animations": "Within the first 12 frames: the eel body draws-on along its spine with a fast left-to-right stroke-dasharray reveal, then immediately settles into a gentle sine undulation loop. The gold 'STOPS YOUR HEART?' badge spring-pops in hard (scale 0.4->1, damping 120, one overshoot) with a single pulse ring sweeping out once. The foot dips on a quick spring and ripple rings expand from the entry point. No camera zoom-pulse; all energy is in-comp. Holds on the eel + badge so a scroller cannot miss it.",
+      "sfx": "a soft underwater river gloop with a low ominous sub-swell rising under the badge pop"
+    },
+    {
+      "beat": "Its body is packed with thousands of cells stacked like tiny batteries, all wired together.",
+      "visual": "Cut INSIDE the eel: a faint ghost outline of the eel frames a long horizontal channel that is its body. The channel fills with a dense column of small battery cells drawn as rounded rectangles, each with a + nub on top and a - base, alternating voltage_blue and muscle_amber, packed tight in rows like a coin-cell wall. A single thin gold wire trace snakes through the whole stack connecting each cell in a series chain. A small gold label pill reads 'BATTERIES'. Deliberately flatter and cooler than scene 3 so it sets up, but does not steal, the hero reveal.",
+      "animations": "Battery cells populate in a fast staggered cascade of spring-pops, row by row, filling left to right like a loading bar. The gold wire trace draws-on right behind them as one continuous line linking the chain. A small live counter rolls up '12 ... 340 ... 6,000 cells' with snappy number flips. The 'BATTERIES' pill slides in from the side with a soft overshoot. Crisp and quick, no big flash yet.",
+      "sfx": "a rapid ascending ladder of tiny electronic battery-charge clicks, ending on a soft completed chime"
+    },
+    {
+      "beat": "When it senses prey, it fires them all at once, blasting out a jolt of six hundred volts.",
+      "visual": "THE ONE HERO MONEY SHOT - the richest, brightest, most detailed frame of the short. The full battery stack runs end-to-end inside the eel with two labeled terminals: a + pole glowing at the head, a - pole at the tail. A small danger_red outline prey fish drifts in from the right. THE FIRE: every single cell flashes spark_white in perfect unison on one frame, and a single massive forked lightning bolt of spark_white cored in voltage_blue erupts from the head terminal, branching in jagged vector forks that reach toward the prey. Slamming into center-screen is a huge gold voltage counter rolling up and locking on '600 V', wrapped in a thick gold ring with radiating gold tick-marks. Spark filaments scatter outward and a bright spark_white bloom crowns the discharge. This is the unmistakable visual answer to the hook - nothing else in the short is this loud.",
+      "animations": "BUILD: cells pulse-charge brighter in a quick tightening shimmer ramp (~10f), then one beat of total stillness. SLAM (single frame): all cells flash white at once; the forked lightning bolt draws-on instantly via jagged path-reveal; the gold '600 V' counter spring-pops with hard overshoot (scale 0.3->1.15->1, damping 90, mass 0.5) while a shockwave ring sweeps outward from it. Spark filaments fling out on individual springs. A brief one-frame spark_white screen-bloom punctuates the peak, then it settles to a held crackle. Every spring here is snappier and bigger than any other scene so this beat clearly owns the reveal.",
+      "sfx": "a high-voltage electric ZAP crack on the slam with a forked crackling discharge tail, plus a deep gold counter-thunk as 600 V locks"
+    },
+    {
+      "beat": "And this current shoots through the water, locking up the muscles of nearby fish so they can't even twitch.",
+      "visual": "Pull back to the open river. Concentric electric-field rings in voltage_blue ripple outward through the water from the eel toward a small school of three fish drawn as simple muscle_amber outline shapes. As each ring reaches a fish, that fish lights muscle_amber and a rigid 'locked' wireframe of stiff straight lines snaps over it, replacing its soft curves. Tiny crossed-out twitch icons (a no-symbol over a motion arrow) pop beside two of the fish to show they cannot move. Faint gold spark dots trail the current through the water. Quieter than the hero reveal - this is the consequence, not the climax.",
+      "animations": "The electric rings sweep-expand outward in timed pulses. Each fish, on ring contact, does a sharp freeze-snap: a quick 2-frame shiver then a hard stop into the rigid wireframe pose (a spring that overshoots once then locks). The crossed-out twitch icons spring-pop in beside them. An amber muscle glow wipes across each fish body quickly. No big counter, no screen flash - keeps the reveal singular.",
+      "sfx": "an electric current crackle zipping through water, resolving into a tense low stiffening hum as the fish lock"
+    },
+    {
+      "beat": "Then the eel swallows them whole, completely paralyzed.",
+      "visual": "The eel's head fills the lower frame in eel_key teal, its mouth opening as a dark ink vector cavity. One paralyzed muscle_amber fish, still frozen in its rigid wireframe pose, drifts limply toward the open mouth. A small gold label pill reads 'PARALYZED'. The water around is calm again, ripple lines slow and sparse. The eel's single spark_white eye glints once. Calm, settled, the breath before the final beat.",
+      "animations": "The mouth opens on a smooth spring. The rigid fish drifts in on a slow ease and is engulfed as the mouth closes with a soft spring snap. The 'PARALYZED' pill spring-pops then fades out. Ripple lines decelerate to near-still to signal calm after the strike. Deliberately low-energy to reset before the payoff slam.",
+      "sfx": "a low watery gulp swallow with a soft settling water swish tail"
+    },
+    {
+      "beat": "It can even leap from the water to press its shock straight into a larger threat.",
+      "visual": "FINAL PAYOFF. The river surface is a horizontal water_teal line low in the frame. The eel arcs UP out of the water in a dramatic vector leap, body curved, pressing its glowing spark_white head against the leg of a large dark predator silhouette (a vague big animal shape) at the top edge. At the contact point a tight gold-and-spark_white spark burst crackles. Then over a darkened vignette the payoff punchline slams in word-by-word, bold spark_white with the key words in gold, dominating center screen: '600 VOLTS. NO ESCAPE.' This is the verbal mic-drop; the visual is intentionally simpler than scene 3 so the text lands as the hit.",
+      "animations": "The eel launches on a strong spring arc up and out of the water, droplets flicking off as small spring dots. On contact the spark burst pops once with overshoot and a quick flash. Then each payoff word SLAMS in one at a time with hard spring overshoot and a tiny settle bounce (scale 1.3->1, ~6f apart), the gold keywords pulsing once as they land. Final hold with a slow gold glow breathing on the keywords so the last frame still reads the punchline.",
+      "sfx": "a water-launch splash-up, then one sharp electric shock-burst accent on the contact, then a clean low boom-thump punctuating each payoff word as it slams"
+    }
+  ],
+  "payoff": "600 VOLTS. NO ESCAPE."
+}

@@ -1,0 +1,530 @@
+{
+"script": "What if half the taxes on your phone bill aren't actually taxes? Scroll past the plan, under fees and surcharges, you'll see lines like Regulatory Recovery, Administrative Charge, or Network Cost Recovery. Real taxes are set by the government, but those lookalike fees are set by your carrier, and many add five to fifteen dollars a month. On a sixty-five dollar plan, that quiet stack can push your real bill closer to eighty. Snap a recent bill into a free AI and ask which line items are government taxes, and which are carrier fees you can ask about. Stop paying for the disguise.",
+"words": [
+{
+"text": "What",
+"start": 0.0,
+"end": 0.26
+},
+{
+"text": "if",
+"start": 0.26,
+"end": 0.38
+},
+{
+"text": "half",
+"start": 0.38,
+"end": 0.52
+},
+{
+"text": "the",
+"start": 0.52,
+"end": 0.68
+},
+{
+"text": "taxes",
+"start": 0.68,
+"end": 1.02
+},
+{
+"text": "on",
+"start": 1.02,
+"end": 1.22
+},
+{
+"text": "your",
+"start": 1.22,
+"end": 1.36
+},
+{
+"text": "phone",
+"start": 1.36,
+"end": 1.62
+},
+{
+"text": "bill",
+"start": 1.62,
+"end": 1.96
+},
+{
+"text": "aren't",
+"start": 1.96,
+"end": 2.42
+},
+{
+"text": "actually",
+"start": 2.42,
+"end": 2.82
+},
+{
+"text": "taxes?",
+"start": 2.82,
+"end": 3.28
+},
+{
+"text": "Scroll",
+"start": 4.18,
+"end": 4.3
+},
+{
+"text": "past",
+"start": 4.3,
+"end": 4.74
+},
+{
+"text": "the",
+"start": 4.74,
+"end": 4.94
+},
+{
+"text": "plan.",
+"start": 4.94,
+"end": 5.34
+},
+{
+"text": "Under",
+"start": 5.78,
+"end": 6.12
+},
+{
+"text": "fees",
+"start": 6.12,
+"end": 6.44
+},
+{
+"text": "and",
+"start": 6.44,
+"end": 6.66
+},
+{
+"text": "surcharges,",
+"start": 6.66,
+"end": 7.36
+},
+{
+"text": "you'll",
+"start": 7.84,
+"end": 7.96
+},
+{
+"text": "see",
+"start": 7.96,
+"end": 8.12
+},
+{
+"text": "lines",
+"start": 8.12,
+"end": 8.42
+},
+{
+"text": "like",
+"start": 8.42,
+"end": 8.68
+},
+{
+"text": "regulatory",
+"start": 8.68,
+"end": 9.1
+},
+{
+"text": "recovery,",
+"start": 9.1,
+"end": 10.02
+},
+{
+"text": "administrative",
+"start": 10.66,
+"end": 11.16
+},
+{
+"text": "charge,",
+"start": 11.16,
+"end": 11.7
+},
+{
+"text": "or",
+"start": 12.14,
+"end": 12.24
+},
+{
+"text": "network",
+"start": 12.24,
+"end": 12.54
+},
+{
+"text": "cost",
+"start": 12.54,
+"end": 12.94
+},
+{
+"text": "recovery.",
+"start": 12.94,
+"end": 13.5
+},
+{
+"text": "Real",
+"start": 14.0,
+"end": 14.22
+},
+{
+"text": "taxes",
+"start": 14.22,
+"end": 14.58
+},
+{
+"text": "are",
+"start": 14.58,
+"end": 14.78
+},
+{
+"text": "set",
+"start": 14.78,
+"end": 15.08
+},
+{
+"text": "by",
+"start": 15.08,
+"end": 15.26
+},
+{
+"text": "the",
+"start": 15.26,
+"end": 15.4
+},
+{
+"text": "government,",
+"start": 15.4,
+"end": 15.74
+},
+{
+"text": "but",
+"start": 16.2,
+"end": 16.38
+},
+{
+"text": "those",
+"start": 16.38,
+"end": 16.6
+},
+{
+"text": "look",
+"start": 16.6,
+"end": 16.78
+},
+{
+"text": "alike",
+"start": 16.78,
+"end": 17.0
+},
+{
+"text": "fees",
+"start": 17.0,
+"end": 17.4
+},
+{
+"text": "are",
+"start": 17.4,
+"end": 17.7
+},
+{
+"text": "set",
+"start": 17.7,
+"end": 18.08
+},
+{
+"text": "by",
+"start": 18.08,
+"end": 18.28
+},
+{
+"text": "your",
+"start": 18.28,
+"end": 18.44
+},
+{
+"text": "carrier",
+"start": 18.44,
+"end": 18.84
+},
+{
+"text": "and",
+"start": 18.84,
+"end": 19.38
+},
+{
+"text": "many",
+"start": 19.38,
+"end": 19.98
+},
+{
+"text": "add",
+"start": 19.98,
+"end": 20.36
+},
+{
+"text": "five",
+"start": 20.36,
+"end": 20.76
+},
+{
+"text": "to",
+"start": 20.76,
+"end": 21.0
+},
+{
+"text": "fifteen",
+"start": 21.0,
+"end": 21.4
+},
+{
+"text": "dollars",
+"start": 21.4,
+"end": 21.64
+},
+{
+"text": "a",
+"start": 21.64,
+"end": 21.8
+},
+{
+"text": "month.",
+"start": 21.8,
+"end": 22.04
+},
+{
+"text": "On",
+"start": 22.56,
+"end": 22.7
+},
+{
+"text": "a",
+"start": 22.7,
+"end": 22.84
+},
+{
+"text": "sixty",
+"start": 22.84,
+"end": 23.04
+},
+{
+"text": "-five",
+"start": 23.04,
+"end": 23.48
+},
+{
+"text": "dollar",
+"start": 23.48,
+"end": 23.68
+},
+{
+"text": "plan,",
+"start": 23.68,
+"end": 24.16
+},
+{
+"text": "that",
+"start": 24.44,
+"end": 24.66
+},
+{
+"text": "quiet",
+"start": 24.66,
+"end": 25.02
+},
+{
+"text": "stack",
+"start": 25.02,
+"end": 25.42
+},
+{
+"text": "can",
+"start": 25.42,
+"end": 25.86
+},
+{
+"text": "push",
+"start": 25.86,
+"end": 26.16
+},
+{
+"text": "your",
+"start": 26.16,
+"end": 26.36
+},
+{
+"text": "real",
+"start": 26.36,
+"end": 26.64
+},
+{
+"text": "bill",
+"start": 26.64,
+"end": 26.86
+},
+{
+"text": "closer",
+"start": 26.86,
+"end": 27.2
+},
+{
+"text": "to",
+"start": 27.2,
+"end": 27.52
+},
+{
+"text": "80.",
+"start": 27.52,
+"end": 27.72
+},
+{
+"text": "Snap",
+"start": 27.72,
+"end": 28.52
+},
+{
+"text": "a",
+"start": 28.52,
+"end": 28.74
+},
+{
+"text": "recent",
+"start": 28.74,
+"end": 29.06
+},
+{
+"text": "bill",
+"start": 29.06,
+"end": 29.38
+},
+{
+"text": "into",
+"start": 29.38,
+"end": 29.86
+},
+{
+"text": "a",
+"start": 29.86,
+"end": 30.04
+},
+{
+"text": "free",
+"start": 30.04,
+"end": 30.36
+},
+{
+"text": "AI",
+"start": 30.36,
+"end": 30.92
+},
+{
+"text": "and",
+"start": 30.92,
+"end": 31.72
+},
+{
+"text": "ask",
+"start": 31.72,
+"end": 32.24
+},
+{
+"text": "which",
+"start": 32.24,
+"end": 32.46
+},
+{
+"text": "line",
+"start": 32.46,
+"end": 32.74
+},
+{
+"text": "items",
+"start": 32.74,
+"end": 33.08
+},
+{
+"text": "are",
+"start": 33.08,
+"end": 33.32
+},
+{
+"text": "government",
+"start": 33.32,
+"end": 33.66
+},
+{
+"text": "taxes",
+"start": 33.66,
+"end": 34.16
+},
+{
+"text": "and",
+"start": 34.16,
+"end": 34.86
+},
+{
+"text": "which",
+"start": 34.86,
+"end": 35.0
+},
+{
+"text": "are",
+"start": 35.0,
+"end": 35.12
+},
+{
+"text": "carrier",
+"start": 35.12,
+"end": 35.42
+},
+{
+"text": "fees",
+"start": 35.42,
+"end": 35.74
+},
+{
+"text": "you",
+"start": 35.74,
+"end": 35.92
+},
+{
+"text": "can",
+"start": 35.92,
+"end": 36.04
+},
+{
+"text": "ask",
+"start": 36.04,
+"end": 36.26
+},
+{
+"text": "about.",
+"start": 36.26,
+"end": 36.58
+},
+{
+"text": "Stop",
+"start": 37.2,
+"end": 37.38
+},
+{
+"text": "paying",
+"start": 37.38,
+"end": 37.72
+},
+{
+"text": "for",
+"start": 37.72,
+"end": 37.94
+},
+{
+"text": "the",
+"start": 37.94,
+"end": 38.04
+},
+{
+"text": "disguise.",
+"start": 38.04,
+"end": 38.4
+}
+]
+}

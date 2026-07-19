@@ -1,0 +1,470 @@
+{
+"script": "What if your savings account is silently losing you money every single day? Your big bank pays you 0.01 percent APY, one cent a year on a hundred dollars. Meanwhile inflation eats about three percent, and an online high yield savings account now pays around four. Leave ten thousand dollars in that big bank for five years and inflation quietly steals about one thousand three hundred in real value. Move that same ten thousand into a high yield account and it grows over two thousand instead. Same FDIC insurance, zero extra risk. Stop feeding the big bank.",
+"words": [
+{
+"text": "What",
+"start": 0.0,
+"end": 0.24
+},
+{
+"text": "if",
+"start": 0.24,
+"end": 0.36
+},
+{
+"text": "your",
+"start": 0.36,
+"end": 0.48
+},
+{
+"text": "savings",
+"start": 0.48,
+"end": 0.82
+},
+{
+"text": "account",
+"start": 0.82,
+"end": 1.24
+},
+{
+"text": "is",
+"start": 1.24,
+"end": 1.76
+},
+{
+"text": "silently",
+"start": 1.76,
+"end": 2.28
+},
+{
+"text": "losing",
+"start": 2.28,
+"end": 2.88
+},
+{
+"text": "you",
+"start": 2.88,
+"end": 3.2
+},
+{
+"text": "money",
+"start": 3.2,
+"end": 3.62
+},
+{
+"text": "every",
+"start": 3.62,
+"end": 4.24
+},
+{
+"text": "single",
+"start": 4.24,
+"end": 4.52
+},
+{
+"text": "day?",
+"start": 4.52,
+"end": 4.84
+},
+{
+"text": "Your",
+"start": 5.42,
+"end": 5.52
+},
+{
+"text": "big",
+"start": 5.52,
+"end": 5.72
+},
+{
+"text": "bank",
+"start": 5.72,
+"end": 6.06
+},
+{
+"text": "pays",
+"start": 6.06,
+"end": 6.32
+},
+{
+"text": "you",
+"start": 6.32,
+"end": 6.48
+},
+{
+"text": "0",
+"start": 6.48,
+"end": 6.8
+},
+{
+"text": ".01",
+"start": 6.8,
+"end": 7.72
+},
+{
+"text": "%",
+"start": 7.72,
+"end": 8.38
+},
+{
+"text": "APY,",
+"start": 8.38,
+"end": 9.18
+},
+{
+"text": "once",
+"start": 9.58,
+"end": 9.84
+},
+{
+"text": "in",
+"start": 9.84,
+"end": 10.04
+},
+{
+"text": "a",
+"start": 10.04,
+"end": 10.16
+},
+{
+"text": "year",
+"start": 10.16,
+"end": 10.4
+},
+{
+"text": "on",
+"start": 10.4,
+"end": 10.72
+},
+{
+"text": "$100.",
+"start": 10.72,
+"end": 11.1
+},
+{
+"text": "Meanwhile",
+"start": 11.92,
+"end": 12.44
+},
+{
+"text": "inflation",
+"start": 12.44,
+"end": 13.02
+},
+{
+"text": "eats",
+"start": 13.02,
+"end": 13.56
+},
+{
+"text": "about",
+"start": 13.56,
+"end": 13.86
+},
+{
+"text": "3",
+"start": 13.86,
+"end": 14.36
+},
+{
+"text": "%",
+"start": 14.36,
+"end": 14.84
+},
+{
+"text": "and",
+"start": 14.84,
+"end": 15.86
+},
+{
+"text": "an",
+"start": 15.86,
+"end": 16.18
+},
+{
+"text": "online",
+"start": 16.18,
+"end": 16.6
+},
+{
+"text": "high",
+"start": 16.6,
+"end": 16.9
+},
+{
+"text": "yield",
+"start": 16.9,
+"end": 17.22
+},
+{
+"text": "savings",
+"start": 17.22,
+"end": 17.62
+},
+{
+"text": "account",
+"start": 17.62,
+"end": 18.04
+},
+{
+"text": "now",
+"start": 18.04,
+"end": 18.48
+},
+{
+"text": "pays",
+"start": 18.48,
+"end": 18.84
+},
+{
+"text": "around",
+"start": 18.84,
+"end": 19.14
+},
+{
+"text": "4.",
+"start": 19.14,
+"end": 19.5
+},
+{
+"text": "Leave",
+"start": 19.86,
+"end": 20.24
+},
+{
+"text": "$10",
+"start": 20.24,
+"end": 20.58
+},
+{
+"text": ",000",
+"start": 20.58,
+"end": 21.04
+},
+{
+"text": "in",
+"start": 21.04,
+"end": 21.48
+},
+{
+"text": "that",
+"start": 21.48,
+"end": 21.66
+},
+{
+"text": "big",
+"start": 21.66,
+"end": 21.94
+},
+{
+"text": "bank",
+"start": 21.94,
+"end": 22.3
+},
+{
+"text": "for",
+"start": 22.3,
+"end": 22.52
+},
+{
+"text": "5",
+"start": 22.52,
+"end": 22.9
+},
+{
+"text": "years",
+"start": 22.9,
+"end": 23.24
+},
+{
+"text": "and",
+"start": 23.24,
+"end": 23.78
+},
+{
+"text": "inflation",
+"start": 23.78,
+"end": 24.32
+},
+{
+"text": "quietly",
+"start": 24.32,
+"end": 25.06
+},
+{
+"text": "steals",
+"start": 25.06,
+"end": 25.54
+},
+{
+"text": "about",
+"start": 25.54,
+"end": 25.9
+},
+{
+"text": "1",
+"start": 25.9,
+"end": 26.3
+},
+{
+"text": ",300",
+"start": 26.3,
+"end": 27.18
+},
+{
+"text": "in",
+"start": 27.18,
+"end": 27.58
+},
+{
+"text": "real",
+"start": 27.58,
+"end": 27.76
+},
+{
+"text": "value.",
+"start": 27.76,
+"end": 28.24
+},
+{
+"text": "Move",
+"start": 28.24,
+"end": 28.9
+},
+{
+"text": "that",
+"start": 28.9,
+"end": 29.16
+},
+{
+"text": "same",
+"start": 29.16,
+"end": 29.52
+},
+{
+"text": "$10",
+"start": 29.52,
+"end": 30.18
+},
+{
+"text": ",000",
+"start": 30.18,
+"end": 30.76
+},
+{
+"text": "into",
+"start": 30.76,
+"end": 30.98
+},
+{
+"text": "a",
+"start": 30.98,
+"end": 31.16
+},
+{
+"text": "high",
+"start": 31.16,
+"end": 31.36
+},
+{
+"text": "yield",
+"start": 31.36,
+"end": 31.62
+},
+{
+"text": "account",
+"start": 31.62,
+"end": 32.02
+},
+{
+"text": "and",
+"start": 32.02,
+"end": 32.44
+},
+{
+"text": "it",
+"start": 32.44,
+"end": 32.56
+},
+{
+"text": "grows",
+"start": 32.56,
+"end": 32.9
+},
+{
+"text": "over",
+"start": 32.9,
+"end": 33.24
+},
+{
+"text": "$2",
+"start": 33.24,
+"end": 33.58
+},
+{
+"text": ",000",
+"start": 33.58,
+"end": 33.98
+},
+{
+"text": "instead.",
+"start": 33.98,
+"end": 34.4
+},
+{
+"text": "Same",
+"start": 35.14,
+"end": 35.22
+},
+{
+"text": "FDIC",
+"start": 35.22,
+"end": 35.8
+},
+{
+"text": "insurance,",
+"start": 35.8,
+"end": 36.26
+},
+{
+"text": "zero",
+"start": 36.84,
+"end": 37.2
+},
+{
+"text": "extra",
+"start": 37.2,
+"end": 37.62
+},
+{
+"text": "risk.",
+"start": 37.62,
+"end": 37.94
+},
+{
+"text": "Stop",
+"start": 38.7,
+"end": 38.74
+},
+{
+"text": "feeding",
+"start": 38.74,
+"end": 39.06
+},
+{
+"text": "the",
+"start": 39.06,
+"end": 39.28
+},
+{
+"text": "big",
+"start": 39.28,
+"end": 39.44
+},
+{
+"text": "bank.",
+"start": 39.44,
+"end": 39.72
+}
+]
+}

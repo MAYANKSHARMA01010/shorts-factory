@@ -1,0 +1,55 @@
+{
+  "slug": "lyrebird",
+  "title": "The Bird That Steals Sounds",
+  "duration_estimate_s": 32,
+  "palette": {
+    "bg_deep": "#0c1410",
+    "bg_forest": "#11201a",
+    "gold": "#FFD23F",
+    "key_bird": "#C8763C",
+    "leaf_green": "#3FA66A",
+    "sound_cyan": "#46D5E0",
+    "alarm_red": "#E5544B",
+    "steel_grey": "#9AA7B0",
+    "soft_cream": "#F2E9D8"
+  },
+  "scenes": [
+    {
+      "beat": "Deep in the Australian forest lives a bird that can imitate almost any sound it hears.",
+      "visual": "HOOK. Dead-center on a deep forest gradient (#0c1410 to #11201a): one bold stylized lyrebird filling the middle third of frame, beak open. Body is warm copper-brown (#C8763C); its iconic lyre tail is two big sweeping curved feather plumes arcing up and outward like an open fan, fine cyan filament barbs as thin radiating lines. From the open beak, ONE bright cyan soundwave (#46D5E0) blasts outward. The shock is in a single gold badge pill (#FFD23F) slapped across the upper third reading 'COPIES ANY SOUND' with a gold '?' coin beside it. Two faint eucalyptus silhouettes frame the edges as thin tapering strokes. The bird, the badge, and the one cyan wave are the only bold elements - nothing competes.",
+      "animations": "First 0.4s is the scroll-stopper: the lyrebird spring-pops up from 0.6 scale with a punchy overshoot and settle while its two lyre plumes draw-on as SVG path strokes sweeping open left-and-right like a fan snapping wide. Immediately the gold 'COPIES ANY SOUND' pill slams in from above with a heavy spring overshoot and tiny screen-settle, and the '?' coin does one fast 360 flip-spin to land. The single cyan soundwave shoots out of the beak on a quick draw-on. Eucalyptus silhouettes fade in softly behind. No zoom-pulse - all motion is in-comp.",
+      "sfx": "a sharp single bird whistle that bends upward into a question-mark lilt (curious, attention-grabbing)"
+    },
+    {
+      "beat": "It starts with the calls of other birds, stringing dozens together in one nonstop song.",
+      "visual": "The lyrebird sits small at lower-left, beak open. From its beak a horizontal ribbon timeline stretches right across screen. Strung along it: a dozen small vector bird-call icons - distinct silhouette heads (a crested parrot, a kookaburra, a tiny finch) each in its own colored bubble alternating leaf-green (#3FA66A) and cyan (#46D5E0). Between bubbles run connecting cyan waveform squiggles so it reads as one continuous chained song. A gold counter top-right ticks up live: '12 CALLS'.",
+      "animations": "Each bird-call bubble pops onto the timeline left-to-right in a fast staggered sequence (each a crisp spring pop, ~0.06s apart). The cyan waveform squiggle draws-on between bubbles like a thread being pulled taut. The gold counter rapidly counts 0 to 12 in sync with the pops, snapping bolder on the final number. A gentle leftward drift keeps the newest bubbles sliding into frame.",
+      "sfx": "a rapid stitched arpeggio of three distinct short bird whistles rising in pitch (chirp-chirp-chirp, ascending)"
+    },
+    {
+      "beat": "But it doesn't stop there - it copies a camera shutter, a car alarm, even a chainsaw cutting trees.",
+      "visual": "Three flat-vector man-made icons fan across a darker panel: a camera (steel-grey #9AA7B0 body, gold lens ring), a car with red alert arcs (#E5544B) radiating off it, and a chainsaw (steel-grey blade, copper handle) biting into a green log. Each emits its own colored waveform: grey jagged spikes from the camera, red pulsing arcs from the car, a harsh dense red sawtooth from the chainsaw. A gold tag beneath reads 'NONE ARE REAL'.",
+      "animations": "The three icons spring-pop in fast, one after another (camera, car, chainsaw, ~0.12s apart). On each pop its matching waveform draws-on radiating outward - grey spikes flick out, red alarm arcs pulse twice, the chainsaw's red sawtooth oscillates rapidly with a tight vibrating shake. The 'NONE ARE REAL' gold tag snaps in last with a spring overshoot and settle.",
+      "sfx": "a crisp mechanical camera-shutter click-clack snapping straight into two sharp car-alarm chirps"
+    },
+    {
+      "beat": "And it copies them so perfectly that you genuinely cannot tell the difference.",
+      "visual": "HERO REVEAL - the money shot. Deep background, screen splits cleanly down the dead center into two mirrored halves. LEFT half labeled 'REAL CHAINSAW' in cool steel-grey shows a grey chainsaw icon above a precise steel-grey waveform of jagged sawtooth peaks. RIGHT half labeled 'LYREBIRD' in gold shows the bird above an IDENTICAL waveform glowing in cyan - peak for peak, the exact same shape mirrored. A bright gold vertical scan-line sits on the seam. As it sweeps down, the two waveforms slide toward the seam and the cyan trace overlays the grey trace in flawless registration, fusing into ONE brighter cyan-gold waveform with a soft bloom flash. A heavy gold 'IDENTICAL' stamp and a large '=' sign lock into dead center over the merged trace.",
+      "animations": "The split wipes open from center outward (~0.4s). Both waveforms draw-on simultaneously from their outer edges inward, peak-by-peak, racing toward the seam. The gold scan-line sweeps top-to-bottom down the seam; as it passes, the two traces visibly snap into perfect alignment and morph-merge into a single brighter glowing waveform with a soft white bloom flash at the seam. The 'IDENTICAL' stamp slams in with a heavy spring overshoot and a real screen-settle shudder. The '=' sign drops in with a hard bounce. This is the richest, most deliberate motion in the video - everything lands on the merge.",
+      "sfx": "a clean glassy reveal chime, then a single chainsaw-rev that abruptly morphs mid-note into a bird trill (the signature punch accent of the whole video)"
+    },
+    {
+      "beat": "Males use these stolen sounds to impress females, building a soundtrack of the entire forest.",
+      "visual": "The male lyrebird stands center on a small mound, tail fanned fully into a shimmering silver-and-gold display. Above him a glowing 'FOREST MIXTAPE' bar fills with stacked colored waveform layers - green birdsong, cyan whistles, red machine sounds - blending into one full band. A second smaller female-bird silhouette watches from the right with a gold heart-spark above her. Gold sparkle dots rise off the fanned tail.",
+      "animations": "The tail fan sweeps fully open with a draw-on shimmer, gold sparkles spring-popping off the feather tips. The stacked soundtrack layers fill-on bottom-to-top, each colored band sliding up and locking into place. The female silhouette slides in from the right; the gold heart-spark pops above her with overshoot. Sparkle dots rise on a gentle continuous loop.",
+      "sfx": "a warm layered chord swell of several bird voices harmonizing up into one bright resolved note"
+    },
+    {
+      "beat": "One bird mimicked workmen's tools so perfectly it sounded like a construction site in the wild.",
+      "visual": "PAYOFF. Background darkens to deep forest. The lyrebird sits small and calm at the bottom, beak open, while ABOVE it a ghostly translucent construction site is drawn purely in gold and steel-grey vector outlines - a crane, scaffolding, a hard-hat, and tool waveforms - all clearly an illusion pouring out of the tiny bird, thin connector lines tracing from its beak up to each tool. Centered over this, the punchline slams in word-by-word in bold gold and cream: 'ONE BIRD. A WHOLE WORKSITE.'",
+      "animations": "The ghost construction outlines draw-on faintly above the bird, thin connector lines tracing from its beak up to each tool. Then the payoff words slam in one at a time with strong spring overshoot and a settle on each - 'ONE' / 'BIRD.' / 'A' / 'WHOLE' / 'WORKSITE.' - the final word 'WORKSITE.' getting the biggest gold bloom and a hard screen-settle shudder. On that final landing the ghost construction outlines flicker once and dissolve back into the single cyan soundwave returning to the bird's beak.",
+      "sfx": "a clanking construction-site ambience (hammer clank plus a drill) that snaps off into sudden total silence exactly on the word 'WORKSITE.'"
+    }
+  ],
+  "payoff": "ONE BIRD. A WHOLE WORKSITE."
+}

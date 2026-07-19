@@ -1,0 +1,460 @@
+{
+"script": "The International Space Station isn't floating up there. It's actually falling toward Earth right now, and it never stops. You see, gravity still pulls on it, just like it pulls on you. But the station is also racing sideways at 17,500 miles per hour. So as it falls, the Earth curves away beneath it just as fast, and it keeps missing the ground. That endless plunge is what we call orbit. And the astronauts inside feel weightless not because gravity is gone, but because they're falling with the station, forever.",
+"words": [
+{
+"text": "The",
+"start": 0.0,
+"end": 0.24
+},
+{
+"text": "International",
+"start": 0.24,
+"end": 0.6
+},
+{
+"text": "Space",
+"start": 0.6,
+"end": 1.08
+},
+{
+"text": "Station",
+"start": 1.08,
+"end": 1.66
+},
+{
+"text": "isn't",
+"start": 1.66,
+"end": 2.42
+},
+{
+"text": "floating",
+"start": 2.42,
+"end": 2.76
+},
+{
+"text": "up",
+"start": 2.76,
+"end": 3.0
+},
+{
+"text": "there.",
+"start": 3.0,
+"end": 3.3
+},
+{
+"text": "It's",
+"start": 3.76,
+"end": 3.96
+},
+{
+"text": "actually",
+"start": 3.96,
+"end": 4.2
+},
+{
+"text": "falling",
+"start": 4.2,
+"end": 4.54
+},
+{
+"text": "toward",
+"start": 4.54,
+"end": 4.86
+},
+{
+"text": "Earth",
+"start": 4.86,
+"end": 5.12
+},
+{
+"text": "right",
+"start": 5.12,
+"end": 5.36
+},
+{
+"text": "now,",
+"start": 5.36,
+"end": 5.72
+},
+{
+"text": "and",
+"start": 5.88,
+"end": 6.2
+},
+{
+"text": "it",
+"start": 6.2,
+"end": 6.3
+},
+{
+"text": "never",
+"start": 6.3,
+"end": 6.46
+},
+{
+"text": "stops.",
+"start": 6.46,
+"end": 6.82
+},
+{
+"text": "You",
+"start": 7.56,
+"end": 7.66
+},
+{
+"text": "see,",
+"start": 7.66,
+"end": 8.02
+},
+{
+"text": "gravity",
+"start": 8.52,
+"end": 8.76
+},
+{
+"text": "still",
+"start": 8.76,
+"end": 9.1
+},
+{
+"text": "pulls",
+"start": 9.1,
+"end": 9.42
+},
+{
+"text": "on",
+"start": 9.42,
+"end": 9.68
+},
+{
+"text": "it,",
+"start": 9.68,
+"end": 9.86
+},
+{
+"text": "just",
+"start": 10.0,
+"end": 10.18
+},
+{
+"text": "like",
+"start": 10.18,
+"end": 10.3
+},
+{
+"text": "it",
+"start": 10.3,
+"end": 10.42
+},
+{
+"text": "pulls",
+"start": 10.42,
+"end": 10.66
+},
+{
+"text": "on",
+"start": 10.66,
+"end": 10.94
+},
+{
+"text": "you.",
+"start": 10.94,
+"end": 11.16
+},
+{
+"text": "But",
+"start": 11.52,
+"end": 11.72
+},
+{
+"text": "the",
+"start": 11.72,
+"end": 11.86
+},
+{
+"text": "station",
+"start": 11.86,
+"end": 12.12
+},
+{
+"text": "is",
+"start": 12.12,
+"end": 12.36
+},
+{
+"text": "also",
+"start": 12.36,
+"end": 12.76
+},
+{
+"text": "racing",
+"start": 12.76,
+"end": 13.34
+},
+{
+"text": "sideways",
+"start": 13.34,
+"end": 13.9
+},
+{
+"text": "at",
+"start": 13.9,
+"end": 14.48
+},
+{
+"text": "17",
+"start": 14.48,
+"end": 15.06
+},
+{
+"text": ",500",
+"start": 15.06,
+"end": 16.36
+},
+{
+"text": "miles",
+"start": 16.36,
+"end": 16.74
+},
+{
+"text": "per",
+"start": 16.74,
+"end": 17.04
+},
+{
+"text": "hour.",
+"start": 17.04,
+"end": 17.34
+},
+{
+"text": "So",
+"start": 17.8,
+"end": 18.04
+},
+{
+"text": "as",
+"start": 18.04,
+"end": 18.2
+},
+{
+"text": "it",
+"start": 18.2,
+"end": 18.34
+},
+{
+"text": "falls,",
+"start": 18.34,
+"end": 18.7
+},
+{
+"text": "the",
+"start": 19.16,
+"end": 19.28
+},
+{
+"text": "Earth",
+"start": 19.28,
+"end": 19.46
+},
+{
+"text": "curves",
+"start": 19.46,
+"end": 19.86
+},
+{
+"text": "away",
+"start": 19.86,
+"end": 20.22
+},
+{
+"text": "beneath",
+"start": 20.22,
+"end": 20.6
+},
+{
+"text": "it",
+"start": 20.6,
+"end": 21.0
+},
+{
+"text": "just",
+"start": 21.0,
+"end": 21.38
+},
+{
+"text": "as",
+"start": 21.38,
+"end": 21.56
+},
+{
+"text": "fast,",
+"start": 21.56,
+"end": 22.08
+},
+{
+"text": "and",
+"start": 22.7,
+"end": 22.84
+},
+{
+"text": "it",
+"start": 22.84,
+"end": 22.96
+},
+{
+"text": "keeps",
+"start": 22.96,
+"end": 23.26
+},
+{
+"text": "missing",
+"start": 23.26,
+"end": 23.62
+},
+{
+"text": "the",
+"start": 23.62,
+"end": 23.84
+},
+{
+"text": "ground.",
+"start": 23.84,
+"end": 24.12
+},
+{
+"text": "That",
+"start": 24.7,
+"end": 24.88
+},
+{
+"text": "endless",
+"start": 24.88,
+"end": 25.26
+},
+{
+"text": "plunge",
+"start": 25.26,
+"end": 25.72
+},
+{
+"text": "is",
+"start": 25.72,
+"end": 26.22
+},
+{
+"text": "what",
+"start": 26.22,
+"end": 26.36
+},
+{
+"text": "we",
+"start": 26.36,
+"end": 26.48
+},
+{
+"text": "call",
+"start": 26.48,
+"end": 26.7
+},
+{
+"text": "orbit,",
+"start": 26.7,
+"end": 27.1
+},
+{
+"text": "and",
+"start": 27.1,
+"end": 27.76
+},
+{
+"text": "the",
+"start": 27.76,
+"end": 27.9
+},
+{
+"text": "astronauts",
+"start": 27.9,
+"end": 28.42
+},
+{
+"text": "inside",
+"start": 28.42,
+"end": 29.2
+},
+{
+"text": "feel",
+"start": 29.2,
+"end": 29.88
+},
+{
+"text": "weightless",
+"start": 29.88,
+"end": 30.7
+},
+{
+"text": "not",
+"start": 30.7,
+"end": 31.24
+},
+{
+"text": "because",
+"start": 31.24,
+"end": 32.02
+},
+{
+"text": "gravity",
+"start": 32.02,
+"end": 32.52
+},
+{
+"text": "is",
+"start": 32.52,
+"end": 32.84
+},
+{
+"text": "gone,",
+"start": 32.84,
+"end": 33.16
+},
+{
+"text": "but",
+"start": 33.5,
+"end": 33.82
+},
+{
+"text": "because",
+"start": 33.82,
+"end": 34.08
+},
+{
+"text": "they're",
+"start": 34.08,
+"end": 34.34
+},
+{
+"text": "falling",
+"start": 34.34,
+"end": 34.62
+},
+{
+"text": "with",
+"start": 34.62,
+"end": 34.84
+},
+{
+"text": "the",
+"start": 34.84,
+"end": 34.98
+},
+{
+"text": "station",
+"start": 34.98,
+"end": 35.44
+},
+{
+"text": "forever.",
+"start": 35.44,
+"end": 36.16
+}
+]
+}

@@ -1,0 +1,480 @@
+{
+"script": "The mantis shrimp doesn't grab its prey, it punches it. In just three thousandths of a second, its club-shaped arm fires out, accelerating faster than a bullet leaving a gun. And the strike is so violent that it boils the water around it, creating a tiny exploding bubble. This means even if the shrimp misses, the shockwave alone can knock its target out cold. The punch lands with the force of a rifle round, enough to crack open a crab's shell or even shatter aquarium glass. All from a creature smaller than your hand.",
+"words": [
+{
+"text": "The",
+"start": 0.0,
+"end": 0.28
+},
+{
+"text": "mantis",
+"start": 0.28,
+"end": 0.56
+},
+{
+"text": "shrimp",
+"start": 0.56,
+"end": 1.0
+},
+{
+"text": "doesn't",
+"start": 1.0,
+"end": 1.58
+},
+{
+"text": "grab",
+"start": 1.58,
+"end": 1.78
+},
+{
+"text": "its",
+"start": 1.78,
+"end": 2.0
+},
+{
+"text": "prey,",
+"start": 2.0,
+"end": 2.32
+},
+{
+"text": "it",
+"start": 2.62,
+"end": 2.82
+},
+{
+"text": "punches",
+"start": 2.82,
+"end": 3.06
+},
+{
+"text": "it.",
+"start": 3.06,
+"end": 3.48
+},
+{
+"text": "In",
+"start": 3.76,
+"end": 3.96
+},
+{
+"text": "just",
+"start": 3.96,
+"end": 4.16
+},
+{
+"text": "three",
+"start": 4.16,
+"end": 4.48
+},
+{
+"text": "thousandths",
+"start": 4.48,
+"end": 5.06
+},
+{
+"text": "of",
+"start": 5.06,
+"end": 5.14
+},
+{
+"text": "a",
+"start": 5.14,
+"end": 5.26
+},
+{
+"text": "second,",
+"start": 5.26,
+"end": 5.6
+},
+{
+"text": "its",
+"start": 5.96,
+"end": 6.22
+},
+{
+"text": "club",
+"start": 6.22,
+"end": 6.52
+},
+{
+"text": "-shaped",
+"start": 6.52,
+"end": 6.82
+},
+{
+"text": "arm",
+"start": 6.82,
+"end": 7.5
+},
+{
+"text": "fires",
+"start": 7.5,
+"end": 8.14
+},
+{
+"text": "out,",
+"start": 8.14,
+"end": 8.68
+},
+{
+"text": "accelerating",
+"start": 9.2,
+"end": 9.74
+},
+{
+"text": "faster",
+"start": 9.74,
+"end": 10.2
+},
+{
+"text": "than",
+"start": 10.2,
+"end": 10.54
+},
+{
+"text": "a",
+"start": 10.54,
+"end": 10.66
+},
+{
+"text": "bullet",
+"start": 10.66,
+"end": 11.08
+},
+{
+"text": "leaving",
+"start": 11.08,
+"end": 11.38
+},
+{
+"text": "a",
+"start": 11.38,
+"end": 11.62
+},
+{
+"text": "gun.",
+"start": 11.62,
+"end": 11.84
+},
+{
+"text": "And",
+"start": 12.28,
+"end": 12.46
+},
+{
+"text": "the",
+"start": 12.46,
+"end": 12.56
+},
+{
+"text": "strike",
+"start": 12.56,
+"end": 12.84
+},
+{
+"text": "is",
+"start": 12.84,
+"end": 13.08
+},
+{
+"text": "so",
+"start": 13.08,
+"end": 13.46
+},
+{
+"text": "violent",
+"start": 13.46,
+"end": 14.02
+},
+{
+"text": "that",
+"start": 14.02,
+"end": 14.24
+},
+{
+"text": "it",
+"start": 14.24,
+"end": 14.4
+},
+{
+"text": "boils",
+"start": 14.4,
+"end": 14.66
+},
+{
+"text": "the",
+"start": 14.66,
+"end": 14.98
+},
+{
+"text": "water",
+"start": 14.98,
+"end": 15.32
+},
+{
+"text": "around",
+"start": 15.32,
+"end": 15.76
+},
+{
+"text": "it,",
+"start": 15.76,
+"end": 16.18
+},
+{
+"text": "creating",
+"start": 16.22,
+"end": 16.66
+},
+{
+"text": "a",
+"start": 16.66,
+"end": 16.94
+},
+{
+"text": "tiny",
+"start": 16.94,
+"end": 17.38
+},
+{
+"text": "exploding",
+"start": 17.38,
+"end": 18.06
+},
+{
+"text": "bubble.",
+"start": 18.06,
+"end": 18.46
+},
+{
+"text": "This",
+"start": 18.98,
+"end": 19.2
+},
+{
+"text": "means",
+"start": 19.2,
+"end": 19.46
+},
+{
+"text": "even",
+"start": 19.46,
+"end": 19.9
+},
+{
+"text": "if",
+"start": 19.9,
+"end": 20.02
+},
+{
+"text": "the",
+"start": 20.02,
+"end": 20.16
+},
+{
+"text": "shrimp",
+"start": 20.16,
+"end": 20.48
+},
+{
+"text": "misses,",
+"start": 20.48,
+"end": 20.96
+},
+{
+"text": "the",
+"start": 21.54,
+"end": 21.68
+},
+{
+"text": "shockwave",
+"start": 21.68,
+"end": 22.12
+},
+{
+"text": "alone",
+"start": 22.12,
+"end": 22.5
+},
+{
+"text": "can",
+"start": 22.5,
+"end": 22.94
+},
+{
+"text": "knock",
+"start": 22.94,
+"end": 23.24
+},
+{
+"text": "its",
+"start": 23.24,
+"end": 23.42
+},
+{
+"text": "target",
+"start": 23.42,
+"end": 23.68
+},
+{
+"text": "out",
+"start": 23.68,
+"end": 23.92
+},
+{
+"text": "cold.",
+"start": 23.92,
+"end": 24.2
+},
+{
+"text": "The",
+"start": 24.7,
+"end": 24.9
+},
+{
+"text": "punch",
+"start": 24.9,
+"end": 25.1
+},
+{
+"text": "lands",
+"start": 25.1,
+"end": 25.4
+},
+{
+"text": "with",
+"start": 25.4,
+"end": 25.62
+},
+{
+"text": "the",
+"start": 25.62,
+"end": 25.78
+},
+{
+"text": "force",
+"start": 25.78,
+"end": 26.1
+},
+{
+"text": "of",
+"start": 26.1,
+"end": 26.3
+},
+{
+"text": "a",
+"start": 26.3,
+"end": 26.46
+},
+{
+"text": "rifle",
+"start": 26.46,
+"end": 26.76
+},
+{
+"text": "round.",
+"start": 26.76,
+"end": 27.24
+},
+{
+"text": "Enough",
+"start": 27.24,
+"end": 27.94
+},
+{
+"text": "to",
+"start": 27.94,
+"end": 28.14
+},
+{
+"text": "crack",
+"start": 28.14,
+"end": 28.46
+},
+{
+"text": "open",
+"start": 28.46,
+"end": 28.8
+},
+{
+"text": "a",
+"start": 28.8,
+"end": 28.94
+},
+{
+"text": "crab",
+"start": 28.94,
+"end": 29.22
+},
+{
+"text": "shell",
+"start": 29.22,
+"end": 29.62
+},
+{
+"text": "or",
+"start": 29.62,
+"end": 30.26
+},
+{
+"text": "even",
+"start": 30.26,
+"end": 30.62
+},
+{
+"text": "shatter",
+"start": 30.62,
+"end": 31.0
+},
+{
+"text": "aquarium",
+"start": 31.0,
+"end": 31.48
+},
+{
+"text": "glass.",
+"start": 31.48,
+"end": 31.92
+},
+{
+"text": "All",
+"start": 32.32,
+"end": 32.68
+},
+{
+"text": "from",
+"start": 32.68,
+"end": 32.84
+},
+{
+"text": "a",
+"start": 32.84,
+"end": 33.0
+},
+{
+"text": "creature",
+"start": 33.0,
+"end": 33.32
+},
+{
+"text": "smaller",
+"start": 33.32,
+"end": 33.86
+},
+{
+"text": "than",
+"start": 33.86,
+"end": 34.12
+},
+{
+"text": "your",
+"start": 34.12,
+"end": 34.26
+},
+{
+"text": "hand.",
+"start": 34.26,
+"end": 34.58
+}
+]
+}

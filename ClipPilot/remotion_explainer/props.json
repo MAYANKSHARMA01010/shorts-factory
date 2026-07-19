@@ -1,0 +1,1404 @@
+{
+  "videoSrc": "highlight.mp4",
+  "phrases": [
+    {
+      "start": 0.74,
+      "end": 3.06,
+      "words": [
+        {
+          "text": "Hey",
+          "color": "white"
+        },
+        {
+          "text": "Heartbreakers,",
+          "color": "yellow"
+        },
+        {
+          "text": "welcome",
+          "color": "white"
+        },
+        {
+          "text": "to",
+          "color": "white"
+        },
+        {
+          "text": "Queens,",
+          "color": "yellow"
+        },
+        {
+          "text": "New",
+          "color": "yellow"
+        },
+        {
+          "text": "York.",
+          "color": "yellow"
+        }
+      ],
+      "pos": "bottom"
+    },
+    {
+      "start": 3.2,
+      "end": 7.32,
+      "words": [
+        {
+          "text": "I'm",
+          "color": "white"
+        },
+        {
+          "text": "here",
+          "color": "white"
+        },
+        {
+          "text": "because",
+          "color": "white"
+        },
+        {
+          "text": "I'm",
+          "color": "white"
+        },
+        {
+          "text": "going",
+          "color": "white"
+        },
+        {
+          "text": "to",
+          "color": "white"
+        },
+        {
+          "text": "the",
+          "color": "white"
+        },
+        {
+          "text": "FIFA",
+          "color": "yellow"
+        },
+        {
+          "text": "World",
+          "color": "yellow"
+        },
+        {
+          "text": "Cup",
+          "color": "yellow"
+        },
+        {
+          "text": "2026",
+          "color": "yellow"
+        },
+        {
+          "text": "fan",
+          "color": "white"
+        },
+        {
+          "text": "zone",
+          "color": "white"
+        },
+        {
+          "text": "and",
+          "color": "white"
+        },
+        {
+          "text": "Queens.",
+          "color": "yellow"
+        }
+      ],
+      "pos": "bottom"
+    },
+    {
+      "start": 7.5,
+      "end": 12.14,
+      "words": [
+        {
+          "text": "I'm",
+          "color": "white"
+        },
+        {
+          "text": "so",
+          "color": "white"
+        },
+        {
+          "text": "excited",
+          "color": "yellow"
+        },
+        {
+          "text": "if",
+          "color": "white"
+        },
+        {
+          "text": "you're",
+          "color": "white"
+        },
+        {
+          "text": "a",
+          "color": "white"
+        },
+        {
+          "text": "Metz",
+          "color": "white"
+        },
+        {
+          "text": "fan",
+          "color": "white"
+        },
+        {
+          "text": "near",
+          "color": "white"
+        },
+        {
+          "text": "city",
+          "color": "white"
+        },
+        {
+          "text": "field,",
+          "color": "white"
+        },
+        {
+          "text": "but",
+          "color": "white"
+        },
+        {
+          "text": "I'm",
+          "color": "white"
+        },
+        {
+          "text": "going",
+          "color": "white"
+        },
+        {
+          "text": "to",
+          "color": "white"
+        },
+        {
+          "text": "the",
+          "color": "white"
+        },
+        {
+          "text": "tennis",
+          "color": "yellow"
+        },
+        {
+          "text": "center",
+          "color": "yellow"
+        }
+      ],
+      "pos": "bottom"
+    },
+    {
+      "start": 12.14,
+      "end": 12.62,
+      "words": [
+        {
+          "text": "over",
+          "color": "white"
+        },
+        {
+          "text": "here.",
+          "color": "white"
+        }
+      ],
+      "pos": "bottom"
+    },
+    {
+      "start": 12.92,
+      "end": 14.28,
+      "words": [
+        {
+          "text": "This",
+          "color": "white"
+        },
+        {
+          "text": "is",
+          "color": "white"
+        },
+        {
+          "text": "actually",
+          "color": "white"
+        },
+        {
+          "text": "super",
+          "color": "white"
+        },
+        {
+          "text": "exciting.",
+          "color": "white"
+        }
+      ],
+      "pos": "bottom"
+    },
+    {
+      "start": 14.44,
+      "end": 16.96,
+      "words": [
+        {
+          "text": "It",
+          "color": "white"
+        },
+        {
+          "text": "was",
+          "color": "white"
+        },
+        {
+          "text": "my",
+          "color": "white"
+        },
+        {
+          "text": "first",
+          "color": "white"
+        },
+        {
+          "text": "time",
+          "color": "white"
+        },
+        {
+          "text": "ever",
+          "color": "white"
+        },
+        {
+          "text": "riding",
+          "color": "white"
+        },
+        {
+          "text": "the",
+          "color": "white"
+        },
+        {
+          "text": "L",
+          "color": "white"
+        },
+        {
+          "text": ".I.",
+          "color": "white"
+        },
+        {
+          "text": "double",
+          "color": "yellow"
+        },
+        {
+          "text": "R.",
+          "color": "white"
+        }
+      ],
+      "pos": "bottom"
+    },
+    {
+      "start": 17.7,
+      "end": 21.72,
+      "words": [
+        {
+          "text": "I",
+          "color": "white"
+        },
+        {
+          "text": "took",
+          "color": "white"
+        },
+        {
+          "text": "the",
+          "color": "white"
+        },
+        {
+          "text": "Port",
+          "color": "yellow"
+        },
+        {
+          "text": "Washington",
+          "color": "yellow"
+        },
+        {
+          "text": "line",
+          "color": "white"
+        },
+        {
+          "text": "because",
+          "color": "white"
+        },
+        {
+          "text": "I",
+          "color": "white"
+        },
+        {
+          "text": "remember",
+          "color": "white"
+        },
+        {
+          "text": "when",
+          "color": "white"
+        },
+        {
+          "text": "I",
+          "color": "white"
+        },
+        {
+          "text": "came",
+          "color": "white"
+        },
+        {
+          "text": "over",
+          "color": "white"
+        },
+        {
+          "text": "this",
+          "color": "white"
+        },
+        {
+          "text": "way,",
+          "color": "white"
+        },
+        {
+          "text": "like",
+          "color": "white"
+        },
+        {
+          "text": "literally",
+          "color": "white"
+        }
+      ],
+      "pos": "bottom"
+    },
+    {
+      "start": 21.72,
+      "end": 26.92,
+      "words": [
+        {
+          "text": "golf",
+          "color": "white"
+        },
+        {
+          "text": "ball",
+          "color": "white"
+        },
+        {
+          "text": "is",
+          "color": "white"
+        },
+        {
+          "text": "right",
+          "color": "white"
+        },
+        {
+          "text": "over",
+          "color": "white"
+        },
+        {
+          "text": "that",
+          "color": "white"
+        },
+        {
+          "text": "way,",
+          "color": "white"
+        },
+        {
+          "text": "so",
+          "color": "white"
+        },
+        {
+          "text": "when",
+          "color": "white"
+        },
+        {
+          "text": "I",
+          "color": "white"
+        },
+        {
+          "text": "came",
+          "color": "white"
+        },
+        {
+          "text": "here",
+          "color": "white"
+        },
+        {
+          "text": "for",
+          "color": "white"
+        },
+        {
+          "text": "golf",
+          "color": "white"
+        },
+        {
+          "text": "ball,",
+          "color": "white"
+        },
+        {
+          "text": "I",
+          "color": "white"
+        },
+        {
+          "text": "could",
+          "color": "white"
+        },
+        {
+          "text": "have",
+          "color": "white"
+        },
+        {
+          "text": "taken",
+          "color": "white"
+        }
+      ],
+      "pos": "bottom"
+    },
+    {
+      "start": 26.92,
+      "end": 31.86,
+      "words": [
+        {
+          "text": "the",
+          "color": "white"
+        },
+        {
+          "text": "train",
+          "color": "yellow"
+        },
+        {
+          "text": "to",
+          "color": "white"
+        },
+        {
+          "text": "get",
+          "color": "white"
+        },
+        {
+          "text": "over",
+          "color": "white"
+        },
+        {
+          "text": "here,",
+          "color": "white"
+        },
+        {
+          "text": "but",
+          "color": "white"
+        },
+        {
+          "text": "I",
+          "color": "white"
+        },
+        {
+          "text": "would",
+          "color": "white"
+        },
+        {
+          "text": "have",
+          "color": "white"
+        },
+        {
+          "text": "had",
+          "color": "white"
+        },
+        {
+          "text": "to",
+          "color": "white"
+        },
+        {
+          "text": "take",
+          "color": "white"
+        },
+        {
+          "text": "them",
+          "color": "white"
+        },
+        {
+          "text": "on",
+          "color": "white"
+        },
+        {
+          "text": "a",
+          "color": "white"
+        },
+        {
+          "text": "concoma",
+          "color": "white"
+        },
+        {
+          "text": "line",
+          "color": "white"
+        },
+        {
+          "text": "to",
+          "color": "white"
+        },
+        {
+          "text": "Port",
+          "color": "yellow"
+        }
+      ],
+      "pos": "bottom"
+    },
+    {
+      "start": 31.86,
+      "end": 34.74,
+      "words": [
+        {
+          "text": "Washington",
+          "color": "yellow"
+        },
+        {
+          "text": "and",
+          "color": "white"
+        },
+        {
+          "text": "there",
+          "color": "white"
+        },
+        {
+          "text": "was",
+          "color": "white"
+        },
+        {
+          "text": "like",
+          "color": "white"
+        },
+        {
+          "text": "a",
+          "color": "white"
+        },
+        {
+          "text": "chance",
+          "color": "white"
+        },
+        {
+          "text": "that",
+          "color": "white"
+        },
+        {
+          "text": "maybe",
+          "color": "white"
+        },
+        {
+          "text": "the",
+          "color": "white"
+        },
+        {
+          "text": "train",
+          "color": "yellow"
+        },
+        {
+          "text": "was",
+          "color": "white"
+        },
+        {
+          "text": "going",
+          "color": "white"
+        },
+        {
+          "text": "to",
+          "color": "white"
+        },
+        {
+          "text": "be",
+          "color": "white"
+        },
+        {
+          "text": "there",
+          "color": "white"
+        },
+        {
+          "text": "to",
+          "color": "white"
+        },
+        {
+          "text": "switch,",
+          "color": "white"
+        }
+      ],
+      "pos": "bottom"
+    },
+    {
+      "start": 34.96,
+      "end": 36.04,
+      "words": [
+        {
+          "text": "so",
+          "color": "white"
+        },
+        {
+          "text": "I",
+          "color": "white"
+        },
+        {
+          "text": "said",
+          "color": "white"
+        },
+        {
+          "text": "no,",
+          "color": "white"
+        },
+        {
+          "text": "no,",
+          "color": "white"
+        },
+        {
+          "text": "no,",
+          "color": "white"
+        },
+        {
+          "text": "I",
+          "color": "white"
+        },
+        {
+          "text": "won't",
+          "color": "white"
+        },
+        {
+          "text": "do",
+          "color": "white"
+        },
+        {
+          "text": "that.",
+          "color": "white"
+        }
+      ],
+      "pos": "bottom"
+    },
+    {
+      "start": 36.38,
+      "end": 38.78,
+      "words": [
+        {
+          "text": "But",
+          "color": "white"
+        },
+        {
+          "text": "that's",
+          "color": "white"
+        },
+        {
+          "text": "how",
+          "color": "white"
+        },
+        {
+          "text": "I",
+          "color": "white"
+        },
+        {
+          "text": "knew,",
+          "color": "white"
+        },
+        {
+          "text": "hair",
+          "color": "white"
+        },
+        {
+          "text": "in",
+          "color": "white"
+        },
+        {
+          "text": "my",
+          "color": "white"
+        },
+        {
+          "text": "mouth,",
+          "color": "white"
+        },
+        {
+          "text": "oh",
+          "color": "white"
+        },
+        {
+          "text": "my",
+          "color": "white"
+        },
+        {
+          "text": "god.",
+          "color": "white"
+        }
+      ],
+      "pos": "bottom"
+    },
+    {
+      "start": 42.76,
+      "end": 49.5,
+      "words": [
+        {
+          "text": "But",
+          "color": "white"
+        },
+        {
+          "text": "that's",
+          "color": "white"
+        },
+        {
+          "text": "how",
+          "color": "white"
+        },
+        {
+          "text": "I",
+          "color": "white"
+        },
+        {
+          "text": "knew",
+          "color": "white"
+        },
+        {
+          "text": "that",
+          "color": "white"
+        },
+        {
+          "text": "I'd",
+          "color": "white"
+        },
+        {
+          "text": "be",
+          "color": "white"
+        },
+        {
+          "text": "able",
+          "color": "white"
+        },
+        {
+          "text": "to",
+          "color": "white"
+        },
+        {
+          "text": "get",
+          "color": "white"
+        },
+        {
+          "text": "to",
+          "color": "white"
+        },
+        {
+          "text": "the",
+          "color": "white"
+        },
+        {
+          "text": "USDA",
+          "color": "white"
+        },
+        {
+          "text": "Tennis",
+          "color": "yellow"
+        },
+        {
+          "text": "Center",
+          "color": "yellow"
+        },
+        {
+          "text": "via",
+          "color": "white"
+        },
+        {
+          "text": "the",
+          "color": "white"
+        },
+        {
+          "text": "Port",
+          "color": "yellow"
+        }
+      ],
+      "pos": "bottom"
+    },
+    {
+      "start": 49.5,
+      "end": 50.14,
+      "words": [
+        {
+          "text": "Washington",
+          "color": "yellow"
+        },
+        {
+          "text": "line.",
+          "color": "white"
+        }
+      ],
+      "pos": "bottom"
+    },
+    {
+      "start": 50.26,
+      "end": 52.9,
+      "words": [
+        {
+          "text": "So",
+          "color": "white"
+        },
+        {
+          "text": "you'll",
+          "color": "white"
+        },
+        {
+          "text": "learn",
+          "color": "white"
+        },
+        {
+          "text": "something",
+          "color": "white"
+        },
+        {
+          "text": "new,",
+          "color": "yellow"
+        },
+        {
+          "text": "go",
+          "color": "white"
+        },
+        {
+          "text": "on,",
+          "color": "white"
+        },
+        {
+          "text": "I",
+          "color": "white"
+        },
+        {
+          "text": "could",
+          "color": "white"
+        },
+        {
+          "text": "use",
+          "color": "white"
+        },
+        {
+          "text": "that",
+          "color": "white"
+        },
+        {
+          "text": "information.",
+          "color": "white"
+        }
+      ],
+      "pos": "bottom"
+    },
+    {
+      "start": 53.26,
+      "end": 58.12,
+      "words": [
+        {
+          "text": "So",
+          "color": "white"
+        },
+        {
+          "text": "I'm",
+          "color": "white"
+        },
+        {
+          "text": "so",
+          "color": "white"
+        },
+        {
+          "text": "excited,",
+          "color": "yellow"
+        },
+        {
+          "text": "I'm",
+          "color": "white"
+        },
+        {
+          "text": "here",
+          "color": "white"
+        },
+        {
+          "text": "for",
+          "color": "white"
+        },
+        {
+          "text": "the",
+          "color": "white"
+        },
+        {
+          "text": "fan",
+          "color": "white"
+        },
+        {
+          "text": "zone,",
+          "color": "white"
+        },
+        {
+          "text": "we're",
+          "color": "white"
+        },
+        {
+          "text": "going",
+          "color": "white"
+        },
+        {
+          "text": "to",
+          "color": "white"
+        },
+        {
+          "text": "watch",
+          "color": "white"
+        },
+        {
+          "text": "the",
+          "color": "white"
+        },
+        {
+          "text": "Canada",
+          "color": "white"
+        },
+        {
+          "text": "game,",
+          "color": "white"
+        },
+        {
+          "text": "I'm",
+          "color": "white"
+        }
+      ],
+      "pos": "bottom"
+    },
+    {
+      "start": 58.12,
+      "end": 62.0,
+      "words": [
+        {
+          "text": "also",
+          "color": "white"
+        },
+        {
+          "text": "going",
+          "color": "white"
+        },
+        {
+          "text": "to",
+          "color": "white"
+        },
+        {
+          "text": "take",
+          "color": "white"
+        },
+        {
+          "text": "some",
+          "color": "white"
+        },
+        {
+          "text": "footage,",
+          "color": "white"
+        },
+        {
+          "text": "I'm",
+          "color": "white"
+        },
+        {
+          "text": "going",
+          "color": "white"
+        },
+        {
+          "text": "to",
+          "color": "white"
+        },
+        {
+          "text": "get",
+          "color": "white"
+        },
+        {
+          "text": "some",
+          "color": "white"
+        },
+        {
+          "text": "freebies,",
+          "color": "white"
+        },
+        {
+          "text": "have",
+          "color": "white"
+        },
+        {
+          "text": "some",
+          "color": "white"
+        },
+        {
+          "text": "fun,",
+          "color": "white"
+        },
+        {
+          "text": "I'm",
+          "color": "white"
+        },
+        {
+          "text": "so",
+          "color": "white"
+        }
+      ],
+      "pos": "bottom"
+    },
+    {
+      "start": 62.0,
+      "end": 65.98,
+      "words": [
+        {
+          "text": "excited",
+          "color": "yellow"
+        },
+        {
+          "text": "to",
+          "color": "white"
+        },
+        {
+          "text": "be",
+          "color": "white"
+        },
+        {
+          "text": "here",
+          "color": "white"
+        },
+        {
+          "text": "and",
+          "color": "white"
+        },
+        {
+          "text": "to",
+          "color": "white"
+        },
+        {
+          "text": "be",
+          "color": "white"
+        },
+        {
+          "text": "an",
+          "color": "white"
+        },
+        {
+          "text": "accredited",
+          "color": "yellow"
+        },
+        {
+          "text": "content",
+          "color": "white"
+        },
+        {
+          "text": "creator,",
+          "color": "yellow"
+        },
+        {
+          "text": "so",
+          "color": "white"
+        },
+        {
+          "text": "this",
+          "color": "white"
+        },
+        {
+          "text": "will",
+          "color": "white"
+        },
+        {
+          "text": "be",
+          "color": "white"
+        },
+        {
+          "text": "so",
+          "color": "white"
+        },
+        {
+          "text": "much",
+          "color": "white"
+        },
+        {
+          "text": "fun.",
+          "color": "white"
+        }
+      ],
+      "pos": "bottom"
+    },
+    {
+      "start": 65.98,
+      "end": 70.1,
+      "words": [
+        {
+          "text": "So",
+          "color": "white"
+        },
+        {
+          "text": "the",
+          "color": "white"
+        },
+        {
+          "text": "New",
+          "color": "yellow"
+        },
+        {
+          "text": "York",
+          "color": "yellow"
+        },
+        {
+          "text": "New",
+          "color": "yellow"
+        },
+        {
+          "text": "Jersey",
+          "color": "white"
+        },
+        {
+          "text": "Host",
+          "color": "yellow"
+        },
+        {
+          "text": "Committee",
+          "color": "yellow"
+        },
+        {
+          "text": "selected",
+          "color": "white"
+        },
+        {
+          "text": "me",
+          "color": "white"
+        },
+        {
+          "text": "to",
+          "color": "white"
+        },
+        {
+          "text": "be",
+          "color": "white"
+        },
+        {
+          "text": "one",
+          "color": "white"
+        },
+        {
+          "text": "of",
+          "color": "white"
+        },
+        {
+          "text": "their",
+          "color": "white"
+        },
+        {
+          "text": "accredited",
+          "color": "yellow"
+        },
+        {
+          "text": "content",
+          "color": "white"
+        }
+      ],
+      "pos": "bottom"
+    },
+    {
+      "start": 70.1,
+      "end": 74.2,
+      "words": [
+        {
+          "text": "creators,",
+          "color": "white"
+        },
+        {
+          "text": "so",
+          "color": "white"
+        },
+        {
+          "text": "it's",
+          "color": "white"
+        },
+        {
+          "text": "going",
+          "color": "white"
+        },
+        {
+          "text": "to",
+          "color": "white"
+        },
+        {
+          "text": "be",
+          "color": "white"
+        },
+        {
+          "text": "so",
+          "color": "white"
+        },
+        {
+          "text": "much",
+          "color": "white"
+        },
+        {
+          "text": "fun,",
+          "color": "white"
+        },
+        {
+          "text": "I",
+          "color": "white"
+        },
+        {
+          "text": "am",
+          "color": "white"
+        },
+        {
+          "text": "so",
+          "color": "white"
+        },
+        {
+          "text": "proud",
+          "color": "white"
+        },
+        {
+          "text": "and",
+          "color": "white"
+        },
+        {
+          "text": "so",
+          "color": "white"
+        },
+        {
+          "text": "excited",
+          "color": "yellow"
+        },
+        {
+          "text": "to",
+          "color": "white"
+        },
+        {
+          "text": "be",
+          "color": "white"
+        },
+        {
+          "text": "here,",
+          "color": "white"
+        },
+        {
+          "text": "so",
+          "color": "white"
+        }
+      ],
+      "pos": "bottom"
+    },
+    {
+      "start": 74.94,
+      "end": 78.42,
+      "words": [
+        {
+          "text": "you",
+          "color": "white"
+        },
+        {
+          "text": "know",
+          "color": "white"
+        },
+        {
+          "text": "I",
+          "color": "white"
+        },
+        {
+          "text": "love",
+          "color": "white"
+        },
+        {
+          "text": "soccer,",
+          "color": "yellow"
+        },
+        {
+          "text": "so",
+          "color": "white"
+        },
+        {
+          "text": "we're",
+          "color": "white"
+        },
+        {
+          "text": "actually",
+          "color": "white"
+        },
+        {
+          "text": "here,",
+          "color": "white"
+        },
+        {
+          "text": "you",
+          "color": "white"
+        },
+        {
+          "text": "can",
+          "color": "white"
+        },
+        {
+          "text": "see",
+          "color": "white"
+        },
+        {
+          "text": "the",
+          "color": "white"
+        },
+        {
+          "text": "Triunda,",
+          "color": "white"
+        },
+        {
+          "text": "the",
+          "color": "white"
+        },
+        {
+          "text": "soccer",
+          "color": "yellow"
+        },
+        {
+          "text": "ball,",
+          "color": "white"
+        }
+      ],
+      "pos": "bottom"
+    },
+    {
+      "start": 79.22,
+      "end": 82.64,
+      "words": [
+        {
+          "text": "off",
+          "color": "white"
+        },
+        {
+          "text": "in",
+          "color": "white"
+        },
+        {
+          "text": "the",
+          "color": "white"
+        },
+        {
+          "text": "distance,",
+          "color": "white"
+        },
+        {
+          "text": "we're",
+          "color": "white"
+        },
+        {
+          "text": "going",
+          "color": "white"
+        },
+        {
+          "text": "to",
+          "color": "white"
+        },
+        {
+          "text": "head",
+          "color": "white"
+        },
+        {
+          "text": "over",
+          "color": "white"
+        },
+        {
+          "text": "there",
+          "color": "white"
+        },
+        {
+          "text": "right",
+          "color": "white"
+        },
+        {
+          "text": "now,",
+          "color": "white"
+        },
+        {
+          "text": "let's",
+          "color": "white"
+        },
+        {
+          "text": "go.",
+          "color": "white"
+        }
+      ],
+      "pos": "bottom"
+    }
+  ],
+  "contact": [
+    "@HEARTBREAKERS",
+    "FIFA 2026 FAN ZONE IN QUEENS",
+    "SUBSCRIBE FOR MORE!"
+  ],
+  "width": 1080,
+  "height": 1920,
+  "fps": 30,
+  "durationInFrames": 2370
+}

@@ -1,0 +1,355 @@
+{
+"script": "Have you ever wondered how caffeine actually keeps you awake? You see, throughout the day, your brain produces a chemical called adenosine. And this chemical binds to receptors in your brain, causing you to feel sleepy. But caffeine has a very similar structure to adenosine, Which allows it to bind to these exact same receptors. This essentially blocks the adenosine from doing its job, Which stops you from feeling tired.",
+"words": [
+{
+"text": "Have",
+"start": 0.0,
+"end": 0.24
+},
+{
+"text": "you",
+"start": 0.24,
+"end": 0.36
+},
+{
+"text": "ever",
+"start": 0.36,
+"end": 0.56
+},
+{
+"text": "wondered",
+"start": 0.56,
+"end": 0.76
+},
+{
+"text": "how",
+"start": 0.76,
+"end": 1.14
+},
+{
+"text": "caffeine",
+"start": 1.14,
+"end": 1.72
+},
+{
+"text": "actually",
+"start": 1.72,
+"end": 2.68
+},
+{
+"text": "keeps",
+"start": 2.68,
+"end": 3.0
+},
+{
+"text": "you",
+"start": 3.0,
+"end": 3.14
+},
+{
+"text": "awake?",
+"start": 3.14,
+"end": 3.42
+},
+{
+"text": "You",
+"start": 4.0,
+"end": 4.1
+},
+{
+"text": "see,",
+"start": 4.1,
+"end": 4.46
+},
+{
+"text": "throughout",
+"start": 5.04,
+"end": 5.3
+},
+{
+"text": "the",
+"start": 5.3,
+"end": 5.52
+},
+{
+"text": "day,",
+"start": 5.52,
+"end": 5.86
+},
+{
+"text": "your",
+"start": 6.3,
+"end": 6.46
+},
+{
+"text": "brain",
+"start": 6.46,
+"end": 6.78
+},
+{
+"text": "produces",
+"start": 6.78,
+"end": 7.26
+},
+{
+"text": "a",
+"start": 7.26,
+"end": 7.54
+},
+{
+"text": "chemical",
+"start": 7.54,
+"end": 7.84
+},
+{
+"text": "called",
+"start": 7.84,
+"end": 8.38
+},
+{
+"text": "adenosine.",
+"start": 8.38,
+"end": 9.1
+},
+{
+"text": "And",
+"start": 9.6,
+"end": 9.7
+},
+{
+"text": "this",
+"start": 9.7,
+"end": 9.88
+},
+{
+"text": "chemical",
+"start": 9.88,
+"end": 10.26
+},
+{
+"text": "binds",
+"start": 10.26,
+"end": 10.86
+},
+{
+"text": "to",
+"start": 10.86,
+"end": 11.26
+},
+{
+"text": "receptors",
+"start": 11.26,
+"end": 11.68
+},
+{
+"text": "in",
+"start": 11.68,
+"end": 11.96
+},
+{
+"text": "your",
+"start": 11.96,
+"end": 12.06
+},
+{
+"text": "brain,",
+"start": 12.06,
+"end": 12.44
+},
+{
+"text": "causing",
+"start": 12.76,
+"end": 13.06
+},
+{
+"text": "you",
+"start": 13.06,
+"end": 13.38
+},
+{
+"text": "to",
+"start": 13.38,
+"end": 13.54
+},
+{
+"text": "feel",
+"start": 13.54,
+"end": 13.9
+},
+{
+"text": "sleepy.",
+"start": 13.9,
+"end": 14.5
+},
+{
+"text": "But",
+"start": 15.08,
+"end": 15.22
+},
+{
+"text": "caffeine",
+"start": 15.22,
+"end": 15.72
+},
+{
+"text": "has",
+"start": 15.72,
+"end": 16.02
+},
+{
+"text": "a",
+"start": 16.02,
+"end": 16.2
+},
+{
+"text": "very",
+"start": 16.2,
+"end": 16.48
+},
+{
+"text": "similar",
+"start": 16.48,
+"end": 16.96
+},
+{
+"text": "structure",
+"start": 16.96,
+"end": 17.44
+},
+{
+"text": "to",
+"start": 17.44,
+"end": 17.8
+},
+{
+"text": "adenosine,",
+"start": 17.8,
+"end": 18.52
+},
+{
+"text": "which",
+"start": 18.84,
+"end": 19.06
+},
+{
+"text": "allows",
+"start": 19.06,
+"end": 19.34
+},
+{
+"text": "it",
+"start": 19.34,
+"end": 19.54
+},
+{
+"text": "to",
+"start": 19.54,
+"end": 19.7
+},
+{
+"text": "bind",
+"start": 19.7,
+"end": 20.02
+},
+{
+"text": "to",
+"start": 20.02,
+"end": 20.24
+},
+{
+"text": "these",
+"start": 20.24,
+"end": 20.46
+},
+{
+"text": "exact",
+"start": 20.46,
+"end": 20.92
+},
+{
+"text": "same",
+"start": 20.92,
+"end": 21.26
+},
+{
+"text": "receptors.",
+"start": 21.26,
+"end": 21.82
+},
+{
+"text": "This",
+"start": 22.48,
+"end": 22.64
+},
+{
+"text": "essentially",
+"start": 22.64,
+"end": 23.12
+},
+{
+"text": "blocks",
+"start": 23.12,
+"end": 23.58
+},
+{
+"text": "the",
+"start": 23.58,
+"end": 23.86
+},
+{
+"text": "adenosine",
+"start": 23.86,
+"end": 24.48
+},
+{
+"text": "from",
+"start": 24.48,
+"end": 24.74
+},
+{
+"text": "doing",
+"start": 24.74,
+"end": 25.0
+},
+{
+"text": "its",
+"start": 25.0,
+"end": 25.22
+},
+{
+"text": "job,",
+"start": 25.22,
+"end": 25.62
+},
+{
+"text": "which",
+"start": 25.96,
+"end": 26.24
+},
+{
+"text": "stops",
+"start": 26.24,
+"end": 26.56
+},
+{
+"text": "you",
+"start": 26.56,
+"end": 26.78
+},
+{
+"text": "from",
+"start": 26.78,
+"end": 26.94
+},
+{
+"text": "feeling",
+"start": 26.94,
+"end": 27.24
+},
+{
+"text": "tired.",
+"start": 27.24,
+"end": 27.58
+}
+]
+}

@@ -1,0 +1,50 @@
+{
+  "slug": "brain_hides_nose",
+  "schema_version": 2,
+  "target_seconds": 17.0,
+  "narration": "Right now, your own brain is hiding your nose from you, and you never even noticed it. Don't believe me? Close one eye and slowly look toward your nose. There it is, a blurry blob sitting in the corner of your vision the whole time. Your brain deletes it on purpose, so you don't go insane staring at a giant nose all day. And now that you've finally seen it, good luck ever unseeing it again.",
+  "brief": {
+    "hook": "Your brain is hiding your own nose from you",
+    "concept": "instant-participation + curse-button payoff",
+    "palette": { "bg": "#0D1B2A", "primary": "#E94560", "accent": "#FFD23F", "text": "#FFFFFF" },
+    "music_bed": "tense_minimal",
+    "cut_style": "snappy",
+    "avatar": { "enabled": false, "kind": "person" },
+    "micro_video": { "enabled": false, "engine": "wan2gp_ltx2b" }
+  },
+  "beats": [
+    { "id": "b0", "t_weight": 16, "visual": "still",
+      "scene_prompt": "extreme macro close-up of a single human eye, iris detail, dramatic teal rim light",
+      "caption": { "text": "YOUR BRAIN IS\nHIDING YOUR NOSE", "style": "hook_huge" },
+      "sfx": { "cue": "riser", "at": "start", "gain": 0.5 } },
+    { "id": "b1", "t_weight": 10, "visual": "animation",
+      "animation": { "engine": "hyperframes", "scene": "person closing one eye, pointing", "style": "GSAP spring reveal" },
+      "caption": { "text": "CLOSE ONE EYE", "style": "instruction_pulse" },
+      "sfx": { "cue": "ui_click", "at": "start", "gain": 0.45 } },
+    { "id": "b2", "t_weight": 16, "visual": "three_d",
+      "three_d": { "kind": "diagram", "subject": "human eye blind-spot cone and nose obstruction", "engine": "remotion_r3f" },
+      "caption": { "text": "THERE IT IS", "style": "reveal_big" },
+      "impact": true,
+      "sfx": { "cue": "chime", "at": "start", "gain": 0.5 } },
+    { "id": "b3", "t_weight": 18, "visual": "still",
+      "scene_prompt": "surreal glowing human brain made of soft light, protective aura, dark moody background",
+      "caption": { "text": "SO YOU DON'T\nGO INSANE", "style": "drama" },
+      "impact": true,
+      "sfx": { "cue": "boom", "at": "start", "gain": 0.7 } },
+    { "id": "b4", "t_weight": 13, "visual": "still",
+      "scene_prompt": "person rubbing their eyes, half-amused half-frustrated, neon rim light, vertical portrait",
+      "caption": { "text": "GOOD LUCK\nUNSEEING IT NOW", "style": "button" },
+      "sfx": { "cue": "success_sting", "at": "start", "gain": 0.5 } }
+  ],
+  "caption_styles": {
+    "hook_huge":         { "size": 118, "color": "#FFFFFF", "highlight": "#E94560", "anim": "pop",    "y": 380,  "font": "Arial Black" },
+    "instruction_pulse": { "size": 96,  "color": "#FFD23F", "highlight": "#0D1B2A", "anim": "pulse",  "y": 1520, "font": "Arial Black" },
+    "reveal_big":        { "size": 132, "color": "#FFD23F", "highlight": "#E94560", "anim": "spring", "y": 980,  "font": "Arial Black" },
+    "drama":             { "size": 90,  "color": "#FFFFFF", "highlight": "#E94560", "anim": "fade",   "y": 1520, "font": "Arial Black" },
+    "button":            { "size": 104, "color": "#E94560", "highlight": "#FFFFFF", "anim": "shake",  "y": 1500, "font": "Arial Black" }
+  },
+  "gen_w": 512,
+  "gen_h": 896,
+  "seed": 11,
+  "style": "cinematic, dramatic teal-and-red color grade, fine detail, vertical composition"
+}

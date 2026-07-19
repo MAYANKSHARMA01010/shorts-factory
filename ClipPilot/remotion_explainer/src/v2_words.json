@@ -1,0 +1,645 @@
+{
+"script": "Somewhere out there, light is screaming... and it can never escape. This is the most terrifying object in the universe. A black hole is born when a giant star runs out of fuel. Its core collapses under its own crushing weight, until gravity grows so violent that not even light can leave. The edge is called the event horizon. The point of no return. Cross it, and there is no coming back. Gravity pulls your feet harder than your head, stretching you into a thread of atoms. We can't see the hole itself, only the searing gas spiraling in at near light-speed. In 2019, humanity captured that fire for the first time. And at the center waits the singularity, where everything you ever were is crushed into nothing.",
+"words": [
+{
+"text": "Somewhere",
+"start": 0.0,
+"end": 0.26
+},
+{
+"text": "out",
+"start": 0.26,
+"end": 0.46
+},
+{
+"text": "there,",
+"start": 0.46,
+"end": 0.68
+},
+{
+"text": "light",
+"start": 0.94,
+"end": 0.98
+},
+{
+"text": "is",
+"start": 0.98,
+"end": 1.12
+},
+{
+"text": "screaming,",
+"start": 1.12,
+"end": 1.36
+},
+{
+"text": "and",
+"start": 1.64,
+"end": 1.9
+},
+{
+"text": "it",
+"start": 1.9,
+"end": 2.08
+},
+{
+"text": "can",
+"start": 2.08,
+"end": 2.18
+},
+{
+"text": "never",
+"start": 2.18,
+"end": 2.4
+},
+{
+"text": "escape.",
+"start": 2.4,
+"end": 2.7
+},
+{
+"text": "This",
+"start": 2.92,
+"end": 3.02
+},
+{
+"text": "is",
+"start": 3.02,
+"end": 3.14
+},
+{
+"text": "the",
+"start": 3.14,
+"end": 3.24
+},
+{
+"text": "most",
+"start": 3.24,
+"end": 3.38
+},
+{
+"text": "terrifying",
+"start": 3.38,
+"end": 3.8
+},
+{
+"text": "object",
+"start": 3.8,
+"end": 4.14
+},
+{
+"text": "in",
+"start": 4.14,
+"end": 4.36
+},
+{
+"text": "the",
+"start": 4.36,
+"end": 4.44
+},
+{
+"text": "universe.",
+"start": 4.44,
+"end": 4.72
+},
+{
+"text": "A",
+"start": 5.04,
+"end": 5.16
+},
+{
+"text": "black",
+"start": 5.16,
+"end": 5.36
+},
+{
+"text": "hole",
+"start": 5.36,
+"end": 5.54
+},
+{
+"text": "is",
+"start": 5.54,
+"end": 5.7
+},
+{
+"text": "born",
+"start": 5.7,
+"end": 5.88
+},
+{
+"text": "when",
+"start": 5.88,
+"end": 6.06
+},
+{
+"text": "a",
+"start": 6.06,
+"end": 6.16
+},
+{
+"text": "giant",
+"start": 6.16,
+"end": 6.36
+},
+{
+"text": "star",
+"start": 6.36,
+"end": 6.6
+},
+{
+"text": "runs",
+"start": 6.6,
+"end": 6.8
+},
+{
+"text": "out",
+"start": 6.8,
+"end": 6.96
+},
+{
+"text": "of",
+"start": 6.96,
+"end": 7.02
+},
+{
+"text": "fuel.",
+"start": 7.02,
+"end": 7.18
+},
+{
+"text": "Its",
+"start": 7.48,
+"end": 7.64
+},
+{
+"text": "core",
+"start": 7.64,
+"end": 7.8
+},
+{
+"text": "collapses",
+"start": 7.8,
+"end": 8.12
+},
+{
+"text": "under",
+"start": 8.12,
+"end": 8.32
+},
+{
+"text": "its",
+"start": 8.32,
+"end": 8.42
+},
+{
+"text": "own",
+"start": 8.42,
+"end": 8.58
+},
+{
+"text": "crushing",
+"start": 8.58,
+"end": 8.84
+},
+{
+"text": "weight,",
+"start": 8.84,
+"end": 9.1
+},
+{
+"text": "until",
+"start": 9.2,
+"end": 9.46
+},
+{
+"text": "gravity",
+"start": 9.46,
+"end": 9.72
+},
+{
+"text": "grows",
+"start": 9.72,
+"end": 9.94
+},
+{
+"text": "so",
+"start": 9.94,
+"end": 10.18
+},
+{
+"text": "violent",
+"start": 10.18,
+"end": 10.5
+},
+{
+"text": "that",
+"start": 10.5,
+"end": 10.74
+},
+{
+"text": "not",
+"start": 10.74,
+"end": 10.86
+},
+{
+"text": "even",
+"start": 10.86,
+"end": 11.06
+},
+{
+"text": "light",
+"start": 11.06,
+"end": 11.22
+},
+{
+"text": "can",
+"start": 11.22,
+"end": 11.38
+},
+{
+"text": "leave.",
+"start": 11.38,
+"end": 11.58
+},
+{
+"text": "The",
+"start": 11.8,
+"end": 11.94
+},
+{
+"text": "edge",
+"start": 11.94,
+"end": 12.16
+},
+{
+"text": "is",
+"start": 12.16,
+"end": 12.34
+},
+{
+"text": "called",
+"start": 12.34,
+"end": 12.56
+},
+{
+"text": "the",
+"start": 12.56,
+"end": 12.76
+},
+{
+"text": "event",
+"start": 12.76,
+"end": 12.96
+},
+{
+"text": "horizon.",
+"start": 12.96,
+"end": 13.28
+},
+{
+"text": "The",
+"start": 13.72,
+"end": 13.86
+},
+{
+"text": "point",
+"start": 13.86,
+"end": 14.04
+},
+{
+"text": "of",
+"start": 14.04,
+"end": 14.18
+},
+{
+"text": "no",
+"start": 14.18,
+"end": 14.28
+},
+{
+"text": "return.",
+"start": 14.28,
+"end": 14.58
+},
+{
+"text": "Cross",
+"start": 14.84,
+"end": 14.98
+},
+{
+"text": "it,",
+"start": 14.98,
+"end": 15.16
+},
+{
+"text": "and",
+"start": 15.3,
+"end": 15.42
+},
+{
+"text": "there's",
+"start": 15.42,
+"end": 15.58
+},
+{
+"text": "no",
+"start": 15.58,
+"end": 15.74
+},
+{
+"text": "coming",
+"start": 15.74,
+"end": 15.96
+},
+{
+"text": "back.",
+"start": 15.96,
+"end": 16.18
+},
+{
+"text": "Gravity",
+"start": 16.46,
+"end": 16.62
+},
+{
+"text": "pulls",
+"start": 16.62,
+"end": 16.84
+},
+{
+"text": "your",
+"start": 16.84,
+"end": 16.96
+},
+{
+"text": "feet",
+"start": 16.96,
+"end": 17.08
+},
+{
+"text": "harder",
+"start": 17.08,
+"end": 17.26
+},
+{
+"text": "than",
+"start": 17.26,
+"end": 17.42
+},
+{
+"text": "your",
+"start": 17.42,
+"end": 17.52
+},
+{
+"text": "head,",
+"start": 17.52,
+"end": 17.68
+},
+{
+"text": "stretching",
+"start": 17.82,
+"end": 18.0
+},
+{
+"text": "you",
+"start": 18.0,
+"end": 18.2
+},
+{
+"text": "into",
+"start": 18.2,
+"end": 18.36
+},
+{
+"text": "a",
+"start": 18.36,
+"end": 18.5
+},
+{
+"text": "thread",
+"start": 18.5,
+"end": 18.66
+},
+{
+"text": "of",
+"start": 18.66,
+"end": 18.8
+},
+{
+"text": "atoms.",
+"start": 18.8,
+"end": 19.04
+},
+{
+"text": "We",
+"start": 19.44,
+"end": 19.58
+},
+{
+"text": "can't",
+"start": 19.58,
+"end": 19.78
+},
+{
+"text": "see",
+"start": 19.78,
+"end": 19.92
+},
+{
+"text": "the",
+"start": 19.92,
+"end": 20.04
+},
+{
+"text": "hole",
+"start": 20.04,
+"end": 20.16
+},
+{
+"text": "itself,",
+"start": 20.16,
+"end": 20.46
+},
+{
+"text": "only",
+"start": 20.66,
+"end": 20.82
+},
+{
+"text": "the",
+"start": 20.82,
+"end": 20.98
+},
+{
+"text": "searing",
+"start": 20.98,
+"end": 21.2
+},
+{
+"text": "gas",
+"start": 21.2,
+"end": 21.42
+},
+{
+"text": "spiraling",
+"start": 21.42,
+"end": 21.82
+},
+{
+"text": "in",
+"start": 21.82,
+"end": 22.02
+},
+{
+"text": "at",
+"start": 22.02,
+"end": 22.12
+},
+{
+"text": "near",
+"start": 22.12,
+"end": 22.26
+},
+{
+"text": "light",
+"start": 22.26,
+"end": 22.46
+},
+{
+"text": "speed.",
+"start": 22.46,
+"end": 22.72
+},
+{
+"text": "In",
+"start": 23.14,
+"end": 23.3
+},
+{
+"text": "2019,",
+"start": 23.3,
+"end": 23.84
+},
+{
+"text": "humanity",
+"start": 24.2,
+"end": 24.4
+},
+{
+"text": "captured",
+"start": 24.4,
+"end": 24.78
+},
+{
+"text": "that",
+"start": 24.78,
+"end": 24.98
+},
+{
+"text": "fire",
+"start": 24.98,
+"end": 25.14
+},
+{
+"text": "for",
+"start": 25.14,
+"end": 25.28
+},
+{
+"text": "the",
+"start": 25.28,
+"end": 25.4
+},
+{
+"text": "first",
+"start": 25.4,
+"end": 25.52
+},
+{
+"text": "time,",
+"start": 25.52,
+"end": 25.84
+},
+{
+"text": "and",
+"start": 25.94,
+"end": 26.06
+},
+{
+"text": "at",
+"start": 26.06,
+"end": 26.16
+},
+{
+"text": "the",
+"start": 26.16,
+"end": 26.28
+},
+{
+"text": "center",
+"start": 26.28,
+"end": 26.5
+},
+{
+"text": "waits",
+"start": 26.5,
+"end": 26.72
+},
+{
+"text": "the",
+"start": 26.72,
+"end": 26.9
+},
+{
+"text": "singularity,",
+"start": 26.9,
+"end": 27.46
+},
+{
+"text": "where",
+"start": 27.46,
+"end": 27.76
+},
+{
+"text": "everything",
+"start": 27.76,
+"end": 28.08
+},
+{
+"text": "you",
+"start": 28.08,
+"end": 28.24
+},
+{
+"text": "ever",
+"start": 28.24,
+"end": 28.4
+},
+{
+"text": "were",
+"start": 28.4,
+"end": 28.6
+},
+{
+"text": "is",
+"start": 28.6,
+"end": 28.74
+},
+{
+"text": "crushed",
+"start": 28.74,
+"end": 28.94
+},
+{
+"text": "into",
+"start": 28.94,
+"end": 29.14
+},
+{
+"text": "nothing.",
+"start": 29.14,
+"end": 29.36
+}
+]
+}

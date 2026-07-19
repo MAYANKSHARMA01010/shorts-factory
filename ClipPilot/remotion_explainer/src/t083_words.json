@@ -1,0 +1,480 @@
+{
+"script": "Right now, there are roughly 20 quadrillion ants crawling across the Earth. Drop them all on one giant scale, and they'd weigh about the same as every human being alive combined. That's a 20 with fifteen zeros behind it, more ants than there are stars in our galaxy. You see, for every single person, over two million ants are marching somewhere underfoot. And together they shift more soil than earthworms, quietly rebuilding the ground beneath us. So while we think we run this planet, an army we barely notice already matches us, pound for pound.",
+"words": [
+{
+"text": "Right",
+"start": 0.0,
+"end": 0.3
+},
+{
+"text": "now,",
+"start": 0.3,
+"end": 0.6
+},
+{
+"text": "there",
+"start": 0.68,
+"end": 0.8
+},
+{
+"text": "are",
+"start": 0.8,
+"end": 0.98
+},
+{
+"text": "roughly",
+"start": 0.98,
+"end": 1.36
+},
+{
+"text": "20",
+"start": 1.36,
+"end": 1.98
+},
+{
+"text": "quadrillion",
+"start": 1.98,
+"end": 2.78
+},
+{
+"text": "ants",
+"start": 2.78,
+"end": 3.38
+},
+{
+"text": "crawling",
+"start": 3.38,
+"end": 3.92
+},
+{
+"text": "across",
+"start": 3.92,
+"end": 4.34
+},
+{
+"text": "the",
+"start": 4.34,
+"end": 4.6
+},
+{
+"text": "Earth.",
+"start": 4.6,
+"end": 4.8
+},
+{
+"text": "Drop",
+"start": 5.38,
+"end": 5.68
+},
+{
+"text": "them",
+"start": 5.68,
+"end": 5.88
+},
+{
+"text": "all",
+"start": 5.88,
+"end": 6.26
+},
+{
+"text": "on",
+"start": 6.26,
+"end": 6.58
+},
+{
+"text": "one",
+"start": 6.58,
+"end": 7.0
+},
+{
+"text": "giant",
+"start": 7.0,
+"end": 7.34
+},
+{
+"text": "scale,",
+"start": 7.34,
+"end": 7.76
+},
+{
+"text": "and",
+"start": 8.24,
+"end": 8.46
+},
+{
+"text": "they'd",
+"start": 8.46,
+"end": 8.64
+},
+{
+"text": "weigh",
+"start": 8.64,
+"end": 8.76
+},
+{
+"text": "about",
+"start": 8.76,
+"end": 9.0
+},
+{
+"text": "the",
+"start": 9.0,
+"end": 9.18
+},
+{
+"text": "same",
+"start": 9.18,
+"end": 9.46
+},
+{
+"text": "as",
+"start": 9.46,
+"end": 10.0
+},
+{
+"text": "every",
+"start": 10.0,
+"end": 10.46
+},
+{
+"text": "human",
+"start": 10.46,
+"end": 10.76
+},
+{
+"text": "being",
+"start": 10.76,
+"end": 11.1
+},
+{
+"text": "alive",
+"start": 11.1,
+"end": 11.52
+},
+{
+"text": "combined.",
+"start": 11.52,
+"end": 11.96
+},
+{
+"text": "That's",
+"start": 12.42,
+"end": 12.74
+},
+{
+"text": "a",
+"start": 12.74,
+"end": 12.8
+},
+{
+"text": "20",
+"start": 12.8,
+"end": 13.06
+},
+{
+"text": "with",
+"start": 13.06,
+"end": 13.28
+},
+{
+"text": "15",
+"start": 13.28,
+"end": 13.88
+},
+{
+"text": "zeros",
+"start": 13.88,
+"end": 14.34
+},
+{
+"text": "behind",
+"start": 14.34,
+"end": 14.8
+},
+{
+"text": "it.",
+"start": 14.8,
+"end": 15.2
+},
+{
+"text": "More",
+"start": 15.5,
+"end": 15.74
+},
+{
+"text": "ants",
+"start": 15.74,
+"end": 16.0
+},
+{
+"text": "than",
+"start": 16.0,
+"end": 16.2
+},
+{
+"text": "there",
+"start": 16.2,
+"end": 16.32
+},
+{
+"text": "are",
+"start": 16.32,
+"end": 16.42
+},
+{
+"text": "stars",
+"start": 16.42,
+"end": 16.74
+},
+{
+"text": "in",
+"start": 16.74,
+"end": 16.96
+},
+{
+"text": "our",
+"start": 16.96,
+"end": 17.1
+},
+{
+"text": "galaxy.",
+"start": 17.1,
+"end": 17.42
+},
+{
+"text": "You",
+"start": 18.1,
+"end": 18.24
+},
+{
+"text": "see,",
+"start": 18.24,
+"end": 18.5
+},
+{
+"text": "for",
+"start": 18.54,
+"end": 18.84
+},
+{
+"text": "every",
+"start": 18.84,
+"end": 19.34
+},
+{
+"text": "single",
+"start": 19.34,
+"end": 19.6
+},
+{
+"text": "person,",
+"start": 19.6,
+"end": 20.06
+},
+{
+"text": "over",
+"start": 20.62,
+"end": 20.86
+},
+{
+"text": "2",
+"start": 20.86,
+"end": 21.16
+},
+{
+"text": "million",
+"start": 21.16,
+"end": 21.46
+},
+{
+"text": "ants",
+"start": 21.46,
+"end": 21.9
+},
+{
+"text": "are",
+"start": 21.9,
+"end": 22.26
+},
+{
+"text": "marching",
+"start": 22.26,
+"end": 22.78
+},
+{
+"text": "somewhere",
+"start": 22.78,
+"end": 23.56
+},
+{
+"text": "underfoot.",
+"start": 23.56,
+"end": 24.1
+},
+{
+"text": "And",
+"start": 24.1,
+"end": 24.72
+},
+{
+"text": "together",
+"start": 24.72,
+"end": 25.02
+},
+{
+"text": "they",
+"start": 25.02,
+"end": 25.34
+},
+{
+"text": "shift",
+"start": 25.34,
+"end": 25.68
+},
+{
+"text": "more",
+"start": 25.68,
+"end": 26.26
+},
+{
+"text": "soil",
+"start": 26.26,
+"end": 26.74
+},
+{
+"text": "than",
+"start": 26.74,
+"end": 27.02
+},
+{
+"text": "earthworms,",
+"start": 27.02,
+"end": 27.78
+},
+{
+"text": "quietly",
+"start": 28.28,
+"end": 28.6
+},
+{
+"text": "rebuilding",
+"start": 28.6,
+"end": 29.38
+},
+{
+"text": "the",
+"start": 29.38,
+"end": 29.64
+},
+{
+"text": "ground",
+"start": 29.64,
+"end": 29.92
+},
+{
+"text": "beneath",
+"start": 29.92,
+"end": 30.26
+},
+{
+"text": "us.",
+"start": 30.26,
+"end": 30.74
+},
+{
+"text": "So",
+"start": 31.34,
+"end": 31.42
+},
+{
+"text": "while",
+"start": 31.42,
+"end": 31.54
+},
+{
+"text": "we",
+"start": 31.54,
+"end": 31.7
+},
+{
+"text": "think",
+"start": 31.7,
+"end": 31.88
+},
+{
+"text": "we",
+"start": 31.88,
+"end": 32.04
+},
+{
+"text": "run",
+"start": 32.04,
+"end": 32.34
+},
+{
+"text": "this",
+"start": 32.34,
+"end": 32.58
+},
+{
+"text": "planet,",
+"start": 32.58,
+"end": 33.0
+},
+{
+"text": "an",
+"start": 33.56,
+"end": 33.68
+},
+{
+"text": "army",
+"start": 33.68,
+"end": 33.98
+},
+{
+"text": "we",
+"start": 33.98,
+"end": 34.22
+},
+{
+"text": "barely",
+"start": 34.22,
+"end": 34.58
+},
+{
+"text": "notice",
+"start": 34.58,
+"end": 35.08
+},
+{
+"text": "already",
+"start": 35.08,
+"end": 35.62
+},
+{
+"text": "matches",
+"start": 35.62,
+"end": 36.18
+},
+{
+"text": "us,",
+"start": 36.18,
+"end": 36.78
+},
+{
+"text": "pound",
+"start": 37.18,
+"end": 37.24
+},
+{
+"text": "for",
+"start": 37.24,
+"end": 37.42
+},
+{
+"text": "pound.",
+"start": 37.42,
+"end": 37.74
+}
+]
+}

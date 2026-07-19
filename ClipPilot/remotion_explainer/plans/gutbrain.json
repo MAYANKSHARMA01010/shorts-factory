@@ -1,0 +1,55 @@
+{
+  "slug": "gutbrain",
+  "title": "Your Gut Has a Second Brain",
+  "duration_estimate_s": 32,
+  "palette": {
+    "bg_deep": "#0c0f14",
+    "bg_soft": "#141a22",
+    "gold": "#FFD23F",
+    "neuron_pink": "#FF5D8F",
+    "gut_coral": "#FF8A5C",
+    "serotonin_teal": "#37E0C8",
+    "nerve_violet": "#9B6BFF",
+    "tissue_rose": "#E0526B",
+    "white": "#F4F6FA"
+  },
+  "scenes": [
+    {
+      "beat": "You actually have a SECOND brain, and it's hidden in your gut.",
+      "visual": "SCROLL-STOPPER HOOK. Dead-center on the deep #0c0f14 stage, ONE bold object dominates 70% of frame: a glowing coral-pink (#FF8A5C) coil of intestine looped into the EXACT silhouette of a brain — the gut tube traces the two cerebral hemispheres and the wrinkled folds, so at a glance it reads 'brain' but it's literally made of intestine. A thin nerve_violet (#9B6BFF) outline traces the coil edge. A bright gold #FFD23F badge pill sits top-center, slightly overlapping the brain-gut, reading 'SECOND BRAIN?' with an oversized bold gold question mark. Strong vignette crushes the corners to black so nothing competes with the central object. No torso, no clutter — just the shocking brain-made-of-gut and the question.",
+      "animations": "Frame opens ALREADY on the coral coil at 80% formed for instant recognition (no slow draw-on that wastes the hook). In the first 0.4s the final intestine loops snap into place completing the brain shape with a quick spring. Immediately the whole brain-gut does one firm confidence pulse (scale 1->1.06->1 spring). The gold 'SECOND BRAIN?' badge slams in at 0.6s with a hard spring overshoot (scale 0->1.18->1) and an 8deg settle wobble; the question mark flickers brighter twice. A soft neuron_pink glow breathes around the coil for the whole hold. No camera zoom.",
+      "sfx": "a short wet organic gut-gurgle swelling up, punctuated the instant the gold badge lands by one bright crystalline bell ding"
+    },
+    {
+      "beat": "Lining your intestines is a web of over a hundred million nerve cells — so many it rivals the brain of a small animal.",
+      "visual": "Cut to a magnified cross-section: a horizontal coral (#FF8A5C) tissue band with rounded villi bumps along the top edge. Threaded through it, a dense lattice of neuron_pink (#FF5D8F) nerve cells — small round somas with branching dendrite lines wired into a glowing mesh. A gold odometer counter sits top-center ticking up to a huge '100,000,000+ NEURONS' in #FFD23F. Bottom-right: a tiny vector mouse silhouette in nerve_violet with a label pill 'rivals a small animal's brain'.",
+      "animations": "Nerve mesh draws-on edge-by-edge, dendrites extending like fast-growing vines (staggered 0.04s draws). Each soma flickers to full brightness as its connections complete. The gold counter rolls up fast (odometer count) and locks with a spring punch on the final zero. The mouse silhouette springs in from the corner with a tiny bounce, ears twitch once. No zoom.",
+      "sfx": "a flurry of light electric ticks and tiny synaptic crackles building as the mesh wires up, capped by one firm electric snap as the counter locks"
+    },
+    {
+      "beat": "And this network runs digestion entirely on its own — squeezing food along without ever asking your head for permission.",
+      "visual": "HERO REVEAL — THE MONEY SHOT. Center stage: a tall vertical segment of intestine drawn as a soft coral (#FF8A5C) tube with eight visible muscular ring-bands stacked top-to-bottom, the whole tube hugged by the glowing neuron_pink (#FF5D8F) nerve mesh. A single rounded food bolus (warm tissue_rose #E0526B blob with a soft specular highlight) sits at the very top of the tube. THE DEFINING DETAIL is peristalsis: the muscle rings contract in a traveling wave that physically pinches the tube narrow and shoves the bolus DOWNWARD, segment by segment, all the way down. Top-left, OUTSIDE the tube, a vector head silhouette in #141a22 sits DISCONNECTED — a frayed, greyed-out nerve line runs up toward it, snipped mid-way, stamped with a bold gold 'NO SIGNAL' tag and a crossed-out slash, proving the gut acts completely alone. Each time a ring squeezes, the local nerve mesh flares neuron_pink and a small puff of serotonin_teal (#37E0C8) chemical dots sprays from the wall.",
+      "animations": "This is the longest, richest, most specific beat. The squeeze is the hero motion: each of the eight muscle rings contracts in strict top-to-bottom sequence via scale-X springs (each ring 1->0.55->1, 0.18s apart) so the eye SEES a single traveling wave roll down the tube. The bolus drops exactly one segment per contraction with a satisfying spring ease (overshoot then settle), squashing slightly as it's pinched then rounding back out. The neuron_pink mesh lights in synced waves chasing each squeeze down the tube. At the same instant the head-link greys to dead grey and the gold 'NO SIGNAL' tag stamps in with a spring overshoot while its crossing slash draws on left-to-right in 0.15s. Teal serotonin dots burst outward on each squeeze and float upward with gentle drift. Final bolus exit triggers one extra-deep confident squeeze of the whole tube. No camera zoom — all motion is in-comp.",
+      "sfx": "a rhythmic wet muscular squelch-and-squeeze for each of the eight contractions, rising slightly in pressure, capped by one deep confident gut-thump on the final swallow exactly as 'NO SIGNAL' stamps"
+    },
+    {
+      "beat": "It even makes most of your body's serotonin — the same chemical that shapes your mood.",
+      "visual": "The gut coil returns small in the lower third (coral #FF8A5C), now a glowing factory. From it, a stream of serotonin_teal (#37E0C8) hexagonal molecule tokens flows upward in a graceful arc. A large gold percentage callout '~90%' in #FFD23F anchors center with the word 'SEROTONIN' in gold beneath. At the top, a circular smiley mood-dial gauge whose needle and face-color respond to the incoming teal molecules — swinging from a dim grey frown toward a bright happy gold.",
+      "animations": "Teal hexagons emit from the gut in a steady stream, each riding a curved spring path up to the mood dial (staggered emission, gentle floating drift). The '~90%' counter rolls up and pops with a spring. As molecules dock, the mood-dial needle sweeps with a spring from grey to gold and the face brightens via a color fill, the smile curving up. No zoom.",
+      "sfx": "a warm rising marimba arpeggio, one soft mallet note climbing in pitch each time a teal molecule docks into the mood dial"
+    },
+    {
+      "beat": "So when you feel butterflies before a big moment — that's your gut brain reacting to fear.",
+      "visual": "Center: the coral (#FF8A5C) gut coil again, but now several pale nerve_violet (#9B6BFF) butterfly vector shapes flutter INSIDE the abdomen cavity, wings made of thin geometric triangles. The gut mesh flashes an anxious neuron_pink (#FF5D8F). A gold label pill reads 'BUTTERFLIES = FEAR SIGNAL'. The background subtly shifts cooler and darker toward tense #0c0f14 to sell the nervous mood.",
+      "animations": "Butterflies spawn from the gut and flutter on looping spring paths, wings flapping via fast rotate-skew oscillation, scattering nervously. The nerve mesh does rapid jittery stutter-pulses of neuron_pink (anxious flicker). The gold label pill snaps in with a spring overshoot. Background does a slow cool-tone crossfade. No zoom.",
+      "sfx": "a soft fluttery whoosh of many tiny wings, underlaid by a single low nervous heartbeat thud"
+    },
+    {
+      "beat": "That's why a sick stomach and a stressed mind go together. (PAYOFF)",
+      "visual": "Split-stage payoff: left, a coral (#FF8A5C) gut coil; right, a violet (#9B6BFF) brain; joined by a single bright gold #FFD23F nerve highway pulsing between them — the gut-brain axis as one glowing wire. The payoff line slams in word-by-word across the center in bold #F4F6FA white with the final keyword in gold: 'GUT AND MIND. ONE WIRE.' A faint twin-glow halo pulses around both organs in perfect sync to show they move as one.",
+      "animations": "The gold nerve highway draws-on connecting gut to brain, then a bright pulse shuttles back and forth along it in sync. The payoff words slam in one at a time with strong spring overshoot (each scales 1.3->1 with a slight rotate settle); 'WIRE' lands hardest, in gold, with an extra glow flare. Both organs pulse together on the final beat for a single unified glow. Hold on the finished frame, glow gently breathing.",
+      "sfx": "one deep resonant unifying gong as the gold wire connects gut to brain, then a crisp tight impact tick on each slammed word, hardest on 'WIRE'"
+    }
+  ],
+  "payoff": "GUT AND MIND. ONE WIRE."
+}

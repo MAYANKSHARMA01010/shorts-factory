@@ -1,0 +1,460 @@
+{
+"script": "A fighter pilot pulls the handle, and four seconds later he's floating safely under a parachute. But ejecting at 600 miles an hour should snap his spine. So how does he survive? First, explosive bolts blast the canopy clear of his head. Then a rocket motor fires under the seat, shoving him out with a force strong enough to crack ribs, but spread across his whole back. Next, a small chute yanks him free of the seat. And the main canopy opens before he even realizes he's left the plane behind.",
+"words": [
+{
+"text": "A",
+"start": 0.0,
+"end": 0.24
+},
+{
+"text": "fighter",
+"start": 0.24,
+"end": 0.48
+},
+{
+"text": "pilot",
+"start": 0.48,
+"end": 0.88
+},
+{
+"text": "pulls",
+"start": 0.88,
+"end": 1.34
+},
+{
+"text": "the",
+"start": 1.34,
+"end": 1.56
+},
+{
+"text": "handle,",
+"start": 1.56,
+"end": 1.94
+},
+{
+"text": "and",
+"start": 2.26,
+"end": 2.52
+},
+{
+"text": "four",
+"start": 2.52,
+"end": 2.78
+},
+{
+"text": "seconds",
+"start": 2.78,
+"end": 3.12
+},
+{
+"text": "later",
+"start": 3.12,
+"end": 3.48
+},
+{
+"text": "he's",
+"start": 3.48,
+"end": 3.78
+},
+{
+"text": "floating",
+"start": 3.78,
+"end": 4.12
+},
+{
+"text": "safely",
+"start": 4.12,
+"end": 4.8
+},
+{
+"text": "under",
+"start": 4.8,
+"end": 5.18
+},
+{
+"text": "a",
+"start": 5.18,
+"end": 5.34
+},
+{
+"text": "parachute.",
+"start": 5.34,
+"end": 5.76
+},
+{
+"text": "But",
+"start": 6.2,
+"end": 6.4
+},
+{
+"text": "ejecting",
+"start": 6.4,
+"end": 6.9
+},
+{
+"text": "at",
+"start": 6.9,
+"end": 7.06
+},
+{
+"text": "600",
+"start": 7.06,
+"end": 7.4
+},
+{
+"text": "miles",
+"start": 7.4,
+"end": 7.68
+},
+{
+"text": "an",
+"start": 7.68,
+"end": 7.9
+},
+{
+"text": "hour",
+"start": 7.9,
+"end": 8.22
+},
+{
+"text": "should",
+"start": 8.22,
+"end": 8.76
+},
+{
+"text": "snap",
+"start": 8.76,
+"end": 9.12
+},
+{
+"text": "his",
+"start": 9.12,
+"end": 9.3
+},
+{
+"text": "spine.",
+"start": 9.3,
+"end": 9.68
+},
+{
+"text": "So",
+"start": 10.28,
+"end": 10.38
+},
+{
+"text": "how",
+"start": 10.38,
+"end": 10.52
+},
+{
+"text": "does",
+"start": 10.52,
+"end": 10.64
+},
+{
+"text": "he",
+"start": 10.64,
+"end": 10.78
+},
+{
+"text": "survive?",
+"start": 10.78,
+"end": 11.14
+},
+{
+"text": "First,",
+"start": 11.94,
+"end": 12.32
+},
+{
+"text": "explosive",
+"start": 12.62,
+"end": 13.12
+},
+{
+"text": "bolts",
+"start": 13.12,
+"end": 13.84
+},
+{
+"text": "blast",
+"start": 13.84,
+"end": 14.48
+},
+{
+"text": "the",
+"start": 14.48,
+"end": 15.2
+},
+{
+"text": "canopy",
+"start": 15.2,
+"end": 15.58
+},
+{
+"text": "clear",
+"start": 15.58,
+"end": 16.0
+},
+{
+"text": "of",
+"start": 16.0,
+"end": 16.16
+},
+{
+"text": "his",
+"start": 16.16,
+"end": 16.28
+},
+{
+"text": "head.",
+"start": 16.28,
+"end": 16.5
+},
+{
+"text": "Then",
+"start": 16.84,
+"end": 17.04
+},
+{
+"text": "a",
+"start": 17.04,
+"end": 17.22
+},
+{
+"text": "rocket",
+"start": 17.22,
+"end": 17.5
+},
+{
+"text": "motor",
+"start": 17.5,
+"end": 17.86
+},
+{
+"text": "fires",
+"start": 17.86,
+"end": 18.32
+},
+{
+"text": "under",
+"start": 18.32,
+"end": 18.56
+},
+{
+"text": "the",
+"start": 18.56,
+"end": 18.72
+},
+{
+"text": "seat,",
+"start": 18.72,
+"end": 19.14
+},
+{
+"text": "shoving",
+"start": 19.8,
+"end": 19.92
+},
+{
+"text": "him",
+"start": 19.92,
+"end": 20.04
+},
+{
+"text": "out",
+"start": 20.04,
+"end": 20.28
+},
+{
+"text": "with",
+"start": 20.28,
+"end": 20.46
+},
+{
+"text": "a",
+"start": 20.46,
+"end": 20.58
+},
+{
+"text": "force",
+"start": 20.58,
+"end": 20.94
+},
+{
+"text": "strong",
+"start": 20.94,
+"end": 21.38
+},
+{
+"text": "enough",
+"start": 21.38,
+"end": 21.64
+},
+{
+"text": "to",
+"start": 21.64,
+"end": 21.84
+},
+{
+"text": "crack",
+"start": 21.84,
+"end": 22.12
+},
+{
+"text": "ribs,",
+"start": 22.12,
+"end": 22.54
+},
+{
+"text": "but",
+"start": 22.84,
+"end": 23.1
+},
+{
+"text": "spread",
+"start": 23.1,
+"end": 23.54
+},
+{
+"text": "across",
+"start": 23.54,
+"end": 23.9
+},
+{
+"text": "his",
+"start": 23.9,
+"end": 24.14
+},
+{
+"text": "whole",
+"start": 24.14,
+"end": 24.34
+},
+{
+"text": "back.",
+"start": 24.34,
+"end": 24.66
+},
+{
+"text": "Next,",
+"start": 25.2,
+"end": 25.46
+},
+{
+"text": "a",
+"start": 25.6,
+"end": 25.68
+},
+{
+"text": "small",
+"start": 25.68,
+"end": 25.96
+},
+{
+"text": "chute",
+"start": 25.96,
+"end": 26.32
+},
+{
+"text": "yanks",
+"start": 26.32,
+"end": 26.64
+},
+{
+"text": "him",
+"start": 26.64,
+"end": 26.82
+},
+{
+"text": "free",
+"start": 26.82,
+"end": 27.1
+},
+{
+"text": "of",
+"start": 27.1,
+"end": 27.26
+},
+{
+"text": "the",
+"start": 27.26,
+"end": 27.38
+},
+{
+"text": "seat.",
+"start": 27.38,
+"end": 27.68
+},
+{
+"text": "And",
+"start": 27.68,
+"end": 28.3
+},
+{
+"text": "a",
+"start": 28.3,
+"end": 28.4
+},
+{
+"text": "main",
+"start": 28.4,
+"end": 28.64
+},
+{
+"text": "canopy",
+"start": 28.64,
+"end": 29.12
+},
+{
+"text": "opens",
+"start": 29.12,
+"end": 29.6
+},
+{
+"text": "before",
+"start": 29.6,
+"end": 30.12
+},
+{
+"text": "he",
+"start": 30.12,
+"end": 30.4
+},
+{
+"text": "even",
+"start": 30.4,
+"end": 30.78
+},
+{
+"text": "realizes",
+"start": 30.78,
+"end": 31.4
+},
+{
+"text": "he's",
+"start": 31.4,
+"end": 31.82
+},
+{
+"text": "left",
+"start": 31.82,
+"end": 32.0
+},
+{
+"text": "the",
+"start": 32.0,
+"end": 32.18
+},
+{
+"text": "plane",
+"start": 32.18,
+"end": 32.4
+},
+{
+"text": "behind.",
+"start": 32.4,
+"end": 32.82
+}
+]
+}

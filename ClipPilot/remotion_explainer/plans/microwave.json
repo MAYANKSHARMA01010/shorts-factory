@@ -1,0 +1,57 @@
+{
+  "slug": "microwave",
+  "title": "Why Microwaves Don't Burn The Mug",
+  "duration_estimate_s": 33,
+  "palette": {
+    "bg_deep": "#0b0e14",
+    "bg_panel": "#121826",
+    "gold": "#FFD23F",
+    "microwave_red": "#FF5A3C",
+    "water_blue": "#3FC8FF",
+    "molecule_teal": "#5EEAD4",
+    "wave_violet": "#A78BFA",
+    "heat_orange": "#FF8A3D",
+    "metal_silver": "#C8D2E0",
+    "cool_grey": "#5A6680",
+    "white": "#F4F7FF"
+  },
+  "scenes": [
+    {
+      "beat": "Your microwave boils the coffee, but the mug stays cool enough to hold. No flame, no hot plate. So what's actually cooking it?",
+      "visual": "Split-frame hook, dead center. A large clean vector coffee mug in metal-silver sits on a thin glowing turntable plate against bg_deep with a faint concentric ring vignette. The mug is visually halved by a crisp vertical divider: the TOP of the coffee pool (water_blue) is violently rolling-boiling with bursting bubbles and three molecule-teal steam curls ripping upward, while a finger-and-thumb 'OK' hand glyph in metal_silver casually pinches the mug's rim showing it's cool to touch. Two gold badge pills bracket the scene: top-left a thermometer chip reading a calm low blue mark labeled 'MUG: COOL', top-right a bold gold pill 'COFFEE: BOILING'. A gold question-mark medallion sits dead center on the divider line.",
+      "animations": "Mug springs up from below with a snappy overshoot pop (spring, stiffness high, ~0.35s). Coffee fills via a quick rising liquid-fill mask, then boil bubbles burst-pop in rapid randomized succession. The two gold pills snap in from opposite sides with spring overshoot and a single gold shimmer sweep, landing on the exact frame the boil starts. The center gold question-mark medallion scales in last with an extra bounce. The 'OK' pinch hand taps the rim twice. No camera zoom — all motion is in-comp.",
+      "sfx": "a hard ceramic mug clink, then an aggressive rolling-boil bubble gurgle"
+    },
+    {
+      "beat": "Hidden in the side wall, a part called the magnetron fires invisible waves, ricocheting them off the metal box.",
+      "visual": "Cutaway of the microwave chamber: a rounded rectangle box with metal-silver hatched walls on bg_panel, the small hero mug parked at the chamber floor center. Top-left corner holds a labeled magnetron drawn as a ridged cylinder glowing microwave_red with a gold label tag 'MAGNETRON' and a thin waveguide neck feeding into the chamber. From the waveguide mouth, wave_violet sine-wave rays shoot diagonally and bounce off the silver walls at clean mirror-reflection angles, building a crisscross lattice that floods the box. A small gold caption reads 'INVISIBLE WAVES'.",
+      "animations": "Chamber outline draws-on as a stroke (~0.4s). Magnetron pulses with a quick red glow pop. Violet sine rays sweep out one at a time from the waveguide and ricochet, each wall contact marked by a tiny gold spark flash. The lattice stacks 4-5 reflected rays in rapid succession then shimmers once. No zoom-pulse.",
+      "sfx": "a low electric hum rising into a crackly energized buzz"
+    },
+    {
+      "beat": "And these waves ignore your fats and sugars. They hunt one thing only: water.",
+      "visual": "Tight on the chamber floor. A drifting cloud of molecule icons: dim cool_grey neutral blobs (fats, sugars) and, scattered among them, bright water molecules drawn as the classic Mickey shape — a water_blue oxygen circle with two molecule-teal hydrogen lobes. A single wave_violet targeting reticle sweeps the field and locks onto ONLY the water molecules, ringing each in a gold selection circle while the grey blobs stay unringed and fade back. A gold tag reads 'TARGET: H2O'.",
+      "animations": "Molecules drift in with a soft scatter. The violet reticle sweeps left-to-right; as it passes each water molecule a gold selection ring pops on with a spring snap and a tick. Grey non-water blobs desaturate and dim out. The 'TARGET: H2O' pill slides in and the H2O text fills gold left-to-right.",
+      "sfx": "a clean radar-style targeting lock ping, repeated per molecule"
+    },
+    {
+      "beat": "Here's the trick. A water molecule has a plus end and a minus end, and the wave flips it back and forth billions of times a second.",
+      "visual": "HERO REVEAL — the money shot. One single water molecule blown up huge and centered on bg_deep: a large water_blue oxygen sphere with soft radial shading and two molecule-teal hydrogen lobes set at the real ~104.5-degree bent angle. Gold charge badges mark the poles: a bold '+' badge floating at the hydrogen lobes, a bold '-' badge at the oxygen. A thick wave_violet oscillating field arrow spans the full screen width horizontally, its plus/minus arrowheads hard-snapping direction. The molecule rotates 180 degrees to chase the field every time it reverses, faint molecule-teal motion-blur arcs trailing the whipping lobes. A live gold odometer counter sits top-center spinning upward toward 'BILLIONS / SEC'.",
+      "animations": "Molecule springs to full size with overshoot (spring, stiffness ~180, damping ~12, ~0.4s). The violet field arrow flips polarity with a hard snap; on each snap the molecule flip-rotates 180 degrees to match, easing from 3-4 slow visible flips into a fast oscillating blur over ~1.2s. The +/- charge badges swap sides and pulse on every flip. Teal blur-arc streaks draw-on around the spinning lobes. The gold odometer rolls digits up fast and lands on 'BILLIONS / SEC' with a spring bounce on the final frame. All motion in-comp, no camera zoom.",
+      "sfx": "a fast vibrating warble ramping up in pitch and rate, ending on a snap"
+    },
+    {
+      "beat": "Billions of molecules flipping and slamming into each other makes friction, and friction is just heat.",
+      "visual": "Pull back to a tight cluster of several flipping water molecules packed shoulder to shoulder, all jiggling and bumping their neighbors. At each collision point, small gold friction-spark glyphs and short heat_orange motion lines flare. As the bumping intensifies a heat_orange glow blooms outward through the cluster and wavy heat_orange heat-lines lift off the top. A clean gold equation reads 'FRICTION = HEAT', with a side thermometer climbing fast into a red zone.",
+      "animations": "Molecules jitter with a rapid micro-shake. Orange friction sparks pop at contact points in quick stutters. The heat_orange glow fills outward via an expanding radial mask. Wavy heat-lines draw-on and rise. The thermometer needle counts up rapidly into the red. 'FRICTION = HEAT' slams in word by word with spring overshoot. No zoom-pulse.",
+      "sfx": "a sizzling friction crackle building into a warm flaring sizzle"
+    },
+    {
+      "beat": "So the heat is born inside the water itself. Your food is literally cooking itself from within.",
+      "visual": "PAYOFF. Return to the hero mug, now full and gently steaming, rendered as a translucent cross-section: tiny water_blue droplets suspended throughout the coffee all glowing heat_orange, radiating warmth outward from within with zero external flame. A subtle radial heat_orange aura warms the background behind the mug. Centered over it, the punchline in bold white with the key word in gold.",
+      "animations": "Mug eases back in from the boil-hook framing to bookend the short. Interior water droplets ignite heat_orange one by one from the center outward (draws-on glow). Steam curls resume rising. The punchline slams in word by word with spring overshoot, the final gold word landing with an extra bounce and a single gold shimmer sweep across it. No camera zoom.",
+      "sfx": "a warm rising success chime capped by a soft final steam hiss"
+    }
+  ],
+  "payoff": "YOUR FOOD COOKS ITSELF"
+}

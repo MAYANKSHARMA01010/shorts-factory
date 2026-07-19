@@ -1,0 +1,495 @@
+{
+"script": "Deep inside Neptune and Uranus, it might literally rain diamonds. Here's how. These planets are stuffed with methane, a gas made of carbon and hydrogen. As you sink toward their cores, the pressure becomes unimaginable, millions of times stronger than the air on Earth. That crushing force rips the methane apart and squeezes the leftover carbon until it locks into solid diamond. Then those diamonds, some possibly the size of icebergs, sink slowly through thousands of miles of hot slush toward the center. So somewhere out there, two planets are raining a treasure no one will ever hold.",
+"words": [
+{
+"text": "Deep",
+"start": 0.0,
+"end": 0.34
+},
+{
+"text": "inside",
+"start": 0.34,
+"end": 0.8
+},
+{
+"text": "Neptune",
+"start": 0.8,
+"end": 1.3
+},
+{
+"text": "and",
+"start": 1.3,
+"end": 1.68
+},
+{
+"text": "Uranus,",
+"start": 1.68,
+"end": 2.34
+},
+{
+"text": "it",
+"start": 2.7,
+"end": 2.9
+},
+{
+"text": "might",
+"start": 2.9,
+"end": 3.08
+},
+{
+"text": "literally",
+"start": 3.08,
+"end": 3.58
+},
+{
+"text": "rain",
+"start": 3.58,
+"end": 4.04
+},
+{
+"text": "diamonds.",
+"start": 4.04,
+"end": 4.54
+},
+{
+"text": "Here's",
+"start": 5.22,
+"end": 5.42
+},
+{
+"text": "how.",
+"start": 5.42,
+"end": 5.64
+},
+{
+"text": "These",
+"start": 6.18,
+"end": 6.3
+},
+{
+"text": "planets",
+"start": 6.3,
+"end": 6.58
+},
+{
+"text": "are",
+"start": 6.58,
+"end": 6.88
+},
+{
+"text": "stuffed",
+"start": 6.88,
+"end": 7.32
+},
+{
+"text": "with",
+"start": 7.32,
+"end": 7.62
+},
+{
+"text": "methane,",
+"start": 7.62,
+"end": 8.08
+},
+{
+"text": "a",
+"start": 8.62,
+"end": 8.76
+},
+{
+"text": "gas",
+"start": 8.76,
+"end": 9.12
+},
+{
+"text": "made",
+"start": 9.12,
+"end": 9.42
+},
+{
+"text": "of",
+"start": 9.42,
+"end": 9.76
+},
+{
+"text": "carbon",
+"start": 9.76,
+"end": 9.98
+},
+{
+"text": "and",
+"start": 9.98,
+"end": 10.38
+},
+{
+"text": "hydrogen.",
+"start": 10.38,
+"end": 10.84
+},
+{
+"text": "As",
+"start": 11.28,
+"end": 11.5
+},
+{
+"text": "you",
+"start": 11.5,
+"end": 11.68
+},
+{
+"text": "sink",
+"start": 11.68,
+"end": 11.98
+},
+{
+"text": "toward",
+"start": 11.98,
+"end": 12.32
+},
+{
+"text": "their",
+"start": 12.32,
+"end": 12.6
+},
+{
+"text": "cores,",
+"start": 12.6,
+"end": 12.94
+},
+{
+"text": "the",
+"start": 13.52,
+"end": 13.62
+},
+{
+"text": "pressure",
+"start": 13.62,
+"end": 13.9
+},
+{
+"text": "becomes",
+"start": 13.9,
+"end": 14.42
+},
+{
+"text": "unimaginable,",
+"start": 14.42,
+"end": 15.4
+},
+{
+"text": "millions",
+"start": 16.16,
+"end": 16.46
+},
+{
+"text": "of",
+"start": 16.46,
+"end": 16.74
+},
+{
+"text": "times",
+"start": 16.74,
+"end": 17.14
+},
+{
+"text": "stronger",
+"start": 17.14,
+"end": 17.68
+},
+{
+"text": "than",
+"start": 17.68,
+"end": 18.02
+},
+{
+"text": "the",
+"start": 18.02,
+"end": 18.14
+},
+{
+"text": "air",
+"start": 18.14,
+"end": 18.28
+},
+{
+"text": "on",
+"start": 18.28,
+"end": 18.52
+},
+{
+"text": "Earth.",
+"start": 18.52,
+"end": 18.72
+},
+{
+"text": "That",
+"start": 19.32,
+"end": 19.5
+},
+{
+"text": "crushing",
+"start": 19.5,
+"end": 19.86
+},
+{
+"text": "force",
+"start": 19.86,
+"end": 20.32
+},
+{
+"text": "rips",
+"start": 20.32,
+"end": 20.74
+},
+{
+"text": "the",
+"start": 20.74,
+"end": 21.0
+},
+{
+"text": "methane",
+"start": 21.0,
+"end": 21.52
+},
+{
+"text": "apart",
+"start": 21.52,
+"end": 21.96
+},
+{
+"text": "and",
+"start": 21.96,
+"end": 22.54
+},
+{
+"text": "squeezes",
+"start": 22.54,
+"end": 23.12
+},
+{
+"text": "the",
+"start": 23.12,
+"end": 23.32
+},
+{
+"text": "leftover",
+"start": 23.32,
+"end": 23.72
+},
+{
+"text": "carbon",
+"start": 23.72,
+"end": 24.26
+},
+{
+"text": "until",
+"start": 24.26,
+"end": 24.8
+},
+{
+"text": "it",
+"start": 24.8,
+"end": 24.98
+},
+{
+"text": "locks",
+"start": 24.98,
+"end": 25.34
+},
+{
+"text": "into",
+"start": 25.34,
+"end": 25.74
+},
+{
+"text": "solid",
+"start": 25.74,
+"end": 26.14
+},
+{
+"text": "diamond.",
+"start": 26.14,
+"end": 26.52
+},
+{
+"text": "Then",
+"start": 26.52,
+"end": 27.26
+},
+{
+"text": "those",
+"start": 27.26,
+"end": 27.58
+},
+{
+"text": "diamonds,",
+"start": 27.58,
+"end": 28.06
+},
+{
+"text": "some",
+"start": 28.46,
+"end": 28.72
+},
+{
+"text": "possibly",
+"start": 28.72,
+"end": 29.24
+},
+{
+"text": "the",
+"start": 29.24,
+"end": 29.52
+},
+{
+"text": "size",
+"start": 29.52,
+"end": 29.84
+},
+{
+"text": "of",
+"start": 29.84,
+"end": 30.0
+},
+{
+"text": "icebergs,",
+"start": 30.0,
+"end": 31.28
+},
+{
+"text": "sink",
+"start": 31.28,
+"end": 31.38
+},
+{
+"text": "slowly",
+"start": 31.38,
+"end": 31.94
+},
+{
+"text": "through",
+"start": 31.94,
+"end": 32.24
+},
+{
+"text": "thousands",
+"start": 32.24,
+"end": 32.8
+},
+{
+"text": "of",
+"start": 32.8,
+"end": 33.08
+},
+{
+"text": "miles",
+"start": 33.08,
+"end": 33.34
+},
+{
+"text": "of",
+"start": 33.34,
+"end": 33.58
+},
+{
+"text": "hot",
+"start": 33.58,
+"end": 33.9
+},
+{
+"text": "slush",
+"start": 33.9,
+"end": 34.56
+},
+{
+"text": "toward",
+"start": 34.56,
+"end": 34.78
+},
+{
+"text": "the",
+"start": 34.78,
+"end": 34.94
+},
+{
+"text": "center.",
+"start": 34.94,
+"end": 35.18
+},
+{
+"text": "So",
+"start": 35.78,
+"end": 35.92
+},
+{
+"text": "somewhere",
+"start": 35.92,
+"end": 36.22
+},
+{
+"text": "out",
+"start": 36.22,
+"end": 36.44
+},
+{
+"text": "there,",
+"start": 36.44,
+"end": 36.82
+},
+{
+"text": "two",
+"start": 37.28,
+"end": 37.42
+},
+{
+"text": "planets",
+"start": 37.42,
+"end": 37.8
+},
+{
+"text": "are",
+"start": 37.8,
+"end": 38.1
+},
+{
+"text": "raining",
+"start": 38.1,
+"end": 38.4
+},
+{
+"text": "a",
+"start": 38.4,
+"end": 38.64
+},
+{
+"text": "treasure",
+"start": 38.64,
+"end": 39.1
+},
+{
+"text": "no",
+"start": 39.1,
+"end": 39.78
+},
+{
+"text": "one",
+"start": 39.78,
+"end": 39.98
+},
+{
+"text": "will",
+"start": 39.98,
+"end": 40.16
+},
+{
+"text": "ever",
+"start": 40.16,
+"end": 40.42
+},
+{
+"text": "hold.",
+"start": 40.42,
+"end": 40.78
+}
+]
+}

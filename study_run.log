@@ -1,0 +1,29 @@
+ 
+============================================================ 
+[02-07-2026 12:56:21.85] CREATOR STUDY run STARTING 
+[12:56:28] Docker is up
+
+[12:56:32] Postiz DB ready: True
+---
+
+## CREATOR STUDY — 2026-07-02 summary
+
+**Queries:** `did you know science facts` + `401k employer match` (rotated: broadening from credit-only into our top-performing science niche + the next high-CPM planned topic 013).
+
+**Videos studied (3 NEW, varied creators):**
+- **Zack D. Films** — 127.9M views, 33s, science-curiosity magic-trick explainer
+- **AdviceWithErin** — 12.9M views, 41s, finance/401k skit
+- **Terra Mystica** — 63.5M views, 30s, cinematic 3D science
+
+**Biggest technique added:** **COLD-OPEN on the mystery itself at t=0** — five independent winners across creators + niches all land IN the story by frame 0 with no title card, no logo, no wind-up. Promoted to SKILL.md `★ SELF-LEARNED RULES` alongside two other new PATTERNS: (a) end-CTA = an *algorithm action* matched to video shape (watch again / screenshot / follow — never a generic subscribe), and (b) pacing rule upgraded to 4-winner evidence.
+
+**Top gaps vs. our videos:**
+1. **Frame 0 is a title-card, not the mystery.** Winners cold-open on the object/action; our scene-1 gold-badge-over-static-hero can read as a wind-up that costs the first-3s swipe.
+2. **~5s/scene lingers.** Winners cut/transform on every phrase (~2s). Our 6-scenes-over-30s explains the 39–52% AVP leak.
+3. **Generic end-CTA.** Our shorts don't ask for the specific algorithm action that matches the video shape (loop vs save vs follow).
+
+**Bonus playbook additions** (kept in TECHNIQUE CATALOG only, not promoted): 2-character skit-dialogue with prop-flip character-switch (Erin, SEEN-ONCE — candidate for finance topics), progressive-zoom scale metaphor + on-screen data labels (Terra, SEEN-ONCE), borrowed third-party B-roll as scene-1 hero (Zack, SEEN-ONCE).
+
+**Files updated:** `competitor_playbook.md` (§1, §2, §3, §4, §5, §7, §8 + 3 new STUDY LOG entries), `studied_videos.md` (+3 rows), `.claude/skills/ultimate-short/SKILL.md` (LEARNED-RULES block: pacing rule upgraded to 4 winners + 2 new PATTERN rules added). Backup: `skill_backups/SKILL_20260702_130513.md`.
+
+**Log note:** `study_run.log` is held with an exclusive write lock by the launching `study_creators.bat` for the duration of the run; this summary text is being captured into that same log via the batch's `>> study_run.log 2>&1` redirection, so the per-run line is preserved.

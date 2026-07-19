@@ -1,0 +1,505 @@
+{
+"script": "Could you survive a storm where it rains solid diamonds? On Neptune, this actually happens. Deep inside the planet, crushing pressure squeezes carbon until it hardens into glittering gems that fall like hail. So imagine standing beneath that downpour. At first it sounds beautiful, a sky raining jewels. But each diamond plummets through air sixteen times denser than ours, building terrible speed. Then they'd strike you like a hail of bullets, not soft drops. And the temperature down there runs thousands of degrees, hot enough to roast you instantly. You'd be the richest person alive for half a second, then gone.",
+"words": [
+{
+"text": "Could",
+"start": 0.0,
+"end": 0.26
+},
+{
+"text": "you",
+"start": 0.26,
+"end": 0.46
+},
+{
+"text": "survive",
+"start": 0.46,
+"end": 0.8
+},
+{
+"text": "a",
+"start": 0.8,
+"end": 1.04
+},
+{
+"text": "storm",
+"start": 1.04,
+"end": 1.36
+},
+{
+"text": "where",
+"start": 1.36,
+"end": 1.9
+},
+{
+"text": "it",
+"start": 1.9,
+"end": 2.02
+},
+{
+"text": "rains",
+"start": 2.02,
+"end": 2.44
+},
+{
+"text": "solid",
+"start": 2.44,
+"end": 2.98
+},
+{
+"text": "diamonds?",
+"start": 2.98,
+"end": 3.34
+},
+{
+"text": "On",
+"start": 4.0,
+"end": 4.12
+},
+{
+"text": "Neptune,",
+"start": 4.12,
+"end": 4.52
+},
+{
+"text": "this",
+"start": 4.84,
+"end": 5.02
+},
+{
+"text": "actually",
+"start": 5.02,
+"end": 5.32
+},
+{
+"text": "happens.",
+"start": 5.32,
+"end": 5.8
+},
+{
+"text": "Deep",
+"start": 6.44,
+"end": 6.62
+},
+{
+"text": "inside",
+"start": 6.62,
+"end": 7.1
+},
+{
+"text": "the",
+"start": 7.1,
+"end": 7.28
+},
+{
+"text": "planet,",
+"start": 7.28,
+"end": 7.62
+},
+{
+"text": "crushing",
+"start": 8.12,
+"end": 8.3
+},
+{
+"text": "pressure",
+"start": 8.3,
+"end": 8.84
+},
+{
+"text": "squeezes",
+"start": 8.84,
+"end": 9.5
+},
+{
+"text": "carbon",
+"start": 9.5,
+"end": 9.9
+},
+{
+"text": "until",
+"start": 9.9,
+"end": 10.34
+},
+{
+"text": "it",
+"start": 10.34,
+"end": 10.5
+},
+{
+"text": "hardens",
+"start": 10.5,
+"end": 11.02
+},
+{
+"text": "into",
+"start": 11.02,
+"end": 11.36
+},
+{
+"text": "glittering",
+"start": 11.36,
+"end": 12.08
+},
+{
+"text": "gems",
+"start": 12.08,
+"end": 12.42
+},
+{
+"text": "that",
+"start": 12.42,
+"end": 13.0
+},
+{
+"text": "fall",
+"start": 13.0,
+"end": 13.34
+},
+{
+"text": "like",
+"start": 13.34,
+"end": 13.58
+},
+{
+"text": "hail.",
+"start": 13.58,
+"end": 13.84
+},
+{
+"text": "So",
+"start": 14.48,
+"end": 14.62
+},
+{
+"text": "imagine",
+"start": 14.62,
+"end": 14.92
+},
+{
+"text": "standing",
+"start": 14.92,
+"end": 15.56
+},
+{
+"text": "beneath",
+"start": 15.56,
+"end": 16.0
+},
+{
+"text": "that",
+"start": 16.0,
+"end": 16.3
+},
+{
+"text": "downpour.",
+"start": 16.3,
+"end": 16.82
+},
+{
+"text": "At",
+"start": 17.4,
+"end": 17.52
+},
+{
+"text": "first",
+"start": 17.52,
+"end": 17.74
+},
+{
+"text": "it",
+"start": 17.74,
+"end": 17.92
+},
+{
+"text": "sounds",
+"start": 17.92,
+"end": 18.2
+},
+{
+"text": "beautiful,",
+"start": 18.2,
+"end": 18.74
+},
+{
+"text": "a",
+"start": 19.36,
+"end": 19.46
+},
+{
+"text": "sky",
+"start": 19.46,
+"end": 19.94
+},
+{
+"text": "raining",
+"start": 19.94,
+"end": 20.52
+},
+{
+"text": "jewels.",
+"start": 20.52,
+"end": 20.98
+},
+{
+"text": "But",
+"start": 21.56,
+"end": 21.78
+},
+{
+"text": "each",
+"start": 21.78,
+"end": 21.96
+},
+{
+"text": "diamond",
+"start": 21.96,
+"end": 22.34
+},
+{
+"text": "plummets",
+"start": 22.34,
+"end": 22.84
+},
+{
+"text": "through",
+"start": 22.84,
+"end": 23.08
+},
+{
+"text": "air",
+"start": 23.08,
+"end": 23.42
+},
+{
+"text": "16",
+"start": 23.42,
+"end": 24.02
+},
+{
+"text": "times",
+"start": 24.02,
+"end": 24.7
+},
+{
+"text": "denser",
+"start": 24.7,
+"end": 25.36
+},
+{
+"text": "than",
+"start": 25.36,
+"end": 25.46
+},
+{
+"text": "ours,",
+"start": 25.46,
+"end": 25.86
+},
+{
+"text": "building",
+"start": 26.18,
+"end": 26.7
+},
+{
+"text": "terrible",
+"start": 26.7,
+"end": 27.36
+},
+{
+"text": "speed.",
+"start": 27.36,
+"end": 27.84
+},
+{
+"text": "Then",
+"start": 28.32,
+"end": 28.46
+},
+{
+"text": "they'd",
+"start": 28.46,
+"end": 28.66
+},
+{
+"text": "strike",
+"start": 28.66,
+"end": 28.88
+},
+{
+"text": "you",
+"start": 28.88,
+"end": 29.04
+},
+{
+"text": "like",
+"start": 29.04,
+"end": 29.16
+},
+{
+"text": "a",
+"start": 29.16,
+"end": 29.3
+},
+{
+"text": "hail",
+"start": 29.3,
+"end": 29.46
+},
+{
+"text": "of",
+"start": 29.46,
+"end": 29.98
+},
+{
+"text": "not",
+"start": 29.98,
+"end": 30.64
+},
+{
+"text": "soft",
+"start": 30.64,
+"end": 31.06
+},
+{
+"text": "drops.",
+"start": 31.06,
+"end": 31.4
+},
+{
+"text": "And",
+"start": 32.08,
+"end": 32.22
+},
+{
+"text": "the",
+"start": 32.22,
+"end": 32.32
+},
+{
+"text": "temperature",
+"start": 32.32,
+"end": 32.64
+},
+{
+"text": "down",
+"start": 32.64,
+"end": 33.2
+},
+{
+"text": "there",
+"start": 33.2,
+"end": 33.44
+},
+{
+"text": "runs",
+"start": 33.44,
+"end": 33.84
+},
+{
+"text": "thousands",
+"start": 33.84,
+"end": 34.46
+},
+{
+"text": "of",
+"start": 34.46,
+"end": 34.66
+},
+{
+"text": "degrees,",
+"start": 34.66,
+"end": 35.12
+},
+{
+"text": "hot",
+"start": 35.64,
+"end": 35.96
+},
+{
+"text": "enough",
+"start": 35.96,
+"end": 36.18
+},
+{
+"text": "to",
+"start": 36.18,
+"end": 36.38
+},
+{
+"text": "roast",
+"start": 36.38,
+"end": 36.6
+},
+{
+"text": "you",
+"start": 36.6,
+"end": 36.82
+},
+{
+"text": "instantly.",
+"start": 36.82,
+"end": 37.18
+},
+{
+"text": "You'd",
+"start": 37.9,
+"end": 38.06
+},
+{
+"text": "be",
+"start": 38.06,
+"end": 38.14
+},
+{
+"text": "the",
+"start": 38.14,
+"end": 38.3
+},
+{
+"text": "richest",
+"start": 38.3,
+"end": 38.54
+},
+{
+"text": "person",
+"start": 38.54,
+"end": 39.0
+},
+{
+"text": "alive",
+"start": 39.0,
+"end": 39.46
+},
+{
+"text": "for",
+"start": 39.46,
+"end": 39.78
+},
+{
+"text": "half",
+"start": 39.78,
+"end": 40.1
+},
+{
+"text": "a",
+"start": 40.1,
+"end": 40.3
+},
+{
+"text": "second,",
+"start": 40.3,
+"end": 40.64
+},
+{
+"text": "then",
+"start": 41.08,
+"end": 41.28
+},
+{
+"text": "gone.",
+"start": 41.28,
+"end": 41.56
+}
+]
+}

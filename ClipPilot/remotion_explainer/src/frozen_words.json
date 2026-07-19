@@ -1,0 +1,505 @@
+{
+"script": "The ice cracks beneath you and you plunge into water so cold it punches the breath from your lungs. You have about one minute before panic takes over, and ten before your muscles quit. So fight the gasp, then turn back toward the hole you fell through, where you know the ice held your weight. Now kick your legs to go horizontal and claw yourself flat onto the surface. Don't stand. Roll away from the hole to spread your weight. And the danger isn't over, because afterdrop hypothermia can still kill you long after you're back on solid ground.",
+"words": [
+{
+"text": "The",
+"start": 0.0,
+"end": 0.28
+},
+{
+"text": "ice",
+"start": 0.28,
+"end": 0.5
+},
+{
+"text": "cracks",
+"start": 0.5,
+"end": 0.86
+},
+{
+"text": "beneath",
+"start": 0.86,
+"end": 1.22
+},
+{
+"text": "you",
+"start": 1.22,
+"end": 1.62
+},
+{
+"text": "and",
+"start": 1.62,
+"end": 1.98
+},
+{
+"text": "you",
+"start": 1.98,
+"end": 2.12
+},
+{
+"text": "plunge",
+"start": 2.12,
+"end": 2.48
+},
+{
+"text": "into",
+"start": 2.48,
+"end": 2.76
+},
+{
+"text": "water",
+"start": 2.76,
+"end": 3.22
+},
+{
+"text": "so",
+"start": 3.22,
+"end": 3.86
+},
+{
+"text": "cold",
+"start": 3.86,
+"end": 4.38
+},
+{
+"text": "it",
+"start": 4.38,
+"end": 4.7
+},
+{
+"text": "punches",
+"start": 4.7,
+"end": 5.02
+},
+{
+"text": "the",
+"start": 5.02,
+"end": 5.28
+},
+{
+"text": "breath",
+"start": 5.28,
+"end": 5.58
+},
+{
+"text": "from",
+"start": 5.58,
+"end": 5.82
+},
+{
+"text": "your",
+"start": 5.82,
+"end": 5.96
+},
+{
+"text": "lungs.",
+"start": 5.96,
+"end": 6.26
+},
+{
+"text": "You",
+"start": 6.94,
+"end": 7.08
+},
+{
+"text": "have",
+"start": 7.08,
+"end": 7.26
+},
+{
+"text": "about",
+"start": 7.26,
+"end": 7.56
+},
+{
+"text": "one",
+"start": 7.56,
+"end": 8.0
+},
+{
+"text": "minute",
+"start": 8.0,
+"end": 8.24
+},
+{
+"text": "before",
+"start": 8.24,
+"end": 8.74
+},
+{
+"text": "panic",
+"start": 8.74,
+"end": 9.18
+},
+{
+"text": "takes",
+"start": 9.18,
+"end": 9.44
+},
+{
+"text": "over",
+"start": 9.44,
+"end": 9.9
+},
+{
+"text": "and",
+"start": 9.9,
+"end": 10.54
+},
+{
+"text": "ten",
+"start": 10.54,
+"end": 10.88
+},
+{
+"text": "before",
+"start": 10.88,
+"end": 11.22
+},
+{
+"text": "your",
+"start": 11.22,
+"end": 11.36
+},
+{
+"text": "muscles",
+"start": 11.36,
+"end": 11.62
+},
+{
+"text": "quit.",
+"start": 11.62,
+"end": 11.98
+},
+{
+"text": "So",
+"start": 12.46,
+"end": 12.76
+},
+{
+"text": "fight",
+"start": 12.76,
+"end": 13.06
+},
+{
+"text": "the",
+"start": 13.06,
+"end": 13.28
+},
+{
+"text": "gasp",
+"start": 13.28,
+"end": 13.74
+},
+{
+"text": "then",
+"start": 13.74,
+"end": 14.2
+},
+{
+"text": "turn",
+"start": 14.2,
+"end": 14.46
+},
+{
+"text": "back",
+"start": 14.46,
+"end": 14.78
+},
+{
+"text": "toward",
+"start": 14.78,
+"end": 15.04
+},
+{
+"text": "the",
+"start": 15.04,
+"end": 15.22
+},
+{
+"text": "hole",
+"start": 15.22,
+"end": 15.44
+},
+{
+"text": "you",
+"start": 15.44,
+"end": 15.64
+},
+{
+"text": "fell",
+"start": 15.64,
+"end": 15.96
+},
+{
+"text": "through",
+"start": 15.96,
+"end": 16.4
+},
+{
+"text": "where",
+"start": 16.4,
+"end": 16.84
+},
+{
+"text": "you",
+"start": 16.84,
+"end": 17.0
+},
+{
+"text": "know",
+"start": 17.0,
+"end": 17.26
+},
+{
+"text": "the",
+"start": 17.26,
+"end": 17.44
+},
+{
+"text": "ice",
+"start": 17.44,
+"end": 17.74
+},
+{
+"text": "held",
+"start": 17.74,
+"end": 17.98
+},
+{
+"text": "your",
+"start": 17.98,
+"end": 18.14
+},
+{
+"text": "weight.",
+"start": 18.14,
+"end": 18.42
+},
+{
+"text": "Now",
+"start": 19.06,
+"end": 19.14
+},
+{
+"text": "kick",
+"start": 19.14,
+"end": 19.6
+},
+{
+"text": "your",
+"start": 19.6,
+"end": 19.78
+},
+{
+"text": "legs",
+"start": 19.78,
+"end": 20.1
+},
+{
+"text": "to",
+"start": 20.1,
+"end": 20.34
+},
+{
+"text": "go",
+"start": 20.34,
+"end": 20.54
+},
+{
+"text": "horizontal",
+"start": 20.54,
+"end": 21.14
+},
+{
+"text": "and",
+"start": 21.14,
+"end": 21.94
+},
+{
+"text": "claw",
+"start": 21.94,
+"end": 22.22
+},
+{
+"text": "yourself",
+"start": 22.22,
+"end": 22.6
+},
+{
+"text": "flat",
+"start": 22.6,
+"end": 23.2
+},
+{
+"text": "onto",
+"start": 23.2,
+"end": 23.44
+},
+{
+"text": "the",
+"start": 23.44,
+"end": 23.64
+},
+{
+"text": "surface.",
+"start": 23.64,
+"end": 24.02
+},
+{
+"text": "Don't",
+"start": 24.68,
+"end": 24.94
+},
+{
+"text": "stand.",
+"start": 24.94,
+"end": 25.28
+},
+{
+"text": "Roll",
+"start": 25.94,
+"end": 26.12
+},
+{
+"text": "away",
+"start": 26.12,
+"end": 26.42
+},
+{
+"text": "from",
+"start": 26.42,
+"end": 26.62
+},
+{
+"text": "the",
+"start": 26.62,
+"end": 26.7
+},
+{
+"text": "hole",
+"start": 26.7,
+"end": 26.96
+},
+{
+"text": "to",
+"start": 26.96,
+"end": 27.34
+},
+{
+"text": "spread",
+"start": 27.34,
+"end": 27.66
+},
+{
+"text": "your",
+"start": 27.66,
+"end": 27.86
+},
+{
+"text": "weight.",
+"start": 27.86,
+"end": 28.14
+},
+{
+"text": "And",
+"start": 28.66,
+"end": 28.72
+},
+{
+"text": "the",
+"start": 28.72,
+"end": 28.84
+},
+{
+"text": "danger",
+"start": 28.84,
+"end": 29.1
+},
+{
+"text": "isn't",
+"start": 29.1,
+"end": 29.54
+},
+{
+"text": "over,",
+"start": 29.54,
+"end": 29.9
+},
+{
+"text": "because",
+"start": 30.12,
+"end": 30.5
+},
+{
+"text": "after",
+"start": 30.5,
+"end": 30.88
+},
+{
+"text": "-drop",
+"start": 30.88,
+"end": 31.16
+},
+{
+"text": "hypothermia",
+"start": 31.16,
+"end": 31.96
+},
+{
+"text": "can",
+"start": 31.96,
+"end": 32.36
+},
+{
+"text": "still",
+"start": 32.36,
+"end": 32.74
+},
+{
+"text": "kill",
+"start": 32.74,
+"end": 32.94
+},
+{
+"text": "you",
+"start": 32.94,
+"end": 33.16
+},
+{
+"text": "long",
+"start": 33.16,
+"end": 33.42
+},
+{
+"text": "after",
+"start": 33.42,
+"end": 33.7
+},
+{
+"text": "you're",
+"start": 33.7,
+"end": 33.92
+},
+{
+"text": "back",
+"start": 33.92,
+"end": 34.16
+},
+{
+"text": "on",
+"start": 34.16,
+"end": 34.34
+},
+{
+"text": "solid",
+"start": 34.34,
+"end": 34.62
+},
+{
+"text": "ground.",
+"start": 34.62,
+"end": 34.96
+}
+]
+}

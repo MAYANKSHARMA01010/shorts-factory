@@ -1,0 +1,465 @@
+{
+"script": "In Victorian times, when someone died, the family often called a photographer for one final portrait. But these weren't sad photos of a body in a coffin. Instead, the dead were dressed, posed in chairs, and propped up to look alive. Sometimes their eyes were painted open, or rosy cheeks were added later. A mother might cradle her dead child as if it were merely sleeping. And often the living relatives blurred because they moved, while the corpse stayed perfectly still. That stillness is how you can tell who had already died.",
+"words": [
+{
+"text": "In",
+"start": 0.0,
+"end": 0.26
+},
+{
+"text": "Victorian",
+"start": 0.26,
+"end": 0.68
+},
+{
+"text": "times,",
+"start": 0.68,
+"end": 1.24
+},
+{
+"text": "when",
+"start": 1.54,
+"end": 1.68
+},
+{
+"text": "someone",
+"start": 1.68,
+"end": 1.98
+},
+{
+"text": "died,",
+"start": 1.98,
+"end": 2.38
+},
+{
+"text": "the",
+"start": 2.88,
+"end": 2.98
+},
+{
+"text": "family",
+"start": 2.98,
+"end": 3.22
+},
+{
+"text": "often",
+"start": 3.22,
+"end": 3.68
+},
+{
+"text": "called",
+"start": 3.68,
+"end": 3.96
+},
+{
+"text": "a",
+"start": 3.96,
+"end": 4.1
+},
+{
+"text": "photographer",
+"start": 4.1,
+"end": 4.62
+},
+{
+"text": "for",
+"start": 4.62,
+"end": 5.2
+},
+{
+"text": "one",
+"start": 5.2,
+"end": 5.54
+},
+{
+"text": "final",
+"start": 5.54,
+"end": 5.9
+},
+{
+"text": "portrait.",
+"start": 5.9,
+"end": 6.36
+},
+{
+"text": "But",
+"start": 6.88,
+"end": 7.0
+},
+{
+"text": "these",
+"start": 7.0,
+"end": 7.16
+},
+{
+"text": "weren't",
+"start": 7.16,
+"end": 7.42
+},
+{
+"text": "sad",
+"start": 7.42,
+"end": 7.74
+},
+{
+"text": "photos",
+"start": 7.74,
+"end": 8.12
+},
+{
+"text": "of",
+"start": 8.12,
+"end": 8.3
+},
+{
+"text": "a",
+"start": 8.3,
+"end": 8.42
+},
+{
+"text": "body",
+"start": 8.42,
+"end": 8.7
+},
+{
+"text": "in",
+"start": 8.7,
+"end": 8.92
+},
+{
+"text": "a",
+"start": 8.92,
+"end": 9.06
+},
+{
+"text": "coffin.",
+"start": 9.06,
+"end": 9.28
+},
+{
+"text": "Instead,",
+"start": 9.86,
+"end": 10.34
+},
+{
+"text": "the",
+"start": 10.58,
+"end": 10.94
+},
+{
+"text": "dead",
+"start": 10.94,
+"end": 11.14
+},
+{
+"text": "were",
+"start": 11.14,
+"end": 11.32
+},
+{
+"text": "dressed,",
+"start": 11.32,
+"end": 11.82
+},
+{
+"text": "posed",
+"start": 12.18,
+"end": 12.5
+},
+{
+"text": "in",
+"start": 12.5,
+"end": 12.74
+},
+{
+"text": "chairs,",
+"start": 12.74,
+"end": 13.14
+},
+{
+"text": "and",
+"start": 13.6,
+"end": 13.74
+},
+{
+"text": "propped",
+"start": 13.74,
+"end": 14.1
+},
+{
+"text": "up",
+"start": 14.1,
+"end": 14.3
+},
+{
+"text": "to",
+"start": 14.3,
+"end": 14.52
+},
+{
+"text": "look",
+"start": 14.52,
+"end": 14.66
+},
+{
+"text": "alive.",
+"start": 14.66,
+"end": 15.08
+},
+{
+"text": "Sometimes",
+"start": 15.74,
+"end": 16.06
+},
+{
+"text": "their",
+"start": 16.06,
+"end": 16.32
+},
+{
+"text": "eyes",
+"start": 16.32,
+"end": 16.64
+},
+{
+"text": "were",
+"start": 16.64,
+"end": 16.86
+},
+{
+"text": "painted",
+"start": 16.86,
+"end": 17.16
+},
+{
+"text": "open,",
+"start": 17.16,
+"end": 17.6
+},
+{
+"text": "or",
+"start": 18.12,
+"end": 18.26
+},
+{
+"text": "rosy",
+"start": 18.26,
+"end": 18.72
+},
+{
+"text": "cheeks",
+"start": 18.72,
+"end": 19.02
+},
+{
+"text": "were",
+"start": 19.02,
+"end": 19.26
+},
+{
+"text": "added",
+"start": 19.26,
+"end": 19.5
+},
+{
+"text": "later.",
+"start": 19.5,
+"end": 19.88
+},
+{
+"text": "A",
+"start": 20.3,
+"end": 20.48
+},
+{
+"text": "mother",
+"start": 20.48,
+"end": 20.68
+},
+{
+"text": "might",
+"start": 20.68,
+"end": 20.98
+},
+{
+"text": "cradle",
+"start": 20.98,
+"end": 21.38
+},
+{
+"text": "her",
+"start": 21.38,
+"end": 21.6
+},
+{
+"text": "dead",
+"start": 21.6,
+"end": 21.84
+},
+{
+"text": "child",
+"start": 21.84,
+"end": 22.26
+},
+{
+"text": "as",
+"start": 22.26,
+"end": 22.6
+},
+{
+"text": "if",
+"start": 22.6,
+"end": 22.72
+},
+{
+"text": "it",
+"start": 22.72,
+"end": 22.82
+},
+{
+"text": "were",
+"start": 22.82,
+"end": 22.92
+},
+{
+"text": "merely",
+"start": 22.92,
+"end": 23.4
+},
+{
+"text": "sleeping.",
+"start": 23.4,
+"end": 23.9
+},
+{
+"text": "And",
+"start": 24.52,
+"end": 24.62
+},
+{
+"text": "often",
+"start": 24.62,
+"end": 24.94
+},
+{
+"text": "the",
+"start": 24.94,
+"end": 25.16
+},
+{
+"text": "living",
+"start": 25.16,
+"end": 25.44
+},
+{
+"text": "relatives",
+"start": 25.44,
+"end": 25.98
+},
+{
+"text": "blurred",
+"start": 25.98,
+"end": 26.38
+},
+{
+"text": "because",
+"start": 26.38,
+"end": 27.04
+},
+{
+"text": "they",
+"start": 27.04,
+"end": 27.24
+},
+{
+"text": "moved,",
+"start": 27.24,
+"end": 27.76
+},
+{
+"text": "while",
+"start": 27.76,
+"end": 28.36
+},
+{
+"text": "the",
+"start": 28.36,
+"end": 28.52
+},
+{
+"text": "corpse",
+"start": 28.52,
+"end": 28.78
+},
+{
+"text": "stayed",
+"start": 28.78,
+"end": 29.28
+},
+{
+"text": "perfectly",
+"start": 29.28,
+"end": 29.94
+},
+{
+"text": "still.",
+"start": 29.94,
+"end": 30.4
+},
+{
+"text": "That",
+"start": 30.9,
+"end": 31.1
+},
+{
+"text": "stillness",
+"start": 31.1,
+"end": 31.72
+},
+{
+"text": "is",
+"start": 31.72,
+"end": 32.04
+},
+{
+"text": "how",
+"start": 32.04,
+"end": 32.22
+},
+{
+"text": "you",
+"start": 32.22,
+"end": 32.4
+},
+{
+"text": "can",
+"start": 32.4,
+"end": 32.56
+},
+{
+"text": "tell",
+"start": 32.56,
+"end": 32.76
+},
+{
+"text": "who",
+"start": 32.76,
+"end": 32.96
+},
+{
+"text": "had",
+"start": 32.96,
+"end": 33.12
+},
+{
+"text": "already",
+"start": 33.12,
+"end": 33.48
+},
+{
+"text": "died.",
+"start": 33.48,
+"end": 33.84
+}
+]
+}

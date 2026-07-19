@@ -1,0 +1,465 @@
+{
+"script": "You're driving down the highway when suddenly your car's accelerator gets stuck, and you're speeding out of control. Don't panic and turn off the engine, because that will kill your power steering and lock the steering wheel. Instead, firmly apply steady pressure to the brakes\u2014do not pump them, or you'll lose brake vacuum and all stopping power. Shift the car into neutral immediately. This disconnects the engine from the wheels. Once you've safely coasted to the side of the road, then you can turn off the ignition and call for help.",
+"words": [
+{
+"text": "You're",
+"start": 0.0,
+"end": 0.3
+},
+{
+"text": "driving",
+"start": 0.3,
+"end": 0.6
+},
+{
+"text": "down",
+"start": 0.6,
+"end": 0.86
+},
+{
+"text": "the",
+"start": 0.86,
+"end": 1.0
+},
+{
+"text": "highway",
+"start": 1.0,
+"end": 1.38
+},
+{
+"text": "when",
+"start": 1.38,
+"end": 2.0
+},
+{
+"text": "suddenly",
+"start": 2.0,
+"end": 2.54
+},
+{
+"text": "your",
+"start": 2.54,
+"end": 2.82
+},
+{
+"text": "car's",
+"start": 2.82,
+"end": 3.24
+},
+{
+"text": "accelerator",
+"start": 3.24,
+"end": 3.72
+},
+{
+"text": "gets",
+"start": 3.72,
+"end": 4.0
+},
+{
+"text": "stuck",
+"start": 4.0,
+"end": 4.46
+},
+{
+"text": "and",
+"start": 4.46,
+"end": 5.06
+},
+{
+"text": "you're",
+"start": 5.06,
+"end": 5.32
+},
+{
+"text": "speeding",
+"start": 5.32,
+"end": 5.58
+},
+{
+"text": "out",
+"start": 5.58,
+"end": 5.82
+},
+{
+"text": "of",
+"start": 5.82,
+"end": 5.92
+},
+{
+"text": "control.",
+"start": 5.92,
+"end": 6.28
+},
+{
+"text": "Don't",
+"start": 6.88,
+"end": 7.06
+},
+{
+"text": "panic",
+"start": 7.06,
+"end": 7.32
+},
+{
+"text": "and",
+"start": 7.32,
+"end": 7.72
+},
+{
+"text": "turn",
+"start": 7.72,
+"end": 7.94
+},
+{
+"text": "off",
+"start": 7.94,
+"end": 8.12
+},
+{
+"text": "the",
+"start": 8.12,
+"end": 8.32
+},
+{
+"text": "engine",
+"start": 8.32,
+"end": 8.62
+},
+{
+"text": "because",
+"start": 8.62,
+"end": 9.14
+},
+{
+"text": "that",
+"start": 9.14,
+"end": 9.32
+},
+{
+"text": "will",
+"start": 9.32,
+"end": 9.48
+},
+{
+"text": "kill",
+"start": 9.48,
+"end": 9.68
+},
+{
+"text": "your",
+"start": 9.68,
+"end": 9.9
+},
+{
+"text": "power",
+"start": 9.9,
+"end": 10.2
+},
+{
+"text": "steering",
+"start": 10.2,
+"end": 10.6
+},
+{
+"text": "and",
+"start": 10.6,
+"end": 11.14
+},
+{
+"text": "lock",
+"start": 11.14,
+"end": 11.44
+},
+{
+"text": "the",
+"start": 11.44,
+"end": 11.66
+},
+{
+"text": "steering",
+"start": 11.66,
+"end": 11.92
+},
+{
+"text": "wheel.",
+"start": 11.92,
+"end": 12.32
+},
+{
+"text": "Instead,",
+"start": 12.88,
+"end": 13.26
+},
+{
+"text": "firmly",
+"start": 13.64,
+"end": 14.06
+},
+{
+"text": "apply",
+"start": 14.06,
+"end": 14.54
+},
+{
+"text": "steady",
+"start": 14.54,
+"end": 14.86
+},
+{
+"text": "pressure",
+"start": 14.86,
+"end": 15.16
+},
+{
+"text": "to",
+"start": 15.16,
+"end": 15.36
+},
+{
+"text": "the",
+"start": 15.36,
+"end": 15.48
+},
+{
+"text": "brakes.",
+"start": 15.48,
+"end": 15.78
+},
+{
+"text": "Do",
+"start": 16.26,
+"end": 16.34
+},
+{
+"text": "not",
+"start": 16.34,
+"end": 16.58
+},
+{
+"text": "pump",
+"start": 16.58,
+"end": 16.86
+},
+{
+"text": "them",
+"start": 16.86,
+"end": 17.2
+},
+{
+"text": "or",
+"start": 17.2,
+"end": 17.7
+},
+{
+"text": "you'll",
+"start": 17.7,
+"end": 17.92
+},
+{
+"text": "lose",
+"start": 17.92,
+"end": 18.1
+},
+{
+"text": "brake",
+"start": 18.1,
+"end": 18.42
+},
+{
+"text": "vacuum",
+"start": 18.42,
+"end": 18.96
+},
+{
+"text": "and",
+"start": 18.96,
+"end": 19.38
+},
+{
+"text": "all",
+"start": 19.38,
+"end": 19.56
+},
+{
+"text": "stopping",
+"start": 19.56,
+"end": 19.9
+},
+{
+"text": "power.",
+"start": 19.9,
+"end": 20.36
+},
+{
+"text": "Shift",
+"start": 20.94,
+"end": 21.04
+},
+{
+"text": "the",
+"start": 21.04,
+"end": 21.2
+},
+{
+"text": "car",
+"start": 21.2,
+"end": 21.46
+},
+{
+"text": "into",
+"start": 21.46,
+"end": 21.74
+},
+{
+"text": "neutral",
+"start": 21.74,
+"end": 22.32
+},
+{
+"text": "immediately.",
+"start": 22.32,
+"end": 22.92
+},
+{
+"text": "This",
+"start": 23.52,
+"end": 23.7
+},
+{
+"text": "disconnects",
+"start": 23.7,
+"end": 24.5
+},
+{
+"text": "the",
+"start": 24.5,
+"end": 24.58
+},
+{
+"text": "engine",
+"start": 24.58,
+"end": 24.92
+},
+{
+"text": "from",
+"start": 24.92,
+"end": 25.12
+},
+{
+"text": "the",
+"start": 25.12,
+"end": 25.26
+},
+{
+"text": "wheels.",
+"start": 25.26,
+"end": 25.52
+},
+{
+"text": "Once",
+"start": 26.0,
+"end": 26.4
+},
+{
+"text": "you've",
+"start": 26.4,
+"end": 26.7
+},
+{
+"text": "safely",
+"start": 26.7,
+"end": 27.02
+},
+{
+"text": "coasted",
+"start": 27.02,
+"end": 27.54
+},
+{
+"text": "to",
+"start": 27.54,
+"end": 27.62
+},
+{
+"text": "the",
+"start": 27.62,
+"end": 27.74
+},
+{
+"text": "side",
+"start": 27.74,
+"end": 27.94
+},
+{
+"text": "of",
+"start": 27.94,
+"end": 28.04
+},
+{
+"text": "the",
+"start": 28.04,
+"end": 28.14
+},
+{
+"text": "road,",
+"start": 28.14,
+"end": 28.44
+},
+{
+"text": "then",
+"start": 28.96,
+"end": 29.02
+},
+{
+"text": "you",
+"start": 29.02,
+"end": 29.1
+},
+{
+"text": "can",
+"start": 29.1,
+"end": 29.22
+},
+{
+"text": "turn",
+"start": 29.22,
+"end": 29.44
+},
+{
+"text": "off",
+"start": 29.44,
+"end": 29.62
+},
+{
+"text": "the",
+"start": 29.62,
+"end": 29.78
+},
+{
+"text": "ignition",
+"start": 29.78,
+"end": 30.1
+},
+{
+"text": "and",
+"start": 30.1,
+"end": 30.58
+},
+{
+"text": "call",
+"start": 30.58,
+"end": 30.76
+},
+{
+"text": "for",
+"start": 30.76,
+"end": 30.96
+},
+{
+"text": "help.",
+"start": 30.96,
+"end": 31.16
+}
+]
+}

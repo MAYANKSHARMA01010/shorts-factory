@@ -1,0 +1,495 @@
+{
+"script": "One summer, a woman stepped into the street and began to dance, and she simply could not stop. Hour after hour, day after day, her feet kept moving until they bled. Then something impossible happened. Her neighbors joined her, one by one, until hundreds were dancing uncontrollably through the town. And this was no celebration. People collapsed from exhaustion, strokes, and heart attacks, dropping dead in the streets. Doctors were baffled, blaming hot blood and prescribing even more dancing. To this day, nobody fully knows why it happened, only that an entire town danced itself into the grave.",
+"words": [
+{
+"text": "One",
+"start": 0.0,
+"end": 0.36
+},
+{
+"text": "summer,",
+"start": 0.36,
+"end": 0.76
+},
+{
+"text": "a",
+"start": 1.22,
+"end": 1.36
+},
+{
+"text": "woman",
+"start": 1.36,
+"end": 1.54
+},
+{
+"text": "stepped",
+"start": 1.54,
+"end": 1.94
+},
+{
+"text": "into",
+"start": 1.94,
+"end": 2.22
+},
+{
+"text": "the",
+"start": 2.22,
+"end": 2.32
+},
+{
+"text": "street",
+"start": 2.32,
+"end": 2.68
+},
+{
+"text": "and",
+"start": 2.68,
+"end": 3.08
+},
+{
+"text": "began",
+"start": 3.08,
+"end": 3.38
+},
+{
+"text": "to",
+"start": 3.38,
+"end": 3.56
+},
+{
+"text": "dance,",
+"start": 3.56,
+"end": 3.94
+},
+{
+"text": "and",
+"start": 4.52,
+"end": 4.7
+},
+{
+"text": "she",
+"start": 4.7,
+"end": 4.86
+},
+{
+"text": "simply",
+"start": 4.86,
+"end": 5.24
+},
+{
+"text": "could",
+"start": 5.24,
+"end": 5.52
+},
+{
+"text": "not",
+"start": 5.52,
+"end": 5.74
+},
+{
+"text": "stop.",
+"start": 5.74,
+"end": 6.2
+},
+{
+"text": "Hour",
+"start": 6.74,
+"end": 6.9
+},
+{
+"text": "after",
+"start": 6.9,
+"end": 7.24
+},
+{
+"text": "hour,",
+"start": 7.24,
+"end": 7.8
+},
+{
+"text": "day",
+"start": 8.1,
+"end": 8.38
+},
+{
+"text": "after",
+"start": 8.38,
+"end": 8.76
+},
+{
+"text": "day,",
+"start": 8.76,
+"end": 9.14
+},
+{
+"text": "her",
+"start": 9.62,
+"end": 9.78
+},
+{
+"text": "feet",
+"start": 9.78,
+"end": 10.06
+},
+{
+"text": "kept",
+"start": 10.06,
+"end": 10.4
+},
+{
+"text": "moving",
+"start": 10.4,
+"end": 10.94
+},
+{
+"text": "until",
+"start": 10.94,
+"end": 11.5
+},
+{
+"text": "they",
+"start": 11.5,
+"end": 11.68
+},
+{
+"text": "bled.",
+"start": 11.68,
+"end": 11.96
+},
+{
+"text": "Then",
+"start": 12.52,
+"end": 12.7
+},
+{
+"text": "something",
+"start": 12.7,
+"end": 13.02
+},
+{
+"text": "impossible",
+"start": 13.02,
+"end": 13.54
+},
+{
+"text": "happened.",
+"start": 13.54,
+"end": 14.1
+},
+{
+"text": "Her",
+"start": 14.62,
+"end": 14.74
+},
+{
+"text": "neighbors",
+"start": 14.74,
+"end": 14.92
+},
+{
+"text": "joined",
+"start": 14.92,
+"end": 15.46
+},
+{
+"text": "her,",
+"start": 15.46,
+"end": 15.74
+},
+{
+"text": "one",
+"start": 16.1,
+"end": 16.42
+},
+{
+"text": "by",
+"start": 16.42,
+"end": 16.62
+},
+{
+"text": "one,",
+"start": 16.62,
+"end": 17.02
+},
+{
+"text": "until",
+"start": 17.4,
+"end": 17.8
+},
+{
+"text": "hundreds",
+"start": 17.8,
+"end": 18.26
+},
+{
+"text": "were",
+"start": 18.26,
+"end": 18.56
+},
+{
+"text": "dancing",
+"start": 18.56,
+"end": 19.02
+},
+{
+"text": "uncontrollably",
+"start": 19.02,
+"end": 20.38
+},
+{
+"text": "through",
+"start": 20.38,
+"end": 20.72
+},
+{
+"text": "the",
+"start": 20.72,
+"end": 20.86
+},
+{
+"text": "town.",
+"start": 20.86,
+"end": 21.16
+},
+{
+"text": "And",
+"start": 21.64,
+"end": 21.74
+},
+{
+"text": "this",
+"start": 21.74,
+"end": 21.86
+},
+{
+"text": "was",
+"start": 21.86,
+"end": 21.98
+},
+{
+"text": "no",
+"start": 21.98,
+"end": 22.22
+},
+{
+"text": "celebration.",
+"start": 22.22,
+"end": 22.74
+},
+{
+"text": "People",
+"start": 23.46,
+"end": 23.68
+},
+{
+"text": "collapsed",
+"start": 23.68,
+"end": 24.16
+},
+{
+"text": "from",
+"start": 24.16,
+"end": 24.42
+},
+{
+"text": "exhaustion,",
+"start": 24.42,
+"end": 24.96
+},
+{
+"text": "strokes,",
+"start": 25.46,
+"end": 25.88
+},
+{
+"text": "and",
+"start": 25.88,
+"end": 26.44
+},
+{
+"text": "heart",
+"start": 26.44,
+"end": 26.7
+},
+{
+"text": "attacks,",
+"start": 26.7,
+"end": 27.24
+},
+{
+"text": "dropping",
+"start": 27.68,
+"end": 28.0
+},
+{
+"text": "dead",
+"start": 28.0,
+"end": 28.46
+},
+{
+"text": "in",
+"start": 28.46,
+"end": 28.62
+},
+{
+"text": "the",
+"start": 28.62,
+"end": 28.72
+},
+{
+"text": "streets.",
+"start": 28.72,
+"end": 29.0
+},
+{
+"text": "Doctors",
+"start": 30.02,
+"end": 30.02
+},
+{
+"text": "were",
+"start": 30.02,
+"end": 30.24
+},
+{
+"text": "baffled,",
+"start": 30.24,
+"end": 30.8
+},
+{
+"text": "blaming",
+"start": 31.28,
+"end": 31.48
+},
+{
+"text": "hot",
+"start": 31.48,
+"end": 31.86
+},
+{
+"text": "blood",
+"start": 31.86,
+"end": 32.18
+},
+{
+"text": "and",
+"start": 32.18,
+"end": 32.6
+},
+{
+"text": "prescribing",
+"start": 32.6,
+"end": 33.18
+},
+{
+"text": "even",
+"start": 33.18,
+"end": 33.72
+},
+{
+"text": "more",
+"start": 33.72,
+"end": 33.96
+},
+{
+"text": "dancing.",
+"start": 33.96,
+"end": 34.38
+},
+{
+"text": "To",
+"start": 34.9,
+"end": 35.0
+},
+{
+"text": "this",
+"start": 35.0,
+"end": 35.16
+},
+{
+"text": "day,",
+"start": 35.16,
+"end": 35.56
+},
+{
+"text": "nobody",
+"start": 36.22,
+"end": 36.38
+},
+{
+"text": "fully",
+"start": 36.38,
+"end": 36.9
+},
+{
+"text": "knows",
+"start": 36.9,
+"end": 37.26
+},
+{
+"text": "why",
+"start": 37.26,
+"end": 37.66
+},
+{
+"text": "it",
+"start": 37.66,
+"end": 37.76
+},
+{
+"text": "happened,",
+"start": 37.76,
+"end": 38.16
+},
+{
+"text": "only",
+"start": 38.6,
+"end": 38.88
+},
+{
+"text": "that",
+"start": 38.88,
+"end": 39.06
+},
+{
+"text": "an",
+"start": 39.06,
+"end": 39.16
+},
+{
+"text": "entire",
+"start": 39.16,
+"end": 39.68
+},
+{
+"text": "town",
+"start": 39.68,
+"end": 40.18
+},
+{
+"text": "danced",
+"start": 40.18,
+"end": 40.86
+},
+{
+"text": "itself",
+"start": 40.86,
+"end": 41.42
+},
+{
+"text": "into",
+"start": 41.42,
+"end": 41.76
+},
+{
+"text": "the",
+"start": 41.76,
+"end": 41.9
+},
+{
+"text": "grave.",
+"start": 41.9,
+"end": 42.18
+}
+]
+}

@@ -1,0 +1,490 @@
+{
+"script": "Venus looks like Earth's twin, but landing there is a death sentence. The moment a probe touches down, the atmosphere starts crushing it with 90 times the pressure at our sea level, the same force you'd feel a kilometer deep in the ocean. And it's not done. The air is a furnace hot enough to melt lead, around 900 degrees Fahrenheit, hotter than Mercury even though Venus sits farther from the Sun. Thick clouds of sulfuric acid eat at the metal. The toughest probes we ever sent survived barely two hours before Venus silenced them for good.",
+"words": [
+{
+"text": "Venus",
+"start": 0.0,
+"end": 0.4
+},
+{
+"text": "looks",
+"start": 0.4,
+"end": 0.6
+},
+{
+"text": "like",
+"start": 0.6,
+"end": 0.86
+},
+{
+"text": "Earth's",
+"start": 0.86,
+"end": 1.28
+},
+{
+"text": "twin,",
+"start": 1.28,
+"end": 1.54
+},
+{
+"text": "but",
+"start": 2.02,
+"end": 2.24
+},
+{
+"text": "landing",
+"start": 2.24,
+"end": 2.62
+},
+{
+"text": "there",
+"start": 2.62,
+"end": 2.96
+},
+{
+"text": "is",
+"start": 2.96,
+"end": 3.18
+},
+{
+"text": "a",
+"start": 3.18,
+"end": 3.32
+},
+{
+"text": "death",
+"start": 3.32,
+"end": 3.62
+},
+{
+"text": "sentence.",
+"start": 3.62,
+"end": 4.14
+},
+{
+"text": "The",
+"start": 4.8,
+"end": 4.96
+},
+{
+"text": "moment",
+"start": 4.96,
+"end": 5.2
+},
+{
+"text": "a",
+"start": 5.2,
+"end": 5.52
+},
+{
+"text": "probe",
+"start": 5.52,
+"end": 5.82
+},
+{
+"text": "touches",
+"start": 5.82,
+"end": 6.24
+},
+{
+"text": "down,",
+"start": 6.24,
+"end": 6.68
+},
+{
+"text": "the",
+"start": 7.12,
+"end": 7.18
+},
+{
+"text": "atmosphere",
+"start": 7.18,
+"end": 7.7
+},
+{
+"text": "starts",
+"start": 7.7,
+"end": 8.14
+},
+{
+"text": "crushing",
+"start": 8.14,
+"end": 8.62
+},
+{
+"text": "it",
+"start": 8.62,
+"end": 8.84
+},
+{
+"text": "with",
+"start": 8.84,
+"end": 9.04
+},
+{
+"text": "90",
+"start": 9.04,
+"end": 9.54
+},
+{
+"text": "times",
+"start": 9.54,
+"end": 9.9
+},
+{
+"text": "the",
+"start": 9.9,
+"end": 10.08
+},
+{
+"text": "pressure",
+"start": 10.08,
+"end": 10.32
+},
+{
+"text": "at",
+"start": 10.32,
+"end": 10.58
+},
+{
+"text": "our",
+"start": 10.58,
+"end": 10.7
+},
+{
+"text": "sea",
+"start": 10.7,
+"end": 10.98
+},
+{
+"text": "level,",
+"start": 10.98,
+"end": 11.32
+},
+{
+"text": "the",
+"start": 11.74,
+"end": 11.86
+},
+{
+"text": "same",
+"start": 11.86,
+"end": 12.22
+},
+{
+"text": "force",
+"start": 12.22,
+"end": 12.66
+},
+{
+"text": "you'd",
+"start": 12.66,
+"end": 12.94
+},
+{
+"text": "feel",
+"start": 12.94,
+"end": 13.16
+},
+{
+"text": "a",
+"start": 13.16,
+"end": 13.34
+},
+{
+"text": "kilometer",
+"start": 13.34,
+"end": 13.92
+},
+{
+"text": "deep",
+"start": 13.92,
+"end": 14.26
+},
+{
+"text": "in",
+"start": 14.26,
+"end": 14.66
+},
+{
+"text": "the",
+"start": 14.66,
+"end": 14.78
+},
+{
+"text": "ocean.",
+"start": 14.78,
+"end": 15.1
+},
+{
+"text": "And",
+"start": 15.64,
+"end": 15.72
+},
+{
+"text": "it's",
+"start": 15.72,
+"end": 15.86
+},
+{
+"text": "not",
+"start": 15.86,
+"end": 16.02
+},
+{
+"text": "done.",
+"start": 16.02,
+"end": 16.32
+},
+{
+"text": "The",
+"start": 16.8,
+"end": 17.0
+},
+{
+"text": "air",
+"start": 17.0,
+"end": 17.26
+},
+{
+"text": "is",
+"start": 17.26,
+"end": 17.54
+},
+{
+"text": "a",
+"start": 17.54,
+"end": 17.68
+},
+{
+"text": "furnace",
+"start": 17.68,
+"end": 17.96
+},
+{
+"text": "hot",
+"start": 17.96,
+"end": 18.36
+},
+{
+"text": "enough",
+"start": 18.36,
+"end": 18.66
+},
+{
+"text": "to",
+"start": 18.66,
+"end": 18.92
+},
+{
+"text": "melt",
+"start": 18.92,
+"end": 19.26
+},
+{
+"text": "lead,",
+"start": 19.26,
+"end": 19.62
+},
+{
+"text": "around",
+"start": 20.2,
+"end": 20.38
+},
+{
+"text": "900",
+"start": 20.38,
+"end": 21.0
+},
+{
+"text": "degrees",
+"start": 21.0,
+"end": 21.4
+},
+{
+"text": "Fahrenheit,",
+"start": 21.4,
+"end": 21.98
+},
+{
+"text": "hotter",
+"start": 22.48,
+"end": 22.72
+},
+{
+"text": "than",
+"start": 22.72,
+"end": 22.96
+},
+{
+"text": "Mercury,",
+"start": 22.96,
+"end": 23.38
+},
+{
+"text": "even",
+"start": 23.82,
+"end": 24.06
+},
+{
+"text": "though",
+"start": 24.06,
+"end": 24.28
+},
+{
+"text": "Venus",
+"start": 24.28,
+"end": 24.74
+},
+{
+"text": "sits",
+"start": 24.74,
+"end": 25.04
+},
+{
+"text": "farther",
+"start": 25.04,
+"end": 25.44
+},
+{
+"text": "from",
+"start": 25.44,
+"end": 25.7
+},
+{
+"text": "the",
+"start": 25.7,
+"end": 25.86
+},
+{
+"text": "sun",
+"start": 25.86,
+"end": 26.08
+},
+{
+"text": "-thick",
+"start": 26.08,
+"end": 26.46
+},
+{
+"text": "clouds",
+"start": 26.46,
+"end": 26.82
+},
+{
+"text": "of",
+"start": 26.82,
+"end": 27.1
+},
+{
+"text": "sulfuric",
+"start": 27.1,
+"end": 27.84
+},
+{
+"text": "acid",
+"start": 27.84,
+"end": 28.28
+},
+{
+"text": "-eat",
+"start": 28.28,
+"end": 28.58
+},
+{
+"text": "at",
+"start": 28.58,
+"end": 28.76
+},
+{
+"text": "the",
+"start": 28.76,
+"end": 28.88
+},
+{
+"text": "metal.",
+"start": 28.88,
+"end": 29.12
+},
+{
+"text": "The",
+"start": 29.58,
+"end": 29.8
+},
+{
+"text": "toughest",
+"start": 29.8,
+"end": 30.1
+},
+{
+"text": "probes",
+"start": 30.1,
+"end": 30.5
+},
+{
+"text": "we",
+"start": 30.5,
+"end": 30.72
+},
+{
+"text": "ever",
+"start": 30.72,
+"end": 30.96
+},
+{
+"text": "since",
+"start": 30.96,
+"end": 31.3
+},
+{
+"text": "survived,",
+"start": 31.3,
+"end": 31.88
+},
+{
+"text": "barely",
+"start": 32.26,
+"end": 32.54
+},
+{
+"text": "two",
+"start": 32.54,
+"end": 32.96
+},
+{
+"text": "hours",
+"start": 32.96,
+"end": 33.36
+},
+{
+"text": "before",
+"start": 33.36,
+"end": 34.04
+},
+{
+"text": "Venus",
+"start": 34.04,
+"end": 34.56
+},
+{
+"text": "silenced",
+"start": 34.56,
+"end": 35.22
+},
+{
+"text": "them",
+"start": 35.22,
+"end": 35.54
+},
+{
+"text": "for",
+"start": 35.54,
+"end": 35.68
+},
+{
+"text": "good.",
+"start": 35.68,
+"end": 35.88
+}
+]
+}

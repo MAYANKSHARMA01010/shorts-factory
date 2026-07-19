@@ -1,0 +1,55 @@
+{
+  "slug": "combolock",
+  "title": "Why Your Lock Has No Computer",
+  "duration_estimate_s": 33,
+  "palette": {
+    "bg_deep": "#0b0e14",
+    "bg_panel": "#12161f",
+    "gold": "#FFD23F",
+    "steel_key": "#9fb3c8",
+    "steel_dark": "#5a6b7d",
+    "steel_light": "#cdd9e5",
+    "notch_red": "#ff5d5d",
+    "spring_green": "#4fd6a8",
+    "xray_cyan": "#7fe3ff"
+  },
+  "payoff": "THREE NOTCHES. ONE SLOT.",
+  "scenes": [
+    {
+      "beat": "Three numbers pop this lock open, and there's no computer inside to check them.",
+      "visual": "ONE bold padlock slammed dead-center on the deep #0b0e14 void, filling ~60% of frame height. Brushed-steel circular body (radial steel_light->steel_dark gradient) with a numbered rotary dial face (0-39 fine tick ring in steel_key), a thick chrome shackle arcing over the top, and a single bright specular streak down the left curve. A combo '24-08-15' shows as three small gold pills hugging the dial rim. The scroll-stopper: a chunky gold badge pill slams into the upper-right reading 'NO CHIP INSIDE?' with a #FFD23F '?' chip, and for a beat a faint xray_cyan scanline sweeps the body revealing only empty steel where a circuit board 'should' be (a ghosted green PCB icon flickers then vanishes). The lock is the hero object; nothing else competes.",
+      "animations": "Lock springs in fast (scale 0.7->1.06->1, ~0.4s spring overshoot). Dial does one quick clockwise ratchet-spin then snaps to rest. The three gold combo pills tick-stop draw on one-by-one with a tiny bounce. The xray_cyan scanline sweeps top->bottom once; the ghosted PCB icon fades in at 30% then is wiped to nothing by the scan, selling 'empty'. The gold 'NO CHIP INSIDE?' badge SLAMS in last (scale 1.3->1 spring) with one soft gold pulse. Specular streak sweeps left->right across the steel. Calm hold, no zoom.",
+      "sfx": "a metallic dial ratchet-spin clicking to a hard stop"
+    },
+    {
+      "beat": "Open it up and instead of electronics you find a short stack of metal wheels on a pin.",
+      "visual": "The padlock body hinges open along its right edge to a clean cutaway cross-section on a #12161f panel. Inside is emphatically mechanical: a vertical stack of THREE round steel wheels threaded on a single gold spindle pin running down the center. Wheels drawn in steel_light/steel_dark with thin bevelled edges and a faint single notch hinted on each rim. An isometric-leaning side angle makes the stack read as three distinct 3D layers. A small gold label pill tags the spindle 'just metal'. The dead green PCB from scene 1 sits faded and crossed out in the corner with a gold X, reinforcing 'no computer'.",
+      "animations": "Lock body draws open on a hinge (rotate-reveal, ~0.5s). The crossed-out PCB ghost fades, then a gold X stroke draws across it. The three wheels stack-drop top-to-bottom with staggered spring pops (~0.12s apart), each landing with a tiny settle bounce. The gold spindle pin draws on vertically through all three, last. 'just metal' label pops with a small gold pulse. Fast and snappy, calm hold after.",
+      "sfx": "a hollow mechanical clunk of stacked discs seating on the pin"
+    },
+    {
+      "beat": "Each wheel has one tiny notch cut into its rim, and right now all three point different ways.",
+      "visual": "Top-down trio: the three wheels laid out as three aligned steel circles, isolated and labelled 'Wheel 1 / Wheel 2 / Wheel 3' in muted steel_key text. On each rim a single sharp V-notch is chiselled out, glowing notch_red and tagged with a tiny gold caret. A thin gold radial pointer line runs from each center out to its notch so the viewer instantly reads three DIFFERENT angles (e.g. 1 o'clock, 7 o'clock, 4 o'clock). The misalignment is the whole point of this beat.",
+      "animations": "Each wheel's circular outline draws on (fast stroke-draw, staggered). Then the red V-notch cuts in with a quick chisel-pop (a brief notch_red spark flick). Gold radial pointers sweep out from center to each notch. The three notches sit at clearly different angles and each gets a tiny idle wobble to read as loose / unaligned. Calm-but-fast, no zoom.",
+      "sfx": "a crisp tool-on-metal chisel snick, three quick taps for the three cuts"
+    },
+    {
+      "beat": "Turning to each number catches one wheel and rotates its notch to the top, one at a time.",
+      "visual": "The dial returns as a translucent steel ring overlaid on the three stacked wheels, with a fixed gold reference marker at 12 o'clock. A gold progress arc rides the dial rim. As each target number is reached, the matching wheel rotates so its red notch swings to point straight UP to that 12 o'clock marker. A compact counter pill ticks '1/3 -> 2/3 -> 3/3' in gold. Catch-pins between adjacent wheels glow gold the instant they engage, showing the wheels grab each other in sequence.",
+      "animations": "Dial sweeps; the gold arc fills as a progress sweep. On each number-hit, ONE wheel does a fast rotate-and-snap so its notch magnetically locks to the top marker with a click-settle (small overshoot then snap). Counter pill flips 1/3, 2/3, 3/3 with spring pops. A gold 'catch' spark flickers at each engagement. Wheels lock strictly sequentially, never together. Quick, mechanical, satisfying; calm hold at 3/3.",
+      "sfx": "three distinct rising mechanical click-catches, one pitch higher each"
+    },
+    {
+      "beat": "Line all three notches up and they form one straight slot, so the locking bar finally drops in.",
+      "visual": "HERO REVEAL — the single money shot. Everything else dims to near-black; only the wheel stack is spotlit, viewed edge-on so the three rims read as three stacked horizontal bands. All three red notches now point dead UP and slide into perfect registration, FUSING into ONE continuous vertical channel rimmed in glowing gold — a clean straight slot punched through all three wheels at once. Hovering directly above, perfectly sized to that channel, is a chunky steel 'fence' bar (the locking bar) with a gold-lit tip. The fused slot pulses gold to scream 'aligned'. This frame is the richest, cleanest, most deliberate composition in the whole short.",
+      "animations": "Slowest wind-up, hardest snap. The three separate red notch outlines slide into registration and FUSE with a gold flash-fill that races top-to-bottom down the new channel (~0.4s). The slot pulses once (scale 1->1.06->1). Then the steel fence bar drops straight down with weighty gravity easing into a hard spring settle as it seats fully into the channel (overshoot then THUNK to rest). A bright gold impact ring radiates outward from the seat point on landing. Hold on the seated bar for a clean beat. No zoom-pulse; the drop and the ring carry the impact.",
+      "sfx": "a deep, heavy metal latch THUNK seating home, the biggest accent in the short"
+    },
+    {
+      "beat": "And the shackle springs open in your hand.",
+      "visual": "Pull back to the whole reassembled padlock, centered. The chrome shackle SNAPS upward out of the body, the freed loop catching a bright specular glint. Three short spring_green motion flick-lines burst off the shackle hinge. The payoff text slams in word-by-word in bold gold #FFD23F over the dark panel, large and centered: 'THREE NOTCHES. ONE SLOT.' A small gold 'OPEN' badge pill pops where the shackle used to latch.",
+      "animations": "Shackle launches up with a strong spring overshoot then settles ajar. spring_green flick-lines burst at the hinge on release. Payoff words slam in one-by-one (each scale 1.25->1 with a tiny rotation settle): 'THREE' ... 'NOTCHES.' ... 'ONE' ... 'SLOT.' The 'OPEN' badge pops last with a single gold pulse. Final hold dead steady, no zoom.",
+      "sfx": "a springy metal shackle POP-sproing as it releases open"
+    }
+  ]
+}

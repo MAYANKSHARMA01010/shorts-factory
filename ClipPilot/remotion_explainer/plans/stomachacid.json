@@ -1,0 +1,58 @@
+{
+  "slug": "stomachacid",
+  "title": "Why Doesn't Your Stomach Digest Itself?",
+  "duration_estimate_s": 32,
+  "palette": {
+    "bg_deep": "#0c0f14",
+    "bg_panel": "#141a22",
+    "gold": "#FFD23F",
+    "acid_green": "#7CFF5A",
+    "acid_glow": "#A8FF8E",
+    "steel": "#9FB2C4",
+    "steel_dark": "#5A6B7C",
+    "mucus_blue": "#4FC3E8",
+    "mucus_glow": "#9BE8FF",
+    "flesh_red": "#FF5C6E",
+    "ulcer_ember": "#FF8A3D",
+    "smoke_gray": "#3A4654"
+  },
+  "scenes": [
+    {
+      "beat": "This acid can dissolve a steel razor blade in minutes. It's sitting inside you right now.",
+      "visual": "Pure-black #0c0f14 canvas with a tight radial vignette. Dead-center: ONE oversized gleaming steel razor blade (sharp #9FB2C4 body, #5A6B7C bevel, a razor-thin white specular line down its cutting edge), held point-down, half-submerged in a wide beaker of bubbling acid_green liquid. The submerged half of the blade is visibly EATEN AWAY — a ragged dissolving silhouette with #A8FF8E acid_glow eating the metal edge, tiny green bubbles streaming off it. A bold gold #FFD23F badge pill slams top-center reading 'DISSOLVES STEEL' in heavy caps, with a small gold '?' rosette beside it. Green corrosive vapor curls up off the beaker surface.",
+      "animations": "Cold open on the intact blade for 3 frames, then the acid line CLIMBS up the blade as an animated mask wipe, the metal silhouette turning ragged and pocked as it rises — the blade visibly shrinking. The gold 'DISSOLVES STEEL' badge slams in at ~0.4s with a hard spring overshoot then settles. A single bright specular glint sweeps down the remaining intact edge left-to-right. Acid surface bubbles rise and pop on a continuous loop; vapor wisps drift upward. No camera move — all motion is in-composition.",
+      "sfx": "a sharp metallic blade-ring 'shing' snapping into a corrosive hiss"
+    },
+    {
+      "beat": "Your stomach pumps out this hydrochloric acid by the cupful — to shred your food and kill anything you swallow.",
+      "visual": "Cutaway stomach as a smooth #141a22 organ silhouette with a soft gold rim-light, centered. Glands stud the inner wall and squirt acid_green droplets inward; a small gold 'HCl' label tags the stream. Inside the acid bath: a chunk of food and two cartoon bacteria (oval flesh_red blobs with wiggling flagella) drift in and visibly disintegrate — edges fizzing into green bubbles, shrinking away. A measuring tick on the side fills with green to show 'by the cupful'.",
+      "animations": "Glands pump droplets in rhythmic spring squirts, staggered around the wall. The 'HCl' gold label draws-on beside the stream. Bacteria and food scale-to-zero on a dissolve spring while green fizz bubbles rise and pop in clusters. The green measuring tick fills with an ease-out. Steady, fast in-comp motion, no zoom.",
+      "sfx": "a corrosive sizzle-fizz with rhythmic gland 'spurt' ticks"
+    },
+    {
+      "beat": "So why doesn't it eat through YOU? Because the wall is coated in a thick layer of slimy mucus the acid can't cross.",
+      "visual": "Tight cross-section of the stomach wall, centered: a band of flesh_red tissue at the bottom, capped by a glossy translucent mucus_blue gel layer with a wobbling wavy top edge and bright #9BE8FF gel highlights. From above, acid_green droplets rain down and SPLAT against the mucus, flattening into harmless beads that slide off without penetrating. A gold shield glyph badge sits center over the band, with a small 'SEALED' tag.",
+      "animations": "The mucus layer wobble-jiggles like gel on a continuous sine. Acid droplets fall and splat with a punchy squash-and-stretch on impact, then bead up and slide off the slick surface. The gold shield badge spring-pops in with overshoot. A soft mucus_glow protective sweep wipes left-to-right across the layer as it 'seals'. Fast, even cadence; no camera move.",
+      "sfx": "a wet gel squelch and droplet 'splat' that fizzles out harmlessly"
+    },
+    {
+      "beat": "And here's the trick: this lining rebuilds itself completely every three days, faster than the acid can wear it down.",
+      "visual": "Same wall, focused on regeneration. Worn, darker cracked patches in the mucus_blue layer are refilled by fresh glossy mucus_blue cells rising from the flesh_red base like tiles knitting upward to full thickness. A gold corner counter reads 'EVERY 3 DAYS' with a rolling number. Small upward arrows mark the fresh cells stacking. The renewed surface gains extra gloss.",
+      "animations": "Fresh mucus cells draw-on and tile upward to fill the gaps in a staggered spring cascade — a satisfying left-to-right ripple. The gold counter digit rolls down from a high number and locks on 3 with a tick. Layer thickness grows on an ease-out fill. A gentle mucus_glow shimmer sweeps over the renewed surface. Brisk, in-comp only.",
+      "sfx": "a soft rising regenerate chime with light 'tile-snap' clicks"
+    },
+    {
+      "beat": "But let that mucus wear thin, and the acid hits raw flesh — burning a hole straight through it. An ulcer.",
+      "visual": "HERO REVEAL — the money shot. Dramatic centered close-up of the wall in cross-section. The mucus_blue shield THINS at center and TEARS OPEN along a jagged crack, edges curling back to expose a bare circle of flesh_red tissue. A concentrated rope of acid_green pours through the breach and strikes the raw flesh, blooming a glowing ulcer_ember crater that pulses hot orange-red, radiating heat lines and rising #3A4654 smoke wisps. Angry flesh_red inflammation creeps outward in veiny tendrils around the crater. A gold '!' badge slams in beside the word 'ULCER' in heavy caps. This is the visual and emotional peak.",
+      "animations": "The mucus tears via a jagged animated-mask rip, the torn edges curling back with a peel spring. Acid pours through as a flowing green gradient rope. The crater blooms outward on a punchy scale-up spring, then locks into a slow ember pulse loop. Heat lines radiate on a staggered draw-on; smoke wisps drift up and fade. Veiny inflammation tendrils crawl outward on a path-reveal. The gold '!' badge and 'ULCER' label spring-pop with hard overshoot exactly on the impact frame. Richest, most layered scene; all motion in-comp, no camera push.",
+      "sfx": "a deep searing burn-flare with a crackling ember sting"
+    },
+    {
+      "beat": "So you're walking around with a vat of acid, held back by nothing but slime.",
+      "visual": "Pull back to a clean iconographic summary, evenly composed. Left: a glowing acid_green beaker of bubbling poison. Middle: a thin glossy mucus_blue slime barrier, faintly flexing as it holds the green back. Right: a calm human silhouette, safe. The payoff line slams in centered, word-by-word, in bold white over darkened #0c0f14 — keyword 'SLIME' rendered in gold #FFD23F.",
+      "animations": "Beaker bubbles rise and pop on a loop. The mucus barrier holds with a faint flex, the green pressing against it but never crossing. Payoff text drops in word-by-word with spring overshoot, each word punching in slightly larger then settling; 'SLIME' lands last with an extra gold glow flash. A final vignette tightens to seal the end. No zoom-pulse.",
+      "sfx": "a single resolving low boom sting that decays into a faint acid bubble"
+    }
+  ],
+  "payoff": "Acid. Held back by slime."
+}

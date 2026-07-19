@@ -1,0 +1,510 @@
+{
+"script": "Deep in the rainforests of Central and South America lives a creature that looks like it's made of glass. The glass frog has skin so translucent on its underside that you can see its beating heart, intestines, and liver. Scientists recently discovered its secret: when it goes to sleep, it hides almost all of its red blood cells inside its liver. This makes the frog up to 60% more transparent, Allowing it to blend in perfectly with the green leaves it rests on. When it wakes up, the blood cells rush back into circulation, And the frog becomes visible again.",
+"words": [
+{
+"text": "Deep",
+"start": 0.0,
+"end": 0.3
+},
+{
+"text": "in",
+"start": 0.3,
+"end": 0.46
+},
+{
+"text": "the",
+"start": 0.46,
+"end": 0.56
+},
+{
+"text": "rainforests",
+"start": 0.56,
+"end": 1.28
+},
+{
+"text": "of",
+"start": 1.28,
+"end": 1.4
+},
+{
+"text": "Central",
+"start": 1.4,
+"end": 1.96
+},
+{
+"text": "and",
+"start": 1.96,
+"end": 2.22
+},
+{
+"text": "South",
+"start": 2.22,
+"end": 2.6
+},
+{
+"text": "America",
+"start": 2.6,
+"end": 3.2
+},
+{
+"text": "lives",
+"start": 3.2,
+"end": 3.9
+},
+{
+"text": "a",
+"start": 3.9,
+"end": 4.18
+},
+{
+"text": "creature",
+"start": 4.18,
+"end": 4.56
+},
+{
+"text": "that",
+"start": 4.56,
+"end": 5.04
+},
+{
+"text": "looks",
+"start": 5.04,
+"end": 5.32
+},
+{
+"text": "like",
+"start": 5.32,
+"end": 5.54
+},
+{
+"text": "it's",
+"start": 5.54,
+"end": 5.74
+},
+{
+"text": "made",
+"start": 5.74,
+"end": 5.92
+},
+{
+"text": "of",
+"start": 5.92,
+"end": 6.08
+},
+{
+"text": "glass.",
+"start": 6.08,
+"end": 6.4
+},
+{
+"text": "The",
+"start": 7.1,
+"end": 7.3
+},
+{
+"text": "glass",
+"start": 7.3,
+"end": 7.56
+},
+{
+"text": "frog",
+"start": 7.56,
+"end": 7.92
+},
+{
+"text": "has",
+"start": 7.92,
+"end": 8.24
+},
+{
+"text": "skin",
+"start": 8.24,
+"end": 8.66
+},
+{
+"text": "so",
+"start": 8.66,
+"end": 9.24
+},
+{
+"text": "translucent",
+"start": 9.24,
+"end": 9.9
+},
+{
+"text": "on",
+"start": 9.9,
+"end": 10.34
+},
+{
+"text": "its",
+"start": 10.34,
+"end": 10.48
+},
+{
+"text": "underside",
+"start": 10.48,
+"end": 10.94
+},
+{
+"text": "that",
+"start": 10.94,
+"end": 11.18
+},
+{
+"text": "you",
+"start": 11.18,
+"end": 11.28
+},
+{
+"text": "can",
+"start": 11.28,
+"end": 11.44
+},
+{
+"text": "see",
+"start": 11.44,
+"end": 11.74
+},
+{
+"text": "its",
+"start": 11.74,
+"end": 11.9
+},
+{
+"text": "beating",
+"start": 11.9,
+"end": 12.24
+},
+{
+"text": "heart,",
+"start": 12.24,
+"end": 12.72
+},
+{
+"text": "intestines,",
+"start": 13.3,
+"end": 13.9
+},
+{
+"text": "and",
+"start": 14.12,
+"end": 14.22
+},
+{
+"text": "liver.",
+"start": 14.22,
+"end": 14.52
+},
+{
+"text": "Scientists",
+"start": 15.28,
+"end": 15.68
+},
+{
+"text": "recently",
+"start": 15.68,
+"end": 16.38
+},
+{
+"text": "discovered",
+"start": 16.38,
+"end": 16.96
+},
+{
+"text": "its",
+"start": 16.96,
+"end": 17.18
+},
+{
+"text": "secret.",
+"start": 17.18,
+"end": 17.64
+},
+{
+"text": "When",
+"start": 18.2,
+"end": 18.36
+},
+{
+"text": "it",
+"start": 18.36,
+"end": 18.46
+},
+{
+"text": "goes",
+"start": 18.46,
+"end": 18.68
+},
+{
+"text": "to",
+"start": 18.68,
+"end": 18.9
+},
+{
+"text": "sleep,",
+"start": 18.9,
+"end": 19.3
+},
+{
+"text": "it",
+"start": 19.68,
+"end": 19.96
+},
+{
+"text": "hides",
+"start": 19.96,
+"end": 20.3
+},
+{
+"text": "almost",
+"start": 20.3,
+"end": 20.78
+},
+{
+"text": "all",
+"start": 20.78,
+"end": 21.18
+},
+{
+"text": "of",
+"start": 21.18,
+"end": 21.3
+},
+{
+"text": "its",
+"start": 21.3,
+"end": 21.42
+},
+{
+"text": "red",
+"start": 21.42,
+"end": 21.78
+},
+{
+"text": "blood",
+"start": 21.78,
+"end": 22.08
+},
+{
+"text": "cells",
+"start": 22.08,
+"end": 22.46
+},
+{
+"text": "inside",
+"start": 22.46,
+"end": 23.04
+},
+{
+"text": "its",
+"start": 23.04,
+"end": 23.34
+},
+{
+"text": "liver.",
+"start": 23.34,
+"end": 23.64
+},
+{
+"text": "This",
+"start": 23.64,
+"end": 24.32
+},
+{
+"text": "makes",
+"start": 24.32,
+"end": 24.5
+},
+{
+"text": "the",
+"start": 24.5,
+"end": 24.68
+},
+{
+"text": "frog",
+"start": 24.68,
+"end": 24.92
+},
+{
+"text": "up",
+"start": 24.92,
+"end": 25.14
+},
+{
+"text": "to",
+"start": 25.14,
+"end": 25.32
+},
+{
+"text": "60",
+"start": 25.32,
+"end": 25.78
+},
+{
+"text": "%",
+"start": 25.78,
+"end": 26.22
+},
+{
+"text": "more",
+"start": 26.22,
+"end": 26.58
+},
+{
+"text": "transparent,",
+"start": 26.58,
+"end": 27.26
+},
+{
+"text": "allowing",
+"start": 27.76,
+"end": 28.12
+},
+{
+"text": "it",
+"start": 28.12,
+"end": 28.38
+},
+{
+"text": "to",
+"start": 28.38,
+"end": 28.52
+},
+{
+"text": "blend",
+"start": 28.52,
+"end": 28.82
+},
+{
+"text": "in",
+"start": 28.82,
+"end": 29.1
+},
+{
+"text": "perfectly",
+"start": 29.1,
+"end": 29.58
+},
+{
+"text": "with",
+"start": 29.58,
+"end": 29.94
+},
+{
+"text": "the",
+"start": 29.94,
+"end": 30.08
+},
+{
+"text": "green",
+"start": 30.08,
+"end": 30.44
+},
+{
+"text": "leaves",
+"start": 30.44,
+"end": 31.04
+},
+{
+"text": "it",
+"start": 31.04,
+"end": 31.2
+},
+{
+"text": "rests",
+"start": 31.2,
+"end": 31.4
+},
+{
+"text": "on.",
+"start": 31.4,
+"end": 31.72
+},
+{
+"text": "When",
+"start": 32.1,
+"end": 32.3
+},
+{
+"text": "it",
+"start": 32.3,
+"end": 32.38
+},
+{
+"text": "wakes",
+"start": 32.38,
+"end": 32.62
+},
+{
+"text": "up,",
+"start": 32.62,
+"end": 32.96
+},
+{
+"text": "the",
+"start": 33.32,
+"end": 33.4
+},
+{
+"text": "blood",
+"start": 33.4,
+"end": 33.7
+},
+{
+"text": "cells",
+"start": 33.7,
+"end": 34.18
+},
+{
+"text": "rush",
+"start": 34.18,
+"end": 34.72
+},
+{
+"text": "back",
+"start": 34.72,
+"end": 35.16
+},
+{
+"text": "into",
+"start": 35.16,
+"end": 35.4
+},
+{
+"text": "circulation,",
+"start": 35.4,
+"end": 36.02
+},
+{
+"text": "and",
+"start": 36.54,
+"end": 36.76
+},
+{
+"text": "a",
+"start": 36.76,
+"end": 36.86
+},
+{
+"text": "frog",
+"start": 36.86,
+"end": 37.26
+},
+{
+"text": "becomes",
+"start": 37.26,
+"end": 37.8
+},
+{
+"text": "visible",
+"start": 37.8,
+"end": 38.28
+},
+{
+"text": "again.",
+"start": 38.28,
+"end": 38.68
+}
+]
+}

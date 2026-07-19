@@ -1,0 +1,55 @@
+{
+  "slug": "axolotl",
+  "title": "It Regrows Its Own Brain",
+  "duration_estimate_s": 32,
+  "palette": {
+    "bg_deep": "#0c1418",
+    "bg_panel": "#101d22",
+    "gold": "#FFD23F",
+    "axolotl_pink": "#FF8FB1",
+    "gill_coral": "#FF5C8A",
+    "regen_teal": "#3FE0C5",
+    "bone_ivory": "#F2ECDD",
+    "nerve_violet": "#9B8CFF",
+    "crack_red": "#FF5A4D"
+  },
+  "scenes": [
+    {
+      "beat": "Snip off this animal's whole leg, and a brand-new one grows back.",
+      "visual": "ONE bold object, centered huge and clean on a deep teal-black (#0c1418) background: a chunky cartoon axolotl in soft pink (#FF8FB1), shown in profile, filling the middle third of a 1080x1920 frame, with three feathery external gills (#FF5C8A) fanning off its wide smiling head. Big gold scissors glyph (#FFD23F) hover at the base of its front-left leg, jaws open. Top-center, a fat gold badge pill (#FFD23F) with black text reads 'CUT IT OFF'. Nothing else on screen — no grid clutter — just dark space and the one creature so the thumbnail reads instantly.",
+      "animations": "Axolotl springs in fast with a scale-up overshoot pop (spring damping ~10) and a tiny settle-wobble; the three gills draw-on as stroked paths one frond at a time in a quick 3-frame stagger. The gold 'CUT IT OFF' badge slams down from above with a hard spring overshoot. The scissors snap closed once (rotate jaws shut in 2 frames), and on the snap the front-left leg detaches and drops + fades out, leaving a clean flat stump. Beat held ~6 frames on the empty stump for shock before next scene.",
+      "sfx": "a crisp scissor 'snip' snick, immediately followed by a soft wet aquatic bloop as the leg drops"
+    },
+    {
+      "beat": "It's a salamander that never grows up, keeping its baby gills for its whole life.",
+      "visual": "Split-stage comparison on the dark background. LEFT: a flat grey adult salamander silhouette stands on dry land under a tiny sun, lungs hinted, looking plain. RIGHT: our pink axolotl floats in faint teal water, feathery coral gills proudly fanned and ringed with a glowing coral outline. A gold label pill centered between them reads 'NEVER GROWS UP'. A thin baseline timeline arrow runs left (a tiny 'BABY' tick) to right ('ADULT' tick); a small axolotl face-icon sits pinned at the baby end.",
+      "animations": "Land salamander greys-out and desaturates (fill lerps toward grey) while the axolotl brightens up. The gold 'NEVER GROWS UP' pill slides up from below and locks with a spring. The three gill fronds pulse-glow in a one-two-three coral fill sweep. The timeline arrow draws-on left-to-right; the axolotl icon slides toward 'ADULT', then springs back to the 'BABY' end with an elastic bounce, underscoring it stays a baby.",
+      "sfx": "a gentle harp pluck arpeggio with a light underwater shimmer tail"
+    },
+    {
+      "beat": "Its real superpower is regrowing the limb from scratch — bone, muscle, and nerves rebuild in weeks.",
+      "visual": "HERO REVEAL — the unmistakable money shot. Full-frame macro of the flat leg stump, centered and large. From the stump a translucent regen-teal (#3FE0C5) dome of cells — the blastema — bulges out, glowing with soft inner light. Inside it the new limb assembles in three clearly readable labeled layers: (1) ivory bone segments (#F2ECDD) snap into a little hand-skeleton with four finger bones; (2) pink muscle fibers (#FF8FB1) wrap around the bones strand by strand; (3) violet nerve threads (#9B8CFF) thread down the limb and branch into each fingertip. A gold progress arc curves over the top reading a week counter 1-2-3-4, ending at a gold 'GOOD AS NEW' stamp. Faint teal particle motes drift upward from the growth.",
+      "animations": "The teal blastema dome inflates with an elastic spring bulge (overshoot then settle). Bone segments draw-on as stroked outlines then snap together with sharp staccato spring pops in sequence (one finger bone per ~4 frames). Muscle fibers sweep-wrap around the bone with a left-to-right mask fill. Violet nerve threads draw-on like growing vines, branching at the fingertips with a quick split animation. The gold week-counter ticks 1->2->3->4 in sync as the progress arc fills clockwise; on '4' the 'GOOD AS NEW' gold stamp slams in with a hard spring overshoot and a 2-frame shake. The finished hand gives one confident finger-wiggle. This scene is held longest and is the richest — all other scenes are visually simpler so this reads as THE shot.",
+      "sfx": "a rising organic 'grow' swell that blooms into a clean crystalline chime exactly on the GOOD AS NEW stamp"
+    },
+    {
+      "beat": "And it doesn't stop at limbs — it regrows parts of its heart, its spine, even its own brain, with no scar.",
+      "visual": "The axolotl returns center, rendered semi-transparent like an anatomy plate so its insides show. Three organs are highlighted in turn inside the body: a regen-teal heart at the chest, an ivory spine running down the back, a violet brain at the head. On each organ a jagged red 'damage' crack (#FF5A4D) appears, then a teal regen-glow sweep wipes across and the crack vanishes into smooth tissue. A gold ribbon banner along the bottom reads 'NO SCAR'. Small gold plus-signs float up off each healed organ.",
+      "animations": "Each organ lights up one at a time — heart, then spine, then brain — with a spring pop and a soft pulse-glow. On each, the red crack draws-on jaggedly, then a teal heal-sweep wipes left-to-right and the crack erases (draw-off in reverse). The 'NO SCAR' gold banner unrolls left-to-right. The heart gives a double beat-pulse, the brain shimmers once, and gold plus-signs pop and rise off each organ as it finishes.",
+      "sfx": "a soft single heartbeat thump, then a clean healing shimmer-erase sweep as each crack closes"
+    },
+    {
+      "beat": "Scientists study it obsessively — copy this trick, and one day we might heal the same way.",
+      "visual": "Flat-vector lab scene on the dark background. A round petri dish glows teal at center with a tiny axolotl silhouette inside, ringed by a faint magnifying-glass outline. A gold dashed arrow leaps from the dish rightward to a human-arm outline, where the same teal blastema-glow lights up over a wound on the forearm — hinting humans could heal too. A gold question-pill above reads 'COPY THE TRICK?'. Clean faint lab grid behind.",
+      "animations": "Petri dish fades in and the inner axolotl pulse-glows. The gold dashed arrow draws-on from dish to arm in a quick left-to-right sweep; as it lands, the human forearm wound lights with a teal spring-glow pop. The 'COPY THE TRICK?' gold pill pops in with spring overshoot. Subtle teal particle motes drift along the arrow path between dish and arm.",
+      "sfx": "a soft glassy lab 'ting', like a pipette tapping the rim of a dish"
+    },
+    {
+      "beat": "PAYOFF: it heals what we can't.",
+      "visual": "Black-teal void. The punchline lands word-by-word in heavy white type, the operative word in gold: 'IT' / 'HEALS' / 'WHAT WE' / 'CAN'T'. Behind the text, a faint pink axolotl outline with one teal-glowing regrown limb sits as a watermark. A thin gold underline waits under the final word.",
+      "animations": "Each word slams in with a strong spring overshoot and settles, staggered fast (snap-snap-snap-snap, ~5 frames apart). On the final word 'CAN'T' the gold underline sweeps across left-to-right and the whole line gives one tiny unified bounce. The faint axolotl watermark fades up gently and its regrown limb pulses gold once on the final beat.",
+      "sfx": "a final deep confident impact thump with a short gold sparkle tail"
+    }
+  ],
+  "payoff": "IT HEALS WHAT WE CAN'T"
+}

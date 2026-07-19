@@ -1,0 +1,505 @@
+{
+"script": "Your grandmother's cast iron pan was once a river of fire. You see, chunks of scrap iron are dropped into a furnace and heated past 2,000 degrees until they melt completely. Then this glowing orange liquid is poured into a sand mold shaped exactly like a pan. And here's the clever part: that sand can be smashed apart and reused again and again. Next, the cooled pan is blasted clean and rubbed with oil baked onto its surface. Finally, that oil hardens into a natural nonstick coating, which is exactly why old pans only get better with age.",
+"words": [
+{
+"text": "Your",
+"start": 0.0,
+"end": 0.28
+},
+{
+"text": "grandmother's",
+"start": 0.28,
+"end": 0.94
+},
+{
+"text": "cast",
+"start": 0.94,
+"end": 1.16
+},
+{
+"text": "iron",
+"start": 1.16,
+"end": 1.54
+},
+{
+"text": "pan",
+"start": 1.54,
+"end": 1.88
+},
+{
+"text": "was",
+"start": 1.88,
+"end": 2.36
+},
+{
+"text": "once",
+"start": 2.36,
+"end": 2.68
+},
+{
+"text": "a",
+"start": 2.68,
+"end": 2.88
+},
+{
+"text": "river",
+"start": 2.88,
+"end": 3.06
+},
+{
+"text": "of",
+"start": 3.06,
+"end": 3.3
+},
+{
+"text": "fire.",
+"start": 3.3,
+"end": 3.64
+},
+{
+"text": "You",
+"start": 4.22,
+"end": 4.3
+},
+{
+"text": "see,",
+"start": 4.3,
+"end": 4.66
+},
+{
+"text": "chunks",
+"start": 5.12,
+"end": 5.26
+},
+{
+"text": "of",
+"start": 5.26,
+"end": 5.48
+},
+{
+"text": "scrap",
+"start": 5.48,
+"end": 5.8
+},
+{
+"text": "iron",
+"start": 5.8,
+"end": 6.12
+},
+{
+"text": "are",
+"start": 6.12,
+"end": 6.36
+},
+{
+"text": "dropped",
+"start": 6.36,
+"end": 6.72
+},
+{
+"text": "into",
+"start": 6.72,
+"end": 7.0
+},
+{
+"text": "a",
+"start": 7.0,
+"end": 7.16
+},
+{
+"text": "furnace",
+"start": 7.16,
+"end": 7.52
+},
+{
+"text": "and",
+"start": 7.52,
+"end": 7.96
+},
+{
+"text": "heated",
+"start": 7.96,
+"end": 8.32
+},
+{
+"text": "past",
+"start": 8.32,
+"end": 8.68
+},
+{
+"text": "2",
+"start": 8.68,
+"end": 8.94
+},
+{
+"text": ",000",
+"start": 8.94,
+"end": 9.32
+},
+{
+"text": "degrees",
+"start": 9.32,
+"end": 9.66
+},
+{
+"text": "until",
+"start": 9.66,
+"end": 10.38
+},
+{
+"text": "they",
+"start": 10.38,
+"end": 10.52
+},
+{
+"text": "melt",
+"start": 10.52,
+"end": 10.74
+},
+{
+"text": "completely.",
+"start": 10.74,
+"end": 11.3
+},
+{
+"text": "Then",
+"start": 11.82,
+"end": 12.02
+},
+{
+"text": "this",
+"start": 12.02,
+"end": 12.26
+},
+{
+"text": "glowing",
+"start": 12.26,
+"end": 12.82
+},
+{
+"text": "orange",
+"start": 12.82,
+"end": 13.22
+},
+{
+"text": "liquid",
+"start": 13.22,
+"end": 13.66
+},
+{
+"text": "is",
+"start": 13.66,
+"end": 14.24
+},
+{
+"text": "poured",
+"start": 14.24,
+"end": 14.54
+},
+{
+"text": "into",
+"start": 14.54,
+"end": 14.76
+},
+{
+"text": "a",
+"start": 14.76,
+"end": 14.94
+},
+{
+"text": "sand",
+"start": 14.94,
+"end": 15.3
+},
+{
+"text": "mold",
+"start": 15.3,
+"end": 15.6
+},
+{
+"text": "shaped",
+"start": 15.6,
+"end": 16.18
+},
+{
+"text": "exactly",
+"start": 16.18,
+"end": 16.88
+},
+{
+"text": "like",
+"start": 16.88,
+"end": 17.24
+},
+{
+"text": "a",
+"start": 17.24,
+"end": 17.34
+},
+{
+"text": "pan.",
+"start": 17.34,
+"end": 17.62
+},
+{
+"text": "And",
+"start": 18.08,
+"end": 18.18
+},
+{
+"text": "here's",
+"start": 18.18,
+"end": 18.4
+},
+{
+"text": "the",
+"start": 18.4,
+"end": 18.52
+},
+{
+"text": "clever",
+"start": 18.52,
+"end": 18.72
+},
+{
+"text": "part,",
+"start": 18.72,
+"end": 19.14
+},
+{
+"text": "that",
+"start": 19.6,
+"end": 19.76
+},
+{
+"text": "sand",
+"start": 19.76,
+"end": 20.06
+},
+{
+"text": "can",
+"start": 20.06,
+"end": 20.22
+},
+{
+"text": "be",
+"start": 20.22,
+"end": 20.36
+},
+{
+"text": "smashed",
+"start": 20.36,
+"end": 20.78
+},
+{
+"text": "apart",
+"start": 20.78,
+"end": 21.2
+},
+{
+"text": "and",
+"start": 21.2,
+"end": 21.6
+},
+{
+"text": "reused",
+"start": 21.6,
+"end": 22.06
+},
+{
+"text": "again",
+"start": 22.06,
+"end": 22.5
+},
+{
+"text": "and",
+"start": 22.5,
+"end": 22.92
+},
+{
+"text": "again.",
+"start": 22.92,
+"end": 23.24
+},
+{
+"text": "Next,",
+"start": 23.72,
+"end": 24.02
+},
+{
+"text": "the",
+"start": 24.24,
+"end": 24.34
+},
+{
+"text": "cooled",
+"start": 24.34,
+"end": 24.58
+},
+{
+"text": "pan",
+"start": 24.58,
+"end": 24.86
+},
+{
+"text": "is",
+"start": 24.86,
+"end": 25.04
+},
+{
+"text": "blasted",
+"start": 25.04,
+"end": 25.44
+},
+{
+"text": "clean",
+"start": 25.44,
+"end": 25.9
+},
+{
+"text": "and",
+"start": 25.9,
+"end": 26.42
+},
+{
+"text": "rubbed",
+"start": 26.42,
+"end": 26.66
+},
+{
+"text": "with",
+"start": 26.66,
+"end": 26.9
+},
+{
+"text": "oil",
+"start": 26.9,
+"end": 27.26
+},
+{
+"text": "baked",
+"start": 27.26,
+"end": 27.82
+},
+{
+"text": "onto",
+"start": 27.82,
+"end": 28.1
+},
+{
+"text": "its",
+"start": 28.1,
+"end": 28.32
+},
+{
+"text": "surface.",
+"start": 28.32,
+"end": 28.7
+},
+{
+"text": "Finally,",
+"start": 29.42,
+"end": 29.86
+},
+{
+"text": "that",
+"start": 30.3,
+"end": 30.44
+},
+{
+"text": "oil",
+"start": 30.44,
+"end": 30.74
+},
+{
+"text": "hardens",
+"start": 30.74,
+"end": 31.3
+},
+{
+"text": "into",
+"start": 31.3,
+"end": 31.6
+},
+{
+"text": "a",
+"start": 31.6,
+"end": 31.76
+},
+{
+"text": "natural",
+"start": 31.76,
+"end": 32.26
+},
+{
+"text": "non",
+"start": 32.26,
+"end": 32.76
+},
+{
+"text": "-stick",
+"start": 32.76,
+"end": 33.16
+},
+{
+"text": "coating,",
+"start": 33.16,
+"end": 33.6
+},
+{
+"text": "which",
+"start": 34.12,
+"end": 34.22
+},
+{
+"text": "is",
+"start": 34.22,
+"end": 34.34
+},
+{
+"text": "exactly",
+"start": 34.34,
+"end": 34.72
+},
+{
+"text": "why",
+"start": 34.72,
+"end": 35.12
+},
+{
+"text": "old",
+"start": 35.12,
+"end": 35.4
+},
+{
+"text": "pans",
+"start": 35.4,
+"end": 35.9
+},
+{
+"text": "only",
+"start": 35.9,
+"end": 36.24
+},
+{
+"text": "get",
+"start": 36.24,
+"end": 36.52
+},
+{
+"text": "better",
+"start": 36.52,
+"end": 36.76
+},
+{
+"text": "with",
+"start": 36.76,
+"end": 36.96
+},
+{
+"text": "age.",
+"start": 36.96,
+"end": 37.24
+}
+]
+}

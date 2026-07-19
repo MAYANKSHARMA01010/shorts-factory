@@ -1,0 +1,470 @@
+{
+"script": "When this tiny beetle gets attacked, it fires a boiling chemical gun out of its backside. Inside its body, it stores two harmless liquids in separate chambers. But the moment a predator strikes, it mixes them together, triggering a violent reaction. And this heats the spray to the boiling point of water, blasting it out with a loud popping sound. The scalding jet can be aimed in almost any direction, hitting a frog or ant with pinpoint accuracy. That's why it's called the bombardier beetle, a bug that literally explodes on its enemies.",
+"words": [
+{
+"text": "When",
+"start": 0.0,
+"end": 0.24
+},
+{
+"text": "this",
+"start": 0.24,
+"end": 0.42
+},
+{
+"text": "tiny",
+"start": 0.42,
+"end": 0.86
+},
+{
+"text": "beetle",
+"start": 0.86,
+"end": 1.32
+},
+{
+"text": "gets",
+"start": 1.32,
+"end": 1.6
+},
+{
+"text": "attacked,",
+"start": 1.6,
+"end": 2.16
+},
+{
+"text": "it",
+"start": 2.56,
+"end": 2.58
+},
+{
+"text": "fires",
+"start": 2.58,
+"end": 2.94
+},
+{
+"text": "a",
+"start": 2.94,
+"end": 3.2
+},
+{
+"text": "boiling",
+"start": 3.2,
+"end": 3.62
+},
+{
+"text": "chemical",
+"start": 3.62,
+"end": 4.08
+},
+{
+"text": "gun",
+"start": 4.08,
+"end": 4.52
+},
+{
+"text": "out",
+"start": 4.52,
+"end": 4.9
+},
+{
+"text": "of",
+"start": 4.9,
+"end": 5.0
+},
+{
+"text": "its",
+"start": 5.0,
+"end": 5.12
+},
+{
+"text": "backside.",
+"start": 5.12,
+"end": 5.72
+},
+{
+"text": "Inside",
+"start": 6.22,
+"end": 6.62
+},
+{
+"text": "its",
+"start": 6.62,
+"end": 6.82
+},
+{
+"text": "body,",
+"start": 6.82,
+"end": 7.24
+},
+{
+"text": "it",
+"start": 7.66,
+"end": 7.76
+},
+{
+"text": "stores",
+"start": 7.76,
+"end": 8.08
+},
+{
+"text": "two",
+"start": 8.08,
+"end": 8.48
+},
+{
+"text": "harmless",
+"start": 8.48,
+"end": 8.98
+},
+{
+"text": "liquids",
+"start": 8.98,
+"end": 9.52
+},
+{
+"text": "in",
+"start": 9.52,
+"end": 10.1
+},
+{
+"text": "separate",
+"start": 10.1,
+"end": 10.52
+},
+{
+"text": "chambers.",
+"start": 10.52,
+"end": 11.04
+},
+{
+"text": "But",
+"start": 11.52,
+"end": 11.76
+},
+{
+"text": "the",
+"start": 11.76,
+"end": 11.88
+},
+{
+"text": "moment",
+"start": 11.88,
+"end": 12.1
+},
+{
+"text": "a",
+"start": 12.1,
+"end": 12.3
+},
+{
+"text": "predator",
+"start": 12.3,
+"end": 12.5
+},
+{
+"text": "strikes,",
+"start": 12.5,
+"end": 13.02
+},
+{
+"text": "it",
+"start": 13.54,
+"end": 13.74
+},
+{
+"text": "mixes",
+"start": 13.74,
+"end": 14.08
+},
+{
+"text": "them",
+"start": 14.08,
+"end": 14.38
+},
+{
+"text": "together,",
+"start": 14.38,
+"end": 14.92
+},
+{
+"text": "triggering",
+"start": 15.48,
+"end": 15.68
+},
+{
+"text": "a",
+"start": 15.68,
+"end": 16.16
+},
+{
+"text": "violent",
+"start": 16.16,
+"end": 16.5
+},
+{
+"text": "reaction.",
+"start": 16.5,
+"end": 17.04
+},
+{
+"text": "And",
+"start": 17.5,
+"end": 17.72
+},
+{
+"text": "this",
+"start": 17.72,
+"end": 17.88
+},
+{
+"text": "heats",
+"start": 17.88,
+"end": 18.22
+},
+{
+"text": "the",
+"start": 18.22,
+"end": 18.48
+},
+{
+"text": "spray",
+"start": 18.48,
+"end": 18.88
+},
+{
+"text": "to",
+"start": 18.88,
+"end": 19.24
+},
+{
+"text": "the",
+"start": 19.24,
+"end": 19.38
+},
+{
+"text": "boiling",
+"start": 19.38,
+"end": 19.72
+},
+{
+"text": "point",
+"start": 19.72,
+"end": 20.02
+},
+{
+"text": "of",
+"start": 20.02,
+"end": 20.18
+},
+{
+"text": "water,",
+"start": 20.18,
+"end": 20.58
+},
+{
+"text": "blasting",
+"start": 21.16,
+"end": 21.46
+},
+{
+"text": "it",
+"start": 21.46,
+"end": 21.68
+},
+{
+"text": "out",
+"start": 21.68,
+"end": 21.94
+},
+{
+"text": "with",
+"start": 21.94,
+"end": 22.16
+},
+{
+"text": "a",
+"start": 22.16,
+"end": 22.38
+},
+{
+"text": "loud",
+"start": 22.38,
+"end": 22.72
+},
+{
+"text": "popping",
+"start": 22.72,
+"end": 23.12
+},
+{
+"text": "sound.",
+"start": 23.12,
+"end": 23.62
+},
+{
+"text": "The",
+"start": 23.62,
+"end": 24.2
+},
+{
+"text": "Scalding",
+"start": 24.2,
+"end": 24.7
+},
+{
+"text": "Jet",
+"start": 24.7,
+"end": 24.96
+},
+{
+"text": "can",
+"start": 24.96,
+"end": 25.36
+},
+{
+"text": "be",
+"start": 25.36,
+"end": 25.54
+},
+{
+"text": "aimed",
+"start": 25.54,
+"end": 25.8
+},
+{
+"text": "in",
+"start": 25.8,
+"end": 26.0
+},
+{
+"text": "almost",
+"start": 26.0,
+"end": 26.38
+},
+{
+"text": "any",
+"start": 26.38,
+"end": 26.88
+},
+{
+"text": "direction,",
+"start": 26.88,
+"end": 27.4
+},
+{
+"text": "hitting",
+"start": 27.84,
+"end": 28.12
+},
+{
+"text": "a",
+"start": 28.12,
+"end": 28.36
+},
+{
+"text": "frog",
+"start": 28.36,
+"end": 28.66
+},
+{
+"text": "or",
+"start": 28.66,
+"end": 29.28
+},
+{
+"text": "ant",
+"start": 29.28,
+"end": 29.76
+},
+{
+"text": "with",
+"start": 29.76,
+"end": 30.04
+},
+{
+"text": "pinpoint",
+"start": 30.04,
+"end": 30.48
+},
+{
+"text": "accuracy.",
+"start": 30.48,
+"end": 31.08
+},
+{
+"text": "That's",
+"start": 31.6,
+"end": 31.86
+},
+{
+"text": "why",
+"start": 31.86,
+"end": 32.02
+},
+{
+"text": "it's",
+"start": 32.02,
+"end": 32.16
+},
+{
+"text": "called",
+"start": 32.16,
+"end": 32.32
+},
+{
+"text": "the",
+"start": 32.32,
+"end": 32.5
+},
+{
+"text": "Bombardier",
+"start": 32.5,
+"end": 33.12
+},
+{
+"text": "Beetle,",
+"start": 33.12,
+"end": 33.44
+},
+{
+"text": "a",
+"start": 34.08,
+"end": 34.2
+},
+{
+"text": "bug",
+"start": 34.2,
+"end": 34.4
+},
+{
+"text": "that",
+"start": 34.4,
+"end": 34.66
+},
+{
+"text": "literally",
+"start": 34.66,
+"end": 35.08
+},
+{
+"text": "explodes",
+"start": 35.08,
+"end": 35.82
+},
+{
+"text": "on",
+"start": 35.82,
+"end": 36.14
+},
+{
+"text": "its",
+"start": 36.14,
+"end": 36.24
+},
+{
+"text": "enemies.",
+"start": 36.24,
+"end": 36.48
+}
+]
+}

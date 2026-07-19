@@ -1,0 +1,495 @@
+{
+"script": "In one of the driest deserts on Earth, where it can go years without rain, the kangaroo rat thrives without ever taking a single drink. You see, it pulls nearly all its water from the dry seeds it eats. Its body chemically breaks those seeds down and squeezes the moisture out of them. Then it locks that water in, with kidneys so powerful its urine comes out almost as a paste. It even seals itself in a cool burrow by day to avoid losing a breath of moisture. This means it can outlast a camel in the desert.",
+"words": [
+{
+"text": "In",
+"start": 0.0,
+"end": 0.24
+},
+{
+"text": "one",
+"start": 0.24,
+"end": 0.34
+},
+{
+"text": "of",
+"start": 0.34,
+"end": 0.44
+},
+{
+"text": "the",
+"start": 0.44,
+"end": 0.56
+},
+{
+"text": "driest",
+"start": 0.56,
+"end": 1.18
+},
+{
+"text": "deserts",
+"start": 1.18,
+"end": 1.56
+},
+{
+"text": "on",
+"start": 1.56,
+"end": 1.88
+},
+{
+"text": "Earth,",
+"start": 1.88,
+"end": 2.2
+},
+{
+"text": "where",
+"start": 2.66,
+"end": 2.78
+},
+{
+"text": "it",
+"start": 2.78,
+"end": 2.84
+},
+{
+"text": "can",
+"start": 2.84,
+"end": 2.94
+},
+{
+"text": "go",
+"start": 2.94,
+"end": 3.16
+},
+{
+"text": "years",
+"start": 3.16,
+"end": 3.58
+},
+{
+"text": "without",
+"start": 3.58,
+"end": 4.06
+},
+{
+"text": "rain,",
+"start": 4.06,
+"end": 4.44
+},
+{
+"text": "the",
+"start": 4.86,
+"end": 4.98
+},
+{
+"text": "kangaroo",
+"start": 4.98,
+"end": 5.48
+},
+{
+"text": "rat",
+"start": 5.48,
+"end": 5.86
+},
+{
+"text": "thrives",
+"start": 5.86,
+"end": 6.62
+},
+{
+"text": "without",
+"start": 6.62,
+"end": 7.02
+},
+{
+"text": "ever",
+"start": 7.02,
+"end": 7.48
+},
+{
+"text": "taking",
+"start": 7.48,
+"end": 7.9
+},
+{
+"text": "a",
+"start": 7.9,
+"end": 8.16
+},
+{
+"text": "single",
+"start": 8.16,
+"end": 8.38
+},
+{
+"text": "drink.",
+"start": 8.38,
+"end": 8.74
+},
+{
+"text": "You",
+"start": 9.2,
+"end": 9.4
+},
+{
+"text": "see,",
+"start": 9.4,
+"end": 9.7
+},
+{
+"text": "it",
+"start": 10.1,
+"end": 10.22
+},
+{
+"text": "pulls",
+"start": 10.22,
+"end": 10.44
+},
+{
+"text": "nearly",
+"start": 10.44,
+"end": 10.78
+},
+{
+"text": "all",
+"start": 10.78,
+"end": 11.2
+},
+{
+"text": "its",
+"start": 11.2,
+"end": 11.36
+},
+{
+"text": "water",
+"start": 11.36,
+"end": 11.66
+},
+{
+"text": "from",
+"start": 11.66,
+"end": 11.9
+},
+{
+"text": "the",
+"start": 11.9,
+"end": 12.02
+},
+{
+"text": "dry",
+"start": 12.02,
+"end": 12.3
+},
+{
+"text": "seeds",
+"start": 12.3,
+"end": 12.62
+},
+{
+"text": "it",
+"start": 12.62,
+"end": 12.8
+},
+{
+"text": "eats.",
+"start": 12.8,
+"end": 13.06
+},
+{
+"text": "Its",
+"start": 13.68,
+"end": 13.86
+},
+{
+"text": "body",
+"start": 13.86,
+"end": 14.36
+},
+{
+"text": "chemically",
+"start": 14.36,
+"end": 15.16
+},
+{
+"text": "breaks",
+"start": 15.16,
+"end": 15.7
+},
+{
+"text": "those",
+"start": 15.7,
+"end": 16.02
+},
+{
+"text": "seeds",
+"start": 16.02,
+"end": 16.52
+},
+{
+"text": "down",
+"start": 16.52,
+"end": 16.96
+},
+{
+"text": "and",
+"start": 16.96,
+"end": 17.5
+},
+{
+"text": "squeezes",
+"start": 17.5,
+"end": 18.18
+},
+{
+"text": "the",
+"start": 18.18,
+"end": 18.36
+},
+{
+"text": "moisture",
+"start": 18.36,
+"end": 18.68
+},
+{
+"text": "out",
+"start": 18.68,
+"end": 19.02
+},
+{
+"text": "of",
+"start": 19.02,
+"end": 19.08
+},
+{
+"text": "them.",
+"start": 19.08,
+"end": 19.36
+},
+{
+"text": "Then",
+"start": 19.62,
+"end": 19.8
+},
+{
+"text": "it",
+"start": 19.8,
+"end": 19.9
+},
+{
+"text": "locks",
+"start": 19.9,
+"end": 20.22
+},
+{
+"text": "that",
+"start": 20.22,
+"end": 20.46
+},
+{
+"text": "water",
+"start": 20.46,
+"end": 20.82
+},
+{
+"text": "in",
+"start": 20.82,
+"end": 21.24
+},
+{
+"text": "with",
+"start": 21.24,
+"end": 21.8
+},
+{
+"text": "kidneys",
+"start": 21.8,
+"end": 22.3
+},
+{
+"text": "so",
+"start": 22.3,
+"end": 23.04
+},
+{
+"text": "powerful",
+"start": 23.04,
+"end": 23.68
+},
+{
+"text": "its",
+"start": 23.68,
+"end": 23.98
+},
+{
+"text": "urine",
+"start": 23.98,
+"end": 24.32
+},
+{
+"text": "comes",
+"start": 24.32,
+"end": 24.56
+},
+{
+"text": "out",
+"start": 24.56,
+"end": 24.82
+},
+{
+"text": "almost",
+"start": 24.82,
+"end": 25.2
+},
+{
+"text": "as",
+"start": 25.2,
+"end": 25.4
+},
+{
+"text": "a",
+"start": 25.4,
+"end": 25.5
+},
+{
+"text": "paste.",
+"start": 25.5,
+"end": 25.86
+},
+{
+"text": "It",
+"start": 26.44,
+"end": 26.54
+},
+{
+"text": "even",
+"start": 26.54,
+"end": 26.74
+},
+{
+"text": "seals",
+"start": 26.74,
+"end": 27.04
+},
+{
+"text": "itself",
+"start": 27.04,
+"end": 27.5
+},
+{
+"text": "in",
+"start": 27.5,
+"end": 27.82
+},
+{
+"text": "a",
+"start": 27.82,
+"end": 27.94
+},
+{
+"text": "cool",
+"start": 27.94,
+"end": 28.22
+},
+{
+"text": "burrow",
+"start": 28.22,
+"end": 28.62
+},
+{
+"text": "by",
+"start": 28.62,
+"end": 28.8
+},
+{
+"text": "day",
+"start": 28.8,
+"end": 29.12
+},
+{
+"text": "to",
+"start": 29.12,
+"end": 29.6
+},
+{
+"text": "avoid",
+"start": 29.6,
+"end": 30.04
+},
+{
+"text": "losing",
+"start": 30.04,
+"end": 30.58
+},
+{
+"text": "a",
+"start": 30.58,
+"end": 30.8
+},
+{
+"text": "breath",
+"start": 30.8,
+"end": 31.04
+},
+{
+"text": "of",
+"start": 31.04,
+"end": 31.2
+},
+{
+"text": "moisture.",
+"start": 31.2,
+"end": 31.64
+},
+{
+"text": "This",
+"start": 32.22,
+"end": 32.34
+},
+{
+"text": "means",
+"start": 32.34,
+"end": 32.52
+},
+{
+"text": "it",
+"start": 32.52,
+"end": 32.68
+},
+{
+"text": "can",
+"start": 32.68,
+"end": 32.8
+},
+{
+"text": "outlast",
+"start": 32.8,
+"end": 33.46
+},
+{
+"text": "a",
+"start": 33.46,
+"end": 33.66
+},
+{
+"text": "camel",
+"start": 33.66,
+"end": 33.94
+},
+{
+"text": "in",
+"start": 33.94,
+"end": 34.14
+},
+{
+"text": "the",
+"start": 34.14,
+"end": 34.24
+},
+{
+"text": "desert.",
+"start": 34.24,
+"end": 34.46
+}
+]
+}

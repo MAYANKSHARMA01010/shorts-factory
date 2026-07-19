@@ -1,0 +1,630 @@
+{
+"script": "Look up on a clear day, and the sky glows a brilliant blue. But why blue, and not green, or purple? It comes down to sunlight and air. Sunlight looks white, but it's really every color of the rainbow mixed together. As it streams into our atmosphere, it slams into countless tiny gas molecules. Here's the key: blue light travels in shorter, tighter waves, so it scatters off those molecules far more than red light does. That scattered blue light bounces all across the sky, reaching your eyes from every direction. And at sunset, the light travels through much more air. The blue scatters away, and the warm reds and oranges finally break through. Same sun, same sky, just a longer path through the air.",
+"words": [
+{
+"text": "Look",
+"start": 0.097,
+"end": 0.243
+},
+{
+"text": "up",
+"start": 0.255,
+"end": 0.413
+},
+{
+"text": "on",
+"start": 0.425,
+"end": 0.51
+},
+{
+"text": "a",
+"start": 0.522,
+"end": 0.57
+},
+{
+"text": "clear",
+"start": 0.583,
+"end": 0.85
+},
+{
+"text": "day",
+"start": 0.862,
+"end": 1.177
+},
+{
+"text": "and",
+"start": 1.481,
+"end": 1.578
+},
+{
+"text": "the",
+"start": 1.59,
+"end": 1.65
+},
+{
+"text": "sky",
+"start": 1.663,
+"end": 1.978
+},
+{
+"text": "glows",
+"start": 1.99,
+"end": 2.294
+},
+{
+"text": "a",
+"start": 2.306,
+"end": 2.403
+},
+{
+"text": "brilliant",
+"start": 2.427,
+"end": 2.925
+},
+{
+"text": "blue",
+"start": 2.937,
+"end": 3.252
+},
+{
+"text": "But",
+"start": 3.665,
+"end": 3.75
+},
+{
+"text": "why",
+"start": 3.762,
+"end": 3.932
+},
+{
+"text": "blue",
+"start": 3.944,
+"end": 4.345
+},
+{
+"text": "and",
+"start": 4.563,
+"end": 4.672
+},
+{
+"text": "not",
+"start": 4.684,
+"end": 4.915
+},
+{
+"text": "green",
+"start": 4.927,
+"end": 5.315
+},
+{
+"text": "or",
+"start": 5.473,
+"end": 5.558
+},
+{
+"text": "purple",
+"start": 5.57,
+"end": 5.947
+},
+{
+"text": "It",
+"start": 6.347,
+"end": 6.432
+},
+{
+"text": "comes",
+"start": 6.444,
+"end": 6.675
+},
+{
+"text": "down",
+"start": 6.687,
+"end": 6.881
+},
+{
+"text": "to",
+"start": 6.893,
+"end": 6.954
+},
+{
+"text": "sunlight",
+"start": 6.966,
+"end": 7.488
+},
+{
+"text": "and",
+"start": 7.633,
+"end": 7.731
+},
+{
+"text": "air",
+"start": 7.743,
+"end": 8.07
+},
+{
+"text": "Sunlight",
+"start": 8.483,
+"end": 8.883
+},
+{
+"text": "looks",
+"start": 8.896,
+"end": 9.102
+},
+{
+"text": "white",
+"start": 9.114,
+"end": 9.478
+},
+{
+"text": "but",
+"start": 9.769,
+"end": 9.891
+},
+{
+"text": "it's",
+"start": 9.903,
+"end": 10.036
+},
+{
+"text": "really",
+"start": 10.049,
+"end": 10.473
+},
+{
+"text": "every",
+"start": 10.607,
+"end": 10.886
+},
+{
+"text": "color",
+"start": 10.898,
+"end": 11.214
+},
+{
+"text": "of",
+"start": 11.226,
+"end": 11.299
+},
+{
+"text": "the",
+"start": 11.311,
+"end": 11.383
+},
+{
+"text": "rainbow",
+"start": 11.396,
+"end": 11.832
+},
+{
+"text": "mixed",
+"start": 11.845,
+"end": 12.124
+},
+{
+"text": "together",
+"start": 12.136,
+"end": 12.597
+},
+{
+"text": "As",
+"start": 12.998,
+"end": 13.131
+},
+{
+"text": "it",
+"start": 13.143,
+"end": 13.216
+},
+{
+"text": "streams",
+"start": 13.228,
+"end": 13.665
+},
+{
+"text": "into",
+"start": 13.677,
+"end": 13.908
+},
+{
+"text": "our",
+"start": 13.92,
+"end": 14.078
+},
+{
+"text": "atmosphere",
+"start": 14.09,
+"end": 14.745
+},
+{
+"text": "it",
+"start": 15.049,
+"end": 15.121
+},
+{
+"text": "slams",
+"start": 15.133,
+"end": 15.583
+},
+{
+"text": "into",
+"start": 15.595,
+"end": 15.801
+},
+{
+"text": "countless",
+"start": 15.813,
+"end": 16.42
+},
+{
+"text": "tiny",
+"start": 16.432,
+"end": 16.845
+},
+{
+"text": "gas",
+"start": 16.857,
+"end": 17.184
+},
+{
+"text": "molecules",
+"start": 17.197,
+"end": 17.949
+},
+{
+"text": "Here's",
+"start": 18.386,
+"end": 18.568
+},
+{
+"text": "the",
+"start": 18.58,
+"end": 18.677
+},
+{
+"text": "key",
+"start": 18.689,
+"end": 19.041
+},
+{
+"text": "blue",
+"start": 19.49,
+"end": 19.721
+},
+{
+"text": "light",
+"start": 19.733,
+"end": 19.976
+},
+{
+"text": "travels",
+"start": 19.988,
+"end": 20.51
+},
+{
+"text": "in",
+"start": 20.522,
+"end": 20.619
+},
+{
+"text": "shorter",
+"start": 20.631,
+"end": 21.141
+},
+{
+"text": "tighter",
+"start": 21.371,
+"end": 21.687
+},
+{
+"text": "waves",
+"start": 21.699,
+"end": 22.112
+},
+{
+"text": "so",
+"start": 22.33,
+"end": 22.476
+},
+{
+"text": "it",
+"start": 22.488,
+"end": 22.549
+},
+{
+"text": "scatters",
+"start": 22.561,
+"end": 23.058
+},
+{
+"text": "off",
+"start": 23.07,
+"end": 23.277
+},
+{
+"text": "those",
+"start": 23.289,
+"end": 23.471
+},
+{
+"text": "molecules",
+"start": 23.483,
+"end": 24.078
+},
+{
+"text": "far",
+"start": 24.09,
+"end": 24.442
+},
+{
+"text": "more",
+"start": 24.454,
+"end": 24.721
+},
+{
+"text": "than",
+"start": 24.733,
+"end": 24.915
+},
+{
+"text": "red",
+"start": 24.927,
+"end": 25.097
+},
+{
+"text": "light",
+"start": 25.109,
+"end": 25.364
+},
+{
+"text": "does",
+"start": 25.376,
+"end": 25.837
+},
+{
+"text": "That",
+"start": 26.238,
+"end": 26.347
+},
+{
+"text": "scattered",
+"start": 26.359,
+"end": 26.857
+},
+{
+"text": "blue",
+"start": 26.869,
+"end": 27.148
+},
+{
+"text": "light",
+"start": 27.16,
+"end": 27.464
+},
+{
+"text": "bounces",
+"start": 27.476,
+"end": 28.022
+},
+{
+"text": "all",
+"start": 28.119,
+"end": 28.362
+},
+{
+"text": "across",
+"start": 28.374,
+"end": 28.75
+},
+{
+"text": "the",
+"start": 28.762,
+"end": 28.835
+},
+{
+"text": "sky",
+"start": 28.847,
+"end": 29.284
+},
+{
+"text": "reaching",
+"start": 29.709,
+"end": 29.988
+},
+{
+"text": "your",
+"start": 30.0,
+"end": 30.158
+},
+{
+"text": "eyes",
+"start": 30.17,
+"end": 30.522
+},
+{
+"text": "from",
+"start": 30.534,
+"end": 30.74
+},
+{
+"text": "every",
+"start": 30.91,
+"end": 31.092
+},
+{
+"text": "direction",
+"start": 31.104,
+"end": 31.626
+},
+{
+"text": "And",
+"start": 32.027,
+"end": 32.1
+},
+{
+"text": "at",
+"start": 32.112,
+"end": 32.209
+},
+{
+"text": "sunset",
+"start": 32.221,
+"end": 32.779
+},
+{
+"text": "the",
+"start": 33.119,
+"end": 33.228
+},
+{
+"text": "light",
+"start": 33.24,
+"end": 33.459
+},
+{
+"text": "travels",
+"start": 33.471,
+"end": 34.029
+},
+{
+"text": "through",
+"start": 34.09,
+"end": 34.248
+},
+{
+"text": "much",
+"start": 34.26,
+"end": 34.563
+},
+{
+"text": "more",
+"start": 34.575,
+"end": 34.806
+},
+{
+"text": "air",
+"start": 34.818,
+"end": 35.146
+},
+{
+"text": "The",
+"start": 35.558,
+"end": 35.631
+},
+{
+"text": "blue",
+"start": 35.643,
+"end": 35.91
+},
+{
+"text": "scatters",
+"start": 35.922,
+"end": 36.383
+},
+{
+"text": "away",
+"start": 36.396,
+"end": 36.796
+},
+{
+"text": "and",
+"start": 37.099,
+"end": 37.197
+},
+{
+"text": "the",
+"start": 37.209,
+"end": 37.318
+},
+{
+"text": "warm",
+"start": 37.33,
+"end": 37.682
+},
+{
+"text": "reds",
+"start": 37.694,
+"end": 38.058
+},
+{
+"text": "and",
+"start": 38.167,
+"end": 38.337
+},
+{
+"text": "oranges",
+"start": 38.349,
+"end": 38.762
+},
+{
+"text": "finally",
+"start": 38.774,
+"end": 39.211
+},
+{
+"text": "break",
+"start": 39.223,
+"end": 39.539
+},
+{
+"text": "through",
+"start": 39.551,
+"end": 39.891
+},
+{
+"text": "Same",
+"start": 40.291,
+"end": 40.534
+},
+{
+"text": "sun",
+"start": 40.546,
+"end": 40.922
+},
+{
+"text": "same",
+"start": 41.226,
+"end": 41.468
+},
+{
+"text": "sky",
+"start": 41.481,
+"end": 41.917
+},
+{
+"text": "just",
+"start": 42.209,
+"end": 42.415
+},
+{
+"text": "a",
+"start": 42.427,
+"end": 42.464
+},
+{
+"text": "longer",
+"start": 42.476,
+"end": 42.888
+},
+{
+"text": "path",
+"start": 42.901,
+"end": 43.265
+},
+{
+"text": "through",
+"start": 43.277,
+"end": 43.422
+},
+{
+"text": "the",
+"start": 43.434,
+"end": 43.519
+},
+{
+"text": "air",
+"start": 43.532,
+"end": 43.883
+}
+]
+}

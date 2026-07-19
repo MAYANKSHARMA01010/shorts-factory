@@ -1,0 +1,55 @@
+{
+  "slug": "bloodtype",
+  "title": "The Blood That Can Kill You",
+  "duration_estimate_s": 33,
+  "palette": {
+    "bg_deep": "#0c0e14",
+    "bg_panel": "#141822",
+    "gold": "#FFD23F",
+    "blood_red": "#E63946",
+    "cell_crimson": "#B11226",
+    "antigen_magenta": "#FF3D7F",
+    "antibody_cyan": "#3FD0E0",
+    "safe_green": "#4ADE80",
+    "ivory": "#F4F1EC"
+  },
+  "scenes": [
+    {
+      "beat": "This single bag of blood could stop a stranger's heart in under five minutes.",
+      "visual": "HOOK. Dead-center on bg_deep: one glossy IV blood bag (rounded-rect, deep blood_red gradient with a vertical ivory label strip and a tiny barcode). A thin tube descends from the drip chamber into a stylized forearm vein (soft branching cyan-tinted line at the bottom edge). One fat crimson droplet hangs in the drip chamber. Behind the bag, a faint clock ring of tick marks. Top-right corner: a chunky gold badge pill (#FFD23F) with a white skull-cross icon and the single word 'KILL?' in heavy ivory caps. Strong bg_deep vignette so the red bag is the only glowing object on screen.",
+      "animations": "In the first 0.4s the blood bag SLAMS in from above with a hard spring-drop and one settle-bounce — it is the only thing moving, instantly framed center. The crimson droplet swells, then the gold 'KILL?' badge punches in beside it with spring overshoot and a quick 8-degree wobble (lands by ~1.2s). The clock ring ticks 5 fast notches then freezes hard. The vein at the bottom lights crimson in a short fill-sweep as the droplet starts to fall. No camera move — the slam + badge IS the scroll-stop.",
+      "sfx": "one slow ominous heart-thud (single lub-dub) under a sharp liquid drip-plink — heavy, sparse, foreboding"
+    },
+    {
+      "beat": "Every red blood cell wears tiny identity markers, and your immune system memorizes exactly which ones are yours.",
+      "visual": "Three large biconcave red blood cells (cell_crimson discs, darker dimpled center) in a row across mid-screen. On each surface sit 4-5 tiny gold antigen markers shaped like little lollipop keys (#FFD23F). To the right, a bg_panel 'immune memory' chip (rounded square, gold outline) holding a stamped row of matching gold key silhouettes. A thin cyan scan line runs vertically, ready to sweep.",
+      "animations": "The three cells slide in left-to-right and settle into a slow bob loop. The gold markers draw-on one by one with staccato spring pips (pop-pop-pop). The cyan scan line sweeps across the lead cell; as it passes, a matching key lights up inside the memory chip with a spring-snap and a small gold check pops on. Calm, precise, no zoom — the scan sweep carries the energy.",
+      "sfx": "a soft rising electronic scan-bleep sweep (the body 'reading' the markers) — clean UI tone, distinct from scene 1"
+    },
+    {
+      "beat": "So when the WRONG blood arrives, your antibodies swarm it and weld the foreign cells into a deadly clot.",
+      "visual": "HERO REVEAL — the money shot. Full-frame dark field, no panels. A loose cluster of foreign red cells (cell_crimson) drifts into center wearing MISMATCHED markers: sharp antigen_magenta triangles instead of gold keys. From all four edges, a swarm of Y-shaped antibody_cyan immunoglobulins (classic two-pronged fork shape) streams inward. Each antibody bridges TWO different cells by latching one prong onto a magenta triangle on each — physically chaining them. The cells are dragged into a dense lumpy agglutination clump whose core darkens to blood_red. A gold warning ring igniting with the word 'CLOT' encircles the mass.",
+      "animations": "Foreign cells drift in calm for a half-beat, then the antibodies SWARM inward on fast radial converging draw-on paths from every edge at once (an in-rush). Each Y-antibody snaps its two prongs onto two magenta triangles with a hard spring-lock click, then a short tug-spring yanks the bridged cells together. The clump assembles in rapid visible stages — each new cell joining with a satisfying spring-pull, the mass tightening and rotating slightly. At full assembly the whole clot compresses and pulses ONCE, core flaring blood_red, and the gold 'CLOT' ring sweeps on as a stroke draw-on. This is the richest, most detailed motion of the short. No camera move — the radial in-rush plus lock-and-pull is the entire drama.",
+      "sfx": "a wet sticky multi-squelch as cells lock (layered, escalating) capped by a single low ominous reveal boom — the biggest, heaviest sound of the whole short"
+    },
+    {
+      "beat": "That is why every transfusion starts by mixing tiny samples to see if they attack each other.",
+      "visual": "Clean clinical cross-match card (bg_panel rounded card) with two circular wells. Left well = SAFE: smooth even crimson wash, calm. Right well = BAD: cells granular, clumped into tiny dark specks. A slim ivory pipette hovers above. A thin gold divider splits the card: left labeled 'MATCH' (safe_green tint), right labeled 'CLUMP' (blood_red tint), each with a stamp slot.",
+      "animations": "Pipette glides in and squeezes — two droplets fall on quick draw-on arcs, each landing with a tiny ripple-bloom in its well. Left well fills with a smooth even fill-sweep, then a gold check spring-pops. Right well stipples into clumps via a fast jittery scatter of specks, then a red X slams in with spring overshoot. The MATCH and CLUMP labels wipe on from left and right. Calm, surgical, snappy — a quiet beat after the clot chaos.",
+      "sfx": "a precise glass-pipette tick followed by a light liquid plip — clinical and dry, no boom"
+    },
+    {
+      "beat": "But one blood type carries almost no markers at all — so nearly every body accepts it.",
+      "visual": "A single hero red blood cell, larger and cleaner than the rest, with a soft safe_green-to-crimson rim light and a SMOOTH bare surface — no gold keys, no magenta triangles, just a polished disc. A bold gold 'O−' badge pill sits beside it. Around it, three simple gold-outline torso silhouettes (each with a small differently-colored heart) wait to receive it.",
+      "animations": "The bare O-negative cell spring-pops to center and does a slow proud rotation while a bright highlight glint sweeps across its smooth rim. The gold 'O−' badge snaps in with overshoot. The three recipient silhouettes fade up in sequence and each receives a green accepting check that pops on a counter (1, 2, 3 accepted) — and crucially NO antibodies swarm, every body stays calm. The deliberate calm contrast to the clot scene.",
+      "sfx": "a warm rising harmonic chime — gentle three-note 'accepted' confirm, reassuring"
+    },
+    {
+      "beat": "That is why O-negative donors are the universal lifesavers.",
+      "visual": "PAYOFF. Dark bg_deep. The bare O-negative cell rests small and calm at top-center inside a radiating gold halo. Below it the punchline slams in word-by-word in heavy caps: 'ONE' 'BLOOD' 'SAVES' 'EVERYONE' — 'EVERYONE' rendered in big gold, the rest in bold ivory. A subtle ring of small safe_green hearts orbits the cell.",
+      "animations": "Each word — ONE, BLOOD, SAVES, EVERYONE — slams in one at a time with hard spring overshoot and a tiny settle, tightly timed to the VO. The gold halo blooms behind the cell on the first word. On the final word 'EVERYONE' the gold locks, the halo gives one soft pulse, and the orbiting green hearts spin up on a gentle loop. Everything holds. No zoom — the word-by-word slam carries the close.",
+      "sfx": "a clean triumphant confirm sting — single bright bell hit landing exactly on 'EVERYONE'"
+    }
+  ],
+  "payoff": "ONE BLOOD SAVES EVERYONE"
+}

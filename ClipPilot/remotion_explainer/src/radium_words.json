@@ -1,0 +1,445 @@
+{
+"script": "These young women painted glowing numbers onto watch dials, and to keep a fine point, they licked the tips of their brushes. The paint was radium, sold as a miracle, so they painted their nails and even their teeth to glow on dates. But the radium settled into their bones and began eating them from the inside. Their jaws crumbled, sometimes coming away in their hands. And when they sued, the company argued they had died of other causes. Decades later, their bones still glow inside their graves.",
+"words": [
+{
+"text": "These",
+"start": 0.0,
+"end": 0.36
+},
+{
+"text": "young",
+"start": 0.36,
+"end": 0.6
+},
+{
+"text": "women",
+"start": 0.6,
+"end": 0.9
+},
+{
+"text": "painted",
+"start": 0.9,
+"end": 1.46
+},
+{
+"text": "glowing",
+"start": 1.46,
+"end": 2.04
+},
+{
+"text": "numbers",
+"start": 2.04,
+"end": 2.56
+},
+{
+"text": "onto",
+"start": 2.56,
+"end": 3.06
+},
+{
+"text": "watch",
+"start": 3.06,
+"end": 3.4
+},
+{
+"text": "dials,",
+"start": 3.4,
+"end": 4.34
+},
+{
+"text": "and",
+"start": 4.34,
+"end": 4.62
+},
+{
+"text": "to",
+"start": 4.62,
+"end": 4.68
+},
+{
+"text": "keep",
+"start": 4.68,
+"end": 4.8
+},
+{
+"text": "a",
+"start": 4.8,
+"end": 4.94
+},
+{
+"text": "fine",
+"start": 4.94,
+"end": 5.3
+},
+{
+"text": "point,",
+"start": 5.3,
+"end": 5.7
+},
+{
+"text": "they",
+"start": 6.22,
+"end": 6.32
+},
+{
+"text": "licked",
+"start": 6.32,
+"end": 6.54
+},
+{
+"text": "the",
+"start": 6.54,
+"end": 6.78
+},
+{
+"text": "tips",
+"start": 6.78,
+"end": 7.02
+},
+{
+"text": "of",
+"start": 7.02,
+"end": 7.24
+},
+{
+"text": "their",
+"start": 7.24,
+"end": 7.34
+},
+{
+"text": "brushes.",
+"start": 7.34,
+"end": 7.68
+},
+{
+"text": "The",
+"start": 8.34,
+"end": 8.52
+},
+{
+"text": "paint",
+"start": 8.52,
+"end": 8.76
+},
+{
+"text": "was",
+"start": 8.76,
+"end": 8.98
+},
+{
+"text": "radium",
+"start": 8.98,
+"end": 9.52
+},
+{
+"text": "sold",
+"start": 9.52,
+"end": 10.22
+},
+{
+"text": "as",
+"start": 10.22,
+"end": 10.48
+},
+{
+"text": "a",
+"start": 10.48,
+"end": 10.64
+},
+{
+"text": "miracle,",
+"start": 10.64,
+"end": 11.02
+},
+{
+"text": "so",
+"start": 11.44,
+"end": 11.66
+},
+{
+"text": "they",
+"start": 11.66,
+"end": 11.84
+},
+{
+"text": "painted",
+"start": 11.84,
+"end": 12.08
+},
+{
+"text": "their",
+"start": 12.08,
+"end": 12.28
+},
+{
+"text": "nails",
+"start": 12.28,
+"end": 12.6
+},
+{
+"text": "and",
+"start": 12.6,
+"end": 13.22
+},
+{
+"text": "even",
+"start": 13.22,
+"end": 13.52
+},
+{
+"text": "their",
+"start": 13.52,
+"end": 13.74
+},
+{
+"text": "teeth",
+"start": 13.74,
+"end": 14.04
+},
+{
+"text": "to",
+"start": 14.04,
+"end": 14.3
+},
+{
+"text": "glow",
+"start": 14.3,
+"end": 14.58
+},
+{
+"text": "on",
+"start": 14.58,
+"end": 14.84
+},
+{
+"text": "dates.",
+"start": 14.84,
+"end": 15.14
+},
+{
+"text": "But",
+"start": 15.7,
+"end": 15.92
+},
+{
+"text": "the",
+"start": 15.92,
+"end": 16.04
+},
+{
+"text": "radium",
+"start": 16.04,
+"end": 16.42
+},
+{
+"text": "settled",
+"start": 16.42,
+"end": 16.84
+},
+{
+"text": "into",
+"start": 16.84,
+"end": 17.12
+},
+{
+"text": "their",
+"start": 17.12,
+"end": 17.32
+},
+{
+"text": "bones",
+"start": 17.32,
+"end": 17.66
+},
+{
+"text": "and",
+"start": 17.66,
+"end": 18.08
+},
+{
+"text": "began",
+"start": 18.08,
+"end": 18.38
+},
+{
+"text": "eating",
+"start": 18.38,
+"end": 18.78
+},
+{
+"text": "them",
+"start": 18.78,
+"end": 19.06
+},
+{
+"text": "from",
+"start": 19.06,
+"end": 19.22
+},
+{
+"text": "the",
+"start": 19.22,
+"end": 19.36
+},
+{
+"text": "inside.",
+"start": 19.36,
+"end": 19.82
+},
+{
+"text": "Their",
+"start": 20.44,
+"end": 20.58
+},
+{
+"text": "jaws",
+"start": 20.58,
+"end": 21.02
+},
+{
+"text": "crumbled,",
+"start": 21.02,
+"end": 21.56
+},
+{
+"text": "sometimes",
+"start": 22.1,
+"end": 22.48
+},
+{
+"text": "coming",
+"start": 22.48,
+"end": 22.78
+},
+{
+"text": "away",
+"start": 22.78,
+"end": 23.12
+},
+{
+"text": "in",
+"start": 23.12,
+"end": 23.3
+},
+{
+"text": "their",
+"start": 23.3,
+"end": 23.44
+},
+{
+"text": "hands.",
+"start": 23.44,
+"end": 23.84
+},
+{
+"text": "And",
+"start": 24.52,
+"end": 24.66
+},
+{
+"text": "when",
+"start": 24.66,
+"end": 24.8
+},
+{
+"text": "they",
+"start": 24.8,
+"end": 24.96
+},
+{
+"text": "sued,",
+"start": 24.96,
+"end": 25.34
+},
+{
+"text": "the",
+"start": 25.8,
+"end": 25.92
+},
+{
+"text": "company",
+"start": 25.92,
+"end": 26.2
+},
+{
+"text": "argued",
+"start": 26.2,
+"end": 26.64
+},
+{
+"text": "they",
+"start": 26.64,
+"end": 26.88
+},
+{
+"text": "had",
+"start": 26.88,
+"end": 27.04
+},
+{
+"text": "died",
+"start": 27.04,
+"end": 27.5
+},
+{
+"text": "of",
+"start": 27.5,
+"end": 27.76
+},
+{
+"text": "other",
+"start": 27.76,
+"end": 27.98
+},
+{
+"text": "causes.",
+"start": 27.98,
+"end": 28.38
+},
+{
+"text": "Decades",
+"start": 28.38,
+"end": 29.54
+},
+{
+"text": "later,",
+"start": 29.54,
+"end": 29.92
+},
+{
+"text": "their",
+"start": 30.42,
+"end": 30.54
+},
+{
+"text": "bones",
+"start": 30.54,
+"end": 30.96
+},
+{
+"text": "still",
+"start": 30.96,
+"end": 31.52
+},
+{
+"text": "glow",
+"start": 31.52,
+"end": 31.98
+},
+{
+"text": "inside",
+"start": 31.98,
+"end": 32.54
+},
+{
+"text": "their",
+"start": 32.54,
+"end": 32.86
+},
+{
+"text": "graves.",
+"start": 32.86,
+"end": 33.18
+}
+]
+}

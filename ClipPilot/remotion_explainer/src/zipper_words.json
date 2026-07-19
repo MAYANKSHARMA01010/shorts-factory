@@ -1,0 +1,475 @@
+{
+"script": "Look closely at a zipper, and the only moving part is that little slider. So how does pulling one tab lock two rows of teeth shut? You see, every tooth has a hook on top and a hollow on the bottom. As the slider glides up, its Y-shaped channel forces each tooth sideways into the gap of the one across from it. Then the hook snaps into the hollow, and the tooth behind it holds the whole thing locked. And this is why one single broken tooth ruins the entire zipper for good.",
+"words": [
+{
+"text": "look",
+"start": 0.0,
+"end": 0.28
+},
+{
+"text": "closely",
+"start": 0.28,
+"end": 0.88
+},
+{
+"text": "at",
+"start": 0.88,
+"end": 1.12
+},
+{
+"text": "a",
+"start": 1.12,
+"end": 1.28
+},
+{
+"text": "zipper,",
+"start": 1.28,
+"end": 1.52
+},
+{
+"text": "and",
+"start": 2.22,
+"end": 2.28
+},
+{
+"text": "the",
+"start": 2.28,
+"end": 2.38
+},
+{
+"text": "only",
+"start": 2.38,
+"end": 2.62
+},
+{
+"text": "moving",
+"start": 2.62,
+"end": 3.06
+},
+{
+"text": "part",
+"start": 3.06,
+"end": 3.42
+},
+{
+"text": "is",
+"start": 3.42,
+"end": 3.72
+},
+{
+"text": "that",
+"start": 3.72,
+"end": 3.9
+},
+{
+"text": "little",
+"start": 3.9,
+"end": 4.14
+},
+{
+"text": "slider.",
+"start": 4.14,
+"end": 4.56
+},
+{
+"text": "So",
+"start": 5.22,
+"end": 5.4
+},
+{
+"text": "how",
+"start": 5.4,
+"end": 5.54
+},
+{
+"text": "is",
+"start": 5.54,
+"end": 5.68
+},
+{
+"text": "pulling",
+"start": 5.68,
+"end": 5.92
+},
+{
+"text": "one",
+"start": 5.92,
+"end": 6.32
+},
+{
+"text": "tab",
+"start": 6.32,
+"end": 6.64
+},
+{
+"text": "lock",
+"start": 6.64,
+"end": 6.96
+},
+{
+"text": "two",
+"start": 6.96,
+"end": 7.58
+},
+{
+"text": "rows",
+"start": 7.58,
+"end": 8.14
+},
+{
+"text": "of",
+"start": 8.14,
+"end": 8.34
+},
+{
+"text": "teeth",
+"start": 8.34,
+"end": 8.5
+},
+{
+"text": "shut?",
+"start": 8.5,
+"end": 8.84
+},
+{
+"text": "You",
+"start": 9.36,
+"end": 9.46
+},
+{
+"text": "see,",
+"start": 9.46,
+"end": 9.76
+},
+{
+"text": "every",
+"start": 10.16,
+"end": 10.46
+},
+{
+"text": "tooth",
+"start": 10.46,
+"end": 10.74
+},
+{
+"text": "has",
+"start": 10.74,
+"end": 10.92
+},
+{
+"text": "a",
+"start": 10.92,
+"end": 11.02
+},
+{
+"text": "hook",
+"start": 11.02,
+"end": 11.12
+},
+{
+"text": "on",
+"start": 11.12,
+"end": 11.32
+},
+{
+"text": "top",
+"start": 11.32,
+"end": 11.62
+},
+{
+"text": "and",
+"start": 11.62,
+"end": 11.94
+},
+{
+"text": "a",
+"start": 11.94,
+"end": 12.16
+},
+{
+"text": "hollow",
+"start": 12.16,
+"end": 12.26
+},
+{
+"text": "on",
+"start": 12.26,
+"end": 12.5
+},
+{
+"text": "the",
+"start": 12.5,
+"end": 12.56
+},
+{
+"text": "bottom.",
+"start": 12.56,
+"end": 12.84
+},
+{
+"text": "As",
+"start": 13.3,
+"end": 13.46
+},
+{
+"text": "the",
+"start": 13.46,
+"end": 13.62
+},
+{
+"text": "slider",
+"start": 13.62,
+"end": 13.9
+},
+{
+"text": "glides",
+"start": 13.9,
+"end": 14.3
+},
+{
+"text": "up,",
+"start": 14.3,
+"end": 14.62
+},
+{
+"text": "its",
+"start": 15.04,
+"end": 15.26
+},
+{
+"text": "Y",
+"start": 15.26,
+"end": 15.62
+},
+{
+"text": "-shaped",
+"start": 15.62,
+"end": 15.84
+},
+{
+"text": "channel",
+"start": 15.84,
+"end": 16.3
+},
+{
+"text": "forces",
+"start": 16.3,
+"end": 16.84
+},
+{
+"text": "each",
+"start": 16.84,
+"end": 17.34
+},
+{
+"text": "tooth",
+"start": 17.34,
+"end": 17.84
+},
+{
+"text": "sideways",
+"start": 17.84,
+"end": 18.48
+},
+{
+"text": "into",
+"start": 18.48,
+"end": 19.02
+},
+{
+"text": "the",
+"start": 19.02,
+"end": 19.18
+},
+{
+"text": "gap",
+"start": 19.18,
+"end": 19.4
+},
+{
+"text": "of",
+"start": 19.4,
+"end": 19.56
+},
+{
+"text": "the",
+"start": 19.56,
+"end": 19.66
+},
+{
+"text": "one",
+"start": 19.66,
+"end": 19.8
+},
+{
+"text": "across",
+"start": 19.8,
+"end": 20.1
+},
+{
+"text": "from",
+"start": 20.1,
+"end": 20.38
+},
+{
+"text": "it.",
+"start": 20.38,
+"end": 20.6
+},
+{
+"text": "Then",
+"start": 20.9,
+"end": 21.12
+},
+{
+"text": "the",
+"start": 21.12,
+"end": 21.26
+},
+{
+"text": "hook",
+"start": 21.26,
+"end": 21.46
+},
+{
+"text": "snaps",
+"start": 21.46,
+"end": 21.86
+},
+{
+"text": "into",
+"start": 21.86,
+"end": 22.1
+},
+{
+"text": "the",
+"start": 22.1,
+"end": 22.22
+},
+{
+"text": "hollow",
+"start": 22.22,
+"end": 22.56
+},
+{
+"text": "and",
+"start": 22.56,
+"end": 23.28
+},
+{
+"text": "the",
+"start": 23.28,
+"end": 23.4
+},
+{
+"text": "tooth",
+"start": 23.4,
+"end": 23.68
+},
+{
+"text": "behind",
+"start": 23.68,
+"end": 24.08
+},
+{
+"text": "it",
+"start": 24.08,
+"end": 24.28
+},
+{
+"text": "holds",
+"start": 24.28,
+"end": 24.44
+},
+{
+"text": "the",
+"start": 24.44,
+"end": 24.62
+},
+{
+"text": "whole",
+"start": 24.62,
+"end": 24.82
+},
+{
+"text": "thing",
+"start": 24.82,
+"end": 25.08
+},
+{
+"text": "locked.",
+"start": 25.08,
+"end": 25.5
+},
+{
+"text": "And",
+"start": 25.5,
+"end": 26.14
+},
+{
+"text": "this",
+"start": 26.14,
+"end": 26.26
+},
+{
+"text": "is",
+"start": 26.26,
+"end": 26.38
+},
+{
+"text": "why",
+"start": 26.38,
+"end": 26.56
+},
+{
+"text": "one",
+"start": 26.56,
+"end": 26.92
+},
+{
+"text": "single",
+"start": 26.92,
+"end": 27.34
+},
+{
+"text": "broken",
+"start": 27.34,
+"end": 27.68
+},
+{
+"text": "tooth",
+"start": 27.68,
+"end": 28.22
+},
+{
+"text": "ruins",
+"start": 28.22,
+"end": 28.92
+},
+{
+"text": "the",
+"start": 28.92,
+"end": 29.22
+},
+{
+"text": "entire",
+"start": 29.22,
+"end": 29.7
+},
+{
+"text": "zipper",
+"start": 29.7,
+"end": 30.14
+},
+{
+"text": "for",
+"start": 30.14,
+"end": 30.42
+},
+{
+"text": "good.",
+"start": 30.42,
+"end": 30.62
+}
+]
+}

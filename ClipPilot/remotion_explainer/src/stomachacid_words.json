@@ -1,0 +1,530 @@
+{
+"script": "The acid in your stomach is strong enough to dissolve a razor blade, so why doesn't it eat through you? You see, your stomach pumps out hydrochloric acid so powerful it would burn a hole in wood, all to break down food and kill swallowed bacteria. But your stomach shields itself with a thick layer of slimy mucus the acid can't penetrate. And this lining rebuilds constantly, replacing itself completely every few days. But if that mucus ever wears thin, the acid touches raw flesh, and the result is a burning ulcer. So you're carrying a vat of poison held back by nothing but slime.",
+"words": [
+{
+"text": "The",
+"start": 0.0,
+"end": 0.24
+},
+{
+"text": "acid",
+"start": 0.24,
+"end": 0.56
+},
+{
+"text": "in",
+"start": 0.56,
+"end": 0.7
+},
+{
+"text": "your",
+"start": 0.7,
+"end": 0.78
+},
+{
+"text": "stomach",
+"start": 0.78,
+"end": 1.04
+},
+{
+"text": "is",
+"start": 1.04,
+"end": 1.26
+},
+{
+"text": "strong",
+"start": 1.26,
+"end": 1.68
+},
+{
+"text": "enough",
+"start": 1.68,
+"end": 1.96
+},
+{
+"text": "to",
+"start": 1.96,
+"end": 2.14
+},
+{
+"text": "dissolve",
+"start": 2.14,
+"end": 2.42
+},
+{
+"text": "a",
+"start": 2.42,
+"end": 2.64
+},
+{
+"text": "razor",
+"start": 2.64,
+"end": 2.92
+},
+{
+"text": "blade.",
+"start": 2.92,
+"end": 3.22
+},
+{
+"text": "So",
+"start": 3.7,
+"end": 3.86
+},
+{
+"text": "why",
+"start": 3.86,
+"end": 4.04
+},
+{
+"text": "doesn't",
+"start": 4.04,
+"end": 4.22
+},
+{
+"text": "it",
+"start": 4.22,
+"end": 4.34
+},
+{
+"text": "eat",
+"start": 4.34,
+"end": 4.46
+},
+{
+"text": "through",
+"start": 4.46,
+"end": 4.74
+},
+{
+"text": "you?",
+"start": 4.74,
+"end": 5.02
+},
+{
+"text": "You",
+"start": 5.42,
+"end": 5.54
+},
+{
+"text": "see,",
+"start": 5.54,
+"end": 5.72
+},
+{
+"text": "your",
+"start": 5.82,
+"end": 5.86
+},
+{
+"text": "stomach",
+"start": 5.86,
+"end": 6.16
+},
+{
+"text": "pumps",
+"start": 6.16,
+"end": 6.44
+},
+{
+"text": "out",
+"start": 6.44,
+"end": 6.62
+},
+{
+"text": "hydrochloric",
+"start": 6.62,
+"end": 7.34
+},
+{
+"text": "acid",
+"start": 7.34,
+"end": 7.7
+},
+{
+"text": "so",
+"start": 7.7,
+"end": 8.32
+},
+{
+"text": "powerful",
+"start": 8.32,
+"end": 8.96
+},
+{
+"text": "it",
+"start": 8.96,
+"end": 9.38
+},
+{
+"text": "would",
+"start": 9.38,
+"end": 9.5
+},
+{
+"text": "burn",
+"start": 9.5,
+"end": 9.76
+},
+{
+"text": "a",
+"start": 9.76,
+"end": 9.9
+},
+{
+"text": "hole",
+"start": 9.9,
+"end": 10.04
+},
+{
+"text": "in",
+"start": 10.04,
+"end": 10.24
+},
+{
+"text": "wood,",
+"start": 10.24,
+"end": 10.58
+},
+{
+"text": "all",
+"start": 10.94,
+"end": 11.28
+},
+{
+"text": "to",
+"start": 11.28,
+"end": 11.46
+},
+{
+"text": "break",
+"start": 11.46,
+"end": 11.7
+},
+{
+"text": "down",
+"start": 11.7,
+"end": 12.04
+},
+{
+"text": "food",
+"start": 12.04,
+"end": 12.46
+},
+{
+"text": "and",
+"start": 12.46,
+"end": 13.08
+},
+{
+"text": "kill",
+"start": 13.08,
+"end": 13.36
+},
+{
+"text": "swallow",
+"start": 13.36,
+"end": 13.78
+},
+{
+"text": "bacteria.",
+"start": 13.78,
+"end": 14.32
+},
+{
+"text": "But",
+"start": 14.92,
+"end": 15.1
+},
+{
+"text": "your",
+"start": 15.1,
+"end": 15.18
+},
+{
+"text": "stomach",
+"start": 15.18,
+"end": 15.46
+},
+{
+"text": "shields",
+"start": 15.46,
+"end": 15.88
+},
+{
+"text": "itself",
+"start": 15.88,
+"end": 16.34
+},
+{
+"text": "with",
+"start": 16.34,
+"end": 16.58
+},
+{
+"text": "a",
+"start": 16.58,
+"end": 16.76
+},
+{
+"text": "thick",
+"start": 16.76,
+"end": 16.96
+},
+{
+"text": "layer",
+"start": 16.96,
+"end": 17.3
+},
+{
+"text": "of",
+"start": 17.3,
+"end": 17.6
+},
+{
+"text": "slimy",
+"start": 17.6,
+"end": 18.42
+},
+{
+"text": "mucus",
+"start": 18.42,
+"end": 19.14
+},
+{
+"text": "the",
+"start": 19.14,
+"end": 19.32
+},
+{
+"text": "acid",
+"start": 19.32,
+"end": 19.86
+},
+{
+"text": "can't",
+"start": 19.86,
+"end": 20.28
+},
+{
+"text": "penetrate.",
+"start": 20.28,
+"end": 20.7
+},
+{
+"text": "And",
+"start": 21.2,
+"end": 21.5
+},
+{
+"text": "this",
+"start": 21.5,
+"end": 21.76
+},
+{
+"text": "lining",
+"start": 21.76,
+"end": 22.2
+},
+{
+"text": "rebuilds",
+"start": 22.2,
+"end": 23.92
+},
+{
+"text": "constantly,",
+"start": 23.92,
+"end": 23.92
+},
+{
+"text": "replacing",
+"start": 24.4,
+"end": 24.76
+},
+{
+"text": "itself",
+"start": 24.76,
+"end": 25.34
+},
+{
+"text": "completely",
+"start": 25.34,
+"end": 26.02
+},
+{
+"text": "every",
+"start": 26.02,
+"end": 26.76
+},
+{
+"text": "few",
+"start": 26.76,
+"end": 27.08
+},
+{
+"text": "days.",
+"start": 27.08,
+"end": 27.4
+},
+{
+"text": "But",
+"start": 27.4,
+"end": 28.16
+},
+{
+"text": "if",
+"start": 28.16,
+"end": 28.3
+},
+{
+"text": "that",
+"start": 28.3,
+"end": 28.46
+},
+{
+"text": "mucus",
+"start": 28.46,
+"end": 29.16
+},
+{
+"text": "ever",
+"start": 29.16,
+"end": 29.52
+},
+{
+"text": "wears",
+"start": 29.52,
+"end": 29.86
+},
+{
+"text": "thin,",
+"start": 29.86,
+"end": 30.32
+},
+{
+"text": "the",
+"start": 30.96,
+"end": 31.02
+},
+{
+"text": "acid",
+"start": 31.02,
+"end": 31.54
+},
+{
+"text": "touches",
+"start": 31.54,
+"end": 32.02
+},
+{
+"text": "raw",
+"start": 32.02,
+"end": 32.44
+},
+{
+"text": "flesh",
+"start": 32.44,
+"end": 32.92
+},
+{
+"text": "and",
+"start": 32.92,
+"end": 33.64
+},
+{
+"text": "the",
+"start": 33.64,
+"end": 33.74
+},
+{
+"text": "result",
+"start": 33.74,
+"end": 34.08
+},
+{
+"text": "is",
+"start": 34.08,
+"end": 34.52
+},
+{
+"text": "a",
+"start": 34.52,
+"end": 34.68
+},
+{
+"text": "burning",
+"start": 34.68,
+"end": 34.98
+},
+{
+"text": "ulcer.",
+"start": 34.98,
+"end": 35.44
+},
+{
+"text": "So",
+"start": 35.94,
+"end": 36.1
+},
+{
+"text": "you're",
+"start": 36.1,
+"end": 36.3
+},
+{
+"text": "carrying",
+"start": 36.3,
+"end": 36.68
+},
+{
+"text": "a",
+"start": 36.68,
+"end": 36.9
+},
+{
+"text": "vat",
+"start": 36.9,
+"end": 37.14
+},
+{
+"text": "of",
+"start": 37.14,
+"end": 37.36
+},
+{
+"text": "poison",
+"start": 37.36,
+"end": 37.72
+},
+{
+"text": "held",
+"start": 37.72,
+"end": 38.02
+},
+{
+"text": "back",
+"start": 38.02,
+"end": 38.36
+},
+{
+"text": "by",
+"start": 38.36,
+"end": 38.6
+},
+{
+"text": "nothing",
+"start": 38.6,
+"end": 38.9
+},
+{
+"text": "but",
+"start": 38.9,
+"end": 39.48
+},
+{
+"text": "slime.",
+"start": 39.48,
+"end": 39.84
+}
+]
+}

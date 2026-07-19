@@ -1,0 +1,55 @@
+{
+  "slug": "bonehealing",
+  "title": "Your Broken Bone Comes Back Stronger",
+  "duration_estimate_s": 32,
+  "palette": {
+    "bg_deep": "#0c0e14",
+    "bg_panel": "#141823",
+    "gold": "#FFD23F",
+    "bone_ivory": "#F4ECDD",
+    "blood_crimson": "#C0392B",
+    "cartilage_blue": "#5FB3D4",
+    "callus_amber": "#E8A24A",
+    "steel_silver": "#AEB6C2",
+    "cell_violet": "#9B7BD4"
+  },
+  "scenes": [
+    {
+      "beat": "The strange truth about breaking a bone is that, for a while, the healed spot becomes stronger than the original.",
+      "visual": "SCROLL-STOPPER HOOK. One bold ivory long-bone (#F4ECDD) stands big, vertical and dead-center on the deep #0c0e14 background, drawn with a soft inner gradient and rounded epiphyses, lit by a gold rim-light on its left edge so it pops off the dark. A single jagged hairline crack splits its middle. ONE high-contrast gold badge pill (#FFD23F) sits at the top center with bold near-black text reading 'STRONGER WHEN BROKEN' — the whole shock stated outright, no second competing tag. A tiny crimson dot marker pins the crack. Nothing else on screen so the eye locks instantly.",
+      "animations": "Bone snaps into frame fast: it draws-on with a vertical wipe-mask base-to-top in 0.4s, then a single sharp spring scale-pop (overshoot ~1.06 then settle). On the pop, the crack rips across the middle as a fast jagged stroke-dash sweep with a 2-frame screen-shake. The gold 'STRONGER WHEN BROKEN' badge slams down from -20px with a hard spring and one quick glow pulse, all inside the first ~1.2s. Then everything holds still — calm after the hook.",
+      "sfx": "a sharp dry bone-snap crack (woody splinter)"
+    },
+    {
+      "beat": "The moment a bone snaps, blood floods the break and clots into a soft scaffold.",
+      "visual": "Tight cross-section of the fracture gap between the two bone ends (#F4ECDD). Crimson blood (#C0392B) pours into the gap as soft translucent droplets and pools, then knits into a small lattice of crimson threads connecting node-to-node across the break — a simple web, not a hero moment. A small gold caption pill reads 'CLOT'.",
+      "animations": "Bone ends ease slightly apart to open the gap (gentle spring). Blood does a liquid level-fill rising into the gap. Crimson scaffold threads draw-on connect-the-dots, staggered node by node. Gold 'CLOT' pill spring-pops at the end. Kept deliberately modest so it never competes with the reveal.",
+      "sfx": "a wet liquid flood-and-settle gloop"
+    },
+    {
+      "beat": "Then special cells swarm in, first building a bulging lump of cartilage.",
+      "visual": "Violet repair cells (#9B7BD4) as small glowing dots stream in from the screen edges toward the fracture and cluster on the crimson scaffold. As they pack in, a translucent blue cartilage mass (#5FB3D4) swells around the break into a soft semi-transparent rounded bulge with a glossy highlight. A gold label reads 'CARTILAGE'. Still a build-up beat — visibly soft and unfinished, setting up the payoff.",
+      "animations": "Violet cells stream-in along curved paths, staggered, jittering like a swarm, then fade into the mass. Cartilage bulge grows via an outward radial scale-fill from the core with a soft squash-and-settle spring. 'CARTILAGE' label draws-on with an underline sweep.",
+      "sfx": "a granular organic tissue-grow shimmer"
+    },
+    {
+      "beat": "Then slowly replacing it with fresh, hard bone — and this new growth is bigger than what was there before, forming a thick collar around the old fracture.",
+      "visual": "THE HERO REVEAL — the one money shot. The soft blue cartilage TRANSMUTES into solid bone, building a visibly THICK bony collar that wraps fully around the old fracture: a glowing #E8A24A amber core fading outward to #F4ECDD ivory, clearly far fatter than the thin original shaft on either side. A gold dimension bracket spans the collar versus a thin bracket on the normal shaft, and a big live thickness counter ticks up from '100%' to '165%'. Inside the collar a honeycomb trabecular bone texture fills in. ONE bold gold keyword pill reads 'CALLUS COLLAR'. This frame alone makes the whole mechanism obvious at a glance.",
+      "animations": "Blue sweeps to amber via a vertical color-fill wipe. The collar then BUILDS outward concentric ring by ring — each ring draws-on and spring-pops a touch larger than the last (staggered ~3 frames apart) so the bone visibly fattens past the original. The honeycomb trabecular pattern draws-on inside as the rings land. The gold dimension bracket extends with a measuring-sweep while the thickness counter races up to 165% and snaps. A final spring-pop highlight flash ripples across the whole collar as 'CALLUS COLLAR' slams in. Richest, most detailed motion of the whole short — everything else is calmer.",
+      "sfx": "a rising crystalline mineral-hardening chime (the reveal accent)"
+    },
+    {
+      "beat": "So for months, that spot is actually tougher than the rest of the bone.",
+      "visual": "Quick proof beat. Side-by-side: the thin original shaft and the collared healed section each take a downward gold load arrow. A strength bar fills beside each — the healed section's bar fills higher and turns gold; the normal section caps lower in steel-silver (#AEB6C2). A bold gold 'TOUGHER' badge stamps over the healed spot, with a small 'for months' time tag. Clean and fast, clearly a follow-up to the reveal, not a second reveal.",
+      "animations": "Load arrows press-down with a spring thud. Both strength bars fill simultaneously, counters racing, the healed bar overshooting clearly past the normal one. 'TOUGHER' badge stamp-pops with a hard spring impact and a brief shake.",
+      "sfx": "a firm metallic stress-test clank (load impact)"
+    },
+    {
+      "beat": "Eventually your body sands the lump back down, leaving a seam stronger than steel for its weight.",
+      "visual": "The bulging amber collar is sanded back down to a smooth ivory bone, leaving only a faint hairline seam at the old break, now gleaming with a steel-silver (#AEB6C2) specular sheen. PAYOFF: three bold words slam in word-by-word, centered, ivory with the last word in gold #FFD23F — 'STRONGER. THAN. STEEL.' Nothing else competes; the bone sits quietly behind the text.",
+      "animations": "The collar shrinks via an inward erosion mask with tiny sanding particles flaking off; the bone smooths and a steel-sheen specular highlight sweeps across it. Then the payoff lands hard: 'STRONGER' slams in from scale 1.4 with spring overshoot, 'THAN' a beat later, and the gold 'STEEL' hits hardest with a bright glint flash. Each word a separate hard impact.",
+      "sfx": "a clean steel ring-ding glint (final payoff accent)"
+    }
+  ],
+  "payoff": "STRONGER. THAN. STEEL."
+}

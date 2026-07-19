@@ -1,0 +1,515 @@
+{
+"script": "Your engine dies right on the railroad crossing, and far down the line a train horn begins to wail. Forget the car, because a train can't stop in time and the impact will crush it like a can. So get out immediately and leave everything behind. Now here's the part nobody knows: don't run away from the tracks at a right angle. Run toward the oncoming train at a forty-five degree angle. That way, when it smashes your car, the flying debris hurtles forward, away from where you're sprinting. The terrifying truth? A speeding train needs over a mile to fully stop.",
+"words": [
+{
+"text": "Your",
+"start": 0.0,
+"end": 0.3
+},
+{
+"text": "engine",
+"start": 0.3,
+"end": 0.6
+},
+{
+"text": "dies",
+"start": 0.6,
+"end": 1.08
+},
+{
+"text": "right",
+"start": 1.08,
+"end": 1.54
+},
+{
+"text": "on",
+"start": 1.54,
+"end": 1.7
+},
+{
+"text": "a",
+"start": 1.7,
+"end": 1.82
+},
+{
+"text": "railroad",
+"start": 1.82,
+"end": 2.14
+},
+{
+"text": "crossing",
+"start": 2.14,
+"end": 2.7
+},
+{
+"text": "and",
+"start": 2.7,
+"end": 3.24
+},
+{
+"text": "far",
+"start": 3.24,
+"end": 3.48
+},
+{
+"text": "down",
+"start": 3.48,
+"end": 3.64
+},
+{
+"text": "the",
+"start": 3.64,
+"end": 3.8
+},
+{
+"text": "line",
+"start": 3.8,
+"end": 4.14
+},
+{
+"text": "a",
+"start": 4.14,
+"end": 4.44
+},
+{
+"text": "train",
+"start": 4.44,
+"end": 4.82
+},
+{
+"text": "horn",
+"start": 4.82,
+"end": 5.22
+},
+{
+"text": "begins",
+"start": 5.22,
+"end": 5.6
+},
+{
+"text": "to",
+"start": 5.6,
+"end": 5.84
+},
+{
+"text": "wail.",
+"start": 5.84,
+"end": 6.18
+},
+{
+"text": "Forget",
+"start": 6.58,
+"end": 6.84
+},
+{
+"text": "the",
+"start": 6.84,
+"end": 7.04
+},
+{
+"text": "car",
+"start": 7.04,
+"end": 7.32
+},
+{
+"text": "because",
+"start": 7.32,
+"end": 7.86
+},
+{
+"text": "a",
+"start": 7.86,
+"end": 8.02
+},
+{
+"text": "train",
+"start": 8.02,
+"end": 8.28
+},
+{
+"text": "can't",
+"start": 8.28,
+"end": 8.66
+},
+{
+"text": "stop",
+"start": 8.66,
+"end": 8.86
+},
+{
+"text": "in",
+"start": 8.86,
+"end": 9.04
+},
+{
+"text": "time",
+"start": 9.04,
+"end": 9.38
+},
+{
+"text": "and",
+"start": 9.38,
+"end": 9.76
+},
+{
+"text": "the",
+"start": 9.76,
+"end": 9.86
+},
+{
+"text": "impact",
+"start": 9.86,
+"end": 10.22
+},
+{
+"text": "will",
+"start": 10.22,
+"end": 10.44
+},
+{
+"text": "crush",
+"start": 10.44,
+"end": 10.72
+},
+{
+"text": "it",
+"start": 10.72,
+"end": 10.88
+},
+{
+"text": "like",
+"start": 10.88,
+"end": 11.02
+},
+{
+"text": "it",
+"start": 11.02,
+"end": 11.14
+},
+{
+"text": "can.",
+"start": 11.14,
+"end": 11.42
+},
+{
+"text": "So",
+"start": 11.8,
+"end": 11.94
+},
+{
+"text": "get",
+"start": 11.94,
+"end": 12.06
+},
+{
+"text": "out",
+"start": 12.06,
+"end": 12.18
+},
+{
+"text": "immediately",
+"start": 12.18,
+"end": 12.58
+},
+{
+"text": "and",
+"start": 12.58,
+"end": 13.28
+},
+{
+"text": "leave",
+"start": 13.28,
+"end": 13.6
+},
+{
+"text": "everything",
+"start": 13.6,
+"end": 14.22
+},
+{
+"text": "behind.",
+"start": 14.22,
+"end": 14.7
+},
+{
+"text": "Now",
+"start": 15.26,
+"end": 15.38
+},
+{
+"text": "here's",
+"start": 15.38,
+"end": 15.64
+},
+{
+"text": "the",
+"start": 15.64,
+"end": 15.76
+},
+{
+"text": "part",
+"start": 15.76,
+"end": 15.96
+},
+{
+"text": "nobody",
+"start": 15.96,
+"end": 16.26
+},
+{
+"text": "knows.",
+"start": 16.26,
+"end": 16.82
+},
+{
+"text": "Don't",
+"start": 17.3,
+"end": 17.6
+},
+{
+"text": "run",
+"start": 17.6,
+"end": 17.74
+},
+{
+"text": "away",
+"start": 17.74,
+"end": 17.98
+},
+{
+"text": "from",
+"start": 17.98,
+"end": 18.16
+},
+{
+"text": "the",
+"start": 18.16,
+"end": 18.28
+},
+{
+"text": "tracks",
+"start": 18.28,
+"end": 18.58
+},
+{
+"text": "at",
+"start": 18.58,
+"end": 18.96
+},
+{
+"text": "a",
+"start": 18.96,
+"end": 19.08
+},
+{
+"text": "right",
+"start": 19.08,
+"end": 19.32
+},
+{
+"text": "angle.",
+"start": 19.32,
+"end": 19.68
+},
+{
+"text": "Run",
+"start": 20.3,
+"end": 20.48
+},
+{
+"text": "toward",
+"start": 20.48,
+"end": 20.7
+},
+{
+"text": "the",
+"start": 20.7,
+"end": 20.88
+},
+{
+"text": "oncoming",
+"start": 20.88,
+"end": 21.28
+},
+{
+"text": "train",
+"start": 21.28,
+"end": 21.7
+},
+{
+"text": "at",
+"start": 21.7,
+"end": 22.14
+},
+{
+"text": "a",
+"start": 22.14,
+"end": 22.34
+},
+{
+"text": "45",
+"start": 22.34,
+"end": 23.02
+},
+{
+"text": "degree",
+"start": 23.02,
+"end": 23.3
+},
+{
+"text": "angle.",
+"start": 23.3,
+"end": 23.86
+},
+{
+"text": "That",
+"start": 24.18,
+"end": 24.54
+},
+{
+"text": "way",
+"start": 24.54,
+"end": 24.84
+},
+{
+"text": "when",
+"start": 24.84,
+"end": 25.54
+},
+{
+"text": "it",
+"start": 25.54,
+"end": 25.66
+},
+{
+"text": "smashes",
+"start": 25.66,
+"end": 26.14
+},
+{
+"text": "your",
+"start": 26.14,
+"end": 26.36
+},
+{
+"text": "car,",
+"start": 26.36,
+"end": 26.72
+},
+{
+"text": "the",
+"start": 26.72,
+"end": 27.14
+},
+{
+"text": "flying",
+"start": 27.14,
+"end": 27.56
+},
+{
+"text": "debris",
+"start": 27.56,
+"end": 28.1
+},
+{
+"text": "hurdles",
+"start": 28.1,
+"end": 28.62
+},
+{
+"text": "forward",
+"start": 28.62,
+"end": 29.22
+},
+{
+"text": "away",
+"start": 29.22,
+"end": 30.04
+},
+{
+"text": "from",
+"start": 30.04,
+"end": 30.3
+},
+{
+"text": "where",
+"start": 30.3,
+"end": 30.42
+},
+{
+"text": "you're",
+"start": 30.42,
+"end": 30.64
+},
+{
+"text": "sprinting.",
+"start": 30.64,
+"end": 31.16
+},
+{
+"text": "The",
+"start": 31.38,
+"end": 31.58
+},
+{
+"text": "terrifying",
+"start": 31.58,
+"end": 32.04
+},
+{
+"text": "truth?",
+"start": 32.04,
+"end": 32.54
+},
+{
+"text": "A",
+"start": 33.1,
+"end": 33.16
+},
+{
+"text": "speeding",
+"start": 33.16,
+"end": 33.42
+},
+{
+"text": "train",
+"start": 33.42,
+"end": 33.84
+},
+{
+"text": "needs",
+"start": 33.84,
+"end": 34.2
+},
+{
+"text": "over",
+"start": 34.2,
+"end": 34.5
+},
+{
+"text": "a",
+"start": 34.5,
+"end": 34.64
+},
+{
+"text": "mile",
+"start": 34.64,
+"end": 34.94
+},
+{
+"text": "to",
+"start": 34.94,
+"end": 35.48
+},
+{
+"text": "fully",
+"start": 35.48,
+"end": 35.72
+},
+{
+"text": "stop.",
+"start": 35.72,
+"end": 36.08
+}
+]
+}

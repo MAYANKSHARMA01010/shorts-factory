@@ -1,0 +1,9 @@
+python make_narration.py --txt "..\..\reimagined transcripts\067_drink-from-the-ocean.txt" --slug ocean
+python make_narration.py --txt "..\..\reimagined transcripts\068_skydive-without-parachute.txt" --slug skydive
+python make_narration.py --txt "..\..\reimagined transcripts\069_freeze-yourself-and-wake-up.txt" --slug freeze
+python make_narration.py --txt "..\..\reimagined transcripts\070_walk-through-a-rainstorm-of-diamonds.txt" --slug diamondrain
+python make_narration.py --txt "..\..\reimagined transcripts\071_iss-always-falling.txt" --slug iss
+python make_narration.py --txt "..\..\reimagined transcripts\072_neutron-star-density.txt" --slug neutron
+python make_narration.py --txt "..\..\reimagined transcripts\073_time-slows-near-gravity.txt" --slug timeslow
+python make_narration.py --txt "..\..\reimagined transcripts\074_sunset-on-mars.txt" --slug mars
+python make_narration.py --txt "..\..\reimagined transcripts\075_black-hole-spaghettification.txt" --slug spaghetti

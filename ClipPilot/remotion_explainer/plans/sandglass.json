@@ -1,0 +1,106 @@
+{
+  "slug": "sandglass",
+  "title": "Beach Sand Becomes Your Glass Bottle",
+  "duration_estimate_s": 33,
+  "palette": {
+    "bg": "#120d07",
+    "bgTop": "#1c130a",
+    "bgMid": "#2a1c0e",
+    "bgBot": "#120c06",
+    "accent": "#ff8a1e",
+    "molten": "#ff5e0f",
+    "moltenLite": "#ffd23f",
+    "glass": "#9fe8ff",
+    "glassEdge": "#bff1ff",
+    "sand": "#e7c486",
+    "sandDk": "#c79a4f",
+    "steel": "#cdd5e0",
+    "steelDk": "#8b97a8",
+    "key": "#FFD23F",
+    "white": "#FFFFFF",
+    "red": "#ff5b4d",
+    "ember": "#ff3b0a"
+  },
+  "fonts": {
+    "family": "Poppins",
+    "weights": ["600", "700", "800", "900"]
+  },
+  "style_notes": "House style of SkyBlue/Mirror/HotDog: 1080x1920, FPS 30, single SVG layer per scene over a warm furnace-toned animated gradient background with drifting embers (like HotDog SPECK but orange). Energy from FAST in-composition motion (snappy springs via usePop damping 110-140 mass 0.55, fast spins, fills, morphs, balloon-inflate) NOT camera zoom pulses. Reuse shared Defs: glow + soft filters, plus gradients moltenG (radial yellow->orange->red), glassG (cyan glass), sandG (sandy), steelG (machinery). Each scene wrapped in SceneWrap (fast 8-frame fade + tiny 1.06->1 settle). Big bold 3-word karaoke captions auto-added at bottom 250 throughout (do not build). Label pill at top y=250 names each step. Scene timing must be driven by real per-word sentence-end timestamps in sandglass_words.json once narrated; the per-scene frame budgets below are the design target at 30fps.",
+  "audio": {
+    "narration": "sandglass_narration.mp3",
+    "music": "music.mp3",
+    "music_volume": 0.13,
+    "voice": "edge-tts en-US-AndrewMultilingualNeural"
+  },
+  "scene_order": ["hook", "furnace", "blob", "drop", "blow", "cool"],
+  "scenes": [
+    {
+      "id": "hook",
+      "beat": "The glass bottle in your hand was once a pile of ordinary beach sand.",
+      "frames_target": 150,
+      "visual": "A clean clear-glass bottle drawn with the glassG gradient (cyan tint, white rim highlight, soft drop shadow) sits centered. A label pill is NOT used here. The bottle's body is filled by a clip-path; inside it we see piled-up sand grains. Then a curiosity beat: the whole bottle dissolves grain-by-grain DOWN into a heap of beach sand on a thin beach-line at the bottom, with a tiny seashell and a sun-glint, literally answering 'this WAS sand'. A pulsing gold '?' glyph (like Mirror) sits at the bottle shoulder before the dissolve.",
+      "animations": "Bottle springs up from scale 0.4 with overshoot (usePop damping 120). '?' pulses opacity 0.7->1 via sin. At ~frame 55 the bottle outline stays but its glass fill 'shatters' into ~120 sand-colored grain dots that fall + scatter via interpolated y with random x drift, settling into a sand pile (each grain delayed by index). A reverse-reveal: grains pour from bottle silhouette into the heap. Heat-shimmer is absent here (cool blue) to contrast with furnace scenes next.",
+      "sfx": "soft glass-clink/chime as the bottle pops in (assets/sound_effects), then a granular sand-pour/whoosh as it dissolves into the heap (one dramatic-ish reveal cue).",
+      "onscreen_text": "FROM THIS  →  was SAND  (small gold tag near the heap)"
+    },
+    {
+      "id": "furnace",
+      "beat": "First, that sand is mixed with crushed recycled glass and heated to nearly 3,000 degrees.",
+      "frames_target": 200,
+      "visual": "A 'recipe' mixing step on the left feeding a glowing furnace mouth on the right. Two labeled streams pour into a steel hopper: a SAND stream (sandG colored grains) and a CRUSHED GLASS stream (cyan glassG shards, little angular polygons). They merge in the hopper, then slide right into an open arched furnace door that glows hotter and hotter. A big bold animated thermometer / temperature readout climbs to '~3000F'. Heat-shimmer wavy lines and orange glow ramp up. Label pill: 'Sand + recycled glass'.",
+      "animations": "Two pour streams animate as falling-particle columns (HotDog FALL style) with fast index-staggered drops; grains tumble/rotate. Hopper auger-style churn mixes them (fast rotate). Furnace interior color mix()es from dark steel -> deep red -> bright orange as a 'heat' interpolate ramps; glow filter intensifies. Temperature number counts UP fast via interpolate (round) from 70 to 2912, with the digits popping. Shimmer = animated sine paths rising. A red '!' or flame-lick flickers at the door on the temperature reveal.",
+      "sfx": "granular pour/shaker rattle on the two streams, then a low furnace WHOOSH / ignition roar as the door glow ramps and the temperature hits ~3000 (second reveal cue).",
+      "onscreen_text": "≈ 3000°F  (gold, pops on at the peak)"
+    },
+    {
+      "id": "blob",
+      "beat": "Then it melts into a glowing orange blob, thick and gooey like honey.",
+      "frames_target": 190,
+      "visual": "Centerpiece: a fat glowing molten-glass blob using a radial moltenG gradient (white-hot core -> orange -> deep red rim) with the glow filter, sitting in/oozing from a steel crucible lip. It visibly behaves like honey: a thick viscous drip stretches down and snaps back, slow gooey wobble of the blob outline. A floating 'like honey' comparison: a tiny honey dipper / drizzle icon next to it for the simile, with a side-by-side viscosity hint.",
+      "animations": "Blob outline morphs via animated control points (gooey wobble using sin on a path 'd', SkyBlue-style path building) so it breathes and sags. A honey-thick drip elongates downward (interpolate length) then a droplet pinches and the strand recoils (spring). The molten gradient pulses brightness (core scales 1+0.03 sin like the Sun). Heat-shimmer + rising ember sparks. The honey-dipper icon does a slow drizzle of a matching glowing strand to sell 'gooey like honey'.",
+      "sfx": "low bubbling/lava glug bed (subtle), plus a soft viscous 'stretch' squelch on the drip. No big boom here (keep SFX sparse).",
+      "onscreen_text": "thick + gooey  (small label, like honey)"
+    },
+    {
+      "id": "drop",
+      "beat": "And a machine snips off a perfect droplet, dropping it straight into a bottle-shaped mold.",
+      "frames_target": 200,
+      "visual": "Cross-section / process diagram: at the top, a molten strand (the 'gob') hangs from a steel feeder. Two steel shear blades (steelG) wait on either side. They SNIP, cutting a perfect glowing droplet (the 'gob') which then falls down a guide chute straight into an open bottle-shaped MOLD shown in cutaway below (two mold halves, hollow bottle-cavity outline visible). The gob lands and glows inside the cavity. Label pill: 'A glowing gob is cut'.",
+      "animations": "Shear blades snap shut FAST (spring, the two halves translate toward center and overshoot) — the crisp snip is the beat's hero motion. At the instant they meet, the strand splits and a glowing droplet detaches and falls with accelerating y (gravity-eased) plus a slight squash on landing. Mold halves are pre-open; the gob drops through and settles glowing in the bottle cavity, lighting the cavity walls orange. A small 'snip' spark flash at the cut point.",
+      "sfx": "a sharp metallic SNIP / scissor-clink exactly on the blade close (scene-matched click), then a soft 'plop' as the gob lands in the mold.",
+      "onscreen_text": "PERFECT DROPLET  (gold, pops at the snip)"
+    },
+    {
+      "id": "blow",
+      "beat": "Next, a blast of air inflates the blob from the inside, pressing it against the walls like a balloon.",
+      "frames_target": 200,
+      "visual": "THE HERO REVEAL. Cutaway of the closed bottle mold (two steel mold halves outlined, steelG). A blow-pipe / air nozzle enters from the top. A burst of air (animated arrows + puff) shoots DOWN into the molten gob, and the glowing glass inflates outward from a small slug into the full bottle shape, pressing flush against the inner mold walls — exactly 'like a balloon'. Show the air pressure as expanding concentric rings + directional arrows pushing the glass to the walls. The glass goes from thick molten orange to thinning, brightening, taking the crisp bottle silhouette.",
+      "animations": "Air-blast: nozzle pops in, then a fast puff of air-arrow particles fires downward (staggered). The glass body INFLATES via an interpolated scale/path-expansion from a small blob to the bottle outline, overshooting slightly then snapping to the mold walls (spring) — balloon stretch feel. Inner pressure rings expand and fade. As it inflates, color mix()es molten orange -> hot yellow at the thin walls. Tiny wall-contact 'tick' flashes where the glass kisses the mold edges. A balloon icon briefly morphs alongside to nail the simile.",
+      "sfx": "an air-blast WHOOSH / pneumatic hiss on the blow, then a stretchy balloon-inflate creak rising to a soft 'pop'/thunk as it seats against the walls (the third real reveal — biggest cue, a satisfying boom/thunk).",
+      "onscreen_text": "INFLATED LIKE A BALLOON  (gold, pops at full inflation)"
+    },
+    {
+      "id": "cool",
+      "beat": "Finally, the bottle cools slowly so it doesn't crack, hardening back into the clear glass you toss away without a thought.",
+      "frames_target": 190,
+      "visual": "The finished bottle is released from the mold (mold halves slide apart) glowing orange, then COOLS: its color sweeps top-to-bottom from molten orange -> deep red -> dim -> finally the clear cyan glassG of scene 1. A 'slow cooling' annealing meter / gentle thermometer ticks DOWN. A warning of cracking (a faint crack line that tries to appear) is prevented because it cools slowly — show one near-crack that heals. Payoff: the now-clear glass bottle is tossed (a small recycle/trash arc) and the closing line lands — 'you toss away without a thought', closing the loop to the opening bottle.",
+      "animations": "Mold halves spring apart (translate out + fade). Cooling = a vertical color-sweep mask: a falling 'cool line' interpolates the body fill from molten -> clear glass (mix over time). Glow filter fades out as it hardens. A hairline crack briefly draws then retracts (interpolate stroke-dash) with a small 'no-crack' shield tick. Final clear bottle does a tiny arc toss (translate + rotate, spring) toward a recycle bin / off-frame, then the payoff text pops in (usePop) over a settling clear bottle. Loops visually back to the scene-1 clear bottle.",
+      "sfx": "a gentle cooling hiss / metallic settle as colors fade, then a final light 'clink' + soft success sting on the closing payoff line.",
+      "onscreen_text": "PAYOFF LINE (see payoff field)"
+    }
+  ],
+  "payoff": "Beach sand → 3000°F → your bottle. Tossed without a thought.",
+  "captions": {
+    "auto": true,
+    "note": "Big bold 3-word karaoke pages (gold active word, scale pop) burned at bottom 250 from sandglass_words.json — handled automatically, not part of this plan.",
+    "words_file": "sandglass_words.json"
+  },
+  "sfx_policy": "Sparse + scene-matched. Slides/whooshes on scene changes; only THREE dramatic cues across the whole short: (1) the sand-pour reveal in the hook, (2) the furnace ignition roar hitting ~3000°F, (3) the balloon-inflate pop/thunk when the glass seats against the mold walls. The snip is a crisp small click, not a boom. Final payoff gets a soft success sting only.",
+  "render": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 30,
+    "component": "SandGlass",
+    "tsx_file": "src/SandGlass.tsx"
+  }
+}

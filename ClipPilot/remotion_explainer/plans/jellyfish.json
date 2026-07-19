@@ -1,0 +1,58 @@
+{
+  "slug": "jellyfish",
+  "title": "This Animal Refuses To Die",
+  "duration_estimate_s": 32,
+  "palette": {
+    "bg_deep": "#0a1018",
+    "bg_abyss": "#0d1622",
+    "gold": "#FFD23F",
+    "jelly_key": "#7FE7E0",
+    "bell_glow": "#4FC3D9",
+    "tentacle_pink": "#FF8FB1",
+    "polyp_coral": "#E86A5C",
+    "cell_violet": "#9D7BE8",
+    "stem_glow": "#C9B3FF",
+    "seafloor_sand": "#5C6B7A",
+    "danger_red": "#FF5A6E",
+    "white": "#FFFFFF"
+  },
+  "scenes": [
+    {
+      "beat": "There's a jellyfish that, when it's about to die, simply grows young again.",
+      "visual": "HOOK. Abyssal radial gradient (#0a1018 center to #0d1622 edge) with slow downward marine-snow particles. Dead center and LARGE (fills ~55% of frame height): one translucent bell-shaped jellyfish in layered SVG paths — glowing cyan dome (#7FE7E0) over a soft inner #4FC3D9 glow blob, a thin gold rim highlight on the bell, four short oral arms and a fan of thin #FF8FB1 tentacles trailing below. Slammed across the upper third in heavy white type: the shock line 'IT CAN'T DIE.' with 'CAN'T' enlarged and recolored gold (#FFD23F). A gold pill badge clings to the top-right of the bell holding a bold white '?' to pose the mystery. One faint gold ripple ring sits behind the creature. No clutter — just the giant jelly, three blunt words, and the badge.",
+      "animations": "Jellyfish springs in from 72% to full scale with a gentle overshoot (spring damping ~14, mass 0.6) in the first 0.4s, then locks into a slow continuous bell-pulse loop — squash on contract, stretch on release — so it visibly swims in place; tentacles trail on a soft sine sway. The white hook words punch in word-by-word over the first ~1.2s, each with a hard spring overshoot; 'CAN'T' lands hardest with an extra scale punch and a single gold flash. The '?' badge pops 0.3s after the jelly with a punchy spring and emits one gold ring that sweeps outward and fades. Marine-snow drifts down throughout. No camera zoom-pulse.",
+      "sfx": "a soft deep underwater sonar ping with a watery bubble-shimmer tail"
+    },
+    {
+      "beat": "It's barely bigger than a fingernail, but it carries one of nature's strangest tricks.",
+      "visual": "Scale-shock shot. The jelly recenters and shrinks tiny, set beside a clean #5C6B7A line-art human fingertip with a drawn fingernail on the left. A thin gold dimension bracket spans the nail width with a gold tick label reading '~4mm', visibly dwarfing the speck-sized glowing-cyan jelly tucked beside it. Background stays abyssal with drifting particles. The contrast of the bright cyan dot against the muted gray nail sells how absurdly small it is.",
+      "animations": "Fingernail outline draws-on stroke-by-stroke, left to right. The gold dimension bracket sweeps open horizontally and the '~4mm' label pops in with a spring. The tiny jellyfish does a quick scale-down shrink with a spring settle to sit beside the bracket, then resumes a miniature bell-pulse. A subtle gold underline sweeps beneath the label. Particles keep drifting.",
+      "sfx": "a small high crystalline glass tick and measuring chime"
+    },
+    {
+      "beat": "When it's injured, starving, or old, it doesn't give up. Instead, its body collapses into a blob and sinks to the seafloor.",
+      "visual": "Three gold-outlined condition icons flash across the top, each in a gold pill: a cracked red-tinged bell (#FF5A6E) for INJURED, a hollow empty bell for STARVING, a faded gray bell for OLD. Below, the main jellyfish loses its form — crisp bell and tentacles melt and morph into a rounded amorphous #4FC3D9 blob. A muted #5C6B7A seafloor ridge with a few rocks sits along the bottom. The collapsed blob descends through the water column toward the seafloor, leaving a faint cyan trail.",
+      "animations": "The three condition icons spring-pop in a snappy stagger, each dimming after it lands. The bell path-morphs into the blob — tentacles retract, dome rounds out, color desaturates. The blob then sinks with eased gravity and gently squashes on contact with the seafloor; a small sand-particle burst puffs out on landing. The seafloor ridge draws-on as the blob falls. No zoom-pulse.",
+      "sfx": "a low gloopy underwater glug that settles into a soft sediment thud"
+    },
+    {
+      "beat": "And then its cells transform, rewinding it back into its baby stage, like a butterfly turning back into a caterpillar.",
+      "visual": "HERO REVEAL — THE MONEY SHOT. The blob on the seafloor is magnified into one big central circular cell-view lens (ring of gold ~440px diameter, dominating the frame). Inside the lens: a tight honeycomb of ~14 rounded hexagonal cells in violet (#9D7BE8). As we watch, each specialized adult cell visibly DEDIFFERENTIATES — it loses its detailed inner structure, rounds out, and color-shifts from #9D7BE8 violet to a bright glowing stem-cell white-violet (#C9B3FF), then re-packs into a fresh uniform grid. Thin light filaments arc between cells as they reorganize. A bold gold 'REWIND' loop-arrow (◄◄ curve) wraps the outside of the lens. To the right, a compact morph timeline: an adult medusa silhouette scrubs BACKWARD (leftward) and path-morphs into a stalked baby polyp; directly beneath it, a small gold-line butterfly icon cross-dissolves into a caterpillar icon to drive home the reversal. Everything else on screen is dimmed so the lens is unmistakably the focal point.",
+      "animations": "The lens irises open via a circular mask reveal with a gold ring sweep (0.5s). Inside, the cells animate in a continuous reorganizing churn: each cell springs to a new grid position (staggered spring, damping ~12) while its fill tweens #9D7BE8 -> #C9B3FF and its inner detail fades out, then a faint stem-glow pulse blooms across the whole grid. Light filaments draw-on between neighboring cells as they settle. The gold REWIND arrow draws-on, then loops its sweep. On the timeline the medusa silhouette path-morphs backward into the polyp with a smooth reverse-scrub easing, and the butterfly cross-dissolves into the caterpillar in sync. This is the longest, richest, most detailed beat — the emotional and visual peak. No camera zoom-pulse; all motion is in-comp.",
+      "sfx": "a reverse time-rewind whoosh layered with a shimmering bio-electric sparkle swell"
+    },
+    {
+      "beat": "From there, it grows up all over again. In theory, it can repeat this cycle forever.",
+      "visual": "A clean circular life-cycle diagram centered on a thin gold ring with four glowing nodes — POLYP (baby), JUVENILE, ADULT MEDUSA, COLLAPSE-BLOB — each a small cyan/violet icon with a tiny gold label. A bright light tracer travels the ring clockwise leaving a gold comet trail; on reaching the medusa node it loops back to the polyp node, closing the cycle so the arrow never breaks. A faint gold infinity hint glows at the ring's center. Abyssal background with gentle particles.",
+      "animations": "The four nodes spring-pop in around the ring in clockwise sequence. A glowing tracer particle sweeps the full loop as a path-follow draw-on of the gold trail; on completing one lap it speeds up and runs a second faster lap to imply 'forever.' Each node briefly pulses as the tracer passes. On loop close the whole ring gives one soft synchronized glow-pulse. No zoom-pulse.",
+      "sfx": "a rising looping chime arpeggio that resolves into a gentle bell shimmer"
+    },
+    {
+      "beat": "...which is why scientists call it the immortal jellyfish.",
+      "visual": "PAYOFF. The jellyfish returns to full glory, centered and glowing bright cyan with a radiant halo, pulsing serenely. Across the lower third the punchline slams in word-by-word in heavy white type: 'IT' / 'NEVER' / 'TRULY' / 'DIES' — with 'NEVER' enlarged and rendered in gold (#FFD23F). A thin gold infinity symbol glints beside the jelly. Starlike particles brighten around the bell.",
+      "animations": "Each of the four payoff words flies in word-by-word with a strong spring overshoot and settle (tight stagger ~0.12s apart); 'NEVER' lands hardest with an extra scale punch and a gold flash. The jellyfish does one big triumphant bell-pulse synced to 'DIES'. The gold infinity symbol draws-on in a single continuous stroke and gets one gold glint sweep across it. Halo particles bloom outward then ease to a calm twinkle on the hold. No zoom-pulse.",
+      "sfx": "a clean confident reveal sting — soft cosmic bell chord with a watery shimmer accent"
+    }
+  ],
+  "payoff": "IT NEVER TRULY DIES"
+}

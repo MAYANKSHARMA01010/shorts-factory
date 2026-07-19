@@ -1,0 +1,520 @@
+{
+"script": "Across your lifetime, you'll breathe in around 200 million liters of air. That's enough to fill more than 60 hot air balloons, each one big enough to lift a grown person off the ground. You see, you take about 20,000 breaths a day, pulling in roughly 11,000 liters without ever thinking about it. And every breath you take holds atoms once breathed by dinosaurs, kings, and total strangers thousands of years ago. So the air filling your lungs right now has been recycled through countless creatures before you, and one day, someone else will breathe the very atoms you just exhaled.",
+"words": [
+{
+"text": "Across",
+"start": 0.0,
+"end": 0.44
+},
+{
+"text": "your",
+"start": 0.44,
+"end": 0.68
+},
+{
+"text": "lifetime,",
+"start": 0.68,
+"end": 1.2
+},
+{
+"text": "you'll",
+"start": 1.86,
+"end": 2.0
+},
+{
+"text": "breathe",
+"start": 2.0,
+"end": 2.34
+},
+{
+"text": "in",
+"start": 2.34,
+"end": 2.52
+},
+{
+"text": "around",
+"start": 2.52,
+"end": 2.8
+},
+{
+"text": "200",
+"start": 2.8,
+"end": 3.54
+},
+{
+"text": "million",
+"start": 3.54,
+"end": 4.16
+},
+{
+"text": "liters",
+"start": 4.16,
+"end": 4.48
+},
+{
+"text": "of",
+"start": 4.48,
+"end": 4.62
+},
+{
+"text": "air.",
+"start": 4.62,
+"end": 4.84
+},
+{
+"text": "That's",
+"start": 5.38,
+"end": 5.62
+},
+{
+"text": "enough",
+"start": 5.62,
+"end": 5.82
+},
+{
+"text": "to",
+"start": 5.82,
+"end": 6.02
+},
+{
+"text": "fill",
+"start": 6.02,
+"end": 6.38
+},
+{
+"text": "more",
+"start": 6.38,
+"end": 6.82
+},
+{
+"text": "than",
+"start": 6.82,
+"end": 7.08
+},
+{
+"text": "60",
+"start": 7.08,
+"end": 7.44
+},
+{
+"text": "hot",
+"start": 7.44,
+"end": 7.76
+},
+{
+"text": "air",
+"start": 7.76,
+"end": 7.9
+},
+{
+"text": "balloons,",
+"start": 7.9,
+"end": 8.34
+},
+{
+"text": "each",
+"start": 8.9,
+"end": 9.2
+},
+{
+"text": "one",
+"start": 9.2,
+"end": 9.52
+},
+{
+"text": "big",
+"start": 9.52,
+"end": 9.76
+},
+{
+"text": "enough",
+"start": 9.76,
+"end": 10.04
+},
+{
+"text": "to",
+"start": 10.04,
+"end": 10.3
+},
+{
+"text": "lift",
+"start": 10.3,
+"end": 10.48
+},
+{
+"text": "a",
+"start": 10.48,
+"end": 10.66
+},
+{
+"text": "grown",
+"start": 10.66,
+"end": 11.02
+},
+{
+"text": "person",
+"start": 11.02,
+"end": 11.5
+},
+{
+"text": "off",
+"start": 11.5,
+"end": 11.92
+},
+{
+"text": "the",
+"start": 11.92,
+"end": 12.06
+},
+{
+"text": "ground.",
+"start": 12.06,
+"end": 12.34
+},
+{
+"text": "You",
+"start": 12.98,
+"end": 13.06
+},
+{
+"text": "see,",
+"start": 13.06,
+"end": 13.3
+},
+{
+"text": "you",
+"start": 13.68,
+"end": 13.86
+},
+{
+"text": "take",
+"start": 13.86,
+"end": 14.04
+},
+{
+"text": "about",
+"start": 14.04,
+"end": 14.3
+},
+{
+"text": "20",
+"start": 14.3,
+"end": 14.68
+},
+{
+"text": ",000",
+"start": 14.68,
+"end": 15.2
+},
+{
+"text": "breaths",
+"start": 15.2,
+"end": 15.44
+},
+{
+"text": "a",
+"start": 15.44,
+"end": 15.66
+},
+{
+"text": "day,",
+"start": 15.66,
+"end": 15.96
+},
+{
+"text": "pulling",
+"start": 16.32,
+"end": 16.7
+},
+{
+"text": "in",
+"start": 16.7,
+"end": 16.88
+},
+{
+"text": "roughly",
+"start": 16.88,
+"end": 17.44
+},
+{
+"text": "11",
+"start": 17.44,
+"end": 18.22
+},
+{
+"text": ",000",
+"start": 18.22,
+"end": 18.94
+},
+{
+"text": "liters",
+"start": 18.94,
+"end": 19.32
+},
+{
+"text": "without",
+"start": 19.32,
+"end": 19.74
+},
+{
+"text": "ever",
+"start": 19.74,
+"end": 20.18
+},
+{
+"text": "thinking",
+"start": 20.18,
+"end": 20.44
+},
+{
+"text": "about",
+"start": 20.44,
+"end": 20.78
+},
+{
+"text": "it.",
+"start": 20.78,
+"end": 20.98
+},
+{
+"text": "And",
+"start": 21.44,
+"end": 21.54
+},
+{
+"text": "every",
+"start": 21.54,
+"end": 21.88
+},
+{
+"text": "breath",
+"start": 21.88,
+"end": 22.16
+},
+{
+"text": "you",
+"start": 22.16,
+"end": 22.38
+},
+{
+"text": "take",
+"start": 22.38,
+"end": 22.62
+},
+{
+"text": "holds",
+"start": 22.62,
+"end": 22.94
+},
+{
+"text": "atoms",
+"start": 22.94,
+"end": 23.42
+},
+{
+"text": "once",
+"start": 23.42,
+"end": 23.8
+},
+{
+"text": "breathed",
+"start": 23.8,
+"end": 24.22
+},
+{
+"text": "by",
+"start": 24.22,
+"end": 24.58
+},
+{
+"text": "dinosaurs,",
+"start": 24.58,
+"end": 25.12
+},
+{
+"text": "kings,",
+"start": 25.72,
+"end": 26.02
+},
+{
+"text": "and",
+"start": 26.68,
+"end": 26.78
+},
+{
+"text": "total",
+"start": 26.78,
+"end": 27.06
+},
+{
+"text": "strangers",
+"start": 27.06,
+"end": 27.62
+},
+{
+"text": "thousands",
+"start": 27.62,
+"end": 28.14
+},
+{
+"text": "of",
+"start": 28.14,
+"end": 28.44
+},
+{
+"text": "years",
+"start": 28.44,
+"end": 28.64
+},
+{
+"text": "ago.",
+"start": 28.64,
+"end": 29.0
+},
+{
+"text": "So",
+"start": 29.0,
+"end": 29.7
+},
+{
+"text": "the",
+"start": 29.7,
+"end": 29.84
+},
+{
+"text": "air",
+"start": 29.84,
+"end": 30.02
+},
+{
+"text": "filling",
+"start": 30.02,
+"end": 30.36
+},
+{
+"text": "your",
+"start": 30.36,
+"end": 30.56
+},
+{
+"text": "lungs",
+"start": 30.56,
+"end": 30.86
+},
+{
+"text": "right",
+"start": 30.86,
+"end": 31.1
+},
+{
+"text": "now",
+"start": 31.1,
+"end": 31.5
+},
+{
+"text": "has",
+"start": 31.5,
+"end": 31.86
+},
+{
+"text": "been",
+"start": 31.86,
+"end": 32.02
+},
+{
+"text": "recycled",
+"start": 32.02,
+"end": 32.52
+},
+{
+"text": "through",
+"start": 32.52,
+"end": 33.06
+},
+{
+"text": "countless",
+"start": 33.06,
+"end": 33.64
+},
+{
+"text": "creatures",
+"start": 33.64,
+"end": 34.2
+},
+{
+"text": "before",
+"start": 34.2,
+"end": 34.66
+},
+{
+"text": "you.",
+"start": 34.66,
+"end": 35.02
+},
+{
+"text": "And",
+"start": 35.5,
+"end": 35.66
+},
+{
+"text": "one",
+"start": 35.66,
+"end": 35.86
+},
+{
+"text": "day,",
+"start": 35.86,
+"end": 36.2
+},
+{
+"text": "someone",
+"start": 36.7,
+"end": 37.02
+},
+{
+"text": "else",
+"start": 37.02,
+"end": 37.24
+},
+{
+"text": "will",
+"start": 37.24,
+"end": 37.5
+},
+{
+"text": "breathe",
+"start": 37.5,
+"end": 37.92
+},
+{
+"text": "the",
+"start": 37.92,
+"end": 38.54
+},
+{
+"text": "very",
+"start": 38.54,
+"end": 38.92
+},
+{
+"text": "atoms",
+"start": 38.92,
+"end": 39.3
+},
+{
+"text": "you",
+"start": 39.3,
+"end": 39.52
+},
+{
+"text": "just",
+"start": 39.52,
+"end": 39.7
+},
+{
+"text": "exhaled.",
+"start": 39.7,
+"end": 40.34
+}
+]
+}

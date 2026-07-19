@@ -1,0 +1,57 @@
+{
+  "slug": "bombardier",
+  "title": "This Beetle Fires a Boiling Gun",
+  "duration_estimate_s": 32,
+  "palette": {
+    "bg_deep": "#0d1117",
+    "bg_panel": "#161b22",
+    "gold": "#FFD23F",
+    "beetle_shell": "#3a2f1c",
+    "beetle_glint": "#6b5a33",
+    "chem_blue": "#4FC3F7",
+    "chem_amber": "#FF9E3D",
+    "boiling_red": "#FF4D3D",
+    "steam_white": "#E8F1F2",
+    "danger_glow": "#FF6B4A",
+    "frog_green": "#5BD17A"
+  },
+  "payoff": "IT LITERALLY EXPLODES ON YOU",
+  "scenes": [
+    {
+      "beat": "When this tiny beetle gets attacked, it fires a boiling chemical gun out of its own backside.",
+      "visual": "SCROLL-STOPPER HOOK. Dead-center on the deep #0d1117 background sits ONE big bold hero object: a stylized vector bombardier beetle in clean side-profile, drawn large (filling ~55% of frame height) as glossy #3a2f1c oval body segments with a hard #6b5a33 specular highlight ridge running along the carapace and two thin curving antennae. Its abdomen tip aims up-right and ends in a short dark gunmetal 'barrel' nozzle that glows a faint hot #FF6B4A at the muzzle, with one tight heat-shimmer arc above it primed but NOT firing. Top-right, overlapping the beetle, a bold gold #FFD23F rounded badge capsule poses the mystery with a heavy '?' glyph inside it (the scroll-stopper question, not a generic mark). A thin gold underline-tick sits under the badge. The whole frame reads like a wanted-poster for a tiny living artillery bug: bold silhouette, single gold accent, one glowing clue.",
+      "animations": "Beetle springs in from scale 0 to 1 with a snappy overshoot pop (damping ~11) centered, settling with a tiny 1-degree wobble. Immediately a bright specular highlight band sweeps left-to-right along the carapace ridge (interpolated x, 0.25s). The gold '?' badge slams in 0.3s later with its own spring overshoot and a single 2px gold ring that scales out from it and fades. The muzzle glow pulses once (opacity 0.4 to 1 to 0.6) and one heat-shimmer arc draws on above the nozzle to promise the gun without firing. No zoom-pulse; all motion is in-composition.",
+      "sfx": "a short dry insect mandible click-chitter (organic chitinous tick)"
+    },
+    {
+      "beat": "Inside its body it keeps two completely harmless liquids locked in separate chambers.",
+      "visual": "Cutaway X-ray view. The beetle's abdomen enlarges and becomes a semi-transparent #161b22 panel with a thin gold outline. Inside sit TWO clearly separated rounded chambers side by side, split by one bold vertical divider wall. The left chamber holds calm glassy #4FC3F7 blue liquid; the right holds calm #FF9E3D amber liquid; each marked only by a small gold locator dot (no captions). Tiny gentle bubbles drift upward in each. A gold keyword pill sits on the divider reading 'SEPARATE'. Everything reads cool, inert, safe; the earlier muzzle glow is gone here so nothing hints at firing yet.",
+      "animations": "Camera 'enters' the beetle as the abdomen outline draws on as one clean continuous stroke path. The two chambers fill bottom-up via liquid-level fills (blue left first, amber right staggered 0.2s later). Slow bubbles rise on looping springs. The divider wall draws on with a crisp top-to-bottom wipe and the 'SEPARATE' pill pops with a gentle spring. Liquids hold still and glassy to signal harmless. Calm, slow, glassy beat.",
+      "sfx": "a soft two-note liquid pour-and-settle gloop (water plip-plop)"
+    },
+    {
+      "beat": "But the instant a predator strikes, it slams them together and triggers a violent reaction.",
+      "visual": "Same two-chamber cutaway, now under attack: a sharp red #FF4D3D arrow-fang (abstract predator strike) jabs in fast from the right edge. The divider wall cracks and a valve gate snaps open, letting the blue and amber liquids rush into a shared central mixing pocket. Where they meet, a churning swirl blends blue+amber toward angry orange-red, with jagged spark glyphs and short radiating reaction lines drawing outward. The panel border flickers from gold to #FF4D3D to signal danger, and a faint #FF6B4A glow seeps in at the mix point. Tension building, but the big blast is held for the next scene.",
+      "animations": "The red fang stabs in with a fast linear sweep plus a small recoil bounce. On impact the divider wall shatters into vector shards that spring outward radially. Both liquids surge through the opened gate via fast directional fills that collide at center. The churning swirl rotates (continuous rotate) and reaction lines draw on radially. The whole panel does ONE sharp 4px horizontal shake (no zoom) and the border color cross-fades gold to red over 0.3s. Energetic but restrained, saving the climax.",
+      "sfx": "a rising fizzing chemical hiss (effervescent sizzle building in pitch)"
+    },
+    {
+      "beat": "That reaction heats the spray to the boiling point of water and blasts it out with a loud pop.",
+      "visual": "HERO REVEAL — THE MONEY SHOT, the single unmistakable money frame. The central mixing pocket becomes an incandescent core that color-ramps amber to #FF4D3D to white-hot #E8F1F2. Up the left side a large gold-stroked temperature gauge arc sweeps, its needle climbing while a bold gold counter ticks toward '100 C'. At the climax the abdomen nozzle FIRES for real: a thick boiling jet erupts diagonally up-right clear across the full frame, built from layered vector droplet teardrops (red-core to white-edge) plus curling #E8F1F2 steam ribbons, with a bright gold star-burst muzzle flash at the nozzle and two expanding shockwave rings. A bold gold 'BOILING' pill snaps in beside the jet. This is the loudest, brightest, most kinetic frame and the only scene where the gun truly fires big.",
+      "animations": "Core heats via a color-ramp fill amber to white-hot over 0.5s. The gauge needle sweeps and the '100' counter rapidly counts up and LOCKS with a spring snap (damping ~9). On lock: the gold star-burst muzzle flash pops with a hard scale overshoot (0 to 1.3 to 1), then the boiling jet blasts out along a draw-on motion path while ~12 droplet teardrops spring outward on staggered delays (each its own spring). Two shockwave rings scale from 0 to large and fade from the nozzle. Steam ribbons rise, drift and dissipate (opacity to 0). The 'BOILING' pill slams in with spring overshoot and a quick gold ring. Richest, most specific, most kinetic beat by far.",
+      "sfx": "a sharp pressurized steam-burst POP cracking into a kettle-jet hiss (explosive crack plus release)"
+    },
+    {
+      "beat": "The scalding jet can swivel almost any direction, nailing a frog or an ant with pinpoint aim.",
+      "visual": "Pull back to a clean cool diagram (danger glow gone). The beetle sits center with its swivel nozzle. A faint gold dashed aiming reticle and a 270-degree protractor arc fan around the abdomen to show the jet's range. Two small vector targets appear at the arc edges: a minimalist #5BD17A frog silhouette upper-left and a tiny #FF9E3D ant lower-right. A thin red #FF4D3D aimed jet-line snaps to the frog, then re-aims and snaps to the ant, each landing on a gold crosshair bullseye that flashes a small gold 'HIT' tag. Precise, surgical, controlled — a deliberate contrast to the prior chaos.",
+      "animations": "The protractor arc draws on as a sweeping gold stroke (0 to 270deg). The aiming reticle rotates to point at the frog with a quick spring settle, fires a fast jet-line draw-on, and the frog crosshair pops plus flashes gold. Then the nozzle swivels and re-aims to the ant with another snap and a second jet-line draw-on; the ant crosshair pops. Each target springs in just before it is hit. Crisp and precise, no zoom.",
+      "sfx": "a quick UI targeting-lock blip then a dart-thwip impact (lock-on plus hit)"
+    },
+    {
+      "beat": "That's why it's the bombardier beetle, a bug that literally explodes on its enemies.",
+      "visual": "Final payoff card on the deep #0d1117 background. The beetle sits small, proud and centered low with one faint residual steam wisp curling off its nozzle. Above it the punchline 'IT LITERALLY EXPLODES ON YOU' lands word-by-word in heavy bold type: 'EXPLODES' rendered big in gold #FFD23F, the other words in #E8F1F2 white, all on one tight stack. Behind the word 'EXPLODES' sits a gold radiating spark-burst motif (short vector lines fanning out) as a tiny explosion. Clean, punchy, poster-like end frame.",
+      "animations": "Each of the five words slams in one at a time, left-to-right, with a spring overshoot and slight settle (staggered ~0.12s apart). On the word 'EXPLODES' the gold spark-burst lines draw on radially behind it and a quick gold ring scales out and fades. The beetle does one small confident bob on the final word. Final hold is dead still and bold for ~0.8s.",
+      "sfx": "a punchy gold impact sting with a tiny confetti-spark tail (final accent)"
+    }
+  ]
+}

@@ -1,0 +1,485 @@
+{
+"script": "An old thermostat clicks your heater on and off all day, with no battery and no chip inside. So how does a dumb little box know the temperature? Hidden in there is a coiled strip made of two different metals bonded together. And here's the trick: one metal expands faster than the other when heated. So as the room warms, the strip curls one way, and as it cools, it curls back. Then that bend tips a tiny blob of mercury, closing a circuit. And this simple curl of metal is what fires up your furnace.",
+"words": [
+{
+"text": "An",
+"start": 0.0,
+"end": 0.24
+},
+{
+"text": "old",
+"start": 0.24,
+"end": 0.5
+},
+{
+"text": "thermostat",
+"start": 0.5,
+"end": 1.1
+},
+{
+"text": "clicks",
+"start": 1.1,
+"end": 1.32
+},
+{
+"text": "your",
+"start": 1.32,
+"end": 1.54
+},
+{
+"text": "heater",
+"start": 1.54,
+"end": 1.74
+},
+{
+"text": "on",
+"start": 1.74,
+"end": 2.06
+},
+{
+"text": "and",
+"start": 2.06,
+"end": 2.2
+},
+{
+"text": "off",
+"start": 2.2,
+"end": 2.56
+},
+{
+"text": "all",
+"start": 2.56,
+"end": 3.04
+},
+{
+"text": "day,",
+"start": 3.04,
+"end": 3.38
+},
+{
+"text": "with",
+"start": 3.9,
+"end": 4.04
+},
+{
+"text": "no",
+"start": 4.04,
+"end": 4.3
+},
+{
+"text": "battery",
+"start": 4.3,
+"end": 4.8
+},
+{
+"text": "and",
+"start": 4.8,
+"end": 5.32
+},
+{
+"text": "no",
+"start": 5.32,
+"end": 5.52
+},
+{
+"text": "chip",
+"start": 5.52,
+"end": 5.74
+},
+{
+"text": "inside.",
+"start": 5.74,
+"end": 6.14
+},
+{
+"text": "So",
+"start": 6.72,
+"end": 6.88
+},
+{
+"text": "how",
+"start": 6.88,
+"end": 7.0
+},
+{
+"text": "does",
+"start": 7.0,
+"end": 7.12
+},
+{
+"text": "a",
+"start": 7.12,
+"end": 7.26
+},
+{
+"text": "dumb",
+"start": 7.26,
+"end": 7.64
+},
+{
+"text": "little",
+"start": 7.64,
+"end": 7.86
+},
+{
+"text": "box",
+"start": 7.86,
+"end": 8.22
+},
+{
+"text": "know",
+"start": 8.22,
+"end": 8.46
+},
+{
+"text": "the",
+"start": 8.46,
+"end": 8.58
+},
+{
+"text": "temperature?",
+"start": 8.58,
+"end": 8.84
+},
+{
+"text": "Hidden",
+"start": 9.52,
+"end": 9.64
+},
+{
+"text": "in",
+"start": 9.64,
+"end": 9.84
+},
+{
+"text": "there",
+"start": 9.84,
+"end": 10.12
+},
+{
+"text": "is",
+"start": 10.12,
+"end": 10.42
+},
+{
+"text": "a",
+"start": 10.42,
+"end": 10.56
+},
+{
+"text": "coiled",
+"start": 10.56,
+"end": 10.96
+},
+{
+"text": "strip",
+"start": 10.96,
+"end": 11.34
+},
+{
+"text": "made",
+"start": 11.34,
+"end": 11.56
+},
+{
+"text": "of",
+"start": 11.56,
+"end": 11.74
+},
+{
+"text": "two",
+"start": 11.74,
+"end": 12.02
+},
+{
+"text": "different",
+"start": 12.02,
+"end": 12.46
+},
+{
+"text": "metals",
+"start": 12.46,
+"end": 12.82
+},
+{
+"text": "bonded",
+"start": 12.82,
+"end": 13.3
+},
+{
+"text": "together.",
+"start": 13.3,
+"end": 13.72
+},
+{
+"text": "And",
+"start": 14.32,
+"end": 14.42
+},
+{
+"text": "here's",
+"start": 14.42,
+"end": 14.7
+},
+{
+"text": "the",
+"start": 14.7,
+"end": 14.86
+},
+{
+"text": "trick.",
+"start": 14.86,
+"end": 15.12
+},
+{
+"text": "One",
+"start": 15.68,
+"end": 15.94
+},
+{
+"text": "metal",
+"start": 15.94,
+"end": 16.2
+},
+{
+"text": "expands",
+"start": 16.2,
+"end": 16.64
+},
+{
+"text": "faster",
+"start": 16.64,
+"end": 17.16
+},
+{
+"text": "than",
+"start": 17.16,
+"end": 17.42
+},
+{
+"text": "the",
+"start": 17.42,
+"end": 17.54
+},
+{
+"text": "other",
+"start": 17.54,
+"end": 17.76
+},
+{
+"text": "when",
+"start": 17.76,
+"end": 17.96
+},
+{
+"text": "heated.",
+"start": 17.96,
+"end": 18.28
+},
+{
+"text": "So",
+"start": 18.78,
+"end": 18.96
+},
+{
+"text": "as",
+"start": 18.96,
+"end": 19.08
+},
+{
+"text": "the",
+"start": 19.08,
+"end": 19.24
+},
+{
+"text": "room",
+"start": 19.24,
+"end": 19.46
+},
+{
+"text": "warms,",
+"start": 19.46,
+"end": 20.04
+},
+{
+"text": "the",
+"start": 20.5,
+"end": 20.6
+},
+{
+"text": "strip",
+"start": 20.6,
+"end": 20.9
+},
+{
+"text": "curls",
+"start": 20.9,
+"end": 21.2
+},
+{
+"text": "one",
+"start": 21.2,
+"end": 21.5
+},
+{
+"text": "way,",
+"start": 21.5,
+"end": 21.86
+},
+{
+"text": "and",
+"start": 22.38,
+"end": 22.56
+},
+{
+"text": "as",
+"start": 22.56,
+"end": 22.72
+},
+{
+"text": "it",
+"start": 22.72,
+"end": 22.88
+},
+{
+"text": "cools,",
+"start": 22.88,
+"end": 23.66
+},
+{
+"text": "it",
+"start": 23.8,
+"end": 24.02
+},
+{
+"text": "curls",
+"start": 24.02,
+"end": 24.22
+},
+{
+"text": "back.",
+"start": 24.22,
+"end": 24.58
+},
+{
+"text": "Then",
+"start": 24.58,
+"end": 25.38
+},
+{
+"text": "that",
+"start": 25.38,
+"end": 25.64
+},
+{
+"text": "bend",
+"start": 25.64,
+"end": 26.0
+},
+{
+"text": "tips",
+"start": 26.0,
+"end": 26.34
+},
+{
+"text": "a",
+"start": 26.34,
+"end": 26.7
+},
+{
+"text": "tiny",
+"start": 26.7,
+"end": 27.08
+},
+{
+"text": "blob",
+"start": 27.08,
+"end": 27.46
+},
+{
+"text": "of",
+"start": 27.46,
+"end": 27.64
+},
+{
+"text": "mercury,",
+"start": 27.64,
+"end": 28.14
+},
+{
+"text": "closing",
+"start": 28.48,
+"end": 28.82
+},
+{
+"text": "a",
+"start": 28.82,
+"end": 29.0
+},
+{
+"text": "circuit,",
+"start": 29.0,
+"end": 29.32
+},
+{
+"text": "and",
+"start": 29.9,
+"end": 29.96
+},
+{
+"text": "this",
+"start": 29.96,
+"end": 30.16
+},
+{
+"text": "simple",
+"start": 30.16,
+"end": 30.66
+},
+{
+"text": "curl",
+"start": 30.66,
+"end": 30.92
+},
+{
+"text": "of",
+"start": 30.92,
+"end": 31.08
+},
+{
+"text": "metal",
+"start": 31.08,
+"end": 31.38
+},
+{
+"text": "is",
+"start": 31.38,
+"end": 31.92
+},
+{
+"text": "what",
+"start": 31.92,
+"end": 32.12
+},
+{
+"text": "fires",
+"start": 32.12,
+"end": 32.6
+},
+{
+"text": "up",
+"start": 32.6,
+"end": 32.82
+},
+{
+"text": "your",
+"start": 32.82,
+"end": 32.94
+},
+{
+"text": "furnace.",
+"start": 32.94,
+"end": 33.22
+}
+]
+}

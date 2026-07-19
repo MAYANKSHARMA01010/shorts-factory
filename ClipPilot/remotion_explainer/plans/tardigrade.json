@@ -1,0 +1,56 @@
+{
+  "slug": "tardigrade",
+  "title": "The Animal You Cannot Kill",
+  "duration_estimate_s": 32,
+  "palette": {
+    "bg_deep": "#0b1016",
+    "bg_panel": "#121a24",
+    "gold": "#FFD23F",
+    "key_moss": "#7FE08A",
+    "ice_cyan": "#5FD0E8",
+    "ember_red": "#E8553F",
+    "space_violet": "#7C6CF0",
+    "water_blue": "#3FA7E8",
+    "bone_grey": "#C9D2DC",
+    "white": "#F2F6FA"
+  },
+  "payoff": "NATURE BUILT SOMETHING YOU CAN'T KILL",
+  "scenes": [
+    {
+      "beat": "Imagine an animal you could freeze, boil, and shoot into space, and it would just shrug it off — that's the tardigrade, a creature smaller than a grain of sand.",
+      "visual": "SCROLL-STOPPER HOOK. The first beat is one giant unmissable object: a single plump, friendly tardigrade 'water bear' drawn as a chunky segmented vector — pill-shaped body with four chubby leg-pairs ending in tiny claws, a round snout mouth, soft moss-green (#7FE08A) gradient body with darker segment ridge lines and two dot eyes — filling roughly 55% of the dark #0b1016 stage, dead center. Slammed across the top-center is ONE bold gold #FFD23F badge pill reading 'CAN'T BE KILLED?' with an oversized gold question mark, a thin dark outline so it pops off the background. Nothing else is on screen for the first ~1.2s — the creature + the badge are the whole hook. THEN, on the back half, three small pictogram badges fade onto a faint dotted orbit ring around it — a blue (#5FD0E8) snowflake (freeze), an ember-red (#E8553F) flame (boil), a violet (#7C6CF0) rocket (space) — each in a thin circular outline. Bottom: a single grain of sand drawn small beside one foot with a thin gold caliper line labeled '< 1 mm' for scale.",
+      "animations": "Tardigrade SLAMS in big from 70% scale with a punchy squash-and-stretch overshoot and one quick leg-wiggle on settle — it lands within the first 12 frames so the scroll stops instantly. The gold 'CAN'T BE KILLED?' pill drops from above with a hard spring overshoot and the '?' does a fast double-wobble. Only after the creature is settled (~0.9s) do the three hazard pictograms pop onto the orbit ring in a staggered spring (snowflake → flame → rocket, ~120ms apart), each with a tiny recoil. The scale caliper draws on left-to-right as the sand grain fades up last. No camera zoom-pulse; all motion is in-comp.",
+      "sfx": "A soft cute organic squeak/boing as the water bear pops in (springy, friendly — NOT a whoosh), with a tiny gold tick as the 'CAN'T BE KILLED?' badge lands."
+    },
+    {
+      "beat": "When conditions turn deadly, it curls into a ball and squeezes nearly all the water out of its body, dropping into a state between life and death.",
+      "visual": "THE HERO REVEAL — the single money shot of the short, the cryptobiosis 'tun' transformation, rendered as the most detailed, deliberate drawing in the whole piece. Left side: a clean cross-section of the live tardigrade, its translucent moss-green body filled with hundreds of small water-blue (#3FA7E8) droplet dots packed edge-to-edge to read as 'full of water', with a thin gold counter beside it reading '96% WATER'. The body sits on a faint baseline grid so the shape change is legible. As the beat plays it transforms in place: the four leg-pairs draw inward and tuck under, the segments concertina-fold, and the plump green silhouette compresses into a wrinkled, dried, barrel-shaped husk — the 'tun' — rendered in bone-grey (#C9D2DC) with crumpled ridge contour lines and a dull matte fill. The water-blue dots stream out through tiny pores along the body and rise as evaporating particles that fade to nothing. On the right stands a tall vertical gold gauge: a glowing green 'LIFE' tick at top, a grey 'DEATH' tick at bottom, and a needle that slides from LIFE down to settle EXACTLY at the midpoint, where a label fades in: 'TUN — between life & death'.",
+      "animations": "This is the slowest, richest motion in the short (~2.2s) so it reads as THE reveal. Water-droplet dots drain out in cohorts (top band, then middle, then bottom) while the gold counter rolls down digit-by-digit from '96%' toward '3% WATER'. The body curls via one coordinated spring rig: leg-pairs draw-in staggered (front to back) with a squash on each tuck, segments fold accordion-style, and the outline morphs green→grey as a wrinkle texture cross-fades on over the husk. Escaping water particles sweep upward on a gentle ease-out and dissolve. The gold gauge needle sweeps from LIFE down and parks dead-center with a tiny spring jitter, then the 'between life & death' label types/fades in beat-synced. Every sub-motion is spring-driven (overshoot then settle), never linear.",
+      "sfx": "A low watery drain/gurgle that thins out into a soft dry crackle as the husk wrinkles and forms (topic-matched: water leaving + desiccation, distinct from any ice sound later)."
+    },
+    {
+      "beat": "In this form, it survives temperatures near absolute zero and radiation that would vaporize you.",
+      "visual": "The grey tun husk sits dead-center, armored and motionless, while two extreme hazards are thrown at it from the sides. From the LEFT a frost field of ice-cyan (#5FD0E8) crystal spikes creeps inward, with a thermometer graphic whose mercury plunges to a gold readout '-272°C — near absolute zero'. From the RIGHT, jagged radiation bolts in ember-red (#E8553F) and a pulsing radiation trefoil symbol strike toward it, tagged in gold 'LETHAL RADIATION'. Each time a hazard hits, a faint rounded shield outline flickers around the husk — and the husk never flinches.",
+      "animations": "Frost draws on from the left edge inward as the thermometer mercury ticks down digit-by-digit to -272. Radiation bolts zap in from the right in two sharp, staggered strikes; on each strike the shield outline pops bright then fades and the husk does a micro-recoil-and-hold — it shrugs, it does not break. The two hazard tags spring in beside their sources with overshoot. Calm-but-fast: hazards arrive quickly but the husk stays still and unbothered.",
+      "sfx": "A crisp electric crackle-zap timed to each radiation strike (electricity-matched), with a brittle high ice-crackle under the creeping frost — two distinct textures, no whoosh."
+    },
+    {
+      "beat": "Scientists have even revived ones frozen for thirty years.",
+      "visual": "A lab timeline vignette. The grey tun husk is encased inside a faceted block of ice-cyan (#5FD0E8) ice with frosty highlights, resting on a thin lab shelf line. Above it a gold calendar counter ticks upward — '1990' rolling to '2020' — beside a bold gold '30 YEARS' label. Below, a small clean line graph shows a perfectly flat dormant line running the full span (a heartbeat that's gone quiet). A thin gold caliper brackets the entire frozen span end-to-end.",
+      "animations": "The ice block draws on encasing the husk with a quick frost-bloom from the center out. The year counter rolls rapidly from 1990 to 2020, digits spinning slot-machine style and snapping into place, while '30 YEARS' springs in with overshoot. The flat dormant graph line draws on left-to-right across the span synced to the counting years, then holds.",
+      "sfx": "A glassy crystalline ice-clink/chime as the block freezes and the counter snaps to 2020 (matched to glass/ice, pitched higher and cleaner than the earlier frost-crackle so it reads as a new sound)."
+    },
+    {
+      "beat": "Add a single drop of water, and it simply wakes up and walks away.",
+      "visual": "A single fat water-blue (#3FA7E8) droplet hangs at the top of frame directly above the dried grey husk. It falls, strikes the husk, and a clean ripple ring spreads from impact. The husk drinks it in: water-blue dots flood back into the body, the wrinkled grey husk swells and un-folds, color sweeping grey→moss-green, legs unfurling pair by pair — a full reverse of the hero morph. Fully revived, the plump water bear takes two cheerful steps and ambles toward the right edge, tiny claw-feet padding, leaving a faint dotted walk-path behind it.",
+      "animations": "Droplet falls and lands with a spring-bounce splash and a radiating ripple-ring sweep. Water-blue dots flood back in as the body re-inflates with squash-and-stretch (the exact inverse of scene 2's morph), the grey→green color sweep racing across the silhouette. Legs spring out one pair at a time with little recoils, then a looping two-step walk-cycle carries it to the right with a gentle vertical bob. Quick and joyful — the relief beat.",
+      "sfx": "A single clean water-drop 'plip' on impact, followed by a soft rising shimmer 'wake-up' accent as it revives (water-matched reveal, unlike the conclusive sting saved for the payoff)."
+    },
+    {
+      "beat": "PAYOFF — restating the shock: nature built an animal you basically cannot kill.",
+      "visual": "Clean dark #0b1016 stage. The revived moss-green tardigrade sits small and content at the bottom center. The payoff line slams in word-by-word across the upper-middle in bold heavy type — 'NATURE BUILT SOMETHING YOU CAN'T KILL' — with 'CAN'T' in gold #FFD23F and every other word in white/bone-grey (#F2F6FA). Behind the text sits a dimmed faint ring of the three hook hazard pictograms (snowflake, flame, rocket), each getting struck through with a gold X as the line lands, visually reinforcing that nothing killed it. A tiny gold tardigrade silhouette badge sits beside the final word 'KILL'.",
+      "animations": "Each word flies in one at a time with strong spring overshoot and a tiny settle-bounce, beat-synced: 'NATURE' / 'BUILT' / 'SOMETHING' / 'YOU' / 'CAN'T' / 'KILL'. The gold 'CAN'T' lands hardest — extra pop, brief gold glow bloom, slight scale punch. As the final word 'KILL' locks in, the three dimmed hazard pictograms get a gold X struck through them in fast sequence (snowflake, flame, rocket). Everything settles still on the last frame for a clean end-card hold.",
+      "sfx": "A single short conclusive gold sting/impact on the final word 'KILL' landing (one punchy accent, used ONLY here — nothing else competes with it)."
+    }
+  ]
+}

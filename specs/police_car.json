@@ -1,0 +1,27 @@
+{
+  "slug": "police_car",
+  "narration": "After the officer died in the line of duty, his squad car was put up for auction. When his son found out, he scraped together every dollar he had, even asking the internet for help, hoping to hold on to this last piece of his dad. He raised fifteen thousand dollars. But at the auction, the bids kept climbing, and he realized his chance was slipping away. The car sold to a rancher for sixty thousand. But the moment the rancher got the keys, he walked over and handed them to the son. He had planned to give it back all along. The son hugged him tightly, finally reunited with his father's car.",
+  "captions": [
+    [0.00, 2.60, "A FALLEN OFFICER'S\nSQUAD CAR"],
+    [2.60, 6.40, "HIS SON WANTED ONE\nLAST PIECE OF DAD"],
+    [6.40, 9.00, "HE RAISED\n$15,000"],
+    [9.00, 12.00, "BUT THE BIDS\nKEPT CLIMBING"],
+    [12.00, 15.60, "SOLD FOR $60,000\nTO A STRANGER"],
+    [15.60, 19.00, "THEN THE STRANGER\nHANDED HIM THE KEYS"],
+    [19.00, 22.00, "HE'D PLANNED THIS\nALL ALONG"],
+    [22.00, 25.60, "REUNITED WITH\nHIS DAD'S CAR"]
+  ],
+  "scene_prompts": [
+    "a police squad car parked outside a station at dusk, an American flag at half-mast in the background, a folded flag and a framed photograph of a fallen police officer resting on the hood, somber memorial mood",
+    "a worried young man in his late twenties sitting at a kitchen table late at night, counting a small stack of cash beside an open laptop, hopeful but anxious expression, warm lamplight",
+    "a crowded auction house interior, a police squad car under bright spotlights on the auction floor, bidders raising numbered paddles, an auctioneer at a podium, tense atmosphere",
+    "a weathered older rancher in a cowboy hat standing beside a police squad car holding a set of car keys, quiet confident kindness, warm afternoon light",
+    "an emotional close-up of a weathered older rancher in a cowboy hat pressing car keys into the open hands of a grateful young man in his late twenties, both deeply moved, soft golden light",
+    "a young man in his late twenties embracing a weathered older rancher in a heartfelt hug beside a fallen officer's police squad car, tears of gratitude, emotional reunion, warm cinematic light"
+  ],
+  "scene_map": [0, 1, 1, 2, 3, 4, 4, 5],
+  "scene_weights": [2.6, 3.8, 2.6, 3.0, 3.6, 3.4, 3.0, 3.6],
+  "gen_w": 512,
+  "gen_h": 896,
+  "seed": 11
+}

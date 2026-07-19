@@ -1,0 +1,505 @@
+{
+"script": "What if you rode an ordinary elevator straight up into space? For the first minute, it feels like any normal lift. But pass a few thousand feet and your ears start screaming as the pressure drops. Keep climbing, and the air gets so thin you can't pull a full breath. Then around the 60-mile mark, the sky outside turns black in the middle of the day. And if the doors slid open now, you wouldn't explode like in the movies. Instead, the saliva on your tongue would boil away in seconds, and you'd quietly pass out in about fifteen.",
+"words": [
+{
+"text": "What",
+"start": 0.0,
+"end": 0.24
+},
+{
+"text": "if",
+"start": 0.24,
+"end": 0.34
+},
+{
+"text": "you",
+"start": 0.34,
+"end": 0.46
+},
+{
+"text": "rode",
+"start": 0.46,
+"end": 0.78
+},
+{
+"text": "an",
+"start": 0.78,
+"end": 1.08
+},
+{
+"text": "ordinary",
+"start": 1.08,
+"end": 1.6
+},
+{
+"text": "elevator",
+"start": 1.6,
+"end": 2.22
+},
+{
+"text": "straight",
+"start": 2.22,
+"end": 2.6
+},
+{
+"text": "up",
+"start": 2.6,
+"end": 2.78
+},
+{
+"text": "into",
+"start": 2.78,
+"end": 2.94
+},
+{
+"text": "space?",
+"start": 2.94,
+"end": 3.32
+},
+{
+"text": "For",
+"start": 3.98,
+"end": 4.18
+},
+{
+"text": "the",
+"start": 4.18,
+"end": 4.28
+},
+{
+"text": "first",
+"start": 4.28,
+"end": 4.5
+},
+{
+"text": "minute,",
+"start": 4.5,
+"end": 4.84
+},
+{
+"text": "it",
+"start": 5.18,
+"end": 5.42
+},
+{
+"text": "feels",
+"start": 5.42,
+"end": 5.74
+},
+{
+"text": "like",
+"start": 5.74,
+"end": 6.04
+},
+{
+"text": "any",
+"start": 6.04,
+"end": 6.44
+},
+{
+"text": "normal",
+"start": 6.44,
+"end": 6.88
+},
+{
+"text": "lift.",
+"start": 6.88,
+"end": 7.34
+},
+{
+"text": "But",
+"start": 7.74,
+"end": 7.98
+},
+{
+"text": "past",
+"start": 7.98,
+"end": 8.26
+},
+{
+"text": "a",
+"start": 8.26,
+"end": 8.44
+},
+{
+"text": "few",
+"start": 8.44,
+"end": 8.58
+},
+{
+"text": "thousand",
+"start": 8.58,
+"end": 8.9
+},
+{
+"text": "feet,",
+"start": 8.9,
+"end": 9.28
+},
+{
+"text": "and",
+"start": 9.64,
+"end": 9.74
+},
+{
+"text": "your",
+"start": 9.74,
+"end": 9.86
+},
+{
+"text": "ears",
+"start": 9.86,
+"end": 10.3
+},
+{
+"text": "start",
+"start": 10.3,
+"end": 10.82
+},
+{
+"text": "screaming",
+"start": 10.82,
+"end": 11.44
+},
+{
+"text": "as",
+"start": 11.44,
+"end": 12.04
+},
+{
+"text": "the",
+"start": 12.04,
+"end": 12.2
+},
+{
+"text": "pressure",
+"start": 12.2,
+"end": 12.44
+},
+{
+"text": "drops.",
+"start": 12.44,
+"end": 12.92
+},
+{
+"text": "Keep",
+"start": 13.52,
+"end": 13.74
+},
+{
+"text": "climbing,",
+"start": 13.74,
+"end": 14.14
+},
+{
+"text": "and",
+"start": 14.56,
+"end": 14.72
+},
+{
+"text": "the",
+"start": 14.72,
+"end": 14.8
+},
+{
+"text": "air",
+"start": 14.8,
+"end": 14.98
+},
+{
+"text": "gets",
+"start": 14.98,
+"end": 15.18
+},
+{
+"text": "so",
+"start": 15.18,
+"end": 15.54
+},
+{
+"text": "thin",
+"start": 15.54,
+"end": 15.9
+},
+{
+"text": "you",
+"start": 15.9,
+"end": 16.08
+},
+{
+"text": "can't",
+"start": 16.08,
+"end": 16.4
+},
+{
+"text": "pull",
+"start": 16.4,
+"end": 16.54
+},
+{
+"text": "a",
+"start": 16.54,
+"end": 16.68
+},
+{
+"text": "full",
+"start": 16.68,
+"end": 16.88
+},
+{
+"text": "breath.",
+"start": 16.88,
+"end": 17.16
+},
+{
+"text": "Then",
+"start": 17.82,
+"end": 17.96
+},
+{
+"text": "around",
+"start": 17.96,
+"end": 18.2
+},
+{
+"text": "a",
+"start": 18.2,
+"end": 18.38
+},
+{
+"text": "60",
+"start": 18.38,
+"end": 18.72
+},
+{
+"text": "mile",
+"start": 18.72,
+"end": 18.9
+},
+{
+"text": "mark,",
+"start": 18.9,
+"end": 19.36
+},
+{
+"text": "the",
+"start": 19.68,
+"end": 19.84
+},
+{
+"text": "sky",
+"start": 19.84,
+"end": 20.18
+},
+{
+"text": "outside",
+"start": 20.18,
+"end": 20.76
+},
+{
+"text": "turns",
+"start": 20.76,
+"end": 21.32
+},
+{
+"text": "black",
+"start": 21.32,
+"end": 21.78
+},
+{
+"text": "in",
+"start": 21.78,
+"end": 22.0
+},
+{
+"text": "the",
+"start": 22.0,
+"end": 22.12
+},
+{
+"text": "middle",
+"start": 22.12,
+"end": 22.24
+},
+{
+"text": "of",
+"start": 22.24,
+"end": 22.42
+},
+{
+"text": "the",
+"start": 22.42,
+"end": 22.52
+},
+{
+"text": "day.",
+"start": 22.52,
+"end": 22.76
+},
+{
+"text": "And",
+"start": 23.18,
+"end": 23.36
+},
+{
+"text": "if",
+"start": 23.36,
+"end": 23.44
+},
+{
+"text": "the",
+"start": 23.44,
+"end": 23.58
+},
+{
+"text": "doors",
+"start": 23.58,
+"end": 23.78
+},
+{
+"text": "slid",
+"start": 23.78,
+"end": 24.14
+},
+{
+"text": "open",
+"start": 24.14,
+"end": 24.44
+},
+{
+"text": "now,",
+"start": 24.44,
+"end": 24.8
+},
+{
+"text": "you",
+"start": 25.18,
+"end": 25.42
+},
+{
+"text": "wouldn't",
+"start": 25.42,
+"end": 25.62
+},
+{
+"text": "explode",
+"start": 25.62,
+"end": 26.08
+},
+{
+"text": "like",
+"start": 26.08,
+"end": 26.34
+},
+{
+"text": "in",
+"start": 26.34,
+"end": 26.46
+},
+{
+"text": "the",
+"start": 26.46,
+"end": 26.58
+},
+{
+"text": "movies.",
+"start": 26.58,
+"end": 26.82
+},
+{
+"text": "Instead,",
+"start": 26.82,
+"end": 27.96
+},
+{
+"text": "the",
+"start": 28.38,
+"end": 28.54
+},
+{
+"text": "saliva",
+"start": 28.54,
+"end": 28.94
+},
+{
+"text": "on",
+"start": 28.94,
+"end": 29.22
+},
+{
+"text": "your",
+"start": 29.22,
+"end": 29.36
+},
+{
+"text": "tongue",
+"start": 29.36,
+"end": 29.72
+},
+{
+"text": "would",
+"start": 29.72,
+"end": 30.12
+},
+{
+"text": "boil",
+"start": 30.12,
+"end": 30.58
+},
+{
+"text": "away",
+"start": 30.58,
+"end": 30.92
+},
+{
+"text": "in",
+"start": 30.92,
+"end": 31.12
+},
+{
+"text": "seconds,",
+"start": 31.12,
+"end": 31.66
+},
+{
+"text": "and",
+"start": 32.2,
+"end": 32.24
+},
+{
+"text": "you'd",
+"start": 32.24,
+"end": 32.46
+},
+{
+"text": "quietly",
+"start": 32.46,
+"end": 32.94
+},
+{
+"text": "pass",
+"start": 32.94,
+"end": 33.38
+},
+{
+"text": "out",
+"start": 33.38,
+"end": 33.72
+},
+{
+"text": "in",
+"start": 33.72,
+"end": 33.9
+},
+{
+"text": "about",
+"start": 33.9,
+"end": 34.12
+},
+{
+"text": "15.",
+"start": 34.12,
+"end": 34.64
+}
+]
+}

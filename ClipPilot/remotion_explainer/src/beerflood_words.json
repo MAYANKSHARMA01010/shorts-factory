@@ -1,0 +1,475 @@
+{
+"script": "On an ordinary afternoon in London, a giant vat of fermenting beer suddenly burst its iron hoops. Then the vat beside it ruptured too, and over a hundred thousand gallons exploded outward in a wave fifteen feet high. The flood smashed through brick walls and poured into the cramped basements where families lived. People drowned in the dark, swept off their feet by a tide of porter. Eight died, including a child at a wake. And in the days after, crowds reportedly waded in to scoop up and drink the beer flooding the streets.",
+"words": [
+{
+"text": "On",
+"start": 0.0,
+"end": 0.24
+},
+{
+"text": "an",
+"start": 0.24,
+"end": 0.36
+},
+{
+"text": "ordinary",
+"start": 0.36,
+"end": 0.74
+},
+{
+"text": "afternoon",
+"start": 0.74,
+"end": 1.26
+},
+{
+"text": "in",
+"start": 1.26,
+"end": 1.5
+},
+{
+"text": "London,",
+"start": 1.5,
+"end": 1.8
+},
+{
+"text": "a",
+"start": 2.3,
+"end": 2.4
+},
+{
+"text": "giant",
+"start": 2.4,
+"end": 2.8
+},
+{
+"text": "vat",
+"start": 2.8,
+"end": 3.12
+},
+{
+"text": "of",
+"start": 3.12,
+"end": 3.28
+},
+{
+"text": "fermenting",
+"start": 3.28,
+"end": 3.78
+},
+{
+"text": "beer",
+"start": 3.78,
+"end": 4.12
+},
+{
+"text": "suddenly",
+"start": 4.12,
+"end": 5.0
+},
+{
+"text": "burst",
+"start": 5.0,
+"end": 5.5
+},
+{
+"text": "its",
+"start": 5.5,
+"end": 5.86
+},
+{
+"text": "iron",
+"start": 5.86,
+"end": 6.22
+},
+{
+"text": "hoops.",
+"start": 6.22,
+"end": 6.6
+},
+{
+"text": "Then",
+"start": 7.12,
+"end": 7.32
+},
+{
+"text": "the",
+"start": 7.32,
+"end": 7.5
+},
+{
+"text": "vat",
+"start": 7.5,
+"end": 7.84
+},
+{
+"text": "beside",
+"start": 7.84,
+"end": 8.28
+},
+{
+"text": "it",
+"start": 8.28,
+"end": 8.48
+},
+{
+"text": "ruptured",
+"start": 8.48,
+"end": 8.88
+},
+{
+"text": "too,",
+"start": 8.88,
+"end": 9.32
+},
+{
+"text": "and",
+"start": 9.94,
+"end": 10.08
+},
+{
+"text": "over",
+"start": 10.08,
+"end": 10.36
+},
+{
+"text": "a",
+"start": 10.36,
+"end": 10.5
+},
+{
+"text": "hundred",
+"start": 10.5,
+"end": 10.78
+},
+{
+"text": "thousand",
+"start": 10.78,
+"end": 11.24
+},
+{
+"text": "gallons",
+"start": 11.24,
+"end": 11.64
+},
+{
+"text": "exploded",
+"start": 11.64,
+"end": 12.24
+},
+{
+"text": "outward",
+"start": 12.24,
+"end": 12.9
+},
+{
+"text": "in",
+"start": 12.9,
+"end": 13.14
+},
+{
+"text": "a",
+"start": 13.14,
+"end": 13.3
+},
+{
+"text": "wave",
+"start": 13.3,
+"end": 13.66
+},
+{
+"text": "fifteen",
+"start": 13.66,
+"end": 14.3
+},
+{
+"text": "feet",
+"start": 14.3,
+"end": 14.64
+},
+{
+"text": "high.",
+"start": 14.64,
+"end": 15.04
+},
+{
+"text": "The",
+"start": 15.44,
+"end": 15.64
+},
+{
+"text": "floods",
+"start": 15.64,
+"end": 15.94
+},
+{
+"text": "smashed",
+"start": 15.94,
+"end": 16.52
+},
+{
+"text": "through",
+"start": 16.52,
+"end": 16.86
+},
+{
+"text": "brick",
+"start": 16.86,
+"end": 17.16
+},
+{
+"text": "walls",
+"start": 17.16,
+"end": 17.52
+},
+{
+"text": "and",
+"start": 17.52,
+"end": 18.16
+},
+{
+"text": "poured",
+"start": 18.16,
+"end": 18.44
+},
+{
+"text": "into",
+"start": 18.44,
+"end": 18.64
+},
+{
+"text": "the",
+"start": 18.64,
+"end": 18.88
+},
+{
+"text": "cramped",
+"start": 18.88,
+"end": 19.1
+},
+{
+"text": "basements",
+"start": 19.1,
+"end": 19.64
+},
+{
+"text": "where",
+"start": 19.64,
+"end": 19.86
+},
+{
+"text": "families",
+"start": 19.86,
+"end": 20.28
+},
+{
+"text": "lived.",
+"start": 20.28,
+"end": 20.7
+},
+{
+"text": "People",
+"start": 21.22,
+"end": 21.5
+},
+{
+"text": "drowned",
+"start": 21.5,
+"end": 21.94
+},
+{
+"text": "in",
+"start": 21.94,
+"end": 22.24
+},
+{
+"text": "the",
+"start": 22.24,
+"end": 22.36
+},
+{
+"text": "dark,",
+"start": 22.36,
+"end": 22.72
+},
+{
+"text": "swept",
+"start": 23.0,
+"end": 23.3
+},
+{
+"text": "off",
+"start": 23.3,
+"end": 23.56
+},
+{
+"text": "their",
+"start": 23.56,
+"end": 23.78
+},
+{
+"text": "feet",
+"start": 23.78,
+"end": 24.14
+},
+{
+"text": "by",
+"start": 24.14,
+"end": 24.48
+},
+{
+"text": "a",
+"start": 24.48,
+"end": 24.64
+},
+{
+"text": "tide",
+"start": 24.64,
+"end": 24.82
+},
+{
+"text": "of",
+"start": 24.82,
+"end": 25.16
+},
+{
+"text": "order.",
+"start": 25.16,
+"end": 25.4
+},
+{
+"text": "Eight",
+"start": 25.9,
+"end": 26.06
+},
+{
+"text": "died,",
+"start": 26.06,
+"end": 26.5
+},
+{
+"text": "including",
+"start": 27.02,
+"end": 27.28
+},
+{
+"text": "a",
+"start": 27.28,
+"end": 27.5
+},
+{
+"text": "child",
+"start": 27.5,
+"end": 27.84
+},
+{
+"text": "at",
+"start": 27.84,
+"end": 28.02
+},
+{
+"text": "a",
+"start": 28.02,
+"end": 28.12
+},
+{
+"text": "wake.",
+"start": 28.12,
+"end": 28.36
+},
+{
+"text": "And",
+"start": 28.96,
+"end": 28.98
+},
+{
+"text": "in",
+"start": 28.98,
+"end": 29.04
+},
+{
+"text": "the",
+"start": 29.04,
+"end": 29.14
+},
+{
+"text": "days",
+"start": 29.14,
+"end": 29.32
+},
+{
+"text": "after,",
+"start": 29.32,
+"end": 29.82
+},
+{
+"text": "crowds",
+"start": 30.5,
+"end": 30.68
+},
+{
+"text": "reportedly",
+"start": 30.68,
+"end": 31.34
+},
+{
+"text": "waited",
+"start": 31.34,
+"end": 31.74
+},
+{
+"text": "in",
+"start": 31.74,
+"end": 32.06
+},
+{
+"text": "to",
+"start": 32.06,
+"end": 32.2
+},
+{
+"text": "scoop",
+"start": 32.2,
+"end": 32.44
+},
+{
+"text": "up",
+"start": 32.44,
+"end": 32.72
+},
+{
+"text": "and",
+"start": 32.72,
+"end": 33.3
+},
+{
+"text": "drink",
+"start": 33.3,
+"end": 33.64
+},
+{
+"text": "the",
+"start": 33.64,
+"end": 33.86
+},
+{
+"text": "beer",
+"start": 33.86,
+"end": 34.34
+},
+{
+"text": "flooding",
+"start": 34.34,
+"end": 34.88
+},
+{
+"text": "the",
+"start": 34.88,
+"end": 35.12
+},
+{
+"text": "streets.",
+"start": 35.12,
+"end": 35.38
+}
+]
+}

@@ -1,0 +1,505 @@
+{
+"script": "She glanced down at her phone for just one second to read a single text. The road was straight, the day was clear, and she'd done it a hundred times before. But in that one second, at highway speed, her car drifted the length of a football field. And when she finally looked up, the curve was already on top of her. There was no time to brake, no time to scream. The text she'd risked everything to read said only, almost home. Investigators found the message still glowing on her cracked screen, sent by the family now waiting for her.",
+"words": [
+{
+"text": "She",
+"start": 0.0,
+"end": 0.32
+},
+{
+"text": "glanced",
+"start": 0.32,
+"end": 0.54
+},
+{
+"text": "down",
+"start": 0.54,
+"end": 0.82
+},
+{
+"text": "at",
+"start": 0.82,
+"end": 0.9
+},
+{
+"text": "her",
+"start": 0.9,
+"end": 1.04
+},
+{
+"text": "phone",
+"start": 1.04,
+"end": 1.34
+},
+{
+"text": "for",
+"start": 1.34,
+"end": 1.7
+},
+{
+"text": "just",
+"start": 1.7,
+"end": 1.9
+},
+{
+"text": "one",
+"start": 1.9,
+"end": 2.3
+},
+{
+"text": "second",
+"start": 2.3,
+"end": 2.78
+},
+{
+"text": "to",
+"start": 2.78,
+"end": 3.3
+},
+{
+"text": "read",
+"start": 3.3,
+"end": 3.5
+},
+{
+"text": "a",
+"start": 3.5,
+"end": 3.68
+},
+{
+"text": "single",
+"start": 3.68,
+"end": 3.92
+},
+{
+"text": "text.",
+"start": 3.92,
+"end": 4.36
+},
+{
+"text": "The",
+"start": 4.8,
+"end": 5.02
+},
+{
+"text": "road",
+"start": 5.02,
+"end": 5.28
+},
+{
+"text": "was",
+"start": 5.28,
+"end": 5.52
+},
+{
+"text": "straight,",
+"start": 5.52,
+"end": 6.0
+},
+{
+"text": "the",
+"start": 6.4,
+"end": 6.48
+},
+{
+"text": "day",
+"start": 6.48,
+"end": 6.68
+},
+{
+"text": "was",
+"start": 6.68,
+"end": 6.84
+},
+{
+"text": "clear,",
+"start": 6.84,
+"end": 7.24
+},
+{
+"text": "and",
+"start": 7.74,
+"end": 7.92
+},
+{
+"text": "she'd",
+"start": 7.92,
+"end": 8.16
+},
+{
+"text": "done",
+"start": 8.16,
+"end": 8.3
+},
+{
+"text": "a",
+"start": 8.3,
+"end": 8.44
+},
+{
+"text": "hundred",
+"start": 8.44,
+"end": 8.64
+},
+{
+"text": "times",
+"start": 8.64,
+"end": 8.98
+},
+{
+"text": "before.",
+"start": 8.98,
+"end": 9.46
+},
+{
+"text": "But",
+"start": 9.94,
+"end": 10.12
+},
+{
+"text": "in",
+"start": 10.12,
+"end": 10.22
+},
+{
+"text": "that",
+"start": 10.22,
+"end": 10.4
+},
+{
+"text": "one",
+"start": 10.4,
+"end": 10.64
+},
+{
+"text": "second,",
+"start": 10.64,
+"end": 11.2
+},
+{
+"text": "at",
+"start": 11.4,
+"end": 11.58
+},
+{
+"text": "highway",
+"start": 11.58,
+"end": 11.94
+},
+{
+"text": "speed,",
+"start": 11.94,
+"end": 12.46
+},
+{
+"text": "her",
+"start": 13.06,
+"end": 13.16
+},
+{
+"text": "car",
+"start": 13.16,
+"end": 13.36
+},
+{
+"text": "drifted",
+"start": 13.36,
+"end": 13.72
+},
+{
+"text": "the",
+"start": 13.72,
+"end": 13.96
+},
+{
+"text": "length",
+"start": 13.96,
+"end": 14.36
+},
+{
+"text": "of",
+"start": 14.36,
+"end": 14.76
+},
+{
+"text": "a",
+"start": 14.76,
+"end": 15.0
+},
+{
+"text": "football",
+"start": 15.0,
+"end": 15.32
+},
+{
+"text": "field.",
+"start": 15.32,
+"end": 15.82
+},
+{
+"text": "And",
+"start": 16.36,
+"end": 16.58
+},
+{
+"text": "when",
+"start": 16.58,
+"end": 16.78
+},
+{
+"text": "she",
+"start": 16.78,
+"end": 16.92
+},
+{
+"text": "finally",
+"start": 16.92,
+"end": 17.34
+},
+{
+"text": "looked",
+"start": 17.34,
+"end": 17.64
+},
+{
+"text": "up,",
+"start": 17.64,
+"end": 17.94
+},
+{
+"text": "the",
+"start": 18.24,
+"end": 18.44
+},
+{
+"text": "curve",
+"start": 18.44,
+"end": 18.76
+},
+{
+"text": "was",
+"start": 18.76,
+"end": 18.96
+},
+{
+"text": "already",
+"start": 18.96,
+"end": 19.28
+},
+{
+"text": "on",
+"start": 19.28,
+"end": 19.5
+},
+{
+"text": "top",
+"start": 19.5,
+"end": 19.74
+},
+{
+"text": "of",
+"start": 19.74,
+"end": 19.92
+},
+{
+"text": "her.",
+"start": 19.92,
+"end": 20.12
+},
+{
+"text": "There",
+"start": 20.58,
+"end": 20.76
+},
+{
+"text": "was",
+"start": 20.76,
+"end": 20.84
+},
+{
+"text": "no",
+"start": 20.84,
+"end": 21.0
+},
+{
+"text": "time",
+"start": 21.0,
+"end": 21.18
+},
+{
+"text": "to",
+"start": 21.18,
+"end": 21.32
+},
+{
+"text": "break,",
+"start": 21.32,
+"end": 21.62
+},
+{
+"text": "no",
+"start": 22.04,
+"end": 22.22
+},
+{
+"text": "time",
+"start": 22.22,
+"end": 22.44
+},
+{
+"text": "to",
+"start": 22.44,
+"end": 22.58
+},
+{
+"text": "scream.",
+"start": 22.58,
+"end": 22.88
+},
+{
+"text": "The",
+"start": 23.36,
+"end": 23.58
+},
+{
+"text": "text",
+"start": 23.58,
+"end": 23.82
+},
+{
+"text": "she'd",
+"start": 23.82,
+"end": 24.12
+},
+{
+"text": "risked",
+"start": 24.12,
+"end": 24.46
+},
+{
+"text": "everything",
+"start": 24.46,
+"end": 24.98
+},
+{
+"text": "to",
+"start": 24.98,
+"end": 25.32
+},
+{
+"text": "read",
+"start": 25.32,
+"end": 25.66
+},
+{
+"text": "said",
+"start": 25.66,
+"end": 26.18
+},
+{
+"text": "only,",
+"start": 26.18,
+"end": 26.78
+},
+{
+"text": "almost",
+"start": 27.2,
+"end": 27.42
+},
+{
+"text": "home.",
+"start": 27.42,
+"end": 27.82
+},
+{
+"text": "Investigators",
+"start": 27.82,
+"end": 28.84
+},
+{
+"text": "found",
+"start": 28.84,
+"end": 29.34
+},
+{
+"text": "the",
+"start": 29.34,
+"end": 29.48
+},
+{
+"text": "message",
+"start": 29.48,
+"end": 29.9
+},
+{
+"text": "still",
+"start": 29.9,
+"end": 30.58
+},
+{
+"text": "glowing",
+"start": 30.58,
+"end": 31.1
+},
+{
+"text": "on",
+"start": 31.1,
+"end": 31.32
+},
+{
+"text": "her",
+"start": 31.32,
+"end": 31.46
+},
+{
+"text": "crack",
+"start": 31.46,
+"end": 31.72
+},
+{
+"text": "screen,",
+"start": 31.72,
+"end": 32.22
+},
+{
+"text": "sent",
+"start": 32.58,
+"end": 32.88
+},
+{
+"text": "by",
+"start": 32.88,
+"end": 33.04
+},
+{
+"text": "the",
+"start": 33.04,
+"end": 33.18
+},
+{
+"text": "family",
+"start": 33.18,
+"end": 33.62
+},
+{
+"text": "now",
+"start": 33.62,
+"end": 34.2
+},
+{
+"text": "waiting",
+"start": 34.2,
+"end": 34.48
+},
+{
+"text": "for",
+"start": 34.48,
+"end": 34.78
+},
+{
+"text": "her.",
+"start": 34.78,
+"end": 35.02
+}
+]
+}

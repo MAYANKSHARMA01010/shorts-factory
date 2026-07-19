@@ -1,0 +1,31 @@
+# ─────────────────────────────────────────────────────────────
+#  Shorts Factory — Python dependencies
+# ─────────────────────────────────────────────────────────────
+#  The CORE automation (daily producer, post_to_youtube, yt_analytics,
+#  dashboard, notify_email, daily_digest, learning loop) uses the Python
+#  STANDARD LIBRARY ONLY — nothing below is needed just to publish + learn.
+#
+#  The packages below are only required by the VIDEO / VOICE generation layer
+#  (ClipPilot, the ultimate-short skill, and the Z-Image / Chatterbox
+#  experiments). Install what you actually use.
+# ─────────────────────────────────────────────────────────────
+
+# Voice + captions (used by the production pipeline)
+edge-tts
+faster-whisper
+soundfile
+numpy
+
+# Optional: local AI image/video generation (GPU) — heavy, install on demand
+# torch                 # match your CUDA build, see https://pytorch.org
+# torchaudio
+# transformers
+# diffusers
+# huggingface_hub
+# chatterbox-tts        # local expressive TTS experiment
+
+# Optional: GUI tooling used by some helper scripts
+# PySide6
+
+# Node.js (NOT pip): Remotion lives in ClipPilot/remotion_explainer — run `npm install` there.
+# FFmpeg must be on PATH.

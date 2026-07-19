@@ -1,0 +1,415 @@
+{
+"script": "What if your minimum payment is designed to keep you in debt for decades? Banks set it tiny on purpose, about two percent of the balance, not a flat amount. On a one thousand dollar card at twenty two percent APR, the minimum drops just three dollars off principal a month. Pay only the minimum and that one thousand takes over twenty eight years to clear. Switch to a flat one hundred a month instead, and the same debt is gone in eleven. Stop paying the minimum.",
+"words": [
+{
+"text": "What",
+"start": 0.0,
+"end": 0.24
+},
+{
+"text": "if",
+"start": 0.24,
+"end": 0.34
+},
+{
+"text": "your",
+"start": 0.34,
+"end": 0.44
+},
+{
+"text": "minimum",
+"start": 0.44,
+"end": 0.68
+},
+{
+"text": "payment",
+"start": 0.68,
+"end": 1.12
+},
+{
+"text": "is",
+"start": 1.12,
+"end": 1.54
+},
+{
+"text": "designed",
+"start": 1.54,
+"end": 1.9
+},
+{
+"text": "to",
+"start": 1.9,
+"end": 2.06
+},
+{
+"text": "keep",
+"start": 2.06,
+"end": 2.22
+},
+{
+"text": "you",
+"start": 2.22,
+"end": 2.38
+},
+{
+"text": "in",
+"start": 2.38,
+"end": 2.54
+},
+{
+"text": "debt",
+"start": 2.54,
+"end": 2.82
+},
+{
+"text": "for",
+"start": 2.82,
+"end": 3.18
+},
+{
+"text": "decades?",
+"start": 3.18,
+"end": 3.68
+},
+{
+"text": "Banks",
+"start": 4.62,
+"end": 4.64
+},
+{
+"text": "set",
+"start": 4.64,
+"end": 4.94
+},
+{
+"text": "it",
+"start": 4.94,
+"end": 5.06
+},
+{
+"text": "tiny",
+"start": 5.06,
+"end": 5.38
+},
+{
+"text": "on",
+"start": 5.38,
+"end": 5.72
+},
+{
+"text": "purpose,",
+"start": 5.72,
+"end": 6.24
+},
+{
+"text": "about",
+"start": 6.7,
+"end": 6.98
+},
+{
+"text": "2",
+"start": 6.98,
+"end": 7.24
+},
+{
+"text": "%",
+"start": 7.24,
+"end": 7.54
+},
+{
+"text": "of",
+"start": 7.54,
+"end": 7.66
+},
+{
+"text": "the",
+"start": 7.66,
+"end": 7.74
+},
+{
+"text": "balance,",
+"start": 7.74,
+"end": 8.16
+},
+{
+"text": "not",
+"start": 8.5,
+"end": 8.72
+},
+{
+"text": "a",
+"start": 8.72,
+"end": 8.84
+},
+{
+"text": "flat",
+"start": 8.84,
+"end": 9.06
+},
+{
+"text": "amount.",
+"start": 9.06,
+"end": 9.3
+},
+{
+"text": "On",
+"start": 9.76,
+"end": 9.96
+},
+{
+"text": "a",
+"start": 9.96,
+"end": 10.1
+},
+{
+"text": "$1",
+"start": 10.1,
+"end": 10.42
+},
+{
+"text": ",000",
+"start": 10.42,
+"end": 10.86
+},
+{
+"text": "card",
+"start": 10.86,
+"end": 11.3
+},
+{
+"text": "at",
+"start": 11.3,
+"end": 11.48
+},
+{
+"text": "22",
+"start": 11.48,
+"end": 12.02
+},
+{
+"text": "%",
+"start": 12.02,
+"end": 12.42
+},
+{
+"text": "APR,",
+"start": 12.42,
+"end": 12.82
+},
+{
+"text": "the",
+"start": 13.5,
+"end": 13.58
+},
+{
+"text": "minimum",
+"start": 13.58,
+"end": 13.9
+},
+{
+"text": "drops",
+"start": 13.9,
+"end": 14.34
+},
+{
+"text": "just",
+"start": 14.34,
+"end": 14.72
+},
+{
+"text": "$3",
+"start": 14.72,
+"end": 15.42
+},
+{
+"text": "off",
+"start": 15.42,
+"end": 15.84
+},
+{
+"text": "principal",
+"start": 15.84,
+"end": 16.12
+},
+{
+"text": "a",
+"start": 16.12,
+"end": 16.38
+},
+{
+"text": "month.",
+"start": 16.38,
+"end": 16.6
+},
+{
+"text": "Pay",
+"start": 17.06,
+"end": 17.34
+},
+{
+"text": "only",
+"start": 17.34,
+"end": 17.62
+},
+{
+"text": "the",
+"start": 17.62,
+"end": 17.82
+},
+{
+"text": "minimum,",
+"start": 17.82,
+"end": 18.18
+},
+{
+"text": "and",
+"start": 18.5,
+"end": 18.6
+},
+{
+"text": "that",
+"start": 18.6,
+"end": 18.8
+},
+{
+"text": "$1",
+"start": 18.8,
+"end": 19.32
+},
+{
+"text": ",000",
+"start": 19.32,
+"end": 19.76
+},
+{
+"text": "takes",
+"start": 19.76,
+"end": 20.06
+},
+{
+"text": "over",
+"start": 20.06,
+"end": 20.4
+},
+{
+"text": "28",
+"start": 20.4,
+"end": 20.86
+},
+{
+"text": "years",
+"start": 20.86,
+"end": 21.24
+},
+{
+"text": "to",
+"start": 21.24,
+"end": 21.5
+},
+{
+"text": "clear.",
+"start": 21.5,
+"end": 21.82
+},
+{
+"text": "Switch",
+"start": 22.34,
+"end": 22.58
+},
+{
+"text": "to",
+"start": 22.58,
+"end": 22.8
+},
+{
+"text": "a",
+"start": 22.8,
+"end": 22.94
+},
+{
+"text": "flat",
+"start": 22.94,
+"end": 23.16
+},
+{
+"text": "$100",
+"start": 23.16,
+"end": 23.62
+},
+{
+"text": "a",
+"start": 23.62,
+"end": 23.8
+},
+{
+"text": "month",
+"start": 23.8,
+"end": 24.0
+},
+{
+"text": "instead,",
+"start": 24.0,
+"end": 24.58
+},
+{
+"text": "and",
+"start": 25.06,
+"end": 25.34
+},
+{
+"text": "the",
+"start": 25.34,
+"end": 25.48
+},
+{
+"text": "same",
+"start": 25.48,
+"end": 25.76
+},
+{
+"text": "debt",
+"start": 25.76,
+"end": 26.12
+},
+{
+"text": "is",
+"start": 26.12,
+"end": 26.6
+},
+{
+"text": "gone",
+"start": 26.6,
+"end": 26.84
+},
+{
+"text": "in",
+"start": 26.84,
+"end": 26.96
+},
+{
+"text": "11.",
+"start": 26.96,
+"end": 27.2
+},
+{
+"text": "Stop",
+"start": 27.64,
+"end": 28.06
+},
+{
+"text": "paying",
+"start": 28.06,
+"end": 28.36
+},
+{
+"text": "the",
+"start": 28.36,
+"end": 28.56
+},
+{
+"text": "minimum.",
+"start": 28.56,
+"end": 28.82
+}
+]
+}

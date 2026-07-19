@@ -1,0 +1,59 @@
+{
+  "slug": "headphones",
+  "title": "Your Headphones Are Screaming At You",
+  "duration_estimate_s": 33,
+  "palette": {
+    "bg_deep": "#0b1220",
+    "bg_panel": "#121a2b",
+    "bgMid": "#16203a",
+    "gold": "#FFD23F",
+    "key_cyan": "#36E0D6",
+    "noise_red": "#FF5A52",
+    "anti_violet": "#9B6CFF",
+    "silence_white": "#EAF2FF",
+    "jet_steel": "#5C7793",
+    "steel_dk": "#3c5066",
+    "white": "#FFFFFF",
+    "ink": "#070b14",
+    "spark_gold": "#FFE680"
+  },
+  "scenes": [
+    {
+      "beat": "Slip on noise-cancelling headphones, and the roar of a jet engine just vanishes.",
+      "visual": "A single bold pair of over-ear headphones owns the dead-center of the frame on the deep #0b1220 stage: thick steel-blue (#5C7793) cups with a darker #3c5066 inner ring and a bright cyan (#36E0D6) rim-light tracing the outer edge, a clean curved headband arcing over the top. They are LARGE and unmissable (about 55% of frame height). Behind-left, a faint turbine silhouette throws three concentric chaotic red (#FF5A52) sound-rings blasting toward the cups. Snapped to the top-right of the right earcup is a fat gold (#FFD23F) badge pill in dark ink type reading 'SCREAMING?' with a small pulsing gold '?' beside it. The red rings die hard the instant they reach the earcups, leaving the headphones in a pocket of calm.",
+      "animations": "Headphones spring-pop in from scale 0.82 to 1.0 with a snappy overshoot and settle (cubic spring, ~10f). The cyan rim-light strokes itself on around the cups via stroke-dashoffset right after they land. The gold 'SCREAMING?' badge drops in from above at delay ~8f with an overshoot bounce, and its '?' throbs (scale 0.92->1.08 loop). The three red jet-rings sweep outward from the turbine in a fast staggered draw-on, then each one visibly shrink-erases to nothing the exact frame it kisses an earcup (hard radial wipe), establishing the scroll-stopping shock in the first ~1.2s.",
+      "sfx": "a loud roaring jet-engine whoosh that abruptly chokes off to dead silence on the badge snap"
+    },
+    {
+      "beat": "But the headphones aren't blocking that sound. They're erasing it.",
+      "visual": "Hard split-screen contrast on the #121a2b panel, divided by a thin glowing cyan vertical seam. LEFT half titled in gold with a red strike-through: 'BLOCK' — a solid grey brick wall vector with red noise arrows splatting and piling up against it, none getting through. RIGHT half titled 'ERASE' in clean gold — the same red noise arrow glides INTO a glowing cyan earcup and dissolves into scattering pixel-dust, nothing left behind.",
+      "animations": "Left wall builds up as red arrows thud in and stack with a tiny impact jitter on each hit; a red diagonal strike-through then draws across the word BLOCK. The cyan seam sweeps the frame like a squeegee, and on the right the noise arrow draws-on, slides into the earcup, and disintegrates particle-by-particle (staggered dot fade-out) as 'ERASE' springs in with overshoot. Calm but quick — no hold.",
+      "sfx": "a dull thud-stack of arrows packing against the wall, then a soft granular dissolve-shimmer as the right arrow turns to dust"
+    },
+    {
+      "beat": "A tiny microphone on each earcup listens to the noise coming at you.",
+      "visual": "Macro 3/4 cross-section of one earcup. Embedded on the outer steel shell sits a small detailed microphone capsule with a cyan mesh-grille face. An incoming red noise waveform travels in from screen-left straight at the grille. Each time a wave-peak strikes the mic, a clean cyan 'listening' ripple ring emanates from the grille. A slim gold tag with a leader-line points to the capsule reading 'MIC'.",
+      "animations": "The earcup draws-on as an outline stroke that floods with steel fill (~8f). The red noise wave slides in left-to-right at steady speed; the mic grille fires a cyan ripple ring in sync on each wave peak (counter-style, one ring per crest). The gold 'MIC' tag pops in with a quick spring and its leader-line draws to the grille via stroke-dashoffset.",
+      "sfx": "a subtle electret preamp hiss with a soft tactile pickup 'tick' each time a wave-peak hits the grille"
+    },
+    {
+      "beat": "Then a chip instantly builds a mirror image of that sound wave, flipped perfectly upside down.",
+      "visual": "Center stage: a glowing violet (#9B6CFF) processor chip with gold pin-legs and an etched circuit pattern on its face. The original red noise waveform feeds into the chip's left edge along a cyan trace line. From the chip's right edge a brand-new violet 'anti-wave' is emitted that is the exact vertical mirror of the red wave. The two waveforms hover stacked on a shared dashed axis — red above, violet below — visibly point-symmetric, every red crest matched by an equal violet trough. A small gold label 'ANTI-NOISE' floats beneath the chip.",
+      "animations": "The red wave flows into the chip along the trace with a traveling light-pulse. The chip's circuit pattern lights up trace-by-trace (draw-on glow). The violet anti-wave then mirror-draws outward from the chip's output, each crest spawning exactly opposite its red counterpart in lock-step (reflective draw-on across the shared axis). The 'ANTI-NOISE' label springs in. The chip emits one gentle violet pulse on completion.",
+      "sfx": "a crisp digital DSP compute blip-sequence rising in pitch, capped by a single soft synth 'ping' as the anti-wave finishes"
+    },
+    {
+      "beat": "And when an upward wave meets a downward wave, they cancel each other into silence.",
+      "visual": "THE HERO REVEAL — the unmistakable money shot. Full-frame on the #121a2b panel, two THICK sine waves drawn bold across a shared horizontal axis: the red noise wave entering from the LEFT edge and the violet anti-wave entering from the RIGHT edge, perfectly out of phase so every red crest aligns with a violet trough. They glide toward each other and begin to overlap at center. At each overlap point a bright gold (#FFE680) spark flares and the two colored inks ANNIHILATE — collapsing into a single dead-flat #EAF2FF white line of pure silence. A large gold 'SILENCE' wordmark resolves above the flat line.",
+      "animations": "The two waves sweep inward from both edges in perfect synchronized slide (matched velocity). On overlap they interleave and ZIP-CANCEL from the center outward like a zipper closing — each cancellation point flashes a sharp gold spark, the red+violet ink collapses to the flat white line at that x-position, and the cancel front races to both edges. The residual flat #EAF2FF silence-line draws-on edge-to-edge and pulses exactly once. The gold 'SILENCE' wordmark SLAMS in above it with a heavy spring overshoot the instant the line goes flat (the emotional peak). Rich, specific, the single richest beat of the piece.",
+      "sfx": "two pure tones beating hard against each other, then a clean phase-cancel 'thunk' that drops into a held, eerily silent room-tone"
+    },
+    {
+      "beat": "This means your headphones are constantly screaming the exact opposite of the world around you, just so your ears end up hearing nothing at all.",
+      "visual": "Final payoff card. The hero headphones from Scene 1 sit centered, now calm inside a soft cyan halo. Behind them on the left, a faint ghost of the chaotic red world-noise; from the cups a clean violet anti-wave reaches out and perfectly flatlines it to white. Across the lower third the punchline stacks in big bold type, the three operative words ('SCREAMS','OPPOSITE','SILENCE') in gold (#FFD23F), the connecting words in #EAF2FF white. A small gold pill badge underlines the card.",
+      "animations": "Headphones settle with a gentle breathing pulse as the cyan halo blooms. The punchline SLAMS in word-by-word — each word spring-pops from scale 0.6 with overshoot, and a tiny gold underline sweeps beneath each gold keyword as it lands. The final word 'SILENCE' lands hardest, then the whole card holds on a single soft pulse.",
+      "sfx": "a clean confirming success sting, then a soft violet sub-whoosh that lands under the final word 'SILENCE'"
+    }
+  ],
+  "payoff": "It SCREAMS the OPPOSITE into SILENCE"
+}
