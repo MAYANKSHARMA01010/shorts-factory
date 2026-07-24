@@ -1,31 +1,36 @@
-# ─────────────────────────────────────────────────────────────
-#  Shorts Factory — Python dependencies
-# ─────────────────────────────────────────────────────────────
-#  The CORE automation (daily producer, post_to_youtube, yt_analytics,
-#  dashboard, notify_email, daily_digest, learning loop) uses the Python
-#  STANDARD LIBRARY ONLY — nothing below is needed just to publish + learn.
-#
-#  The packages below are only required by the VIDEO / VOICE generation layer
-#  (ClipPilot, the ultimate-short skill, and the Z-Image / Chatterbox
-#  experiments). Install what you actually use.
-# ─────────────────────────────────────────────────────────────
+# =============================================================================
+# SHORTS FACTORY & CLIPPILOT — SINGLE ROOT REQUIREMENTS
+# =============================================================================
 
-# Voice + captions (used by the production pipeline)
-edge-tts
-faster-whisper
-soundfile
-numpy
+# --- Web Backend & API Server ---
+flask>=3.0.0
+flask-cors>=4.0.0
+requests>=2.31.0
+httpx>=0.27.0
 
-# Optional: local AI image/video generation (GPU) — heavy, install on demand
-# torch                 # match your CUDA build, see https://pytorch.org
-# torchaudio
-# transformers
-# diffusers
-# huggingface_hub
-# chatterbox-tts        # local expressive TTS experiment
+# --- Google APIs & Gemini AI ---
+google-api-python-client>=2.100.0
+google-auth-oauthlib>=1.2.0
+google-auth-httplib2>=0.2.0
+google-generativeai>=0.8.0
 
-# Optional: GUI tooling used by some helper scripts
-# PySide6
+# --- Anthropic AI Brain ---
+anthropic>=0.111.0
+pydantic>=2.6.0
 
-# Node.js (NOT pip): Remotion lives in ClipPilot/remotion_explainer — run `npm install` there.
-# FFmpeg must be on PATH.
+# --- Voice TTS, Audio & Transcription ---
+edge-tts>=6.1.9
+faster-whisper>=1.0.0
+soundfile>=0.12.1
+numpy>=1.24.0
+
+# --- Media Processing & Video Utilities ---
+imageio-ffmpeg>=0.5.0
+yt-dlp>=2025.1.0
+
+# --- Optional Add-ons & Experimental (uncomment if needed) ---
+# PySide6-Essentials>=6.11.0   # Native GUI shell
+# torch>=2.0.0                  # GPU AI image generation
+# torchaudio>=2.0.0
+# transformers>=4.38.0
+# diffusers>=0.27.0
