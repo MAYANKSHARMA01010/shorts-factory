@@ -156,11 +156,29 @@ export default function Dashboard() {
   const [metaTitle, setMetaTitle] = useState("");
   const [metaDesc, setMetaDesc] = useState("");
   const [metaTags, setMetaTags] = useState("");
+  const [metaVideoTags, setMetaVideoTags] = useState("");
+  const [metaLanguage, setMetaLanguage] = useState("en");
   const [visibility, setVisibility] = useState("private");
   
-  // Rewrite prompt state
+  // Publish & Schedule State
+  const [publishMode, setPublishMode] = useState<"now" | "schedule">("now");
+  const getDefaultDate = () => {
+    const d = new Date();
+    d.setDate(d.getDate() + 1);
+    const pad = (n: number) => n.toString().padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  };
+  const [scheduleDate, setScheduleDate] = useState<string>(getDefaultDate());
+  const [scheduleTime, setScheduleTime] = useState<string>("18:00");
+  
+  // Cover State & Rewrite State
+  const [coverUrl, setCoverUrl] = useState<string | null>(null);
+  const [coverTimestamp, setCoverTimestamp] = useState<string>("2.0");
+  const [isLoadingCover, setIsLoadingCover] = useState<boolean>(false);
   const [promptTitle, setPromptTitle] = useState("");
   const [promptDesc, setPromptDesc] = useState("");
+  const [promptTags, setPromptTags] = useState("");
+  const [promptVideoTags, setPromptVideoTags] = useState("");
   
   // Loading states
   const [isLoadingGen, setIsLoadingGen] = useState(false);
@@ -210,7 +228,7 @@ export default function Dashboard() {
         if (Array.isArray(data)) {
           setVideos(data);
           if (data.length > 0 && !activeVideo) {
-            setActiveVideo(data[0]);
+            selectVideo(data[0]);
           }
         }
       })
@@ -249,30 +267,41 @@ export default function Dashboard() {
     }
   }, [activeVideo?.path]);
 
-  const selectVideo = (video: Video) => {
-    setActiveVideo(video);
-    setMetaTitle("");
-    setMetaDesc("");
-    setMetaTags("");
-    setStatusMsg(null);
+  const generateCover = async (video: Video, ts: string = "2.0") => {
+    setIsLoadingCover(true);
+    setCoverTimestamp(ts);
+    try {
+      const res = await fetch(`${API_URL}/api/generate_cover`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ video_path: video.path, timestamp: ts })
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      setCoverUrl(`${API_URL}${data.url}`);
+    } catch (e: any) {
+      console.error("Error generating cover:", e);
+    } finally {
+      setIsLoadingCover(false);
+    }
   };
 
-  const generateMetadata = async () => {
-    if (!activeVideo) return;
+  const generateMetadataForVideo = async (video: Video) => {
     setIsLoadingGen(true);
-    setStatusMsg(null);
     try {
       const res = await fetch(`${API_URL}/api/generate_metadata`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic: activeVideo.name })
+        body: JSON.stringify({ topic: video.name })
       });
       const data = await res.json();
       if (data.error) throw new Error(data.error);
       setMetaTitle(data.title || "");
       setMetaDesc(data.description || "");
       setMetaTags(data.hashtags || "");
-      setStatusMsg({ text: "AI Metadata generated successfully!", type: "success" });
+      setMetaVideoTags(Array.isArray(data.video_tags) ? data.video_tags.join(", ") : (data.video_tags || ""));
+      setMetaLanguage(data.language || "en");
+      setStatusMsg({ text: "✨ Auto-generated AI Title, Description, Hashtags, YouTube Studio Tags & Cover Frame!", type: "success" });
     } catch (e: any) {
       setStatusMsg({ text: "Error generating metadata: " + e.message, type: "error" });
     } finally {
@@ -280,11 +309,25 @@ export default function Dashboard() {
     }
   };
 
-  const rewriteField = async (field: "title" | "description") => {
-    const prompt = field === "title" ? promptTitle : promptDesc;
-    const currentText = field === "title" ? metaTitle : metaDesc;
-    if (!prompt) return setStatusMsg({ text: "Please enter a rewrite instruction.", type: "info" });
-    if (!currentText) return setStatusMsg({ text: "Field is empty. Generate metadata first.", type: "info" });
+  const selectVideo = (video: Video) => {
+    setActiveVideo(video);
+    setStatusMsg(null);
+    generateMetadataForVideo(video);
+    generateCover(video, "2.0");
+  };
+
+  const generateMetadata = () => {
+    if (activeVideo) {
+      generateMetadataForVideo(activeVideo);
+      generateCover(activeVideo, coverTimestamp);
+    }
+  };
+
+  const rewriteField = async (field: "title" | "description" | "hashtags" | "video_tags", customInstruction?: string) => {
+    const prompt = customInstruction || (field === "title" ? promptTitle : field === "description" ? promptDesc : field === "hashtags" ? promptTags : promptVideoTags);
+    const currentText = field === "title" ? metaTitle : field === "description" ? metaDesc : field === "hashtags" ? metaTags : metaVideoTags;
+    if (!prompt) return setStatusMsg({ text: "Please enter a rewrite instruction or choose a quick preset chip.", type: "info" });
+    if (!currentText) return setStatusMsg({ text: "Field is empty. Auto-generate metadata first.", type: "info" });
     
     try {
       const res = await fetch(`${API_URL}/api/rewrite_metadata`, {
@@ -298,11 +341,17 @@ export default function Dashboard() {
       if (field === "title") {
         setMetaTitle(data.result);
         setPromptTitle("");
-      } else {
+      } else if (field === "description") {
         setMetaDesc(data.result);
         setPromptDesc("");
+      } else if (field === "hashtags") {
+        setMetaTags(data.result);
+        setPromptTags("");
+      } else {
+        setMetaVideoTags(data.result);
+        setPromptVideoTags("");
       }
-      setStatusMsg({ text: `Rewrote ${field} with AI instruction!`, type: "success" });
+      setStatusMsg({ text: `Rewrote ${field} with AI!`, type: "success" });
     } catch (e: any) {
       setStatusMsg({ text: "Rewrite error: " + e.message, type: "error" });
     }
@@ -311,9 +360,18 @@ export default function Dashboard() {
   const publishVideo = async () => {
     if (!activeVideo) return;
     if (!metaTitle) return setStatusMsg({ text: "Please generate or write a Title before publishing.", type: "info" });
+    if (publishMode === "schedule" && (!scheduleDate || !scheduleTime)) {
+      return setStatusMsg({ text: "Please select both a valid Calendar Date and Clock Time for scheduling.", type: "info" });
+    }
     
     setIsLoadingPub(true);
-    setStatusMsg({ text: "Uploading video to YouTube...", type: "info" });
+    const combinedISOString = publishMode === "schedule"
+      ? new Date(`${scheduleDate}T${scheduleTime}:00`).toISOString()
+      : null;
+    const modeText = publishMode === "schedule"
+      ? `Scheduling video for ${new Date(`${scheduleDate}T${scheduleTime}:00`).toLocaleString()}...`
+      : "Uploading video directly to YouTube...";
+    setStatusMsg({ text: modeText, type: "info" });
 
     try {
       const res = await fetch(`${API_URL}/api/publish`, {
@@ -324,18 +382,25 @@ export default function Dashboard() {
           title: metaTitle,
           description: metaDesc,
           hashtags: metaTags,
-          visibility
+          video_tags: metaVideoTags,
+          language: metaLanguage,
+          visibility,
+          is_scheduled: publishMode === "schedule",
+          publish_at: combinedISOString
         })
       });
 
       const data = await res.json();
       if (data.success) {
-        setStatusMsg({ text: `Successfully published to YouTube! ${data.url ? `URL: ${data.url}` : ""}`, type: "success" });
+        const msg = publishMode === "schedule"
+          ? `📅 Video scheduled successfully for ${new Date(`${scheduleDate}T${scheduleTime}:00`).toLocaleString()} on YouTube!`
+          : `🚀 Successfully published directly to YouTube! ${data.url ? `URL: ${data.url}` : ""}`;
+        setStatusMsg({ text: msg, type: "success" });
       } else {
         throw new Error(data.error || "Failed to publish video");
       }
     } catch (e: any) {
-      setStatusMsg({ text: "Publish Error: " + e.message, type: "error" });
+      setStatusMsg({ text: "Publish error: " + e.message, type: "error" });
     } finally {
       setIsLoadingPub(false);
     }
@@ -455,16 +520,20 @@ export default function Dashboard() {
 
       {/* TAB 1: VIDEO STUDIO & PUBLISHER */}
       {activeTab === "videos" && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* VIDEO SELECTOR LIST */}
-          <div className="lg:col-span-4 glass p-4 space-y-4">
-            <h2 className="text-base font-semibold text-white flex items-center justify-between">
-              <span>Generated Shorts ({videos.length})</span>
-              <span className="text-xs text-slate-400 font-normal">ClipPilot Output</span>
-            </h2>
-            <div className="space-y-2 max-h-[600px] overflow-y-auto pr-1">
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
+          {/* 1. LEFT SIDEBAR: VIDEO SELECTOR LIST (3 Cols) */}
+          <div className="xl:col-span-3 lg:col-span-4 glass p-4 flex flex-col space-y-3 h-[760px]">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <h2 className="text-sm font-bold text-white flex items-center gap-2">
+                <span>📁 Shorts List</span>
+                <span className="px-2 py-0.5 bg-indigo-500/20 text-indigo-300 text-xs rounded-full">{videos.length}</span>
+              </h2>
+              <span className="text-[10px] text-slate-400">ClipPilot</span>
+            </div>
+
+            <div className="space-y-2 flex-1 overflow-y-auto pr-1">
               {videos.length === 0 ? (
-                <p className="text-sm text-slate-400 py-8 text-center">No generated Shorts found in ClipPilot data directory.</p>
+                <p className="text-xs text-slate-400 py-8 text-center">No generated Shorts found in data directory.</p>
               ) : (
                 videos.map((vid) => (
                   <div
@@ -472,14 +541,14 @@ export default function Dashboard() {
                     onClick={() => selectVideo(vid)}
                     className={`p-3 rounded-xl cursor-pointer transition border ${
                       activeVideo?.id === vid.id
-                        ? "bg-indigo-600/20 border-indigo-500 text-white"
-                        : "bg-slate-800/40 border-white/5 text-slate-300 hover:bg-slate-800"
+                        ? "bg-indigo-600/30 border-indigo-400 text-white shadow-lg shadow-indigo-950/50"
+                        : "bg-slate-900/50 border-white/5 text-slate-300 hover:bg-slate-800/60 hover:border-slate-700"
                     }`}
                   >
-                    <div className="font-semibold text-sm truncate">{vid.name}</div>
-                    <div className="text-xs text-slate-400 mt-1 flex justify-between">
-                      <span>{vid.filename}</span>
-                      <span>{vid.size_mb} MB</span>
+                    <div className="font-semibold text-sm truncate text-white">{vid.name}</div>
+                    <div className="text-[11px] text-slate-400 mt-1 flex justify-between items-center">
+                      <span className="truncate max-w-[140px] text-slate-400">{vid.filename}</span>
+                      <span className="px-1.5 py-0.5 bg-slate-800 rounded text-[10px] text-amber-300 font-mono">{vid.size_mb} MB</span>
                     </div>
                   </div>
                 ))
@@ -487,57 +556,140 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* VIDEO PLAYER & METADATA EDITOR */}
-          <div className="lg:col-span-8 space-y-6">
+          {/* 2. MIDDLE COLUMN: VIDEO PLAYER PREVIEW (4 Cols) */}
+          <div className="xl:col-span-4 lg:col-span-8 glass p-5 flex flex-col items-center justify-center space-y-4 h-[760px]">
             {activeVideo ? (
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-                {/* PLAYER */}
-                <div className="md:col-span-5 glass p-4 flex flex-col items-center justify-center">
-                  <div className="relative aspect-[9/16] w-full max-w-[280px] bg-black rounded-xl overflow-hidden shadow-2xl">
-                    <video
-                      ref={videoRef}
-                      controls
-                      className="w-full h-full object-cover"
-                      src={`${API_URL}/video/${activeVideo.path}`}
-                    />
-                  </div>
-                  <p className="text-xs text-slate-400 mt-3 text-center">{activeVideo.name}</p>
+              <>
+                <div className="w-full flex items-center justify-between border-b border-white/10 pb-3">
+                  <h3 className="font-bold text-white text-sm truncate">{activeVideo.name}</h3>
+                  <span className="px-2 py-0.5 bg-slate-800 border border-slate-700 rounded text-[10px] text-slate-300">9:16 Vertical HD</span>
                 </div>
 
-                {/* METADATA & PUBLISH */}
-                <div className="md:col-span-7 glass p-5 space-y-4">
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-bold text-white text-base">Metadata & YouTube Publisher</h3>
-                    <button
-                      onClick={generateMetadata}
-                      disabled={isLoadingGen}
-                      className="px-3 py-1.5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-black font-semibold text-xs rounded-lg transition shadow"
-                    >
-                      {isLoadingGen ? "Generating AI Metadata..." : "✨ Generate AI Metadata"}
-                    </button>
+                <div className="relative aspect-[9/16] h-[580px] bg-black rounded-2xl overflow-hidden shadow-2xl border border-slate-800 group">
+                  <video
+                    ref={videoRef}
+                    controls
+                    className="w-full h-full object-cover"
+                    src={`${API_URL}/video/${activeVideo.path}`}
+                  />
+                </div>
+
+                <div className="w-full text-center text-[11px] text-slate-400 flex items-center justify-center gap-3">
+                  <span>📹 Path: <code className="text-slate-300">{activeVideo.filename}</code></span>
+                  <span>•</span>
+                  <span>📦 Size: <strong className="text-amber-300">{activeVideo.size_mb} MB</strong></span>
+                </div>
+              </>
+            ) : (
+              <div className="text-center text-slate-400 space-y-3 p-8">
+                <div className="text-4xl">👈</div>
+                <h3 className="text-base font-semibold text-white">Select a Short Video</h3>
+                <p className="text-xs">Choose any video from the left sidebar to preview and publish.</p>
+              </div>
+            )}
+          </div>
+
+          {/* 3. RIGHT COLUMN: METADATA & YOUTUBE PUBLISHER (5 Cols) */}
+          <div className="xl:col-span-5 lg:col-span-12 glass p-5 flex flex-col space-y-4 h-[760px]">
+            {activeVideo ? (
+              <>
+                {/* HEADER */}
+                <div className="flex items-center justify-between border-b border-white/10 pb-3 shrink-0">
+                  <div>
+                    <h3 className="font-bold text-white text-base flex items-center gap-2">
+                      <span>Metadata & YouTube Studio</span>
+                    </h3>
+                    <p className="text-[11px] text-slate-400">AI auto-generated. Fully editable before uploading.</p>
+                  </div>
+                  <button
+                    onClick={generateMetadata}
+                    disabled={isLoadingGen}
+                    className="px-3 py-1.5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-black font-bold text-xs rounded-lg transition shadow-lg flex items-center gap-1.5 disabled:opacity-50"
+                  >
+                    {isLoadingGen ? "Generating..." : "✨ Auto-Generate All"}
+                  </button>
+                </div>
+
+                {/* SCROLLABLE FORM BODY */}
+                <div className="flex-1 overflow-y-auto pr-2 space-y-4">
+                  {/* COVER FRAME SELECTOR */}
+                  <div className="bg-slate-900/80 p-3 rounded-xl border border-slate-800 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-semibold text-amber-400 flex items-center gap-1">
+                        🖼️ Cover Thumbnail Frame
+                        <span className="text-[10px] text-slate-400 font-normal">(@ {coverTimestamp}s)</span>
+                      </label>
+                      <div className="flex gap-1">
+                        {["1.0", "2.5", "5.0", "8.0"].map((ts) => (
+                          <button
+                            key={ts}
+                            onClick={() => activeVideo && generateCover(activeVideo, ts)}
+                            disabled={isLoadingCover}
+                            className={`px-1.5 py-0.5 text-[10px] rounded border transition ${
+                              coverTimestamp === ts
+                                ? "bg-amber-500/20 border-amber-400 text-amber-300 font-bold"
+                                : "bg-slate-800 border-slate-700 text-slate-400 hover:text-white"
+                            }`}
+                          >
+                            {ts}s
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 pt-1">
+                      {coverUrl ? (
+                        <div className="relative aspect-[9/16] h-16 bg-black rounded-lg overflow-hidden border border-amber-500/40 shadow shrink-0">
+                          <img src={coverUrl} alt="Cover Frame" className="w-full h-full object-cover" />
+                        </div>
+                      ) : (
+                        <div className="aspect-[9/16] h-16 bg-slate-950 rounded-lg flex items-center justify-center border border-slate-800 shrink-0 text-slate-500 text-[10px]">
+                          No Frame
+                        </div>
+                      )}
+                      <div className="flex-1 space-y-1">
+                        <p className="text-[11px] text-slate-300">
+                          {isLoadingCover ? "Extracting frame..." : "Cover image used as video thumbnail."}
+                        </p>
+                        <button
+                          onClick={() => activeVideo && generateCover(activeVideo, (Math.random() * 8 + 1).toFixed(1))}
+                          disabled={isLoadingCover}
+                          className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 text-[11px] text-slate-200 rounded border border-slate-700 transition"
+                        >
+                          🎲 Pick Random Frame
+                        </button>
+                      </div>
+                    </div>
                   </div>
 
                   {/* TITLE */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-300">Title</label>
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-semibold text-slate-200">Title</label>
+                      <div className="flex gap-1 text-[10px]">
+                        <button onClick={() => rewriteField("title", "Make it catchier with high emotional hook")} className="px-1.5 py-0.5 bg-indigo-950 hover:bg-indigo-900 border border-indigo-700/60 rounded text-indigo-300 transition">🔥 Catchier</button>
+                        <button onClick={() => rewriteField("title", "Rephrase as an irresistible curiosity question")} className="px-1.5 py-0.5 bg-indigo-950 hover:bg-indigo-900 border border-indigo-700/60 rounded text-indigo-300 transition">❓ Curiosity</button>
+                        <button onClick={() => rewriteField("title", "Optimize title for high-CPM finance/tech niche")} className="px-1.5 py-0.5 bg-indigo-950 hover:bg-indigo-900 border border-indigo-700/60 rounded text-indigo-300 transition">📈 High-CPM</button>
+                      </div>
+                    </div>
                     <input
                       type="text"
                       value={metaTitle}
                       onChange={(e) => setMetaTitle(e.target.value)}
                       placeholder="Click Generate or enter title..."
-                      className="w-full bg-slate-900/80 border border-slate-700 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-amber-400"
+                      className="w-full bg-slate-900/90 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400"
                     />
-                    <div className="flex gap-2 pt-1">
+                    <div className="flex gap-2">
                       <input
                         type="text"
                         value={promptTitle}
                         onChange={(e) => setPromptTitle(e.target.value)}
                         placeholder="Instruction: e.g. Make it catchier..."
-                        className="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-slate-200"
+                        className="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 text-[11px] text-slate-200"
                       />
                       <button
                         onClick={() => rewriteField("title")}
-                        className="px-2.5 py-1 bg-slate-700 hover:bg-slate-600 text-xs font-medium rounded-lg text-slate-200"
+                        className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[11px] font-medium rounded-lg text-slate-200 transition shrink-0"
                       >
                         Rewrite
                       </button>
@@ -546,25 +698,31 @@ export default function Dashboard() {
 
                   {/* DESCRIPTION */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-300">Description</label>
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-semibold text-slate-200">Description</label>
+                      <div className="flex gap-1 text-[10px]">
+                        <button onClick={() => rewriteField("description", "Add a powerful call to action asking viewers to subscribe")} className="px-1.5 py-0.5 bg-indigo-950 hover:bg-indigo-900 border border-indigo-700/60 rounded text-indigo-300 transition">📣 Call to Action</button>
+                        <button onClick={() => rewriteField("description", "Expand description into a rich SEO keyword story")} className="px-1.5 py-0.5 bg-indigo-950 hover:bg-indigo-900 border border-indigo-700/60 rounded text-indigo-300 transition">🔍 SEO Focus</button>
+                      </div>
+                    </div>
                     <textarea
-                      rows={3}
+                      rows={2}
                       value={metaDesc}
                       onChange={(e) => setMetaDesc(e.target.value)}
                       placeholder="Click Generate or enter description..."
-                      className="w-full bg-slate-900/80 border border-slate-700 rounded-lg p-2 text-xs text-white focus:outline-none focus:border-amber-400 resize-none"
+                      className="w-full bg-slate-900/90 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-400 resize-none leading-relaxed"
                     />
-                    <div className="flex gap-2 pt-1">
+                    <div className="flex gap-2">
                       <input
                         type="text"
                         value={promptDesc}
                         onChange={(e) => setPromptDesc(e.target.value)}
                         placeholder="Instruction: e.g. Add a strong CTA..."
-                        className="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-slate-200"
+                        className="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 text-[11px] text-slate-200"
                       />
                       <button
                         onClick={() => rewriteField("description")}
-                        className="px-2.5 py-1 bg-slate-700 hover:bg-slate-600 text-xs font-medium rounded-lg text-slate-200"
+                        className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[11px] font-medium rounded-lg text-slate-200 transition shrink-0"
                       >
                         Rewrite
                       </button>
@@ -573,40 +731,244 @@ export default function Dashboard() {
 
                   {/* HASHTAGS */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-300">Hashtags</label>
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-semibold text-slate-200">Hashtags (for Description)</label>
+                      <div className="flex gap-1 text-[10px]">
+                        <button onClick={() => rewriteField("hashtags", "Generate 5 trending viral YouTube Shorts hashtags")} className="px-1.5 py-0.5 bg-indigo-950 hover:bg-indigo-900 border border-indigo-700/60 rounded text-indigo-300 transition">🔥 Trending</button>
+                        <button onClick={() => rewriteField("hashtags", "Generate 5 high-CPM specific topic hashtags")} className="px-1.5 py-0.5 bg-indigo-950 hover:bg-indigo-900 border border-indigo-700/60 rounded text-indigo-300 transition">🎯 Niche Tags</button>
+                      </div>
+                    </div>
                     <input
                       type="text"
                       value={metaTags}
                       onChange={(e) => setMetaTags(e.target.value)}
                       placeholder="#shorts #facts #science"
-                      className="w-full bg-slate-900/80 border border-slate-700 rounded-lg p-2 text-xs text-amber-300 focus:outline-none focus:border-amber-400"
+                      className="w-full bg-slate-900/90 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-amber-300 focus:outline-none focus:border-amber-400 font-mono"
                     />
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={promptTags}
+                        onChange={(e) => setPromptTags(e.target.value)}
+                        placeholder="Instruction: e.g. Focus on space..."
+                        className="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 text-[11px] text-slate-200"
+                      />
+                      <button
+                        onClick={() => rewriteField("hashtags")}
+                        className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[11px] font-medium rounded-lg text-slate-200 transition shrink-0"
+                      >
+                        Rewrite
+                      </button>
+                    </div>
                   </div>
 
-                  {/* VISIBILITY & PUBLISH BUTTON */}
-                  <div className="pt-2 flex items-center justify-between gap-4 border-t border-white/10">
+                  {/* YOUTUBE STUDIO VIDEO TAGS (KEYWORDS) */}
+                  <div className="space-y-1.5 bg-slate-900/60 p-3 rounded-xl border border-slate-800">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-semibold text-emerald-400 flex items-center gap-1">
+                        🏷️ YouTube Studio Tags (Keywords)
+                        <span className="text-[10px] text-slate-400 font-normal">(comma-separated)</span>
+                      </label>
+                      <div className="flex gap-1 text-[10px]">
+                        <button onClick={() => rewriteField("video_tags", "Generate 10 high volume search keywords for YouTube Studio tags")} className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-700/60 rounded text-emerald-300 transition">🔥 High Volume</button>
+                        <button onClick={() => rewriteField("video_tags", "Generate 10 specific longtail niche search phrases for YouTube Studio tags")} className="px-1.5 py-0.5 bg-emerald-950 hover:bg-emerald-900 border border-emerald-700/60 rounded text-emerald-300 transition">🎯 Niche Keywords</button>
+                      </div>
+                    </div>
+                    <input
+                      type="text"
+                      value={metaVideoTags}
+                      onChange={(e) => setMetaVideoTags(e.target.value)}
+                      placeholder="why is ocean salty, ocean facts, salty water, science explainer, ocean, salt"
+                      className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-emerald-300 focus:outline-none focus:border-emerald-400 font-mono"
+                    />
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={promptVideoTags}
+                        onChange={(e) => setPromptVideoTags(e.target.value)}
+                        placeholder="Instruction: e.g. Add 5 search phrases..."
+                        className="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 text-[11px] text-slate-200"
+                      />
+                      <button
+                        onClick={() => rewriteField("video_tags")}
+                        className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-[11px] font-medium rounded-lg text-slate-200 transition shrink-0"
+                      >
+                        Rewrite
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* UPLOAD MODE & SCHEDULING CARD */}
+                  <div className="space-y-2.5 bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-semibold text-sky-400 flex items-center gap-1.5">
+                        🚀 Upload Mode & Scheduling
+                      </label>
+                      <div className="flex bg-slate-950 p-0.5 rounded-lg border border-slate-800">
+                        <button
+                          onClick={() => setPublishMode("now")}
+                          className={`px-2.5 py-1 rounded-md transition text-[11px] font-medium ${
+                            publishMode === "now"
+                              ? "bg-red-600 text-white font-bold shadow"
+                              : "text-slate-400 hover:text-slate-200"
+                          }`}
+                        >
+                          ⚡ Upload Directly
+                        </button>
+                        <button
+                          onClick={() => setPublishMode("schedule")}
+                          className={`px-2.5 py-1 rounded-md transition text-[11px] font-medium ${
+                            publishMode === "schedule"
+                              ? "bg-purple-600 text-white font-bold shadow"
+                              : "text-slate-400 hover:text-slate-200"
+                          }`}
+                        >
+                          📅 Schedule Upload
+                        </button>
+                      </div>
+                    </div>
+
+                    {publishMode === "schedule" ? (
+                      <div className="space-y-3 pt-1">
+                        {/* CALENDAR DATE & CLOCK TIME PICKERS */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          {/* CALENDAR DATE PICKER */}
+                          <div className="space-y-1">
+                            <label className="text-[11px] font-semibold text-purple-300 flex items-center justify-between">
+                              <span>📅 Release Date (Calendar)</span>
+                              <div className="flex gap-1 text-[9px]">
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const d = new Date();
+                                    d.setDate(d.getDate() + 1);
+                                    const pad = (n: number) => n.toString().padStart(2, '0');
+                                    setScheduleDate(`${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`);
+                                  }}
+                                  className="px-1.5 py-0.5 bg-purple-950 hover:bg-purple-900 border border-purple-700/60 text-purple-300 rounded transition"
+                                >
+                                  Tomorrow
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const d = new Date();
+                                    d.setDate(d.getDate() + 2);
+                                    const pad = (n: number) => n.toString().padStart(2, '0');
+                                    setScheduleDate(`${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`);
+                                  }}
+                                  className="px-1.5 py-0.5 bg-purple-950 hover:bg-purple-900 border border-purple-700/60 text-purple-300 rounded transition"
+                                >
+                                  In 2 Days
+                                </button>
+                              </div>
+                            </label>
+                            <input
+                              type="date"
+                              value={scheduleDate}
+                              onChange={(e) => setScheduleDate(e.target.value)}
+                              className="w-full bg-slate-950 border border-purple-500/50 rounded-lg px-3 py-1.5 text-xs text-purple-200 focus:outline-none focus:border-purple-400 font-mono [color-scheme:dark] cursor-pointer"
+                            />
+                          </div>
+
+                          {/* CLOCK TIME PICKER */}
+                          <div className="space-y-1">
+                            <label className="text-[11px] font-semibold text-purple-300 flex items-center justify-between">
+                              <span>🕒 Release Time (Clock)</span>
+                              <div className="flex gap-1 text-[9px]">
+                                <button
+                                  type="button"
+                                  onClick={() => setScheduleTime("09:00")}
+                                  className="px-1.5 py-0.5 bg-purple-950 hover:bg-purple-900 border border-purple-700/60 text-purple-300 rounded transition"
+                                >
+                                  9 AM
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => setScheduleTime("18:00")}
+                                  className="px-1.5 py-0.5 bg-purple-950 hover:bg-purple-900 border border-purple-700/60 text-purple-300 rounded transition"
+                                >
+                                  6 PM
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => setScheduleTime("20:00")}
+                                  className="px-1.5 py-0.5 bg-purple-950 hover:bg-purple-900 border border-purple-700/60 text-purple-300 rounded transition"
+                                >
+                                  8 PM
+                                </button>
+                              </div>
+                            </label>
+                            <input
+                              type="time"
+                              value={scheduleTime}
+                              onChange={(e) => setScheduleTime(e.target.value)}
+                              className="w-full bg-slate-950 border border-purple-500/50 rounded-lg px-3 py-1.5 text-xs text-purple-200 focus:outline-none focus:border-purple-400 font-mono [color-scheme:dark] cursor-pointer"
+                            />
+                          </div>
+                        </div>
+
+                        {/* LIVE SUMMARY BADGE */}
+                        <div className="bg-purple-950/40 p-2 rounded-lg border border-purple-800/60 flex items-center justify-between text-xs">
+                          <span className="text-purple-300 font-medium flex items-center gap-1.5">
+                            📅 Target Release:
+                            <strong className="text-white font-bold font-mono">
+                              {scheduleDate && scheduleTime
+                                ? new Date(`${scheduleDate}T${scheduleTime}:00`).toLocaleString(undefined, {
+                                    weekday: 'short', month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                                  })
+                                : "Select date & time above"}
+                            </strong>
+                          </span>
+                          <span className="px-2 py-0.5 bg-purple-900/60 text-purple-300 text-[10px] rounded-full font-semibold">Auto-Public</span>
+                        </div>
+
+                        <p className="text-[10px] text-purple-300/80 leading-normal">
+                          ℹ️ YouTube Studio will hold this video as <strong>Private</strong> until it automatically turns <strong>Public</strong> at your scheduled time.
+                        </p>
+                      </div>
+                    ) : (
+                      <p className="text-[11px] text-slate-400">
+                        ⚡ Video will be uploaded directly to YouTube with selected visibility (Private, Unlisted, or Public).
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* STICKY FOOTER ACTION BAR */}
+                <div className="pt-3 flex flex-wrap items-center justify-between gap-3 border-t border-white/10 shrink-0">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2.5 py-1 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-300 flex items-center gap-1">
+                      🌐 Language: <strong className="text-white font-semibold">English (en)</strong>
+                    </span>
                     <select
                       value={visibility}
                       onChange={(e) => setVisibility(e.target.value)}
-                      className="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none"
+                      className="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400 cursor-pointer"
                     >
                       <option value="private">🔒 Private (Test)</option>
                       <option value="unlisted">🔗 Unlisted</option>
                       <option value="public">🌐 Public (Publish)</option>
                     </select>
-
-                    <button
-                      onClick={publishVideo}
-                      disabled={isLoadingPub || !metaTitle}
-                      className="flex-1 py-2 bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 disabled:opacity-50 text-white font-bold text-xs rounded-lg transition shadow-lg flex items-center justify-center gap-2"
-                    >
-                      {isLoadingPub ? "Publishing to YouTube..." : "🚀 Upload to YouTube"}
-                    </button>
                   </div>
+
+                  <button
+                    onClick={publishVideo}
+                    disabled={isLoadingPub || !metaTitle}
+                    className={`px-5 py-2 disabled:opacity-50 text-white font-bold text-xs rounded-xl transition shadow-lg flex items-center justify-center gap-2 ${
+                      publishMode === "schedule"
+                        ? "bg-gradient-to-r from-purple-600 to-indigo-700 hover:from-purple-500 hover:to-indigo-600"
+                        : "bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600"
+                    }`}
+                  >
+                    {isLoadingPub
+                      ? (publishMode === "schedule" ? "Scheduling on YouTube..." : "Publishing to YouTube...")
+                      : (publishMode === "schedule" ? "📅 Schedule on YouTube" : "🚀 Upload to YouTube Directly")}
+                  </button>
                 </div>
-              </div>
+              </>
             ) : (
-              <div className="glass p-12 text-center text-slate-400 space-y-3">
+              <div className="glass p-12 text-center text-slate-400 space-y-3 my-auto">
                 <div className="text-4xl">👈</div>
                 <h3 className="text-lg font-semibold text-white">Select a Short Video</h3>
                 <p className="text-xs">Select any video from the left sidebar to preview and publish to YouTube.</p>

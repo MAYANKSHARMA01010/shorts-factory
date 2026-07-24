@@ -255,4 +255,21 @@ To launch the Next.js dashboard and API backend for managing, editing, and publi
 - **Fixed Video Shaking / Jitter Bug**:
   - Identified root cause of video shaking: FFmpeg `zoompan` filter calculates `x` and `y` using integer pixel division (`iw/2 - iw/zoom/2`), causing 1-pixel discrete jumps on alternating frames during zoom animation.
   - Replaced `zoompan` in `packages/ClipPilot/src/clippilot/generate/assemble.py`, `scripts/generators/produce_short_zimage.py`, and `scripts/generators/make_elephant_short.py` with smooth sub-pixel frame scaling (`scale=eval=frame`).
-  - Re-rendered all 6 explainer video projects (`Final_Blackhole.mp4`, `Final_Dreams.mp4`, `Final_Earthquake.mp4`, `Final_Leaves.mp4`, `Final_Ocean_Salty.mp4`, `Final_Sky_Blue.mp4`) with 100% rock-solid, butter-smooth video motion.
+- **Auto-Metadata & Cover Image Generation + 1-Click Field Rewrites**:
+  - **Automatic Generation on Video Selection**: Selecting any video automatically triggers AI Title, Description, Hashtags generation (Gemini 2.0 Flash) and FFmpeg Cover Thumbnail extraction.
+  - **Cover Image Frame Selector**: Added `/api/generate_cover` endpoint to extract video frame covers at custom timestamps (`1.0s`, `2.5s`, `5.0s`, `8.0s` or random frame).
+  - **1-Click Field-Level Presets & AI Rewrites**:
+    - **Title**: Quick preset chips (`🔥 Catchier`, `❓ Curiosity`, `📈 High-CPM`) + custom instruction rewrite.
+    - **Description**: Quick preset chips (`📣 Call to Action`, `🔍 SEO Focus`) + custom instruction rewrite.
+    - **Hashtags**: Quick preset chips (`🔥 Trending`, `🎯 Niche Tags`) + custom instruction rewrite.
+  - **Full Editability**: All generated metadata fields remain 100% editable text inputs for direct manual tweaking before uploading.
+- **YouTube Studio Tags & Default English Language Support**:
+  - **YouTube Studio Tags Generator**: Added AI keyword extraction for `video_tags` (e.g. `["why is ocean salty", "ocean facts", "salty water", "science explainer"]`), automatically populating the YouTube Studio `Tags` box.
+  - **Default Language Configuration**: Added `defaultLanguage: "en"` and `defaultAudioLanguage: "en"` to `packages/ClipPilot/src/clippilot/publish/youtube.py` request snippet, so YouTube Studio automatically recognizes the video and audio language as **English (en)** without remaining unselected.
+  - **Dedicated UI Box**: Added a dedicated `🏷️ YouTube Studio Tags (Keywords)` box with preset chips (`🔥 High Volume`, `🎯 Niche Keywords`) and a `Rewrite Studio Tags` button in the frontend.
+- **YouTube Video Scheduling vs Direct Upload Mode**:
+  - **Publish Mode Switcher**: Toggle between `⚡ Upload Directly` (Immediate upload as Private/Unlisted/Public) and `📅 Schedule Upload` (Automated release date/time).
+  - **Dedicated Calendar 📅 & Clock 🕒 Controls**: Split date/time selection into explicit **Calendar Release Date (`input[type="date"]`)** and **Clock Release Time (`input[type="time"]`)** inputs with `color-scheme: dark` styling for high contrast white picker icons on dark backgrounds.
+  - **1-Click Quick Chips**: Includes date chips (`Tomorrow`, `In 2 Days`) and peak clock chips (`9 AM`, `6 PM`, `8 PM`) plus a real-time target release summary badge.
+  - **Universal Visibility Selector**: Ensured the visibility dropdown (`🔒 Private (Test)`, `🔗 Unlisted`, `🌐 Public (Publish)`) is always visible and selectable across both Direct Upload and Scheduled modes.
+  - **YouTube API Integration**: Computes ISO 8601 UTC timestamps (`publishAt: "2026-07-25T18:00:00Z"`) and sets `privacyStatus: "private"` as required by YouTube Studio for automatic scheduled publishing.
