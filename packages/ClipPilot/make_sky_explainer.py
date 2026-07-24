@@ -136,12 +136,15 @@ def main() -> int:
     _p.write_text(_p.read_text(encoding="utf-8").replace("WrapStyle: 2", "WrapStyle: 0"),
                   encoding="utf-8")
 
-    # 5) Burn captions → final deliverable ────────────────────────────────────
     print("5/5  Burning karaoke captions into the final video…")
     final = E.burn_subtitles(video, ass, str(FINAL))
     if not final:
         print("   ! caption burn-in failed; the un-captioned base video is still at:", base)
         return 1
+
+    import shutil
+    final_alias = OUT_DIR / f"Final_{OUT_DIR.name.replace('explainer_', '').replace('short_', '').title()}.mp4"
+    shutil.copy2(final, final_alias)
 
     dur = signals.probe(final).duration_s or 0.0
     print("\n[OK] Explainer ready")

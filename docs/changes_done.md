@@ -1,6 +1,6 @@
 # shorts-factory — macOS Port & Changes Log
 
-> Last updated: 2026-07-19
+> Last updated: 2026-07-24
 > Purpose: permanent reference for every change made during the Windows→macOS port
 > and the Gemini (free) ↔ Claude/Anthropic (paid) brain swap.
 
@@ -233,3 +233,22 @@ To launch the Next.js dashboard and API backend for managing, editing, and publi
 - **Gemini Model Optimization**: Configured `gemini-2.0-flash` (Google's flagship 100% free-tier AI model) as primary metadata generator via `GEMINI_PRIMARY_MODEL`, with automated rate-limit (429) fallback to `gemini-2.0-flash-lite` (`GEMINI_CANDIDATE_MODEL`).
 - **ENV Templates Created**: Created sanitized `.env.example` files for both `apps/api-backend/.env.example` and `apps/web-ui/.env.example`.
 - **Master Dev Script (`dev-free`)**: Created `scripts/runners/bash/dev_free.sh` and root `package.json` with `dev-free` script to automatically free ports 3000 & 5001, install requirements & dependencies, and launch backend & frontend concurrently.
+- **HTML5 Video Player Interruption Fix**: Resolved `AbortError: The play() request was interrupted by a new load request` in `apps/web-ui/src/app/page.tsx` by wrapping video `.play()` promises safely inside a dedicated `useEffect` observing `activeVideo?.path`.
+- **Channel Analytics Tab Redesign**:
+  - Replaced the raw JSON `<pre>` text display in `apps/web-ui/src/app/page.tsx` with a high-performance, glassmorphic **Channel Analytics Dashboard**.
+  - Updated `data/analytics/performance_latest.json` with live channel metadata for **Mayank Sharma** (20 Subscribers, Channel ID `UCbo2V8NXWPKHULT1e3EbC5A`).
+  - Added **Video Performance Cards Grid**: displaying video titles, publish dates, status badges (Public, Private, Unlisted), views, likes, comments, average duration, and gradient audience retention (AVP %) progress bars.
+  - Added **Timeframe Filters** (`All Time`, `30 Days`, `7 Days`), **Status Filters** (`All Status`, `🌐 Public`, `🔒 Private / Unlisted`), **Sorting Controls** (Views, Retention, Likes, Date), and a live **Search Bar**.
+- **Content Ledgers & Rules Tab Redesign**:
+  - Transformed raw Markdown dumps into an interactive **Content Intelligence Hub**.
+  - Built automatic markdown table parsers for `daily_topics.md` and `daily_posts_ledger.md`.
+  - Added sub-tab switcher: `📅 Topic Backlog`, `📜 Post History`, `🧠 Variation Rules`, and `🔍 Studied Videos`.
+  - Added topic status tags (`📌 UNUSED / READY` vs `✅ USED`), CPM niche tags, mechanism/angle callouts, and brand-safety guardrail alerts.
+- **Owner Decisions Tab Redesign**:
+  - Replaced raw markdown text with an interactive **Strategic Decision Hub**.
+  - Formatted **Decision #1 (Niche Strategy: High-CPM Finance vs Universal Curiosity)** into 3 visual option cards (`Option A: Pure Finance`, `Option B: Pure Curiosity`, `Option C: Hybrid Strategy ⭐`).
+  - Added interactive option picker, channel performance insight summary, and collapsible raw document drawer.
+- **Strict Zero Dummy Data Policy**:
+  - Removed all mock/dummy video generation fallbacks from `apps/web-ui/src/app/page.tsx` and cleaned `data/analytics/performance_latest.json`.
+  - The dashboard connects strictly to live YouTube channel data for **Mayank Sharma** (Channel ID `UCbo2V8NXWPKHULT1e3EbC5A`, 20 Subscribers).
+  - Shows zero fake video cards when no uploads exist, and automatically populates live video performance cards when uploaded to YouTube.

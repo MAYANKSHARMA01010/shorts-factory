@@ -8,8 +8,8 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "ClipPilot | Free Dashboard",
-  description: "Dashboard for manually generated videos",
+  title: "ClipPilot | Shorts Factory Studio",
+  description: "Dashboard for AI Short Video Generation & YouTube Analytics",
 };
 
 export default function RootLayout({
@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.variable} antialiased h-screen w-screen overflow-hidden flex`}>
+      <body className={`${outfit.variable} antialiased min-h-screen bg-slate-950 text-slate-100 overflow-y-auto`}>
         {children}
       </body>
     </html>

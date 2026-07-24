@@ -52,10 +52,19 @@ if [ "$USE_TERMS" = true ]; then
 else
     echo "✨ [3/3] Launching Backend (5001) & Frontend (3000) using concurrently..."
     cd "$ROOT_DIR"
-    npx -y concurrently \
-      --names "BACKEND,FRONTEND" \
-      --prefix-colors "cyan,magenta" \
-      --kill-others-on-fail \
-      "source .venv/bin/activate && python3 apps/api-backend/app.py" \
-      "sleep 1 && cd apps/web-ui && pnpm dev"
+    if command -v pnpm &> /dev/null; then
+        pnpm dlx concurrently \
+          --names "BACKEND,FRONTEND" \
+          --prefix-colors "cyan,magenta" \
+          --kill-others-on-fail \
+          "source .venv/bin/activate && python3 apps/api-backend/app.py" \
+          "sleep 1 && cd apps/web-ui && pnpm dev"
+    else
+        npx -y concurrently \
+          --names "BACKEND,FRONTEND" \
+          --prefix-colors "cyan,magenta" \
+          --kill-others-on-fail \
+          "source .venv/bin/activate && python3 apps/api-backend/app.py" \
+          "sleep 1 && cd apps/web-ui && npm run dev"
+    fi
 fi

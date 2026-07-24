@@ -43,6 +43,8 @@ DATA_DIR = PROJECT_ROOT / "packages" / "ClipPilot" / "data"
 # HEALTH & STATUS ENDPOINTS
 # =============================================================================
 
+@app.route("/", methods=["GET"])
+@app.route("/health", methods=["GET"])
 @app.route("/api/health", methods=["GET"])
 def health():
     """Health check returning backend environment state."""
@@ -66,6 +68,30 @@ def health():
 # VIDEO MANAGEMENT & SERVING ENDPOINTS
 # =============================================================================
 
+def find_final_video(item_dir: Path) -> Path | None:
+    """Find the true final output video file in a project folder, excluding slide chunks and silent drafts."""
+    all_mp4s = list(item_dir.glob("*.mp4"))
+    if not all_mp4s:
+        return None
+    
+    # 1. Prefer explicit Final_*.mp4 files
+    final_prefixed = [f for f in all_mp4s if f.name.startswith("Final_") or f.name.startswith("final_")]
+    if final_prefixed:
+        return max(final_prefixed, key=lambda f: f.stat().st_size)
+        
+    # 2. Exclude intermediate slide clips, base video, and silent drafts
+    excluded_keywords = ["slide_", "slides_silent", "base.mp4", "temp_", "chunk_"]
+    valid_finals = [
+        f for f in all_mp4s 
+        if not any(k in f.name.lower() for k in excluded_keywords)
+    ]
+    
+    if valid_finals:
+        return max(valid_finals, key=lambda f: f.stat().st_size)
+        
+    # 3. Fallback to largest mp4 file in the folder
+    return max(all_mp4s, key=lambda f: f.stat().st_size)
+
 @app.route("/api/videos", methods=["GET"])
 def get_videos():
     """Scan ClipPilot/data/ for generated .mp4 video projects."""
@@ -73,14 +99,14 @@ def get_videos():
     if DATA_DIR.exists():
         for item in DATA_DIR.iterdir():
             if item.is_dir() and (item.name.startswith("explainer_") or item.name.startswith("short_")):
-                mp4s = list(item.glob("*.mp4"))
-                if mp4s:
+                final_video = find_final_video(item)
+                if final_video:
                     videos.append({
                         "id": item.name,
                         "name": item.name.replace("explainer_", "").replace("short_", "").replace("_", " ").title(),
-                        "path": str(mp4s[0].relative_to(DATA_DIR)),
-                        "filename": mp4s[0].name,
-                        "size_mb": round(mp4s[0].stat().st_size / (1024 * 1024), 2)
+                        "path": str(final_video.relative_to(DATA_DIR)),
+                        "filename": final_video.name,
+                        "size_mb": round(final_video.stat().st_size / (1024 * 1024), 2)
                     })
     return jsonify(videos)
 
