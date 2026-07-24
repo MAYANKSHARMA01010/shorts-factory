@@ -1,18 +1,63 @@
-# Normalize line endings across platforms
+# =============================================================================
+# SHORTS-FACTORY .gitattributes
+# Ensures consistent line endings, charset encoding, and binary handling across platforms
+# =============================================================================
+
+# Set default behavior to auto-detect text files and normalize line endings to LF
 * text=auto eol=lf
 
-# Windows-only runners keep CRLF
+# -----------------------------------------------------------------------------
+# 1. SHELL & SCRIPT EXECUTION
+# -----------------------------------------------------------------------------
+*.sh text eol=lf
+*.bash text eol=lf
+*.zsh text eol=lf
+
+# Windows scripts require CRLF line endings
 *.bat text eol=crlf
 *.ps1 text eol=crlf
+*.cmd text eol=crlf
 
-# Shell scripts must stay LF
-*.sh text eol=lf
+# -----------------------------------------------------------------------------
+# 2. SOURCE CODE & MARKDOWN (FORCE LF)
+# -----------------------------------------------------------------------------
+*.py text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.mjs text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
 
-# Treat these as binary (never diff/merge)
+# -----------------------------------------------------------------------------
+# 3. BINARY FILES (NEVER DIFF OR MERGE AS TEXT)
+# -----------------------------------------------------------------------------
 *.mp4 binary
+*.mov binary
+*.webm binary
+*.avi binary
 *.wav binary
+*.mp3 binary
+*.flac binary
 *.png binary
 *.jpg binary
+*.jpeg binary
 *.webp binary
-*.wav binary
-*.xlsx binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.7z binary
+*.db binary
+*.sqlite binary
+*.bin binary
+*.pt binary
+*.pth binary
+*.safetensors binary

@@ -52,7 +52,7 @@ keep working; their canonical docs are now the "FINISHING LAYER" section below.
    swipe-test) — run the GATE right after generating the transcript, before planning. Produce-then-hope is banned.
 7. **Bespoke code-drawn visuals every time — but ROTATE THE SKIN** (owner rule + YouTube anti-repetition).
    Every video is hand-coded Remotion SVG (NEVER stock/slideshow — that IS the anti-template edge), but the
-   specific look (palette / hero family / motion / captions) **rotates across `variation/visual_skins.md`**
+   specific look (palette / hero family / motion / captions) **rotates across `pipeline/variation/visual_skins.md`**
    (6 skins; S1 = the original gold/dial "House Animation Style" below). The house-QUALITY bar is mandatory;
    visual SAMENESS across videos is banned (see the VARIATION & AUTHENTICITY ENGINE section + [[shorts-self-learning]]).
 
@@ -173,19 +173,19 @@ in [[reimagined-shorts-pipeline]]; gotchas in [[clippilot-shorts-gotchas]].
 YouTube **terminates channels** for templated/mass-produced sameness (July-2025 inauthentic-content policy;
 Jan-2026 enforcement wave removed 16 channels / 4.7B views). We post 3/day autonomously, so EVERY video must
 VARY across videos AND carry unique human value. The producer runs **STEP 0 — PICK YOUR VARIATION** before
-building (see `daily_shorts_prompt.md`):
-- **Rotate 6 axes**, each from a library, none repeating recently: **title-shape** (`variation/title_shapes.md`
-  ~25, not within 6) · **format** (`variation/formats.md` 8, not within 5) · **visual-skin**
-  (`variation/visual_skins.md` 6 distinct looks, not within 4) · **voice + length + pace** (`variation/voices.md`
+building (see `pipeline/prompts/daily_shorts_prompt.md`):
+- **Rotate 6 axes**, each from a library, none repeating recently: **title-shape** (`pipeline/variation/title_shapes.md`
+  ~25, not within 6) · **format** (`pipeline/variation/formats.md` 8, not within 5) · **visual-skin**
+  (`pipeline/variation/visual_skins.md` 6 distinct looks, not within 4) · **voice + length + pace** (`pipeline/variation/voices.md`
   8 voices, not within 4) · **topic-cluster** (not back-to-back) · **hook-type** (varied).
-- **★ DIVERSITY GATE:** the new video must differ from EACH of the last 6 (`variation_ledger.md`) on **≥3
-  axes**, else re-pick. The producer appends its attribute row to `variation_ledger.md`.
+- **★ DIVERSITY GATE:** the new video must differ from EACH of the last 6 (`pipeline/ledgers/variation_ledger.md`) on **≥3
+  axes**, else re-pick. The producer appends its attribute row to `pipeline/ledgers/variation_ledger.md`.
 - **★ UNIQUE-VALUE layer (authenticity):** every script must add an original take + a "what most people miss"
   insight + **≥1 specific real number/example** + a **cited source** — this is what makes it "genuinely
   human-created," not templated.
 - Our bespoke hand-coded visuals HELP here (the policy specifically flags generic slideshows / scrolling text
   — the opposite of us); the risk is cross-video sameness, which this engine + skin rotation kill. All
-  SELF-LEARNED RULES + the competitor playbook apply ON TOP of the chosen skin/format. Files: `variation/`.
+  SELF-LEARNED RULES + the competitor playbook apply ON TOP of the chosen skin/format. Files: `pipeline/variation/`.
 
 ## Tool roster — best tool that runs on this box (RTX 2060, 6GB)
 
@@ -534,30 +534,30 @@ rewrites its own rules** to get more views over time. Two cadences:
 this file) and applies every RULE/active-SIGNAL, and RESEARCHES each topic like a competitor analyst —
 YouTube (top Shorts' view counts/hooks/titles/thumbnails, `/watch` a winner for pacing), Reddit (real
 pain points/phrasing), web/trends (demand + fresh angle) — folding findings into a sharper hook/title.
-It also reads **`competitor_playbook.md` → § TECHNIQUE CATALOG** (the compounding wisdom from the daily
+It also reads **`pipeline/intelligence/competitor_playbook.md` → § TECHNIQUE CATALOG** (the compounding wisdom from the daily
 CreatorStudy) and applies its best hook/pacing/retention/title techniques. (Wired into
-`daily_shorts_prompt.md` PRECHECK #4/#4b + PICK+RESEARCH+VALIDATE.)
+`pipeline/prompts/daily_shorts_prompt.md` PRECHECK #4/#4b + PICK+RESEARCH+VALIDATE.)
 
-**B. Weekly (the LEARNING RUN):** Windows task **`ShortsLearn`** (Sun 10:00) → `learn_shorts.bat` →
-`claude -p "follow learn_and_improve_prompt.md"`. It:
-1. `python yt_analytics.py` → `analytics/performance_latest.md` (channel + per-video views/likes/comments
+**B. Weekly (the LEARNING RUN):** Windows task **`ShortsLearn`** (Sun 10:00) → `scripts/runners/windows/learn_shorts.bat` →
+`claude -p "follow pipeline/prompts/learn_and_improve_prompt.md"`. It:
+1. `python scripts/analytics/yt_analytics.py` → `data/analytics/performance_latest.md` (channel + per-video views/likes/comments
    via Data API; **CTR + averageViewPercentage via Analytics API once enabled** — see blocker below).
 2. Diagnoses (metric→action: CTR→title/cover, retention→hook/pace, views→topic/niche) by correlating
    each video's numbers with its niche/title/hook/topic.
 3. Researches the market (YouTube/Reddit/web) for the "why" + fresh ideas.
 4. Derives **1–3 one-variable EXPERIMENTS** (change · metric it should move · confidence tier · review
    date), adversarially vetted.
-5. Applies safely: `bash backup_skill.sh` → edits ONLY between the `<!-- LEARNED-RULES-START/END -->`
-   markers → reprioritizes `daily_topics.md` → appends to `learnings.md` (append-only lab notebook).
-6. **Strategic forks** (e.g., niche pivot away from high-CPM money) go to `DECISIONS_FOR_OWNER.md`, not
+5. Applies safely: `bash scripts/runners/bash/backup_skill.sh` → edits ONLY between the `<!-- LEARNED-RULES-START/END -->`
+   markers → reprioritizes `pipeline/ledgers/daily_topics.md` → appends to `pipeline/intelligence/learnings.md` (append-only lab notebook).
+6. **Strategic forks** (e.g., niche pivot away from high-CPM money) go to `docs/DECISIONS_FOR_OWNER.md`, not
    auto-applied. Tactical changes (hooks/titles/thumbnails/pacing/order) apply directly.
 
 **C. Daily (the CREATOR STUDY run — compounding competitor intelligence):** Windows task **`CreatorStudy`**
-(08:00) → `study_creators.bat` → `claude -p "follow creator_study_prompt.md"`. Each run: `yt_top.py` finds
+(08:00) → `scripts/runners/windows/study_creators.bat` → `claude -p "follow pipeline/prompts/creator_study_prompt.md"`. Each run: `scripts/analytics/yt_top.py` finds
 the real top Shorts in a niche by views (e.g. Gohar Khan's credit-score Short at **19.5M**) → **`/watch`es
 2–3 NEW winners** frame-by-frame → extracts WHY they hold attention (hook, frame-0, pacing, retention
-devices, visuals, title, SFX) → grows `competitor_playbook.md` (§ TECHNIQUE CATALOG + § STUDY LOG),
-dedups via `studied_videos.md`, promotes PATTERN/PROVEN techniques into the learned-rules. The producer
+devices, visuals, title, SFX) → grows `pipeline/intelligence/competitor_playbook.md` (§ TECHNIQUE CATALOG + § STUDY LOG),
+dedups via `pipeline/ledgers/studied_videos.md`, promotes PATTERN/PROVEN techniques into the learned-rules. The producer
 applies the catalog on every build, so quality compounds. (This proved finance CAN hit 10–20M views — the
 gap is execution, which studying winners closes.)
 
@@ -571,8 +571,8 @@ a time; no thrashing; ~12-rule cap; stays TRUE + brand-safe.
 "What Earwax Really Is" at **39.7%** — so it can now pinpoint hook/pacing fixes, not just guess.
 
 **Controls:** run now `Start-ScheduledTask ShortsLearn` / `CreatorStudy` · pause `Disable-ScheduledTask
-<name>` · logs `learn_run.log` / `study_run.log`. Insights in `learnings.md`; competitor techniques in
-`competitor_playbook.md`; owner decisions in `DECISIONS_FOR_OWNER.md`. See [[shorts-self-learning]].
+<name>` · logs `runtime/logs/learn_run.log` / `runtime/logs/study_run.log`. Insights in `pipeline/intelligence/learnings.md`; competitor techniques in
+`pipeline/intelligence/competitor_playbook.md`; owner decisions in `docs/DECISIONS_FOR_OWNER.md`. See [[shorts-self-learning]].
 
 ---
 

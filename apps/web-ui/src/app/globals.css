@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-outfit);
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-slate-800/70 backdrop-blur-md border border-white/10 rounded-2xl;
+  }
+}
+
+:root {
+  --bg-color: #0f172a;
+}
+
+body {
+  background-color: var(--bg-color);
+  background-image: radial-gradient(circle at 50% -20%, #1e3a8a, transparent 50%),
+                    radial-gradient(circle at -20% 50%, #4c1d95, transparent 50%);
+  background-attachment: fixed;
+  color: #f8fafc;
+}

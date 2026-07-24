@@ -18,31 +18,31 @@ weekly, and rewrites its own playbook — with a human needed only for strategic
 | Loop | Schedule | What it does |
 |---|---|---|
 | **DailyShorts** | 12:00 / 17:00 / 21:00 | one full video each: topic → research → GATE validate → script → render → watch-back QA → publish direct to YouTube |
-| **CreatorStudy** | daily 08:00 | finds top Shorts by real views (`yt_top.py`), `/watch`es them frame-by-frame, grows `competitor_playbook.md` |
+| **CreatorStudy** | daily 08:00 | finds top Shorts by real views (`scripts/analytics/yt_top.py`), `/watch`es them frame-by-frame, grows `pipeline/intelligence/competitor_playbook.md` |
 | **ShortsLearn** | Sun 10:00 | reads YouTube Analytics (CTR/AVP), runs one-variable experiments, rewrites SKILL.md's ★ SELF-LEARNED RULES |
-| **ShortsDigest** | daily 23:00 | emails the day's summary (needs Gmail app-password setup to actually send; saves `digest_last.html` meanwhile) |
+| **ShortsDigest** | daily 23:00 | emails the day's summary (needs Gmail app-password setup to actually send; saves `runtime/state/digest_last.html` meanwhile) |
 | **ShortsDashboardServer** | every 30 min (self-heal) | keeps the live dashboard at `http://localhost:8899` alive |
 
 ## The intelligence layer (what makes it compound)
 - **`SKILL.md` ★ SELF-LEARNED RULES** — evidence-tiered rules (HYPOTHESIS→SIGNAL→RULE) the producer must apply; only the learning run edits them, with backups (`skill_backups/`).
-- **`competitor_playbook.md`** — techniques extracted from winners (Gohar Khan 19.5M, Mark Tilbury 10.2M, Zack D. 128M, Terra Mystica 63M, AdviceWithErin 12.9M…). Grows daily.
-- **`learnings.md`** — append-only lab notebook. Active experiments: **E1** (niche views gap), **E2** (≤20s science scripts → AVP ≥70% target, review 07-09), **E3** (finance impressions trend).
-- **`variation/` + `variation_ledger.md`** — the anti-"inauthentic content" engine: rotates 25 title shapes × 8 formats × 6 visual skins × 8 voices × lengths; hard diversity gate (≥3 axes different from last 6 videos).
-- **`DECISIONS_FOR_OWNER.md`** — strategic forks parked for the owner (OPEN: niche decision A/B/C — Hybrid recommended).
+- **`pipeline/intelligence/competitor_playbook.md`** — techniques extracted from winners (Gohar Khan 19.5M, Mark Tilbury 10.2M, Zack D. 128M, Terra Mystica 63M, AdviceWithErin 12.9M…). Grows daily.
+- **`pipeline/intelligence/learnings.md`** — append-only lab notebook. Active experiments: **E1** (niche views gap), **E2** (≤20s science scripts → AVP ≥70% target, review 07-09), **E3** (finance impressions trend).
+- **`pipeline/variation/` + `pipeline/ledgers/variation_ledger.md`** — the anti-"inauthentic content" engine: rotates 25 title shapes × 8 formats × 6 visual skins × 8 voices × lengths; hard diversity gate (≥3 axes different from last 6 videos).
+- **`docs/DECISIONS_FOR_OWNER.md`** — strategic forks parked for the owner (OPEN: niche decision A/B/C — Hybrid recommended).
 
 ## The production stack (all local, RTX 2060)
 - **Script/plan:** `ultimate-short` skill (hook rules, GATE validation, director briefs)
 - **Voice:** edge-tts (8 rotating voices) → faster-whisper word timings (`make_narration.py`)
-- **Video:** hand-coded **Remotion SVG explainers** (`ClipPilot/remotion_explainer/`, 124+ comps) — no stock, no slideshows (this is the moat vs. YouTube's anti-AI-slop policy)
+- **Video:** hand-coded **Remotion SVG explainers** (`packages/ClipPilot/remotion_explainer/`, 124+ comps) — no stock, no slideshows (this is the moat vs. YouTube's anti-AI-slop policy)
 - **Finish:** `recut.py` pacing + 570-file SFX library + loudnorm −14 LUFS
 - **QA:** `/watch` skill — the producer literally watches its own video and fixes retention leaks
-- **Publish:** `post_to_youtube.py` (direct Data API upload — reliable; Postiz kept only for scheduling/other platforms)
-- **Analytics:** `yt_analytics.py` (Data + Analytics API: views, CTR, AVP) · `yt_top.py` (competitor finder)
+- **Publish:** `scripts/publishing/post_to_youtube.py` (direct Data API upload — reliable; Postiz kept only for scheduling/other platforms)
+- **Analytics:** `scripts/analytics/yt_analytics.py` (Data + Analytics API: views, CTR, AVP) · `scripts/analytics/yt_top.py` (competitor finder)
 
 ## Control surfaces (for the owner)
 - **Dashboard** `http://localhost:8899` — live B&W terminal view: NOW / schedule / services / analytics / published / studied / decisions + **control panel buttons** (make video, study, learn, digest, all)
 - **Desktop icons:** "Shorts Dashboard", "Shorts Control" (legacy menu)
-- **Logs:** `daily_run.log`, `study_run.log`, `learn_run.log`, `digest_run.log`
+- **Logs:** `runtime/logs/daily_run.log`, `runtime/logs/study_run.log`, `runtime/logs/learn_run.log`, `runtime/logs/digest_run.log`
 
 ## What the data says so far (the honest read)
 - **Science-curiosity:** high reach (algo trusts the channel here), weak retention (49.7% AVP → E2 is fixing with ≤20s)
