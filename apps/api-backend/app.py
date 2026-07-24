@@ -22,14 +22,19 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 # --- Load Environment Variables ---
 def load_env():
-    env_file = PROJECT_ROOT / ".env"
-    if env_file.exists():
-        with open(env_file, encoding="utf-8") as f:
-            for line in f:
-                line = line.strip()
-                if line and not line.startswith("#") and "=" in line:
-                    k, v = line.split("=", 1)
-                    os.environ.setdefault(k.strip(), v.strip())
+    """Load environment variables from both root .env and local backend .env."""
+    env_files = [PROJECT_ROOT / ".env", HERE / ".env"]
+    for env_file in env_files:
+        if env_file.exists():
+            with open(env_file, encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith("#") and "=" in line:
+                        k, v = line.split("=", 1)
+                        val = v.strip()
+                        # Allow backend local .env to override empty root variables if specified
+                        if val or k.strip() not in os.environ:
+                            os.environ[k.strip()] = val
 load_env()
 
 DATA_DIR = PROJECT_ROOT / "packages" / "ClipPilot" / "data"
@@ -92,24 +97,43 @@ def serve_video(filepath):
 # =============================================================================
 
 def call_gemini(prompt: str) -> str:
-    """Helper to execute Gemini REST API requests."""
+    """Helper to execute Gemini REST API requests using free-tier Gemini models configured via ENV."""
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         raise Exception("GEMINI_API_KEY is missing in .env")
     
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={api_key}"
-    payload = {
-        "contents": [{"parts": [{"text": prompt}]}]
-    }
-    resp = requests.post(url, json=payload, timeout=30)
-    if resp.status_code != 200:
-        raise Exception(f"Gemini API Error ({resp.status_code}): {resp.text}")
+    # Read models dynamically from environment variables
+    primary_model = os.environ.get("GEMINI_PRIMARY_MODEL") or os.environ.get("GEMINI_MODEL") or os.environ.get("CLIPPILOT_BRAIN_MODEL") or "gemini-2.0-flash"
+    fallback_model = os.environ.get("GEMINI_CANDIDATE_MODEL") or os.environ.get("GEMINI_FALLBACK_MODEL") or "gemini-2.0-flash-lite"
     
-    data = resp.json()
-    try:
-        return data["candidates"][0]["content"]["parts"][0]["text"]
-    except (KeyError, IndexError):
-        raise Exception("Invalid response structure from Gemini API")
+    candidate_models = [primary_model, fallback_model, "gemini-1.5-flash"]
+    # De-duplicate while preserving order
+    models = [m for m in candidate_models if m]
+    models = list(dict.fromkeys(models))
+    
+    last_err = None
+    for model in models:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+        payload = {
+            "contents": [{"parts": [{"text": prompt}]}]
+        }
+        try:
+            resp = requests.post(url, json=payload, timeout=30)
+            if resp.status_code == 200:
+                data = resp.json()
+                try:
+                    return data["candidates"][0]["content"]["parts"][0]["text"]
+                except (KeyError, IndexError):
+                    raise Exception("Invalid response structure from Gemini API")
+            elif resp.status_code == 429:
+                last_err = f"Gemini API Rate Limit (429) on {model}: {resp.text}"
+                continue # try fallback model
+            else:
+                last_err = f"Gemini API Error ({resp.status_code}) on {model}: {resp.text}"
+        except Exception as e:
+            last_err = str(e)
+            
+    raise Exception(f"All Gemini models failed. Last error: {last_err}")
 
 @app.route("/api/generate_metadata", methods=["POST"])
 def generate_metadata():
@@ -285,4 +309,5 @@ def trigger_runner(action):
         return jsonify({"error": f"Failed to trigger {action}: {str(e)}"}), 500
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    port = int(os.environ.get("SERVER_PORT", 5001))
+    app.run(host="0.0.0.0", port=port, debug=True)

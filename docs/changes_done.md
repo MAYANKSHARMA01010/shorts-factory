@@ -219,20 +219,17 @@ Since Claude/Anthropic is required for autonomous agent tasks (`daily_shorts.sh`
 A custom script was created to test YouTube uploading directly.
 Run: `python test_youtube_upload.py`
 This will upload the previously generated test video as a **Private** short on your YouTube channel.
-### Free Version Dashboard
-To launch the dedicated web portal for managing, editing, and publishing your manually generated videos (Free Version):
-1. Run: `cd /Users/mayanksharma/Downloads/New_Projects/shorts-factory`
-2. Run: `source .venv/bin/activate`
-3. Run: `python3 free_dashboard/app.py`
-4. Open your browser to: `http://localhost:5000`
-
-### Free Version Dashboard (Next.js)
-To launch the new Next.js dashboard for managing manually generated videos:
-1. **Start the API Backend**:
+### Free Version Dashboard (Next.js & Flask Backend)
+To launch the Next.js dashboard and API backend for managing, editing, and publishing your manually generated videos:
+1. **Start the API Backend (Port 5001)**:
    - Open a terminal and run: `cd /Users/mayanksharma/Downloads/New_Projects/shorts-factory`
    - Run: `source .venv/bin/activate`
-   - Run: `python3 free_dashboard/app.py`
-2. **Start the Next.js Frontend**:
-   - Open a NEW terminal tab and run: `cd /Users/mayanksharma/Downloads/New_Projects/shorts-factory/free_dashboard_ui`
-   - Run: `pnpm dev`
+   - Run: `python3 apps/api-backend/app.py`
+2. **Start the Next.js Frontend (Port 3000)**:
+   - Open a NEW terminal tab and run: `cd /Users/mayanksharma/Downloads/New_Projects/shorts-factory/apps/web-ui`
+   - Run: `npm run dev`
 3. Open your browser to: `http://localhost:3000`
+
+### Backend API & AI Brain Updates (2026-07-24)
+- **Backend Port Updated**: Changed API backend server port in `apps/api-backend/app.py` and `apps/web-ui/src/app/page.tsx` from `5000` to `5001`.
+- **Gemini Model Optimization**: Configured `gemini-2.0-flash` (Google's flagship 100% free-tier AI model) as primary metadata generator, with automated rate-limit (429) fallback to `gemini-2.0-flash-lite`.

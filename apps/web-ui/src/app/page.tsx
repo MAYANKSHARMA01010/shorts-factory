@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 
-const API_URL = "http://127.0.0.1:5000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:5001";
 
 type Video = {
   id: string;
@@ -236,7 +236,7 @@ export default function Dashboard() {
             "bg-slate-700 text-slate-300"
           }`}>
             <span className={`w-2 h-2 rounded-full ${backendHealth ? "bg-emerald-400 animate-pulse" : "bg-rose-400"}`} />
-            {backendHealth === true ? "API Connected (Port 5000)" : backendHealth === false ? "API Offline" : "Checking..."}
+            {backendHealth === true ? `API Connected (${API_URL.replace("http://", "").replace("https://", "")})` : backendHealth === false ? "API Offline" : "Checking..."}
           </span>
 
           <div className="flex items-center gap-2">
