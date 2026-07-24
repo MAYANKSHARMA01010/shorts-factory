@@ -221,15 +221,15 @@ Run: `python test_youtube_upload.py`
 This will upload the previously generated test video as a **Private** short on your YouTube channel.
 ### Free Version Dashboard (Next.js & Flask Backend)
 To launch the Next.js dashboard and API backend for managing, editing, and publishing your manually generated videos:
-1. **Start the API Backend (Port 5001)**:
-   - Open a terminal and run: `cd /Users/mayanksharma/Downloads/New_Projects/shorts-factory`
-   - Run: `source .venv/bin/activate`
-   - Run: `python3 apps/api-backend/app.py`
-2. **Start the Next.js Frontend (Port 3000)**:
-   - Open a NEW terminal tab and run: `cd /Users/mayanksharma/Downloads/New_Projects/shorts-factory/apps/web-ui`
-   - Run: `npm run dev`
+1. **One-Command Master Script (Recommended)**:
+   - Run from root directory: `pnpm run dev-free` (or `pnpm run dev-free:terms` to launch in separate macOS terminal windows).
+2. **Manual Startup**:
+   - **Backend (Port 5001)**: `python3 apps/api-backend/app.py`
+   - **Frontend (Port 3000)**: `cd apps/web-ui && npm run dev`
 3. Open your browser to: `http://localhost:3000`
 
 ### Backend API & AI Brain Updates (2026-07-24)
-- **Backend Port Updated**: Changed API backend server port in `apps/api-backend/app.py` and `apps/web-ui/src/app/page.tsx` from `5000` to `5001`.
-- **Gemini Model Optimization**: Configured `gemini-2.0-flash` (Google's flagship 100% free-tier AI model) as primary metadata generator, with automated rate-limit (429) fallback to `gemini-2.0-flash-lite`.
+- **Backend Port & Dynamic ENV Configuration**: Changed API backend server port in `apps/api-backend/app.py` and `apps/web-ui/src/app/page.tsx` from `5000` to `5001`. Updated `app.py` and `web-ui/src/app/page.tsx` to read ports, Gemini model names, and API keys dynamically from `.env`.
+- **Gemini Model Optimization**: Configured `gemini-2.0-flash` (Google's flagship 100% free-tier AI model) as primary metadata generator via `GEMINI_PRIMARY_MODEL`, with automated rate-limit (429) fallback to `gemini-2.0-flash-lite` (`GEMINI_CANDIDATE_MODEL`).
+- **ENV Templates Created**: Created sanitized `.env.example` files for both `apps/api-backend/.env.example` and `apps/web-ui/.env.example`.
+- **Master Dev Script (`dev-free`)**: Created `scripts/runners/bash/dev_free.sh` and root `package.json` with `dev-free` script to automatically free ports 3000 & 5001, install requirements & dependencies, and launch backend & frontend concurrently.

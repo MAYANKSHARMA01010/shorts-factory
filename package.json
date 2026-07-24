@@ -1,0 +1,9 @@
+{
+  "name": "shorts-factory-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev-free": "bash scripts/runners/bash/dev_free.sh",
+    "dev-free:terms": "bash scripts/runners/bash/dev_free.sh --terms"
+  }
+}
