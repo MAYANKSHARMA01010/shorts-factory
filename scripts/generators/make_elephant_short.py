@@ -125,26 +125,16 @@ def synthesize_narration(path: Path) -> None:
 
 
 def make_scene(image: Path, out: Path, seconds: float, index: int) -> None:
-    frames = max(1, math.ceil(seconds * 30))
-    direction = index % 4
-    if direction == 0:
-        x_expr, y_expr = "'iw/2-(iw/zoom/2)'", "'ih/2-(ih/zoom/2)'"
-    elif direction == 1:
-        x_expr, y_expr = "'(iw-iw/zoom)*(on/(duration*30))'", "'ih/2-(ih/zoom/2)'"
-    elif direction == 2:
-        x_expr, y_expr = "'iw/2-(iw/zoom/2)'", "'(ih-ih/zoom)*(1-on/(duration*30))'"
+    if index % 2 == 0:
+        scale_expr = "scale=w='1080*(1+0.0005*n)':h='1920*(1+0.0005*n)':eval=frame"
     else:
-        x_expr, y_expr = "'(iw-iw/zoom)*(1-on/(duration*30))'", "'ih/2-(ih/zoom/2)'"
+        scale_expr = "scale=w='1080*(1.12-0.0005*n)':h='1920*(1.12-0.0005*n)':eval=frame"
 
     vf = (
-        "scale=1300:2312:force_original_aspect_ratio=increase,"
-        "crop=1300:2312,"
-        f"zoompan=z='1+0.075*on/{frames}':d={frames}:"
-        f"x={x_expr}:y={y_expr}:s=1080x1920:fps=30,"
-        "eq=contrast=1.06:saturation=1.08:brightness=-0.015,"
-        "unsharp=5:5:0.55,"
-        "fade=t=in:st=0:d=0.18,fade=t=out:st="
-        f"{max(0, seconds - 0.20):.3f}:d=0.20,format=yuv420p"
+        "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,"
+        f"{scale_expr},crop=1080:1920,"
+        "eq=contrast=1.06:saturation=1.08:brightness=-0.015,unsharp=5:5:0.55,"
+        f"fade=t=in:st=0:d=0.18,fade=t=out:st={max(0, seconds - 0.20):.3f}:d=0.20,format=yuv420p"
     )
     run(
         [

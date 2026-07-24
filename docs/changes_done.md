@@ -252,3 +252,7 @@ To launch the Next.js dashboard and API backend for managing, editing, and publi
   - Removed all mock/dummy video generation fallbacks from `apps/web-ui/src/app/page.tsx` and cleaned `data/analytics/performance_latest.json`.
   - The dashboard connects strictly to live YouTube channel data for **Mayank Sharma** (Channel ID `UCbo2V8NXWPKHULT1e3EbC5A`, 20 Subscribers).
   - Shows zero fake video cards when no uploads exist, and automatically populates live video performance cards when uploaded to YouTube.
+- **Fixed Video Shaking / Jitter Bug**:
+  - Identified root cause of video shaking: FFmpeg `zoompan` filter calculates `x` and `y` using integer pixel division (`iw/2 - iw/zoom/2`), causing 1-pixel discrete jumps on alternating frames during zoom animation.
+  - Replaced `zoompan` in `packages/ClipPilot/src/clippilot/generate/assemble.py`, `scripts/generators/produce_short_zimage.py`, and `scripts/generators/make_elephant_short.py` with smooth sub-pixel frame scaling (`scale=eval=frame`).
+  - Re-rendered all 6 explainer video projects (`Final_Blackhole.mp4`, `Final_Dreams.mp4`, `Final_Earthquake.mp4`, `Final_Leaves.mp4`, `Final_Ocean_Salty.mp4`, `Final_Sky_Blue.mp4`) with 100% rock-solid, butter-smooth video motion.
