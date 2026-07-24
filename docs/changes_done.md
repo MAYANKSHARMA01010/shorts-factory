@@ -272,4 +272,8 @@ To launch the Next.js dashboard and API backend for managing, editing, and publi
   - **Dedicated Calendar 📅 & Clock 🕒 Controls**: Split date/time selection into explicit **Calendar Release Date (`input[type="date"]`)** and **Clock Release Time (`input[type="time"]`)** inputs with `color-scheme: dark` styling for high contrast white picker icons on dark backgrounds.
   - **1-Click Quick Chips**: Includes date chips (`Tomorrow`, `In 2 Days`) and peak clock chips (`9 AM`, `6 PM`, `8 PM`) plus a real-time target release summary badge.
   - **Universal Visibility Selector**: Ensured the visibility dropdown (`🔒 Private (Test)`, `🔗 Unlisted`, `🌐 Public (Publish)`) is always visible and selectable across both Direct Upload and Scheduled modes.
-  - **YouTube API Integration**: Computes ISO 8601 UTC timestamps (`publishAt: "2026-07-25T18:00:00Z"`) and sets `privacyStatus: "private"` as required by YouTube Studio for automatic scheduled publishing.
+- **Multi-Platform `manifest.json` Standard (7 Social Apps)**:
+  - **Comprehensive Multi-Platform Schema**: Generated complete `manifest.json` files for all 6 explainer videos (`Sky Blue`, `Blackhole`, `Dreams`, `Earthquake`, `Leaves`, `Ocean Salty`).
+  - **Clean Directory Mapping**: Standardized directory names (`explainer_sky_blue`, `explainer_blackhole`, `explainer_dreams`, `explainer_earthquake`, `explainer_leaves`, `explainer_ocean_salty`) matching rendered `.mp4` video outputs and cleaned up redundant legacy folders.
+  - **7 Supported Platforms**: Includes individual configurations for `YouTube`, `Instagram`, `Facebook`, `TikTok`, `X (Twitter)`, `Snapchat`, and `Threads`.
+  - **Production History + Independent Platform Controls**: Retains exact `generation_params` (`starting_prompt`, `title`, `script`, `keywords`) alongside independent per-platform `titles/captions`, `hashtags`, `video_tags`, `cover_paths`, and `scheduled_at` times for local integration with `Auto_Upload`.
