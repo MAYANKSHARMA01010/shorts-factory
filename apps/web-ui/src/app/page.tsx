@@ -103,7 +103,8 @@ function parseTopicsTable(markdown?: string): TopicItem[] {
         const angle = parts[4];
         const guardrail = parts[5] || "";
 
-        const isUsed = statusRaw.toLowerCase().includes("used");
+        const statusLower = statusRaw.toLowerCase();
+        const isUsed = statusLower.startsWith("used") || (statusLower.includes("used") && !statusLower.includes("unused"));
         const usedDateMatch = statusRaw.match(/\d{4}-\d{2}-\d{2}/);
         const usedDate = usedDateMatch ? usedDateMatch[0] : "";
 
