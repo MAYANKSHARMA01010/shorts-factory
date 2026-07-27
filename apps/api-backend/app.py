@@ -94,20 +94,39 @@ def find_final_video(item_dir: Path) -> Path | None:
 
 @app.route("/api/videos", methods=["GET"])
 def get_videos():
-    """Scan ClipPilot/data/ for generated .mp4 video projects."""
+    """Scan ClipPilot/data/ for generated .mp4 video projects, sorted newest first."""
+    import json as _json
     videos = []
     if DATA_DIR.exists():
         for item in DATA_DIR.iterdir():
             if item.is_dir() and (item.name.startswith("explainer_") or item.name.startswith("short_")):
                 final_video = find_final_video(item)
                 if final_video:
+                    # Read created_at from manifest.json; fall back to file mtime
+                    created_at = None
+                    manifest_path = item / "manifest.json"
+                    if manifest_path.exists():
+                        try:
+                            with open(manifest_path, "r", encoding="utf-8") as mf:
+                                mdata = _json.load(mf)
+                            created_at = mdata.get("project_info", {}).get("created_at")
+                        except Exception:
+                            pass
+                    if not created_at:
+                        # Fallback: use video file modification time as ISO string
+                        import datetime
+                        mtime = final_video.stat().st_mtime
+                        created_at = datetime.datetime.utcfromtimestamp(mtime).strftime("%Y-%m-%dT%H:%M:%SZ")
                     videos.append({
                         "id": item.name,
                         "name": item.name.replace("explainer_", "").replace("short_", "").replace("_", " ").title(),
                         "path": str(final_video.relative_to(DATA_DIR)),
                         "filename": final_video.name,
-                        "size_mb": round(final_video.stat().st_size / (1024 * 1024), 2)
+                        "size_mb": round(final_video.stat().st_size / (1024 * 1024), 2),
+                        "created_at": created_at,
                     })
+    # Sort newest first
+    videos.sort(key=lambda v: v.get("created_at", ""), reverse=True)
     return jsonify(videos)
 
 @app.route("/video/<path:filepath>", methods=["GET"])

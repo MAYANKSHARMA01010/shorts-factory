@@ -10,6 +10,7 @@ type Video = {
   path: string;
   filename: string;
   size_mb: number;
+  created_at?: string;
 };
 
 type VideoAnalytics = {
@@ -532,27 +533,61 @@ export default function Dashboard() {
               <span className="text-[10px] text-slate-400">ClipPilot</span>
             </div>
 
-            <div className="space-y-2 flex-1 overflow-y-auto pr-1">
+            <div className="flex-1 overflow-y-auto pr-1">
               {videos.length === 0 ? (
                 <p className="text-xs text-slate-400 py-8 text-center">No generated Shorts found in data directory.</p>
               ) : (
-                videos.map((vid) => (
-                  <div
-                    key={vid.id}
-                    onClick={() => selectVideo(vid)}
-                    className={`p-3 rounded-xl cursor-pointer transition border ${
-                      activeVideo?.id === vid.id
-                        ? "bg-indigo-600/30 border-indigo-400 text-white shadow-lg shadow-indigo-950/50"
-                        : "bg-slate-900/50 border-white/5 text-slate-300 hover:bg-slate-800/60 hover:border-slate-700"
-                    }`}
-                  >
-                    <div className="font-semibold text-sm truncate text-white">{vid.name}</div>
-                    <div className="text-[11px] text-slate-400 mt-1 flex justify-between items-center">
-                      <span className="truncate max-w-[140px] text-slate-400">{vid.filename}</span>
-                      <span className="px-1.5 py-0.5 bg-slate-800 rounded text-[10px] text-amber-300 font-mono">{vid.size_mb} MB</span>
+                (() => {
+                  // Group videos by local date (YYYY-MM-DD from created_at or fallback)
+                  const groups: { date: string; label: string; vids: Video[] }[] = [];
+                  const seen = new Map<string, Video[]>();
+                  for (const vid of videos) {
+                    const iso = vid.created_at ?? "";
+                    const dateKey = iso ? iso.slice(0, 10) : "unknown";
+                    if (!seen.has(dateKey)) seen.set(dateKey, []);
+                    seen.get(dateKey)!.push(vid);
+                  }
+                  // Sort date keys newest first
+                  const sortedKeys = [...seen.keys()].sort((a, b) => b.localeCompare(a));
+                  for (const dk of sortedKeys) {
+                    const label = dk === "unknown" ? "Unknown Date" : new Date(dk + "T12:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+                    groups.push({ date: dk, label, vids: seen.get(dk)! });
+                  }
+                  return (
+                    <div className="space-y-4">
+                      {groups.map((group) => (
+                        <div key={group.date}>
+                          {/* Date header */}
+                          <div className="flex items-center gap-2 mb-2 sticky top-0 z-10 py-1" style={{background: "rgba(15,13,35,0.85)", backdropFilter: "blur(6px)"}}>
+                            <span className="text-[10px] font-bold tracking-widest uppercase text-indigo-400">{group.label}</span>
+                            <span className="flex-1 h-px bg-indigo-500/20"/>
+                            <span className="text-[10px] text-slate-500">{group.vids.length} video{group.vids.length !== 1 ? "s" : ""}</span>
+                          </div>
+                          {/* Videos in this date group */}
+                          <div className="space-y-2">
+                            {group.vids.map((vid) => (
+                              <div
+                                key={vid.id}
+                                onClick={() => selectVideo(vid)}
+                                className={`p-3 rounded-xl cursor-pointer transition border ${
+                                  activeVideo?.id === vid.id
+                                    ? "bg-indigo-600/30 border-indigo-400 text-white shadow-lg shadow-indigo-950/50"
+                                    : "bg-slate-900/50 border-white/5 text-slate-300 hover:bg-slate-800/60 hover:border-slate-700"
+                                }`}
+                              >
+                                <div className="font-semibold text-sm truncate text-white">{vid.name}</div>
+                                <div className="text-[11px] text-slate-400 mt-1 flex justify-between items-center">
+                                  <span className="truncate max-w-[140px] text-slate-400">{vid.filename}</span>
+                                  <span className="px-1.5 py-0.5 bg-slate-800 rounded text-[10px] text-amber-300 font-mono">{vid.size_mb} MB</span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  </div>
-                ))
+                  );
+                })()
               )}
             </div>
           </div>
