@@ -106,7 +106,7 @@ def _kenburns_vf(width: int, height: int, frames: int, fps: int, index: int = 0)
 
 
 def _render_slides(segments: list[tuple[str, float]], audio_path: str, out: str,
-                   width: int, height: int, fps: int) -> Optional[str]:
+                   width: int, height: int, fps: int, timeout: int = 1800) -> Optional[str]:
     """Render [(image, seconds)] as a smooth, stable Ken-Burns sequence + narration audio."""
     segs = [(p, d) for (p, d) in segments if Path(p).exists() and d > 0]
     if not segs or not Path(audio_path).exists():
@@ -120,7 +120,7 @@ def _render_slides(segments: list[tuple[str, float]], audio_path: str, out: str,
         vf = _kenburns_vf(width, height, max(1, int(dur * fps)), fps, index=i)
         if _ok(run_ffmpeg(["-loop", "1", "-i", str(Path(img)), "-t", f"{dur:.3f}", "-vf", vf,
                            "-r", str(fps), "-an", "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p",
-                           "-y", clip]), clip):
+                           "-y", clip], timeout=timeout), clip):
             clips.append(clip)
     if not clips:
         return None
@@ -130,22 +130,23 @@ def _render_slides(segments: list[tuple[str, float]], audio_path: str, out: str,
         return None
     if _ok(run_ffmpeg(["-i", silent, "-i", str(Path(audio_path)), "-map", "0:v", "-map", "1:a",
                        "-c:v", "copy", "-c:a", "aac", "-shortest", "-movflags", "+faststart",
-                       "-y", str(Path(out))]), out):
+                       "-y", str(Path(out))], timeout=timeout), out):
         return out
     return out if _ok(run_ffmpeg(["-i", silent, "-i", str(Path(audio_path)), "-map", "0:v",
                                   "-map", "1:a", "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p",
-                                  "-c:a", "aac", "-shortest", "-y", str(Path(out))]), out) else None
+                                  "-c:a", "aac", "-shortest", "-y", str(Path(out))], timeout=timeout), out) else None
 
 
 def assemble_timed_slideshow(segments: list[tuple[str, float]], audio_path: str, out: str,
-                             width: int = 2160, height: int = 3840, fps: int = 30) -> Optional[str]:
+                             width: int = 2160, height: int = 3840, fps: int = 30,
+                             timeout: int = 1800) -> Optional[str]:
     """Ken-Burns slideshow where each image shows for an explicit duration — used
     for per-caption-timed b-roll (a fresh image per spoken phrase)."""
-    return _render_slides(segments, audio_path, out, width, height, fps)
+    return _render_slides(segments, audio_path, out, width, height, fps, timeout=timeout)
 
 
 def assemble_slideshow(images: list[str], audio_path: str, out: str, width: int = 2160,
-                       height: int = 3840, fps: int = 30) -> Optional[str]:
+                       height: int = 3840, fps: int = 30, timeout: int = 1800) -> Optional[str]:
     """Even-split Ken-Burns slideshow of `images`, timed to the narration."""
     from ..media import signals
     imgs = [i for i in images if Path(i).exists()]
@@ -153,7 +154,7 @@ def assemble_slideshow(images: list[str], audio_path: str, out: str, width: int 
         return None
     dur = signals.probe(audio_path).duration_s or (len(imgs) * 3.0)
     per = max(2.0, dur / len(imgs))
-    return _render_slides([(i, per) for i in imgs], audio_path, out, width, height, fps)
+    return _render_slides([(i, per) for i in imgs], audio_path, out, width, height, fps, timeout=timeout)
 
 
 def assemble_broll_video(video_path: str, audio_path: str, out: str, width: int = 2160,
