@@ -119,7 +119,7 @@ def _render_slides(segments: list[tuple[str, float]], audio_path: str, out: str,
         clip = str(workdir / f"slide_{i:02d}.mp4")
         vf = _kenburns_vf(width, height, max(1, int(dur * fps)), fps, index=i)
         if _ok(run_ffmpeg(["-loop", "1", "-i", str(Path(img)), "-t", f"{dur:.3f}", "-vf", vf,
-                           "-r", str(fps), "-an", "-c:v", "libx264", "-pix_fmt", "yuv420p",
+                           "-r", str(fps), "-an", "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p",
                            "-y", clip]), clip):
             clips.append(clip)
     if not clips:
@@ -133,19 +133,19 @@ def _render_slides(segments: list[tuple[str, float]], audio_path: str, out: str,
                        "-y", str(Path(out))]), out):
         return out
     return out if _ok(run_ffmpeg(["-i", silent, "-i", str(Path(audio_path)), "-map", "0:v",
-                                  "-map", "1:a", "-c:v", "libx264", "-pix_fmt", "yuv420p",
+                                  "-map", "1:a", "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p",
                                   "-c:a", "aac", "-shortest", "-y", str(Path(out))]), out) else None
 
 
 def assemble_timed_slideshow(segments: list[tuple[str, float]], audio_path: str, out: str,
-                             width: int = 1080, height: int = 1920, fps: int = 30) -> Optional[str]:
+                             width: int = 2160, height: int = 3840, fps: int = 30) -> Optional[str]:
     """Ken-Burns slideshow where each image shows for an explicit duration — used
     for per-caption-timed b-roll (a fresh image per spoken phrase)."""
     return _render_slides(segments, audio_path, out, width, height, fps)
 
 
-def assemble_slideshow(images: list[str], audio_path: str, out: str, width: int = 1080,
-                       height: int = 1920, fps: int = 30) -> Optional[str]:
+def assemble_slideshow(images: list[str], audio_path: str, out: str, width: int = 2160,
+                       height: int = 3840, fps: int = 30) -> Optional[str]:
     """Even-split Ken-Burns slideshow of `images`, timed to the narration."""
     from ..media import signals
     imgs = [i for i in images if Path(i).exists()]
@@ -156,8 +156,8 @@ def assemble_slideshow(images: list[str], audio_path: str, out: str, width: int 
     return _render_slides([(i, per) for i in imgs], audio_path, out, width, height, fps)
 
 
-def assemble_broll_video(video_path: str, audio_path: str, out: str, width: int = 1080,
-                         height: int = 1920, fps: int = 30) -> Optional[str]:
+def assemble_broll_video(video_path: str, audio_path: str, out: str, width: int = 2160,
+                         height: int = 3840, fps: int = 30) -> Optional[str]:
     """Crop a stock clip to 9:16, loop it to cover the narration, set the narration
     as the audio. Returns the mp4 path, or None."""
     from ..media import signals
@@ -170,13 +170,13 @@ def assemble_broll_video(video_path: str, audio_path: str, out: str, width: int 
           f"crop={width}:{height},setsar=1,fps={fps}")
     args = ["-stream_loop", "-1", "-i", str(Path(video_path)), "-i", str(Path(audio_path)),
             "-vf", vf, "-map", "0:v", "-map", "1:a", "-t", f"{dur:.3f}",
-            "-c:v", "libx264", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest",
+            "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest",
             "-movflags", "+faststart", "-y", str(Path(out))]
     return out if _ok(run_ffmpeg(args), out) else None
 
 
-def assemble_motion_montage(clips: list[str], audio_path: str, out: str, width: int = 1080,
-                            height: int = 1920, fps: int = 30) -> Optional[str]:
+def assemble_motion_montage(clips: list[str], audio_path: str, out: str, width: int = 2160,
+                            height: int = 3840, fps: int = 30) -> Optional[str]:
     """Real-footage montage: reframe each motion clip to 9:16, give each an even slice
     of the narration, concat them, loop/trim to the narration length, set the narration
     as audio. The anti-slop alternative to Ken-Burns stills. Returns the mp4 or None."""
@@ -196,7 +196,7 @@ def assemble_motion_montage(clips: list[str], audio_path: str, out: str, width: 
     for i, c in enumerate(clips):
         n = str(workdir / f"mnorm_{i:02d}.mp4")
         r = run_ffmpeg(["-t", f"{per:.2f}", "-i", str(Path(c).resolve()), "-vf", vf, "-an",
-                        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-r", str(fps), "-y", n])
+                        "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p", "-r", str(fps), "-y", n])
         if _ok(r, n):
             norm.append(n)
     if not norm:
@@ -216,11 +216,11 @@ def _solid_args(audio_path: str, out: str, width: int, height: int,
                 bg_color: str, fps: int) -> list[str]:
     return ["-f", "lavfi", "-i", f"color=c={bg_color}:s={width}x{height}:r={fps}",
             "-i", str(Path(audio_path)),
-            "-c:v", "libx264", "-pix_fmt", "yuv420p", "-c:a", "aac",
+            "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p", "-c:a", "aac",
             "-shortest", "-movflags", "+faststart", "-y", str(Path(out))]
 
 
-def assemble_short(audio_path: str, out: str, width: int = 1080, height: int = 1920,
+def assemble_short(audio_path: str, out: str, width: int = 2160, height: int = 3840,
                    bg_color: str = "black", image: Optional[str] = None,
                    fps: int = 30, title: Optional[str] = None,
                    style: str = "gradient") -> Optional[str]:
@@ -258,7 +258,7 @@ def assemble_short(audio_path: str, out: str, width: int = 1080, height: int = 1
         args = bg_in + ["-i", audio_abs]
         if vf_parts:
             args += ["-vf", ",".join(vf_parts)]
-        args += extra + ["-r", str(fps), "-c:v", "libx264", "-pix_fmt", "yuv420p",
+        args += extra + ["-r", str(fps), "-c:v", "libx264", "-crf", "18", "-pix_fmt", "yuv420p",
                          "-c:a", "aac", "-shortest", "-movflags", "+faststart",
                          "-y", out_abs]
         if _ok(run_ffmpeg(args, cwd=str(out_p.parent)), out):

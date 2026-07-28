@@ -149,11 +149,11 @@ def openverse_image_urls(query: str, limit: int = 4) -> list[str]:
 
 
 def _parse_pexels_photos(data: dict[str, Any], limit: int) -> list[str]:
-    """High-res portrait-ish photo URLs from a Pexels /v1/search response. Pure."""
+    """Maximum resolution photo URLs (original / large2x) from a Pexels /v1/search response. Pure."""
     out: list[str] = []
     for p in (data or {}).get("photos", []):
         src = p.get("src") or {}
-        url = src.get("portrait") or src.get("large2x") or src.get("large") or src.get("original")
+        url = src.get("original") or src.get("large2x") or src.get("portrait") or src.get("large")
         if url and url not in out:
             out.append(url)
         if len(out) >= limit:

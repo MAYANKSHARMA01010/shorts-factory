@@ -277,3 +277,8 @@ To launch the Next.js dashboard and API backend for managing, editing, and publi
   - **Clean Directory Mapping**: Standardized directory names (`explainer_sky_blue`, `explainer_blackhole`, `explainer_dreams`, `explainer_earthquake`, `explainer_leaves`, `explainer_ocean_salty`) matching rendered `.mp4` video outputs and cleaned up redundant legacy folders.
   - **7 Supported Platforms**: Includes individual configurations for `YouTube`, `Instagram`, `Facebook`, `TikTok`, `X (Twitter)`, `Snapchat`, and `Threads`.
   - **Production History + Independent Platform Controls**: Retains exact `generation_params` (`starting_prompt`, `title`, `script`, `keywords`) alongside independent per-platform `titles/captions`, `hashtags`, `video_tags`, `cover_paths`, and `scheduled_at` times for local integration with `Auto_Upload`.
+- **4K 30FPS Video & Highest Quality Photo Assets (2026-07-28)**:
+  - **4K 9:16 Resolution Engine**: Upgraded default resolution in `packages/ClipPilot/src/clippilot/generate/assemble.py` from `1080×1920` to **`2160×3840`** (4K vertical 9:16) at **30 FPS**.
+  - **Visually Lossless Encoding (`-crf 18`)**: Configured FFmpeg H.264 video assembly with `-crf 18` for pristine visual quality without video artifacts or banding.
+  - **Ultra-HD Photo Asset Parsing**: Updated `packages/ClipPilot/src/clippilot/generate/broll.py` to prioritize full-resolution `original` and `large2x` photos from Pexels API (`src.get("original") or src.get("large2x")`).
+
