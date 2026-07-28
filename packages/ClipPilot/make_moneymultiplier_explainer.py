@@ -314,12 +314,50 @@ def generate_manifest(video_path: Path, duration_s: float):
                 "category_id": "27",
                 "default_language": "en"
             },
+            "instagram": {
+                "enabled": True,
+                "caption": "Where Does Money ACTUALLY Come From? 💰\n\nEver wondered how commercial banks create money out of thin air? Discover fractional reserve banking, central bank printing, and digital debt!\n\nFollow @ShortsFactory for daily financial insights!\n\n#finance #money #economics #banking #reels #viral",
+                "hashtags": ["finance", "money", "economics", "banking", "reels", "viral"],
+                "cover_path": str(cover_path.resolve()),
+                "scheduled_at": now_iso,
+                "share_to_feed": True
+            },
             "facebook": {
                 "enabled": True,
                 "format": "16:9_landscape",
                 "title": "Where Does Money ACTUALLY Come From? (Full Documentary)",
                 "description": "Ever wondered how digital money is created out of thin air? Watch this complete breakdown of modern banking and inflation!\n\n#finance #money #economics #documentary",
                 "hashtags": ["finance", "money", "economics", "documentary"],
+                "cover_path": str(cover_path.resolve()),
+                "scheduled_at": now_iso
+            },
+            "tiktok": {
+                "enabled": True,
+                "caption": "Where Does Money ACTUALLY Come From? 💰🤯 #fyp #foryou #viral #money #finance #economics",
+                "hashtags": ["fyp", "foryou", "viral", "money", "finance", "economics"],
+                "cover_path": str(cover_path.resolve()),
+                "scheduled_at": now_iso,
+                "allow_duet": True,
+                "allow_stitch": True
+            },
+            "x": {
+                "enabled": True,
+                "tweet_text": "Where Does Money ACTUALLY Come From? 💰👇\n\n1. Fractional Reserve Banking\n2. The Money Multiplier Effect\n3. Quantitative Easing\n4. The Cantillon Effect\n\nFull 10-minute documentary breakdown inside 🧵\n\n#finance #money #economics",
+                "hashtags": ["finance", "money", "economics"],
+                "cover_path": str(cover_path.resolve()),
+                "scheduled_at": now_iso
+            },
+            "snapchat": {
+                "enabled": True,
+                "caption": "Where does money actually come from? 💰 #Spotlight #Finance",
+                "hashtags": ["Spotlight", "Finance"],
+                "cover_path": str(cover_path.resolve()),
+                "scheduled_at": now_iso
+            },
+            "threads": {
+                "enabled": True,
+                "post_text": "Where does money actually come from? 💡\n\nOver 90% of money today isn't physical cash — it's digital bank debt generating interest every second.\n\n#finance #money #economics",
+                "hashtags": ["finance", "money", "economics"],
                 "cover_path": str(cover_path.resolve()),
                 "scheduled_at": now_iso
             }

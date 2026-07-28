@@ -281,4 +281,9 @@ To launch the Next.js dashboard and API backend for managing, editing, and publi
   - **4K 9:16 Resolution Engine**: Upgraded default resolution in `packages/ClipPilot/src/clippilot/generate/assemble.py` from `1080×1920` to **`2160×3840`** (4K vertical 9:16) at **30 FPS**.
   - **Visually Lossless Encoding (`-crf 18`)**: Configured FFmpeg H.264 video assembly with `-crf 18` for pristine visual quality without video artifacts or banding.
   - **Ultra-HD Photo Asset Parsing**: Updated `packages/ClipPilot/src/clippilot/generate/broll.py` to prioritize full-resolution `original` and `large2x` photos from Pexels API (`src.get("original") or src.get("large2x")`).
+- **13–14 Minute Long-Form 4K Explainer ("7 Hidden Financial Systems Hiding Your Money")**:
+  - Created `packages/ClipPilot/make_financialloopholes_explainer.py` with an expanded **1,950+ word 8-chapter narrative**.
+  - Renders 4K 16:9 Landscape (`3840×2160` at 30 FPS) long-form video with 85+ b-roll images, Whisper karaoke captions, and 1,800-second FFmpeg timeout handling.
+  - Automatically generates `packages/ClipPilot/data/manifest_explainer_financialloopholes_long.json` with YouTube Chapter timestamps and multi-platform metadata.
+
 
