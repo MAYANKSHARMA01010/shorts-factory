@@ -17,6 +17,12 @@ try:
 except ImportError:
     YouTubePublisher = None
 
+try:
+    from clippilot.publish.gdrive import GoogleDrivePublisher, publisher_from_env as gdrive_from_env
+except ImportError:
+    GoogleDrivePublisher = None
+    gdrive_from_env = None
+
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
@@ -371,6 +377,72 @@ def publish():
         return jsonify({"success": True, "url": result.get("url")})
     else:
         return jsonify({"error": result.get("error", "Upload failed"), "details": result.get("response")}), 500
+
+# =============================================================================
+# GOOGLE DRIVE PUBLISH ENDPOINT
+# =============================================================================
+
+@app.route("/api/publish/gdrive", methods=["POST"])
+def publish_to_gdrive():
+    """Upload the final video of a project to Google Drive.
+
+    Body (JSON):
+      video_id   — folder name under ClipPilot/data/ (e.g. "explainer_stomachacid")
+                   OR an absolute path to the project folder.
+
+    Returns JSON with:
+      success, drive_link, upload_name, date_folder  — on success.
+      error                                           — on failure.
+
+    The upload filename is derived from master_metadata.title in manifest.json.
+    If a file with the same title already exists in the date folder, the file
+    is uploaded as "Title (1).mp4", "Title (2).mp4", etc.
+    manifest.json is never uploaded to Drive.
+    """
+    if not GoogleDrivePublisher:
+        return jsonify({"error": "GoogleDrivePublisher module unavailable — check installation."}), 500
+
+    req = request.json or {}
+    video_id = req.get("video_id", "").strip()
+
+    if not video_id:
+        return jsonify({"error": "Missing required field: video_id"}), 400
+
+    # Resolve project directory
+    project_dir = Path(video_id) if Path(video_id).is_absolute() else DATA_DIR / video_id
+    if not project_dir.exists() or not project_dir.is_dir():
+        return jsonify({"error": f"Project folder not found: {project_dir}"}), 404
+
+    # Read Drive credentials from environment
+    root_folder_id = os.environ.get("GDRIVE_ROOT_FOLDER_ID", "").strip()
+    service_account_file = os.environ.get("GDRIVE_SERVICE_ACCOUNT_FILE", "").strip() or None
+
+    if not root_folder_id:
+        return jsonify({
+            "error": "GDRIVE_ROOT_FOLDER_ID is not set in .env. "
+                     "Set it to the ID in your Google Drive folder URL."
+        }), 400
+
+    try:
+        pub = GoogleDrivePublisher(
+            root_folder_id=root_folder_id,
+            service_account_file=service_account_file,
+        )
+        result = pub.publish_project(project_dir)
+    except Exception as exc:
+        return jsonify({"error": f"Google Drive upload failed: {str(exc)}"}), 500
+
+    if result.get("success"):
+        return jsonify({
+            "success": True,
+            "drive_link": result.get("drive_link"),
+            "upload_name": result.get("upload_name"),
+            "date_folder": result.get("date_folder"),
+            "drive_file_id": result.get("drive_file_id"),
+        })
+    else:
+        return jsonify({"error": result.get("error", "Upload failed")}), 500
+
 
 # =============================================================================
 # ANALYTICS & INTELLIGENCE DATA ENDPOINTS

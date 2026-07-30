@@ -22,6 +22,8 @@ from .instagram import publisher_from_env as instagram_from_env
 from .upload_post import UploadPostPublisher, publisher_from_env
 from .youtube import YouTubePublisher
 from .youtube import publisher_from_env as youtube_from_env
+from .gdrive import GoogleDrivePublisher
+from .gdrive import publisher_from_env as gdrive_from_env
 
 __all__ = [
     "SOCIAL_PLATFORMS", "generate_social_metadata", "from_understanding",
@@ -29,4 +31,5 @@ __all__ = [
     "UploadPostPublisher", "publisher_from_env",
     "YouTubePublisher", "youtube_from_env",
     "InstagramPublisher", "instagram_from_env",
+    "GoogleDrivePublisher", "gdrive_from_env",
 ]
