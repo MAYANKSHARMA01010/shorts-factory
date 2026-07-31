@@ -65,6 +65,23 @@ type Ledgers = {
   variation_ledger: string;
 };
 
+type SlideItem = {
+  index: number;
+  slide_file: string;
+  broll_image: string | null;
+  has_replacement: boolean;
+  duration_s: number;
+  width: number;
+  height: number;
+};
+
+type RecomposeStep = {
+  id: string;
+  label: string;
+  status: "pending" | "running" | "done" | "error" | "skipped";
+  detail?: string;
+};
+
 type TopicItem = {
   id: string;
   statusRaw: string;
@@ -212,6 +229,29 @@ export default function Dashboard() {
   const [showRawLedger, setShowRawLedger] = useState(false);
   const [showRawDecision, setShowRawDecision] = useState(false);
 
+  // ── Slide Timeline Editor State ────────────────────────────────────────────
+  const [slides, setSlides] = useState<SlideItem[]>([]);
+  const [slidesLoading, setSlidesLoading] = useState(false);
+  const [slideUploadingIdx, setSlideUploadingIdx] = useState<number | null>(null);
+  const [slideRevertingIdx, setSlideRevertingIdx] = useState<number | null>(null);
+  const [isRecomposing, setIsRecomposing] = useState(false);
+  const [recomposeProgress, setRecomposeProgress] = useState<string | null>(null);
+  // Cache-bust keys for slide thumbnails after replacement
+  const [slideCacheBust, setSlideCacheBust] = useState<Record<number, number>>({});
+  // Step-by-step status panel
+  const [recomposeSteps, setRecomposeSteps] = useState<RecomposeStep[]>([]);
+  const [showRecomposeModal, setShowRecomposeModal] = useState(false);
+
+  const RECOMPOSE_STEPS_INIT: RecomposeStep[] = [
+    { id: "video",    label: "Re-stitching slide clips into video", status: "pending" },
+    { id: "manifest", label: "Updating manifest.json",             status: "pending" },
+    { id: "delete",   label: "Deleting old Google Drive file",     status: "pending" },
+    { id: "upload",   label: "Uploading new video to Google Drive", status: "pending" },
+  ];
+
+  const setStep = (steps: RecomposeStep[], id: string, patch: Partial<RecomposeStep>): RecomposeStep[] =>
+    steps.map(s => s.id === id ? { ...s, ...patch } : s);
+
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -311,11 +351,160 @@ export default function Dashboard() {
     }
   };
 
+  const fetchSlides = async (videoId: string) => {
+    setSlidesLoading(true);
+    setSlides([]);
+    try {
+      const res = await fetch(`${API_URL}/api/project/${videoId}/manifest`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      if (data.slides) setSlides(data.slides);
+    } catch (e) {
+      // Slide metadata unavailable (older project without slide files)
+      setSlides([]);
+    } finally {
+      setSlidesLoading(false);
+    }
+  };
+
   const selectVideo = (video: Video) => {
     setActiveVideo(video);
     setStatusMsg(null);
+    setSlides([]);
     generateMetadataForVideo(video);
     generateCover(video, "2.0");
+    fetchSlides(video.id);
+  };
+
+  const handleSlideImageUpload = async (slideIndex: number, file: File) => {
+    if (!activeVideo) return;
+    setSlideUploadingIdx(slideIndex);
+    try {
+      const formData = new FormData();
+      formData.append("slide_index", String(slideIndex));
+      formData.append("image", file);
+      const res = await fetch(`${API_URL}/api/project/${activeVideo.id}/replace_slide`, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) throw new Error(data.error || "Replace failed");
+      // Update cache bust so thumbnail refreshes
+      setSlideCacheBust(prev => ({ ...prev, [slideIndex]: Date.now() }));
+      // Refresh slide metadata to update has_replacement flag
+      await fetchSlides(activeVideo.id);
+      setStatusMsg({ text: `✅ Slide ${slideIndex + 1} image replaced! Click ⚡ Re-combine Video to update the final video.`, type: "success" });
+    } catch (e: any) {
+      setStatusMsg({ text: `❌ Slide replace error: ${e.message}`, type: "error" });
+    } finally {
+      setSlideUploadingIdx(null);
+    }
+  };
+
+  const handleSlideRevert = async (slideIndex: number) => {
+    if (!activeVideo) return;
+    setSlideRevertingIdx(slideIndex);
+    try {
+      const res = await fetch(`${API_URL}/api/project/${activeVideo.id}/revert_slide`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slide_index: slideIndex }),
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) throw new Error(data.error || "Revert failed");
+      setSlideCacheBust(prev => ({ ...prev, [slideIndex]: Date.now() }));
+      await fetchSlides(activeVideo.id);
+      setStatusMsg({ text: `↩️ Slide ${slideIndex + 1} reverted to original. Re-combine to apply.`, type: "info" });
+    } catch (e: any) {
+      setStatusMsg({ text: `❌ Revert error: ${e.message}`, type: "error" });
+    } finally {
+      setSlideRevertingIdx(null);
+    }
+  };
+
+  const handleRecompose = async () => {
+    if (!activeVideo) return;
+    setIsRecomposing(true);
+    setRecomposeProgress("Concatenating slides...");
+
+    // Open the step-by-step modal
+    const initSteps = RECOMPOSE_STEPS_INIT.map(s => ({ ...s }));
+    setRecomposeSteps(initSteps);
+    setShowRecomposeModal(true);
+
+    let steps = initSteps;
+    const update = (id: string, patch: Partial<RecomposeStep>) => {
+      steps = setStep(steps, id, patch);
+      setRecomposeSteps([...steps]);
+    };
+
+    try {
+      // Step 1: Video re-compose
+      update("video", { status: "running" });
+      const res = await fetch(`${API_URL}/api/project/${activeVideo.id}/recompose`, {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) throw new Error(data.error || "Recompose failed");
+
+      update("video", { status: "done", detail: data.video_path || "" });
+
+      // Step 2: Manifest
+      update("manifest", {
+        status: data.manifest_updated ? "done" : "error",
+        detail: data.manifest_updated ? "manifest.json updated with new video path & recomposed_at" : "Update failed",
+      });
+
+      // Step 3: Drive delete
+      if (data.drive_error && !data.drive_deleted && !data.drive_reuploaded) {
+        update("delete", { status: "skipped", detail: data.drive_error });
+        update("upload", { status: "skipped", detail: "Skipped — Drive not configured or error" });
+      } else {
+        update("delete", {
+          status: data.drive_deleted ? "done" : "skipped",
+          detail: data.drive_deleted ? "Previous file removed from Drive" : "No previous Drive file found",
+        });
+
+        // Step 4: Drive upload
+        update("upload", {
+          status: data.drive_reuploaded ? "done" : (data.drive_error ? "error" : "skipped"),
+          detail: data.drive_reuploaded
+            ? `Uploaded → ${data.drive_link || "(no link)"}`
+            : (data.drive_error || "Not uploaded"),
+        });
+      }
+
+      // Force video player reload
+      setRecomposeProgress("Done!");
+      if (data.video_url && videoRef.current) {
+        videoRef.current.src = `${API_URL}${data.video_url}?t=${Date.now()}`;
+        videoRef.current.load();
+      }
+    } catch (e: any) {
+      update("video", { status: "error", detail: e.message });
+      update("manifest", { status: "skipped" });
+      update("delete",   { status: "skipped" });
+      update("upload",   { status: "skipped" });
+      setStatusMsg({ text: `❌ Re-compose failed: ${e.message}`, type: "error" });
+    } finally {
+      setIsRecomposing(false);
+      setRecomposeProgress(null);
+    }
+  };
+
+  /** Small inline status icon for each recompose step */
+  const StepIcon = ({ status }: { status: RecomposeStep["status"] }) => {
+    if (status === "pending")  return <span className="w-4 h-4 rounded-full border border-slate-600 inline-block" />;
+    if (status === "running")  return (
+      <svg className="animate-spin w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none">
+        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+      </svg>
+    );
+    if (status === "done")     return <span className="text-emerald-400 text-base">✅</span>;
+    if (status === "error")    return <span className="text-rose-400 text-base">❌</span>;
+    if (status === "skipped")  return <span className="text-slate-500 text-base">⏭️</span>;
+    return null;
   };
 
   const generateMetadata = () => {
@@ -488,6 +677,88 @@ export default function Dashboard() {
         </div>
       )}
 
+      {/* RECOMPOSE STEP-BY-STEP MODAL */}
+      {showRecomposeModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+          <div className="w-full max-w-md glass border border-white/10 rounded-2xl p-6 space-y-5 shadow-2xl shadow-black/60 mx-4">
+            {/* Title */}
+            <div className="flex items-center justify-between">
+              <h3 className="font-bold text-white text-base flex items-center gap-2">
+                <span className="text-xl">⚡</span> Video Re-Compose
+              </h3>
+              {!isRecomposing && (
+                <button
+                  onClick={() => setShowRecomposeModal(false)}
+                  className="text-xs text-slate-400 hover:text-white border border-white/10 rounded-lg px-3 py-1 transition"
+                >
+                  Close
+                </button>
+              )}
+            </div>
+
+            {/* Step list */}
+            <div className="space-y-3">
+              {recomposeSteps.map((step, i) => (
+                <div
+                  key={step.id}
+                  className={`flex items-start gap-3 p-3 rounded-xl border transition-all ${
+                    step.status === "running" ? "bg-amber-950/20 border-amber-500/30" :
+                    step.status === "done"    ? "bg-emerald-950/20 border-emerald-500/20" :
+                    step.status === "error"   ? "bg-rose-950/20 border-rose-500/30" :
+                    step.status === "skipped" ? "bg-slate-900/40 border-white/5 opacity-60" :
+                    "bg-slate-900/30 border-white/5 opacity-40"
+                  }`}
+                >
+                  {/* Step number / status icon */}
+                  <div className="flex items-center justify-center w-6 h-6 shrink-0 mt-0.5">
+                    {step.status === "pending" ? (
+                      <span className="text-[11px] font-bold text-slate-500">{i + 1}</span>
+                    ) : (
+                      <StepIcon status={step.status} />
+                    )}
+                  </div>
+                  {/* Content */}
+                  <div className="flex-1 min-w-0">
+                    <div className={`text-sm font-semibold ${
+                      step.status === "done"    ? "text-emerald-300" :
+                      step.status === "running" ? "text-amber-300" :
+                      step.status === "error"   ? "text-rose-300" :
+                      step.status === "skipped" ? "text-slate-500" :
+                      "text-slate-500"
+                    }`}>
+                      {step.label}
+                    </div>
+                    {step.detail && (
+                      <div className="text-[11px] text-slate-400 mt-0.5 break-words">
+                        {step.detail}
+                      </div>
+                    )}
+                    {step.status === "running" && (
+                      <div className="mt-1.5 h-0.5 rounded-full bg-slate-800 overflow-hidden">
+                        <div className="h-full bg-amber-500 animate-pulse w-2/3" />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Footer summary */}
+            {!isRecomposing && recomposeSteps.length > 0 && (
+              <div className={`text-xs text-center py-2 px-4 rounded-xl border ${
+                recomposeSteps.some(s => s.status === "error")
+                  ? "bg-rose-950/20 border-rose-500/20 text-rose-300"
+                  : "bg-emerald-950/20 border-emerald-500/20 text-emerald-300"
+              }`}>
+                {recomposeSteps.some(s => s.status === "error")
+                  ? "⚠️ Completed with errors — check steps above"
+                  : "✅ All steps completed successfully!"}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* NAVIGATION TABS */}
       <div className="flex border-b border-white/10 gap-8 text-sm font-medium">
         <button
@@ -522,6 +793,7 @@ export default function Dashboard() {
 
       {/* TAB 1: VIDEO STUDIO & PUBLISHER */}
       {activeTab === "videos" && (
+        <div className="space-y-6">
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
           {/* 1. LEFT SIDEBAR: VIDEO SELECTOR LIST (3 Cols) */}
           <div className="xl:col-span-3 lg:col-span-4 glass p-4 flex flex-col space-y-3 h-[760px]">
@@ -1011,6 +1283,161 @@ export default function Dashboard() {
               </div>
             )}
           </div>
+        </div>
+
+        {/* SLIDE TIMELINE EDITOR — full-width panel below the 3-col grid */}
+        {activeVideo && (
+          <div className="glass p-5 space-y-4">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <div>
+                <h3 className="font-bold text-white text-sm flex items-center gap-2">
+                  <span className="text-lg">🎞️</span>
+                  Slide Timeline Editor
+                  {slides.length > 0 && (
+                    <span className="px-2 py-0.5 bg-slate-700 text-slate-300 text-[10px] rounded-full font-mono">
+                      {slides.length} slides
+                    </span>
+                  )}
+                </h3>
+                <p className="text-[11px] text-slate-400 mt-0.5">
+                  Replace any slide image without re-narrating. Click ⚡ Re-combine Video to stitch the updated final video.
+                </p>
+              </div>
+              <button
+                id="recompose-btn"
+                onClick={handleRecompose}
+                disabled={isRecomposing || slides.length === 0}
+                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 disabled:from-slate-700 disabled:to-slate-700 disabled:text-slate-500 text-black font-bold text-xs rounded-xl transition shadow-lg shadow-amber-900/30 disabled:shadow-none shrink-0"
+              >
+                {isRecomposing ? (
+                  <>
+                    <svg className="animate-spin w-3.5 h-3.5" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+                    </svg>
+                    {recomposeProgress || "Re-combining..."}
+                  </>
+                ) : (
+                  <>⚡ Re-combine Video</>
+                )}
+              </button>
+            </div>
+
+            {/* Slide Grid */}
+            {slidesLoading ? (
+              <div className="flex items-center justify-center py-10 text-slate-400 text-sm gap-2">
+                <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+                </svg>
+                Loading slide metadata...
+              </div>
+            ) : slides.length === 0 ? (
+              <div className="py-8 text-center text-slate-500 text-xs">
+                No slide clips found for this project. Only projects generated with the Ken-Burns pipeline support slide editing.
+              </div>
+            ) : (
+              <div className="flex gap-3 overflow-x-auto pb-2">
+                {slides.map((slide) => {
+                  const thumbUrl = slide.broll_image
+                    ? `${API_URL}/api/project/${activeVideo.id}/slide_asset/${slide.broll_image}${slideCacheBust[slide.index] ? `?t=${slideCacheBust[slide.index]}` : ""}`
+                    : null;
+                  const isUploading = slideUploadingIdx === slide.index;
+                  const isReverting = slideRevertingIdx === slide.index;
+                  const isBusy = isUploading || isReverting;
+
+                  return (
+                    <div
+                      key={slide.index}
+                      className={`flex-none w-[120px] rounded-xl border transition-all ${
+                        slide.has_replacement
+                          ? "border-amber-500/50 bg-amber-950/20"
+                          : "border-white/5 bg-slate-900/60"
+                      } ${ isBusy ? "opacity-60" : "hover:border-indigo-500/50"} flex flex-col`}
+                    >
+                      {/* Thumbnail */}
+                      <div className="relative aspect-[9/16] w-full rounded-t-xl overflow-hidden bg-slate-950">
+                        {thumbUrl ? (
+                          <img
+                            src={thumbUrl}
+                            alt={`Slide ${slide.index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-slate-600 text-xs">
+                            No image
+                          </div>
+                        )}
+                        {/* Index badge */}
+                        <div className="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-black/70 text-[9px] font-bold text-white">
+                          #{slide.index + 1}
+                        </div>
+                        {/* Replaced badge */}
+                        {slide.has_replacement && (
+                          <div className="absolute top-1 right-1 px-1.5 py-0.5 rounded bg-amber-500/80 text-[9px] font-bold text-black">
+                            ✏️
+                          </div>
+                        )}
+                        {/* Busy overlay */}
+                        {isBusy && (
+                          <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                            <svg className="animate-spin w-5 h-5 text-amber-400" viewBox="0 0 24 24" fill="none">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+                            </svg>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Info */}
+                      <div className="p-2 flex flex-col gap-1.5 flex-1">
+                        <div className="text-[10px] text-slate-400 font-mono">
+                          {slide.duration_s.toFixed(1)}s
+                        </div>
+
+                        {/* Upload new image */}
+                        <label
+                          htmlFor={`slide-upload-${slide.index}`}
+                          className={`block text-center px-1 py-1 rounded-lg text-[10px] font-semibold cursor-pointer transition ${
+                            isBusy
+                              ? "bg-slate-800 text-slate-600 cursor-not-allowed"
+                              : "bg-indigo-600/80 hover:bg-indigo-500 text-white"
+                          }`}
+                        >
+                          {isUploading ? "Uploading..." : "📤 New Image"}
+                        </label>
+                        <input
+                          id={`slide-upload-${slide.index}`}
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          disabled={isBusy}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) handleSlideImageUpload(slide.index, file);
+                            e.target.value = "";
+                          }}
+                        />
+
+                        {/* Revert button */}
+                        {slide.has_replacement && (
+                          <button
+                            onClick={() => handleSlideRevert(slide.index)}
+                            disabled={isBusy}
+                            className="text-[10px] text-slate-400 hover:text-amber-300 disabled:opacity-40 transition text-center"
+                          >
+                            {isReverting ? "Reverting..." : "↩️ Revert"}
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
         </div>
       )}
 

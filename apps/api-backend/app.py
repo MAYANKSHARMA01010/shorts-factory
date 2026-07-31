@@ -520,6 +520,252 @@ def trigger_runner(action):
     except Exception as e:
         return jsonify({"error": f"Failed to trigger {action}: {str(e)}"}), 500
 
+# =============================================================================
+# SLIDE EDITOR ENDPOINTS  (Visual Timeline Editor)
+# =============================================================================
+
+try:
+    from clippilot.media.recompose import (
+        get_slide_metadata,
+        replace_slide_image,
+        revert_slide,
+        recompose_project,
+    )
+    _RECOMPOSE_AVAILABLE = True
+except ImportError:
+    _RECOMPOSE_AVAILABLE = False
+
+
+@app.route("/api/project/<project_id>/manifest", methods=["GET"])
+def get_project_manifest(project_id):
+    """Return per-slide metadata for the Slide Timeline Editor UI.
+
+    Each slide entry has: index, slide_file, broll_image, duration_s,
+    width, height, has_replacement.
+    """
+    project_dir = DATA_DIR / project_id
+    if not project_dir.exists() or not project_dir.is_dir():
+        return jsonify({"error": f"Project not found: {project_id}"}), 404
+
+    if not _RECOMPOSE_AVAILABLE:
+        return jsonify({"error": "recompose module unavailable — check ClipPilot installation"}), 500
+
+    try:
+        data = get_slide_metadata(project_dir)
+        return jsonify(data)
+    except Exception as exc:
+        return jsonify({"error": str(exc)}), 500
+
+
+@app.route("/api/project/<project_id>/slide_asset/<path:filename>", methods=["GET"])
+def serve_slide_asset(project_id, filename):
+    """Serve slide broll images for the Web UI timeline thumbnails."""
+    project_dir = DATA_DIR / project_id
+    asset_path = project_dir / filename
+    if not asset_path.exists():
+        return jsonify({"error": "Asset not found"}), 404
+
+    ext = asset_path.suffix.lower()
+    mime = {".jpg": "image/jpeg", ".jpeg": "image/jpeg",
+            ".png": "image/png", ".webp": "image/webp"}.get(ext, "application/octet-stream")
+    return send_file(asset_path, mimetype=mime)
+
+
+@app.route("/api/project/<project_id>/replace_slide", methods=["POST"])
+def replace_slide_endpoint(project_id):
+    """Replace a slide's background image and re-render slide_XX.mp4.
+
+    Multipart form fields:
+      slide_index  — integer index of the slide to replace (0-based)
+      image        — the new background image file (JPEG, PNG, WEBP, etc.)
+    """
+    project_dir = DATA_DIR / project_id
+    if not project_dir.exists() or not project_dir.is_dir():
+        return jsonify({"error": f"Project not found: {project_id}"}), 404
+
+    if not _RECOMPOSE_AVAILABLE:
+        return jsonify({"error": "recompose module unavailable"}), 500
+
+    slide_index = request.form.get("slide_index")
+    image_file  = request.files.get("image")
+
+    if slide_index is None:
+        return jsonify({"error": "Missing form field: slide_index"}), 400
+    if image_file is None:
+        return jsonify({"error": "Missing file field: image"}), 400
+
+    try:
+        slide_index = int(slide_index)
+    except ValueError:
+        return jsonify({"error": "slide_index must be an integer"}), 400
+
+    import tempfile
+    suffix = Path(image_file.filename or "upload.jpg").suffix or ".jpg"
+    with tempfile.NamedTemporaryFile(suffix=suffix, delete=False) as tmp:
+        image_file.save(tmp)
+        tmp_path = tmp.name
+
+    try:
+        result = replace_slide_image(
+            project_dir=project_dir,
+            slide_index=slide_index,
+            new_image_path=tmp_path,
+        )
+    finally:
+        try:
+            Path(tmp_path).unlink(missing_ok=True)
+        except Exception:
+            pass
+
+    if result.get("success"):
+        return jsonify({"success": True, "slide_index": slide_index})
+    return jsonify({"error": result.get("error", "Replace failed")}), 500
+
+
+@app.route("/api/project/<project_id>/revert_slide", methods=["POST"])
+def revert_slide_endpoint(project_id):
+    """Revert a slide to its original broll image (undo replace_slide).
+
+    JSON body: { "slide_index": 0 }
+    """
+    project_dir = DATA_DIR / project_id
+    if not project_dir.exists() or not project_dir.is_dir():
+        return jsonify({"error": f"Project not found: {project_id}"}), 404
+
+    if not _RECOMPOSE_AVAILABLE:
+        return jsonify({"error": "recompose module unavailable"}), 500
+
+    req = request.json or {}
+    slide_index = req.get("slide_index")
+    if slide_index is None:
+        return jsonify({"error": "Missing field: slide_index"}), 400
+
+    try:
+        slide_index = int(slide_index)
+    except (TypeError, ValueError):
+        return jsonify({"error": "slide_index must be an integer"}), 400
+
+    result = revert_slide(project_dir=project_dir, slide_index=slide_index)
+    if result.get("success"):
+        return jsonify({"success": True, "slide_index": slide_index})
+    return jsonify({"error": result.get("error", "Revert failed")}), 500
+
+
+@app.route("/api/project/<project_id>/recompose", methods=["POST"])
+def recompose_endpoint(project_id):
+    """Re-stitch all slide clips, mux with narration, re-burn captions,
+    update manifest.json, then delete the old Google Drive file and
+    upload the new final video in its place.
+
+    Returns: { success, video_path, video_url, manifest_updated,
+               drive_deleted, drive_reuploaded, drive_link, drive_error }
+    """
+    project_dir = DATA_DIR / project_id
+    if not project_dir.exists() or not project_dir.is_dir():
+        return jsonify({"error": f"Project not found: {project_id}"}), 404
+
+    if not _RECOMPOSE_AVAILABLE:
+        return jsonify({"error": "recompose module unavailable"}), 500
+
+    # ── Step 1: Recompose video + update manifest ─────────────────────────────
+    try:
+        result = recompose_project(project_dir=project_dir)
+    except Exception as exc:
+        return jsonify({"error": f"Recompose failed: {str(exc)}"}), 500
+
+    if not result.get("success"):
+        return jsonify({"error": result.get("error", "Recompose failed")}), 500
+
+    video_path = Path(result["video_path"])
+    rel = video_path.relative_to(DATA_DIR)
+
+    response = {
+        "success": True,
+        "video_path": str(rel),
+        "video_url": f"/video/{rel}",
+        "manifest_updated": True,   # recompose_project already called update_manifest_after_recompose
+        "drive_deleted": False,
+        "drive_reuploaded": False,
+        "drive_link": None,
+        "drive_error": None,
+    }
+
+    # ── Step 2: Google Drive – delete old file + re-upload ────────────────────
+    root_folder_id = os.environ.get("GDRIVE_ROOT_FOLDER_ID", "").strip()
+    service_account_file = os.environ.get("GDRIVE_SERVICE_ACCOUNT_FILE", "").strip() or None
+
+    if not root_folder_id or not GoogleDrivePublisher:
+        response["drive_error"] = "Drive not configured (GDRIVE_ROOT_FOLDER_ID missing)"
+        return jsonify(response)
+
+    try:
+        pub = GoogleDrivePublisher(
+            root_folder_id=root_folder_id,
+            service_account_file=service_account_file,
+        )
+
+        # Read manifest to get the old drive_file_id (if any) and title
+        manifest_path = project_dir / "manifest.json"
+        old_drive_file_id = None
+        date_str = None
+        if manifest_path.exists():
+            try:
+                mdata = json.load(open(manifest_path, encoding="utf-8"))
+                old_drive_file_id = mdata.get("gdrive", {}).get("drive_file_id")
+                date_str = mdata.get("project_info", {}).get("created_at", "")[:10] or None
+            except Exception:
+                pass
+
+        # Delete the old Drive file if we know its ID
+        if old_drive_file_id:
+            deleted = pub.delete_file(old_drive_file_id)
+            response["drive_deleted"] = deleted
+        else:
+            # Fallback: try to delete by title name in the date folder
+            try:
+                if manifest_path.exists():
+                    mdata = json.load(open(manifest_path, encoding="utf-8"))
+                    title = (mdata.get("master_metadata", {}).get("title")
+                             or mdata.get("project_info", {}).get("generation_params", {}).get("title", ""))
+                    if title and date_str:
+                        folder_id = pub.get_or_create_date_folder(date_str)
+                        from clippilot.publish.gdrive import _slugify_for_filename
+                        desired_name = f"{_slugify_for_filename(title)}.mp4"
+                        response["drive_deleted"] = pub.delete_file_by_name(folder_id, desired_name)
+            except Exception:
+                pass
+
+        # Re-upload with force_reupload=True (skips duplicate check, uploads fresh)
+        upload_result = pub.publish_project(project_dir, force_reupload=True)
+        if upload_result.get("success"):
+            response["drive_reuploaded"] = True
+            response["drive_link"] = upload_result.get("drive_link")
+
+            # Persist new Drive file ID back to manifest.json
+            try:
+                if manifest_path.exists():
+                    mdata = json.load(open(manifest_path, encoding="utf-8"))
+                    mdata.setdefault("gdrive", {})
+                    mdata["gdrive"]["drive_file_id"] = upload_result.get("drive_file_id")
+                    mdata["gdrive"]["drive_link"] = upload_result.get("drive_link")
+                    mdata["gdrive"]["upload_name"] = upload_result.get("upload_name")
+                    mdata["gdrive"]["last_uploaded_at"] = (
+                        datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+                    )
+                    manifest_path.write_text(
+                        json.dumps(mdata, indent=2, ensure_ascii=False), encoding="utf-8"
+                    )
+            except Exception:
+                pass
+        else:
+            response["drive_error"] = upload_result.get("error", "Drive re-upload failed")
+
+    except Exception as exc:
+        response["drive_error"] = f"Drive operation failed: {str(exc)}"
+
+    return jsonify(response)
+
+
 if __name__ == "__main__":
     port = int(os.environ.get("SERVER_PORT", 5001))
     app.run(host="0.0.0.0", port=port, debug=True)

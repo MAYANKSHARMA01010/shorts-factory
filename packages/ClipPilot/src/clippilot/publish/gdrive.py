@@ -318,7 +318,8 @@ class GoogleDrivePublisher:
     def delete_file_by_name(self, folder_id: str, name: str) -> bool:
         """Find and delete any file with matching name in folder_id."""
         try:
-            query = f"'{folder_id}' in parents and name = '{name}' and trashed = false"
+            safe_name = name.replace("\\", "\\\\").replace("'", "\\'")
+            query = f"'{folder_id}' in parents and name = '{safe_name}' and trashed = false"
             results = self._service.files().list(q=query, fields="files(id)").execute()
             for f in results.get("files", []):
                 self.delete_file(f["id"])
