@@ -325,9 +325,9 @@ def _publish(job: Job, queue: Any) -> dict[str, Any]:
     # heuristic fallback), then publish: prefer the FREE first-party YouTube Data
     # API uploader, fall back to the paid Upload-Post cross-poster, else export
     # metadata for manual publish. AI-disclosure is forced on at this stage.
-    from .publish import metadata as md
     from .publish.upload_post import publisher_from_env
     from .publish.youtube import publisher_from_env as youtube_from_env
+    from .publish.gdrive import publisher_from_env as gdrive_from_env
 
     s = queue.settings
     u = (job.payload.get("understand") or {}).get("understanding") or {}
@@ -337,7 +337,7 @@ def _publish(job: Job, queue: Any) -> dict[str, Any]:
 
     result: dict[str, Any] = {
         "stage": Stage.PUBLISH.value,
-        # Disclosure is FORCED on by both publishers (YouTube appends it, Upload-Post
+        # Disclosure is FORCED on by publishers (YouTube appends it, Upload-Post
         # sets containsSyntheticMedia/is_aigc), so the audit flag is unconditionally true.
         "ai_disclosure_applied": True,
         "channel": job.channel,
@@ -350,6 +350,16 @@ def _publish(job: Job, queue: Any) -> dict[str, Any]:
 
     yt = youtube_from_env()      # free first-party — YOUTUBE_CLIENT_ID/SECRET/REFRESH_TOKEN
     up = publisher_from_env()    # paid gateway — UPLOAD_POST_API_KEY + USERNAME
+    gd = gdrive_from_env()       # free Google Drive publisher — GDRIVE_ROOT_FOLDER_ID + TOKEN
+
+    if clips and gd:
+        try:
+            clip_path = Path(clips[0])
+            project_dir = clip_path.parent
+            result["gdrive_upload"] = gd.publish_project(project_dir)
+        except Exception as exc:
+            result["gdrive_upload"] = {"success": False, "error": str(exc)}
+
     if clips and yt:
         res = yt.upload_video(clips[0], title=meta["title"], description=meta["caption"],
                               tags=meta["hashtags"], privacy="public")
@@ -363,9 +373,10 @@ def _publish(job: Job, queue: Any) -> dict[str, Any]:
         result["publisher"] = "upload_post"
         result["published"] = bool(res.get("success"))
     else:
-        result["published"] = False
-        result["note"] = "metadata ready; no publisher configured or no clip → manual publish"
+        result["published"] = bool((result.get("gdrive_upload") or {}).get("success"))
+        result["note"] = "metadata ready; published to drive or manual publish"
     return result
+
 
 
 def default_registry() -> dict[Stage, Runner]:

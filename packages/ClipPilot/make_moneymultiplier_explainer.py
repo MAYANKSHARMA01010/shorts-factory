@@ -367,6 +367,15 @@ def generate_manifest(video_path: Path, duration_s: float):
     MANIFEST_PATH.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     print(f"   Manifest created at: {MANIFEST_PATH.resolve()}")
 
+    try:
+        from clippilot.publish.gdrive import publisher_from_env
+        gd = publisher_from_env()
+        if gd:
+            res_gd = gd.publish_project(OUT_DIR)
+            if res_gd.get("success"):
+                print(f"   [GDrive Auto-Upload] Video uploaded: {res_gd.get('drive_link')}")
+    except Exception as exc:
+        print(f"   [GDrive Auto-Upload Notice] {exc}")
 
 def main() -> int:
     OUT_DIR.mkdir(parents=True, exist_ok=True)

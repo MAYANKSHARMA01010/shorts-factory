@@ -85,12 +85,24 @@ def _build_service(
         )
         logger.info("[GDrive] Authenticated with OAuth2 User Refresh Token.")
 
-    # 3. Fallback: Application Default Credentials (gcloud auth / env var)
     else:
         creds, _ = google_auth_default(scopes=SCOPES)
         logger.info("[GDrive] Authenticated with Application Default Credentials.")
 
-    return build("drive", "v3", credentials=creds, cache_discovery=False)
+    try:
+        import socket
+        socket.setdefaulttimeout(300)
+        import httplib2
+        import google_auth_httplib2
+        http_client = httplib2.Http(timeout=300)
+        http_client.follow_redirects = False
+        authorized_http = google_auth_httplib2.AuthorizedHttp(creds, http=http_client)
+        return build("drive", "v3", http=authorized_http, cache_discovery=False)
+    except Exception:
+        return build("drive", "v3", credentials=creds, cache_discovery=False)
+
+
+
 
 
 
@@ -182,7 +194,29 @@ class GoogleDrivePublisher:
     #  Duplicate-safe filename resolution                                   #
     # ------------------------------------------------------------------ #
 
+    def _find_file_in_folder(self, folder_id: str, name: str) -> Optional[dict]:
+        """Search if a file with exact name or name without emoji exists in folder_id."""
+        query = (
+            f"'{folder_id}' in parents "
+            f"and mimeType != 'application/vnd.google-apps.folder' "
+            f"and trashed = false"
+        )
+        results = (
+            self._service.files()
+            .list(q=query, fields="files(id, name, webViewLink)", pageSize=1000)
+            .execute()
+        )
+        clean_target = re.sub(r'[^\w\s\.-]', '', name).strip().lower()
+        for f in results.get("files", []):
+            if f["name"] == name:
+                return f
+            clean_existing = re.sub(r'[^\w\s\.-]', '', f["name"]).strip().lower()
+            if clean_target and clean_target == clean_existing:
+                return f
+        return None
+
     def _resolve_unique_name(self, folder_id: str, desired_name: str) -> str:
+
         """Return `desired_name` or `desired_name (N)` to avoid collisions.
 
         E.g. if "My Video.mp4" already exists, returns "My Video (1).mp4".
@@ -223,6 +257,8 @@ class GoogleDrivePublisher:
         Returns:
             The Google Drive file ID of the uploaded file.
         """
+        import socket
+        socket.setdefaulttimeout(120)
         try:
             from googleapiclient.http import MediaFileUpload
         except ImportError as exc:
@@ -231,43 +267,79 @@ class GoogleDrivePublisher:
         mime_type = "video/mp4" if file_path.suffix.lower() == ".mp4" else "application/octet-stream"
 
         file_metadata = {"name": upload_name, "parents": [folder_id]}
-        media = MediaFileUpload(str(file_path), mimetype=mime_type, resumable=True, chunksize=5 * 1024 * 1024)
+        media = MediaFileUpload(str(file_path), mimetype=mime_type, resumable=True, chunksize=2 * 1024 * 1024)
+
 
         request = self._service.files().create(
             body=file_metadata, media_body=media, fields="id, name, webViewLink"
         )
 
-        response = None
-        bytes_uploaded = 0
+        import time
         file_size = file_path.stat().st_size
         logger.info("[GDrive] Uploading '%s' (%s MB) → Drive as '%s'",
                     file_path.name, round(file_size / 1_048_576, 1), upload_name)
 
+        response = None
         while response is None:
-            status, response = request.next_chunk()
-            if status:
-                pct = int(status.progress() * 100)
-                logger.info("[GDrive]   … %d%%", pct)
+
+            for attempt in range(5):
+                try:
+                    status, response = request.next_chunk()
+                    if status:
+                        pct = int(status.progress() * 100)
+                        logger.info("[GDrive]   … %d%%", pct)
+                    break
+                except Exception as exc:
+                    if attempt == 4:
+                        raise exc
+                    logger.warning("[GDrive] Chunk upload error (%s), retrying in %ds (attempt %d/5)...", exc, 2 * (attempt + 1), attempt + 1)
+                    time.sleep(2 * (attempt + 1))
 
         file_id = response.get("id")
         link = response.get("webViewLink", "")
         logger.info("[GDrive] ✓ Upload complete — Drive file id=%s  link=%s", file_id, link)
         return file_id
 
+
     # ------------------------------------------------------------------ #
     #  Public entry point                                                   #
     # ------------------------------------------------------------------ #
 
-    def publish_project(self, project_dir: Path) -> dict:
+    def delete_file(self, file_id: str) -> bool:
+        """Permanently delete a file from Google Drive."""
+        try:
+            self._service.files().delete(fileId=file_id).execute()
+            logger.info("[GDrive] Deleted file %s from Drive", file_id)
+            return True
+        except Exception as exc:
+            logger.warning("[GDrive] Failed to delete file %s: %s", file_id, exc)
+            return False
+
+    def delete_file_by_name(self, folder_id: str, name: str) -> bool:
+        """Find and delete any file with matching name in folder_id."""
+        try:
+            query = f"'{folder_id}' in parents and name = '{name}' and trashed = false"
+            results = self._service.files().list(q=query, fields="files(id)").execute()
+            for f in results.get("files", []):
+                self.delete_file(f["id"])
+            return True
+        except Exception as exc:
+            logger.warning("[GDrive] Failed to delete file by name '%s': %s", name, exc)
+            return False
+
+    # ------------------------------------------------------------------ #
+    #  Public entry point                                                   #
+    # ------------------------------------------------------------------ #
+
+    def publish_project(self, project_dir: Path, force_reupload: bool = False, max_retries: bool = 3) -> dict:
         """Upload the final video of a ClipPilot project to Google Drive.
 
         Logic:
           1. Reads `manifest.json` to get the master_metadata.title → upload filename.
           2. Uses project `created_at` date for the date subfolder (falls back to today).
           3. Finds the final .mp4 video in the project folder.
-          4. Resolves a unique destination name (appends (1), (2) … on collision).
-          5. Gets-or-creates the YYYY-MM-DD subfolder inside the root folder.
-          6. Uploads only the video. manifest.json is NOT uploaded.
+          4. If force_reupload is True, removes existing file on Drive first.
+          5. Uploads the file. If upload fails, deletes partial file and retries ONLY this video.
 
         Returns:
             Dict with keys: success (bool), drive_file_id, drive_link, upload_name, date_folder.
@@ -296,7 +368,6 @@ class GoogleDrivePublisher:
         if title:
             clean_title = _slugify_for_filename(title)
         else:
-            # Fallback: use folder name prettified
             clean_title = project_dir.name.replace("_", " ").title()
 
         desired_video_name = f"{clean_title}.mp4"
@@ -309,26 +380,72 @@ class GoogleDrivePublisher:
         # ── 4. Get-or-create date folder ──────────────────────────────────
         folder_id = self.get_or_create_date_folder(date_str)
 
-        # ── 5. Resolve unique name (handle collisions with (1), (2) …) ───
+        # If force_reupload, delete any existing file with this name first
+        if force_reupload:
+            existing_file = self._find_file_in_folder(folder_id, desired_video_name)
+            if existing_file:
+                logger.info("[GDrive] force_reupload=True → deleting existing '%s' (id=%s)", desired_video_name, existing_file["id"])
+                self.delete_file(existing_file["id"])
+        else:
+            # Check if file already exists on Drive
+            existing_file = self._find_file_in_folder(folder_id, desired_video_name)
+            if existing_file:
+                logger.info("[GDrive] '%s' already uploaded to Drive (id=%s)", desired_video_name, existing_file["id"])
+                return {
+                    "success": True,
+                    "already_uploaded": True,
+                    "drive_file_id": existing_file["id"],
+                    "drive_link": existing_file.get("webViewLink", ""),
+                    "upload_name": existing_file["name"],
+                    "date_folder": date_str or datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                    "source_video": str(video_path),
+                }
+
         upload_name = self._resolve_unique_name(folder_id, desired_video_name)
-        if upload_name != desired_video_name:
-            logger.info("[GDrive] Name collision detected — uploading as '%s'", upload_name)
 
-        # ── 6. Upload ─────────────────────────────────────────────────────
-        file_id = self._upload_file(video_path, folder_id, upload_name)
+        # ── 5. Upload with single-video retry and partial file cleanup ─────
+        file_id = None
+        last_error = None
 
-        # Fetch the web view link
-        file_info = self._service.files().get(fileId=file_id, fields="webViewLink").execute()
-        link = file_info.get("webViewLink", "")
+        for attempt in range(1, max_retries + 1):
+            try:
+                logger.info("[GDrive] Attempt %d/%d for '%s'...", attempt, max_retries, upload_name)
+                file_id = self._upload_file(video_path, folder_id, upload_name)
+                
+                # Fetch web view link
+                file_info = self._service.files().get(fileId=file_id, fields="webViewLink").execute()
+                link = file_info.get("webViewLink", "")
 
-        return {
-            "success": True,
-            "drive_file_id": file_id,
-            "drive_link": link,
-            "upload_name": upload_name,
-            "date_folder": date_str or datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-            "source_video": str(video_path),
-        }
+                return {
+                    "success": True,
+                    "drive_file_id": file_id,
+                    "drive_link": link,
+                    "upload_name": upload_name,
+                    "date_folder": date_str or datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                    "source_video": str(video_path),
+                }
+
+            except Exception as exc:
+                last_error = exc
+                logger.warning("[GDrive] Upload failed on attempt %d/%d for '%s': %s", attempt, max_retries, upload_name, exc)
+                
+                # Clean up partial/incomplete upload if created
+                if file_id:
+                    logger.info("[GDrive] Cleaning up failed file id=%s...", file_id)
+                    self.delete_file(file_id)
+                    file_id = None
+                else:
+                    self.delete_file_by_name(folder_id, upload_name)
+
+                if attempt < max_retries:
+                    import time
+                    wait_sec = attempt * 3
+                    logger.info("[GDrive] Retrying ONLY '%s' in %ds...", upload_name, wait_sec)
+                    time.sleep(wait_sec)
+
+        return {"success": False, "error": f"Failed to upload {upload_name} after {max_retries} attempts: {last_error}"}
+
+
 
     # ------------------------------------------------------------------ #
     #  Static helpers                                                       #
