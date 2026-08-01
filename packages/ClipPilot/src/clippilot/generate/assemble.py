@@ -97,11 +97,16 @@ def _concat_video(clips: list[str], out: str) -> bool:
 def _kenburns_vf(width: int, height: int, frames: int, fps: int, index: int = 0) -> str:
     """Subpixel frame evaluation filter — 100% rock-solid and stable with ZERO shaking/jitter."""
     if index % 2 == 0:
-        scale_expr = f"scale=w='{width}*(1+0.0005*n)':h='{height}*(1+0.0005*n)':eval=frame"
+        scale_expr = f"scale=w='{width}*(1+0.0002*n)':h='{height}*(1+0.0002*n)':eval=frame"
     else:
-        scale_expr = f"scale=w='{width}*(1.12-0.0005*n)':h='{height}*(1.12-0.0005*n)':eval=frame"
+        scale_expr = (f"scale=w='{width}*if(gte(1.10-0.0002*n,1.0),1.10-0.0002*n,1.0)':"
+                      f"h='{height}*if(gte(1.10-0.0002*n,1.0),1.10-0.0002*n,1.0)':eval=frame")
 
-    return (f"scale={width}:{height}:force_original_aspect_ratio=increase,crop={width}:{height},"
+    return (f"split[a][b];"
+            f"[a]scale={width}:{height}:force_original_aspect_ratio=increase,crop={width}:{height},"
+            f"boxblur=30:15,eq=brightness=-0.15:contrast=1.05[bg];"
+            f"[b]scale={width}:{height}:force_original_aspect_ratio=decrease[fg];"
+            f"[bg][fg]overlay=(W-w)/2:(H-h)/2,"
             f"{scale_expr},crop={width}:{height},setsar=1,format=yuv420p")
 
 
