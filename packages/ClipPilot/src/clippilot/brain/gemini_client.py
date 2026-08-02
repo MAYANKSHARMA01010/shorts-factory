@@ -28,31 +28,38 @@ from typing import Any
 from ..understanding import Understanding
 
 GEMINI_API_KEY_VAR = "GEMINI_API_KEY"
-DEFAULT_MODEL = "gemini-2.0-flash"
+DEFAULT_MODEL = "gemini-flash-latest"
 BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models"
+_KEY_LAST_CALL: dict[str, float] = {}
+
+
+def _get_keys() -> list[str]:
+    raw = os.environ.get("GEMINI_API_KEYS") or os.environ.get(GEMINI_API_KEY_VAR) or ""
+    return [k.strip() for k in raw.replace("\n", ",").split(",") if k.strip()]
 
 
 def _get_key() -> str | None:
-    return os.environ.get(GEMINI_API_KEY_VAR)
+    keys = _get_keys()
+    return keys[0] if keys else None
 
 
 def has_gemini_key() -> bool:
-    return bool(_get_key())
+    return len(_get_keys()) > 0
 
 
 class GeminiVisionClient:
-    """Free Gemini drop-in for AnthropicVisionClient.
+    """Free Gemini drop-in for AnthropicVisionClient with key rotation.
 
     Uses the REST API directly (no SDK) so no extra pip install is needed.
-    Falls back gracefully if the key is missing.
+    Falls back gracefully across multiple comma-separated keys.
     """
 
     def __init__(self, model: str = DEFAULT_MODEL):
         self.model = model
 
     def vision_understand(self, u: Understanding, keyframe_paths: list[str]) -> dict[str, Any]:
-        key = _get_key()
-        if not key:
+        keys = _get_keys()
+        if not keys:
             raise RuntimeError(
                 "GEMINI_API_KEY not set. Get a free key at https://aistudio.google.com/apikey "
                 "then add it to ClipPilot/.env as GEMINI_API_KEY=AIza..."
@@ -94,25 +101,37 @@ class GeminiVisionClient:
             },
         }
 
-        url = f"{BASE_URL}/{self.model}:generateContent?key={key}"
-        body = json.dumps(payload).encode()
-        req = urllib.request.Request(
-            url, data=body,
-            headers={"Content-Type": "application/json"},
-            method="POST",
-        )
-        try:
-            with urllib.request.urlopen(req, timeout=60) as resp:
-                raw = json.load(resp)
-        except urllib.error.HTTPError as e:
-            raise RuntimeError(f"Gemini API error {e.code}: {e.read().decode()[:300]}") from e
+        last_error = None
+        for key_idx, key in enumerate(keys):
+            import time
+            now = time.time()
+            last_used = _KEY_LAST_CALL.get(key, 0)
+            if now - last_used < 4.5:
+                time.sleep(4.5 - (now - last_used))
+            _KEY_LAST_CALL[key] = time.time()
 
-        # Extract the generated text
-        try:
-            text = raw["candidates"][0]["content"]["parts"][0]["text"]
-            return json.loads(text)
-        except (KeyError, IndexError, json.JSONDecodeError) as e:
-            raise RuntimeError(f"Gemini returned unexpected response: {str(raw)[:300]}") from e
+            url = f"{BASE_URL}/{self.model}:generateContent?key={key}"
+            body = json.dumps(payload).encode()
+            req = urllib.request.Request(
+                url, data=body,
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            try:
+                with urllib.request.urlopen(req, timeout=60) as resp:
+                    raw = json.load(resp)
+                    text = raw["candidates"][0]["content"]["parts"][0]["text"]
+                    return json.loads(text)
+            except urllib.error.HTTPError as e:
+                last_error = f"Gemini API error {e.code}: {e.read().decode()[:300]}"
+                if e.code == 429 and key_idx < len(keys) - 1:
+                    print(f"[GeminiVisionClient] Key #{key_idx+1} rate limited (429), pacing 5s before switching to Key #{key_idx+2}...")
+                    time.sleep(5)
+                    continue
+            except (KeyError, IndexError, json.JSONDecodeError) as e:
+                last_error = f"Gemini returned unexpected response: {str(e)}"
+
+        raise RuntimeError(f"All Gemini API keys failed. Last error: {last_error}")
 
 
 def _build_prompt(u: Understanding) -> str:

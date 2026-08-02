@@ -155,50 +155,77 @@ def serve_video(filepath):
 
 import time
 
+_KEY_LAST_CALL: dict[str, float] = {}
+
 def call_gemini(prompt: str, timeout: int = 300, json_mode: bool = False) -> str:
-    """Helper to execute Gemini REST API requests with smart 429 rate-limit backoff across free-tier models."""
-    api_key = os.environ.get("GEMINI_API_KEY")
-    if not api_key:
+    """Helper to execute Gemini REST API requests with rich terminal logging, 6.0s pacing governor, and 8s failover backoff."""
+    raw_keys = os.environ.get("GEMINI_API_KEYS") or os.environ.get("GEMINI_API_KEY") or ""
+    keys = [k.strip() for k in raw_keys.replace("\n", ",").split(",") if k.strip()]
+    if not keys:
         raise Exception("GEMINI_API_KEY is missing in .env")
     
-    primary_model  = os.environ.get("GEMINI_PRIMARY_MODEL") or os.environ.get("GEMINI_MODEL") or "gemini-2.0-flash"
-    fallback_model = os.environ.get("GEMINI_CANDIDATE_MODEL") or os.environ.get("GEMINI_FALLBACK_MODEL") or "gemini-2.0-flash-lite"
+    primary_model  = os.environ.get("GEMINI_PRIMARY_MODEL") or os.environ.get("GEMINI_MODEL") or "gemini-flash-latest"
+    fallback_model = os.environ.get("GEMINI_CANDIDATE_MODEL") or os.environ.get("GEMINI_FALLBACK_MODEL") or "gemini-flash-lite-latest"
     
-    candidate_models = [primary_model, fallback_model]
+    candidate_models = [primary_model, "gemini-2.0-flash", fallback_model, "gemini-2.0-flash-lite"]
     models = list(dict.fromkeys([m for m in candidate_models if m]))
+    
+    total_keys = len(keys)
+    print(f"\n[Gemini API] Dispatching request across {total_keys} API key(s) and {len(models)} model(s)...")
     
     last_err = None
     for model in models:
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
-        payload = {
-            "contents": [{"parts": [{"text": prompt}]}],
-            "generationConfig": {
-                "maxOutputTokens": 8192
+        for key_idx, key in enumerate(keys):
+            key_label = f"Key #{key_idx+1}/{total_keys} ({key[:14]}...)"
+            
+            # Enforce 6.0s pacing per key (strictly 10 RPM limit to eliminate 429 spikes)
+            now = time.time()
+            last_used = _KEY_LAST_CALL.get(key, 0)
+            if now - last_used < 6.0:
+                wait_time = round(6.0 - (now - last_used), 1)
+                print(f"[Gemini API] Rate Governor: Pacing {wait_time}s for {key_label}...")
+                time.sleep(wait_time)
+            _KEY_LAST_CALL[key] = time.time()
+
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
+            payload = {
+                "contents": [{"parts": [{"text": prompt}]}],
+                "generationConfig": {
+                    "maxOutputTokens": 8192
+                }
             }
-        }
-        if json_mode:
-            payload["generationConfig"]["responseMimeType"] = "application/json"
-        
-        # Try up to 3 attempts per model with exponential backoff on 429 rate limits
-        for attempt in range(3):
-            try:
-                resp = requests.post(url, json=payload, timeout=timeout)
-                if resp.status_code == 200:
-                    data = resp.json()
-                    try:
-                        return data["candidates"][0]["content"]["parts"][0]["text"]
-                    except (KeyError, IndexError):
-                        raise Exception("Invalid response structure from Gemini API")
-                elif resp.status_code == 429:
-                    last_err = f"Gemini API Rate Limit (429) on {model}"
-                    wait_s = 3 * (attempt + 1)  # 3s, 6s, 9s backoff for free-tier rate limits
-                    time.sleep(wait_s)
-                    continue
-                else:
-                    last_err = f"Gemini API Error ({resp.status_code}) on {model}: {resp.text}"
-                    break
-            except Exception as e:
-                last_err = str(e)
+            if json_mode:
+                payload["generationConfig"]["responseMimeType"] = "application/json"
+            
+            for attempt in range(2):
+                print(f"[Gemini API] Attempt {attempt+1} on {model} using {key_label}...")
+                try:
+                    resp = requests.post(url, json=payload, timeout=timeout)
+                    if resp.status_code == 200:
+                        data = resp.json()
+                        try:
+                            res_text = data["candidates"][0]["content"]["parts"][0]["text"]
+                            print(f"[Gemini API] SUCCESS on {model} using {key_label}!")
+                            return res_text
+                        except (KeyError, IndexError):
+                            raise Exception("Invalid response structure from Gemini API")
+                    elif resp.status_code == 429:
+                        last_err = f"Rate Limit (429) on {key_label} for {model}"
+                        print(f"[Gemini API WARNING] {last_err}")
+                        if total_keys > 1 and key_idx < total_keys - 1:
+                            print(f"[Gemini API] Rotating to Key #{key_idx+2} (pausing 8s for quota clearance)...")
+                            time.sleep(8)
+                            break
+                        print(f"[Gemini API] Pausing 8s backoff before retry...")
+                        time.sleep(8)
+                        continue
+                    else:
+                        last_err = f"API Error ({resp.status_code}) on {key_label} for {model}: {resp.text[:150]}"
+                        print(f"[Gemini API ERROR] {last_err}")
+                        break
+                except Exception as e:
+                    last_err = str(e)
+                    print(f"[Gemini API EXCEPTION] {last_err}")
             
     raise Exception(f"Gemini API Rate Limited / Unavailable: {last_err}")
 
