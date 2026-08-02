@@ -162,7 +162,106 @@ function parsePostsTable(markdown?: string): PostItem[] {
 }
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState<"videos" | "analytics" | "ledgers" | "decisions">("videos");
+  const [activeTab, setActiveTab] = useState<"videos" | "analytics" | "ledgers" | "decisions" | "create">("videos");
+
+  // ── Studio Projects Hub & Wizard State ─────────────────────────────────────
+  const [studioViewMode, setStudioViewMode]   = useState<"projects" | "wizard">("projects");
+  const [studioProjects, setStudioProjects]   = useState<any[]>([]);
+  const [studioProjLoading, setStudioProjLoading] = useState(false);
+  const [studioStep, setStudioStep]           = useState<1|2|3|4>(1);
+  const [studioVideoType, setStudioVideoType] = useState<"short"|"long">("short");
+  const [studioTitle, setStudioTitle]         = useState("");
+  const [studioScript, setStudioScript]       = useState("");
+  const [studioKeywords, setStudioKeywords]   = useState("");
+  const [studioTags, setStudioTags]           = useState("");
+  const [studioScenes, setStudioScenes]       = useState<any[]>([]);
+  const [studioEstDur, setStudioEstDur]       = useState(0);
+  const [studioTotalImgs, setStudioTotalImgs] = useState(0);
+  const [studioProjectId, setStudioProjectId] = useState("");
+  const [studioJobId, setStudioJobId]         = useState("");
+  const [studioRenderStatus, setStudioRenderStatus] = useState<any>(null);
+  const [studioUploaded, setStudioUploaded]   = useState<Record<string,boolean>>({});
+  const [studioUploadPreviews, setStudioUploadPreviews] = useState<Record<string,string>>({});
+  const [studioLoading, setStudioLoading]     = useState(false);
+  const [studioError, setStudioError]         = useState("");
+  const [studioShortWarn, setStudioShortWarn] = useState(false);
+  const [studioFallback, setStudioFallback]   = useState(false);
+  const [collapsedScenes, setCollapsedScenes] = useState<Record<number, boolean>>({});
+  const [reloadingPrompt, setReloadingPrompt] = useState<string | null>(null);
+  const [reloadingScene, setReloadingScene]   = useState<number | null>(null);
+  const [deletingProjId, setDeletingProjId]   = useState<string | null>(null);
+  const studioRenderPollRef                   = useRef<ReturnType<typeof setInterval>|null>(null);
+
+  const handleRegenerateSinglePrompt = async (si: number, ii: number) => {
+    const sc = studioScenes[si];
+    const img = sc?.images?.[ii];
+    if (!sc || !img) return;
+    const key = `s${si}_i${ii}`;
+    setReloadingPrompt(key);
+    try {
+      const res = await fetch(`${API_URL}/api/studio/regenerate_prompt`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: studioTitle,
+          video_type: studioVideoType,
+          script_excerpt: sc.script_excerpt || sc.scene_title || studioTitle,
+          filename: img.filename,
+          scene_index: si,
+          image_index: ii,
+        })
+      });
+      const data = await res.json();
+      if (data.prompt) {
+        setStudioScenes(prev => {
+          const next = [...prev];
+          const updatedImgs = [...(next[si].images || [])];
+          updatedImgs[ii] = {
+            ...updatedImgs[ii],
+            prompt: data.prompt,
+            scene_description: data.scene_description || updatedImgs[ii].scene_description,
+          };
+          next[si] = { ...next[si], images: updatedImgs };
+          return next;
+        });
+      }
+    } catch (err: any) {
+      setStudioError(err.message || "Failed to regenerate prompt");
+    } finally {
+      setReloadingPrompt(null);
+    }
+  };
+
+  const handleRegenerateScene = async (si: number) => {
+    const sc = studioScenes[si];
+    if (!sc) return;
+    setReloadingScene(si);
+    try {
+      const res = await fetch(`${API_URL}/api/studio/regenerate_scene`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: studioTitle,
+          video_type: studioVideoType,
+          scene_index: si,
+          script_excerpt: sc.script_excerpt || sc.scene_title || studioTitle,
+          image_count: (sc.images || []).length || 10,
+        })
+      });
+      const data = await res.json();
+      if (data.images && data.images.length > 0) {
+        setStudioScenes(prev => {
+          const next = [...prev];
+          next[si] = { ...next[si], images: data.images };
+          return next;
+        });
+      }
+    } catch (err: any) {
+      setStudioError(err.message || "Failed to regenerate scene");
+    } finally {
+      setReloadingScene(null);
+    }
+  };
   
   // Backend status
   const [backendHealth, setBackendHealth] = useState<boolean | null>(null);
@@ -293,7 +392,23 @@ export default function Dashboard() {
       .then(r => r.json())
       .then(data => setDecisions(data.content || ""))
       .catch(e => console.error("Error fetching decisions:", e));
+
+    // Fetch Studio Projects
+    fetchStudioProjects();
   }, []);
+
+  const fetchStudioProjects = async () => {
+    setStudioProjLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/api/studio/projects`);
+      const data = await res.json();
+      if (Array.isArray(data)) setStudioProjects(data);
+    } catch (e) {
+      console.error("Failed to fetch studio projects:", e);
+    } finally {
+      setStudioProjLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (activeVideo && videoRef.current) {
@@ -788,6 +903,13 @@ export default function Dashboard() {
         >
           💡 Owner Decisions
           {activeTab === "decisions" && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-400 rounded-full" />}
+        </button>
+        <button
+          onClick={() => setActiveTab("create")}
+          className={`pb-3 transition relative ${activeTab === "create" ? "text-violet-400 font-semibold" : "text-slate-400 hover:text-slate-200"}`}
+        >
+          ✨ Create Video
+          {activeTab === "create" && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-violet-400 rounded-full" />}
         </button>
       </div>
 
@@ -2138,6 +2260,996 @@ export default function Dashboard() {
           </div>
         </div>
       )}
+
+      {/* ===================================================================
+          TAB 5: CREATE VIDEO WIZARD & PROJECTS HUB
+          =================================================================== */}
+      {activeTab === "create" && (
+        <div className="space-y-6">
+
+          {/* ── PROJECTS HUB VIEW ── */}
+          {studioViewMode === "projects" && (
+            <div className="space-y-5">
+              {/* Header Bar */}
+              <div className="glass p-5 flex items-center justify-between gap-4">
+                <div>
+                  <h2 className="text-xl font-bold text-white flex items-center gap-2">🎬 Studio Projects Hub</h2>
+                  <p className="text-xs text-slate-400 mt-1">
+                    All created explainer video projects, output folders & generated python creator scripts
+                  </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={fetchStudioProjects}
+                    disabled={studioProjLoading}
+                    className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-xl text-slate-300 transition"
+                  >
+                    {studioProjLoading ? "Refreshing…" : "🔄 Refresh"}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setStudioViewMode("wizard");
+                      setStudioStep(1);
+                      setStudioTitle(""); setStudioScript(""); setStudioKeywords(""); setStudioTags("");
+                      setStudioScenes([]); setStudioEstDur(0); setStudioTotalImgs(0);
+                      setStudioProjectId(""); setStudioJobId(""); setStudioRenderStatus(null);
+                      setStudioUploaded({}); setStudioUploadPreviews({}); setStudioError("");
+                    }}
+                    className="px-5 py-2.5 bg-violet-600 hover:bg-violet-500 text-xs font-bold rounded-xl text-white shadow-lg transition flex items-center gap-2"
+                  >
+                    ✨ + Create New Video
+                  </button>
+                </div>
+              </div>
+
+              {/* Projects Grid */}
+              {studioProjLoading ? (
+                <div className="glass p-12 text-center text-slate-400 text-sm">
+                  Loading studio projects…
+                </div>
+              ) : studioProjects.length === 0 ? (
+                <div className="glass p-12 text-center space-y-4 border border-dashed border-white/10 rounded-2xl">
+                  <div className="text-4xl opacity-40">🎬</div>
+                  <h3 className="text-base font-bold text-white">No Studio Projects Created Yet</h3>
+                  <p className="text-xs text-slate-400 max-w-md mx-auto">
+                    Create your first AI short or long video. Every project generates a dedicated Python script in <code className="text-violet-300 font-mono">packages/ClipPilot/my_videos/</code> and saves all output assets in <code className="text-violet-300 font-mono">packages/ClipPilot/output/</code>.
+                  </p>
+                  <button
+                    onClick={() => {
+                      setStudioViewMode("wizard");
+                      setStudioStep(1);
+                    }}
+                    className="px-6 py-3 bg-violet-600 hover:bg-violet-500 text-xs font-bold rounded-xl text-white transition inline-block"
+                  >
+                    ✨ Create Your First Video
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {studioProjects.map((proj: any) => (
+                    <div key={proj.project_id} className="glass p-5 space-y-4 rounded-2xl flex flex-col justify-between border border-white/10 hover:border-violet-500/30 transition">
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                            proj.video_type === "short" ? "bg-violet-500/20 text-violet-300 border border-violet-500/30" : "bg-amber-500/20 text-amber-300 border border-amber-500/30"
+                          }`}>
+                            {proj.video_type === "short" ? "📱 Short (9:16)" : "🖥️ Long Video (16:9)"}
+                          </span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-[10px] font-mono text-slate-400">{proj.date}</span>
+                            {deletingProjId === proj.project_id ? (
+                              <div className="flex items-center gap-1.5">
+                                <button
+                                  onClick={async (e) => {
+                                    e.stopPropagation();
+                                    try {
+                                      const r = await fetch(`${API_URL}/api/studio/project/${encodeURIComponent(proj.project_id)}`, { method: "DELETE" });
+                                      const d = await r.json();
+                                      if (d.error) alert(d.error);
+                                      else {
+                                        setDeletingProjId(null);
+                                        fetchStudioProjects();
+                                      }
+                                    } catch (err: any) {
+                                      alert("Delete failed: " + err.message);
+                                    }
+                                  }}
+                                  className="px-2 py-0.5 bg-rose-600 hover:bg-rose-500 text-white text-[10px] font-extrabold rounded-lg transition shadow-md shadow-rose-600/30 cursor-pointer"
+                                >
+                                  ⚠️ Confirm Delete?
+                                </button>
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setDeletingProjId(null);
+                                  }}
+                                  className="px-1.5 py-0.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white text-[10px] font-bold rounded-lg transition cursor-pointer"
+                                  title="Cancel"
+                                >
+                                  ✕
+                                </button>
+                              </div>
+                            ) : (
+                              <button
+                                title="Delete Project"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setDeletingProjId(proj.project_id);
+                                }}
+                                className="px-2 py-0.5 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 text-rose-400 text-[10px] font-bold rounded-lg transition cursor-pointer"
+                              >
+                                🗑️ Delete
+                              </button>
+                            )}
+                          </div>
+                        </div>
+
+                        <h3 className="font-bold text-white text-base leading-snug line-clamp-2">{proj.title}</h3>
+
+                        {/* File Locations info */}
+                        <div className="space-y-1.5 bg-slate-900/60 p-3 rounded-xl text-[10px] font-mono text-slate-400 border border-white/5">
+                          <div className="flex items-center justify-between">
+                            <span className="text-slate-500">Python Script:</span>
+                            <span className="text-amber-300 truncate max-w-[180px]" title={`packages/ClipPilot/my_videos/${proj.date}/make_${proj.project_id && proj.project_id.includes('/') ? proj.project_id.split('/')[1] : proj.project_id}_explainer.py`}>
+                              make_{proj.project_id && proj.project_id.includes('/') ? proj.project_id.split('/')[1] : proj.project_id}_explainer.py
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-slate-500">Output Folder:</span>
+                            <span className="text-violet-300 truncate max-w-[180px]">
+                              output/{proj.project_id}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-slate-500">Images Uploaded:</span>
+                            <span className="text-slate-200 font-bold">
+                              {proj.images_uploaded} / {proj.total_prompts}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Video Player Preview if available */}
+                        {proj.final_video && (
+                          <div className="space-y-2">
+                            <video
+                              controls
+                              className="w-full rounded-xl aspect-[9/16] object-cover bg-black max-h-48"
+                              style={{aspectRatio: proj.video_type==="short"?"9/16":"16/9"}}
+                              src={`${API_URL}/studio/video/${proj.final_video}`}
+                            />
+                            <a
+                              href={`${API_URL}/studio/video/${proj.final_video}`}
+                              download
+                              className="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl text-center block transition"
+                            >
+                              ⬇️ Download Video
+                            </a>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2 mt-3">
+                        <button
+                          onClick={() => {
+                            setStudioTitle(proj.title || "");
+                            setStudioScript(proj.script || "");
+                            setStudioKeywords((proj.keywords || []).join(", "));
+                            setStudioTags((proj.tags || []).join(", "));
+                            setStudioVideoType(proj.video_type || "short");
+                            setStudioViewMode("wizard");
+                            setStudioStep(1);
+                          }}
+                          className="py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-xl transition"
+                        >
+                          🔁 Clone Script
+                        </button>
+                        <button
+                          onClick={async () => {
+                            setStudioProjectId(proj.project_id);
+                            setStudioTitle(proj.title || "");
+                            setStudioVideoType(proj.video_type || "short");
+                            // Fetch full detail for prompts/scenes
+                            try {
+                              const r = await fetch(`${API_URL}/api/studio/project/${proj.project_id}`);
+                              const d = await r.json();
+                              if (d.meta) {
+                                setStudioScenes(d.meta.prompts ? [{ scene_index: 1, scene_title: "Uploaded Prompts", images: d.meta.prompts }] : []);
+                              }
+                            } catch (e) {}
+                            setStudioViewMode("wizard");
+                            setStudioStep(proj.final_video ? 4 : (proj.images_uploaded > 0 ? 3 : 2));
+                          }}
+                          className="py-2.5 bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold rounded-xl transition"
+                        >
+                          {proj.final_video ? "View Details →" : "Continue →"}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ── WIZARD VIEW ── */}
+          {studioViewMode === "wizard" && (
+            <div className="space-y-6">
+              {/* Back to Projects list button */}
+              <div className="flex items-center justify-between">
+                <button
+                  onClick={() => {
+                    setStudioViewMode("projects");
+                    fetchStudioProjects();
+                  }}
+                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl text-slate-300 transition flex items-center gap-2"
+                >
+                  ← Back to Studio Projects List
+                </button>
+                {studioProjectId && (
+                  <span className="text-xs font-mono text-slate-500">
+                    Project: <code className="text-violet-300">{studioProjectId}</code>
+                  </span>
+                )}
+              </div>
+
+              {/* Step progress bar */}
+              <div className="glass p-4">
+                <div className="flex items-center gap-2">
+                  {[1,2,3,4].map(s => (
+                    <button
+                      key={s}
+                      onClick={() => setStudioStep(s as 1 | 2 | 3 | 4)}
+                      className="flex items-center gap-2 flex-1 hover:opacity-90 transition-all text-left cursor-pointer group focus:outline-none"
+                      title={`Jump to Step ${s}: ${s===1?"Video Setup":s===2?"Image Prompts":s===3?"Upload Images":"Render & Done"}`}
+                    >
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 transition-all group-hover:scale-110 ${
+                        studioStep > s ? "bg-violet-500 text-white shadow-md shadow-violet-500/20" :
+                        studioStep === s ? "bg-violet-600 text-white ring-2 ring-violet-400 shadow-md shadow-violet-600/30" :
+                        "bg-slate-700 text-slate-400 group-hover:bg-slate-600 group-hover:text-slate-200"
+                      }`}>
+                        {studioStep > s ? "✓" : s}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className={`text-xs font-semibold truncate ${
+                          studioStep >= s ? "text-slate-200" : "text-slate-500 group-hover:text-slate-300"
+                        }`}>
+                          {s===1?"Video Setup":s===2?"Image Prompts":s===3?"Upload Images":"Render & Done"}
+                        </div>
+                      </div>
+                      {s < 4 && <div className={`h-0.5 w-6 rounded-full shrink-0 ${
+                        studioStep > s ? "bg-violet-500" : "bg-slate-700"
+                      }`}/>}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {studioError && (
+                <div className="p-3 rounded-xl bg-rose-950/40 border border-rose-500/30 text-rose-300 text-sm flex justify-between">
+                  <span>{studioError}</span>
+                  <button onClick={() => setStudioError("")} className="text-xs opacity-60 hover:opacity-100">✕</button>
+                </div>
+              )}
+
+          {/* ── STEP 1: VIDEO SETUP ── */}
+          {studioStep === 1 && (
+            <div className="glass p-6 space-y-5">
+              <h2 className="text-lg font-bold text-white flex items-center gap-2">🎬 Step 1 — Video Setup</h2>
+
+              {/* Video Type */}
+              <div className="space-y-2">
+                <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Video Type</label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    onClick={() => setStudioVideoType("short")}
+                    className={`p-4 rounded-xl border-2 text-left transition-all ${
+                      studioVideoType === "short"
+                        ? "border-violet-500 bg-violet-500/10"
+                        : "border-white/10 bg-slate-900/40 hover:border-white/20"
+                    }`}
+                  >
+                    <div className="text-2xl mb-1">📱</div>
+                    <div className="font-bold text-white text-sm">Short (9:16)</div>
+                    <div className="text-xs text-slate-400 mt-0.5">Max 180s · YouTube Shorts / TikTok / Reels</div>
+                    <div className="text-xs text-violet-400 mt-1">AI decides scenes · Vertical portrait</div>
+                  </button>
+                  <button
+                    onClick={() => setStudioVideoType("long")}
+                    className={`p-4 rounded-xl border-2 text-left transition-all ${
+                      studioVideoType === "long"
+                        ? "border-amber-500 bg-amber-500/10"
+                        : "border-white/10 bg-slate-900/40 hover:border-white/20"
+                    }`}
+                  >
+                    <div className="text-2xl mb-1">🖥️</div>
+                    <div className="font-bold text-white text-sm">Long Video (16:9)</div>
+                    <div className="text-xs text-slate-400 mt-0.5">No length cap · YouTube Long-form</div>
+                    <div className="text-xs text-amber-400 mt-1">AI decides scenes · Widescreen cinematic</div>
+                  </button>
+                </div>
+              </div>
+
+              {/* Title */}
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Video Title</label>
+                <input
+                  value={studioTitle}
+                  onChange={e => setStudioTitle(e.target.value)}
+                  placeholder="What If Mosquitoes Drank Cola Instead of Blood?"
+                  className="w-full bg-slate-900/60 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-violet-500/50"
+                />
+              </div>
+
+              {/* Script */}
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Full Narration Script</label>
+                  {studioScript.trim() && (
+                    <span className="text-xs text-slate-500">
+                      ~{studioScript.split(/\s+/).filter(Boolean).length} words
+                      {" · "}
+                      ~{Math.round((studioScript.split(/\s+/).filter(Boolean).length / 140) * 60)}s narration
+                      {studioVideoType === "short" && studioScript.split(/\s+/).filter(Boolean).length > 420 && (
+                        <span className="ml-1 text-amber-400 font-semibold">(⚠️ may exceed 180s short limit)</span>
+                      )}
+                    </span>
+                  )}
+                </div>
+                <textarea
+                  value={studioScript}
+                  onChange={e => setStudioScript(e.target.value)}
+                  rows={8}
+                  placeholder={`Paste your FULL narration script here.\n\nAI will:\n• Estimate duration from word count (140 wpm TTS speed)\n• Break script into 10–15 second scenes\n• Generate 8–15 image prompts per scene\n\nShorts: must be ≤ 180s. Long videos: no limit.`}
+                  className="w-full bg-slate-900/60 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-violet-500/50 resize-none font-mono leading-relaxed"
+                />
+              </div>
+
+              {/* Keywords & Tags */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Keywords <span className="normal-case font-normal">(comma separated)</span></label>
+                  <input
+                    value={studioKeywords}
+                    onChange={e => setStudioKeywords(e.target.value)}
+                    placeholder="mosquito facts, science, what if"
+                    className="w-full bg-slate-900/60 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-violet-500/50"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Tags / Hashtags <span className="normal-case font-normal">(comma separated)</span></label>
+                  <input
+                    value={studioTags}
+                    onChange={e => setStudioTags(e.target.value)}
+                    placeholder="shorts, science, nature, whatif"
+                    className="w-full bg-slate-900/60 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-violet-500/50"
+                  />
+                </div>
+              </div>
+
+              {/* Info box */}
+              <div className="p-3 rounded-xl bg-violet-500/5 border border-violet-500/20 text-xs text-violet-300 space-y-1">
+                <p className="font-semibold">🤖 AI-Driven Scene Planning</p>
+                <p className="text-violet-400">Duration is estimated automatically from your script word count. AI breaks it into 10–15s scenes and generates 8–15 image prompts per scene. You don't set duration — the script defines it.</p>
+              </div>
+
+              <button
+                disabled={!studioTitle.trim() || !studioScript.trim() || studioLoading}
+                onClick={async () => {
+                  setStudioLoading(true);
+                  setStudioError("");
+                  try {
+                    const r = await fetch(`${API_URL}/api/studio/generate_prompts`, {
+                      method: "POST",
+                      headers: {"Content-Type": "application/json"},
+                      body: JSON.stringify({
+                        topic: studioTitle,
+                        title: studioTitle,
+                        script: studioScript,
+                        keywords: studioKeywords,
+                        video_type: studioVideoType,
+                      })
+                    });
+                    const d = await r.json();
+                    if (d.error) throw new Error(d.error);
+                    setStudioScenes(d.scenes || []);
+                    setStudioEstDur(d.estimated_duration_s || 0);
+                    setStudioTotalImgs(d.total_images || 0);
+                    setStudioShortWarn(d.short_warning || false);
+                    setStudioFallback(d.fallback || false);
+                    // Flatten all images across scenes for project creation
+                    const allImgs = (d.scenes || []).flatMap((sc: any) => sc.images || []);
+                    // Create project folder
+                    const r2 = await fetch(`${API_URL}/api/studio/create_project`, {
+                      method: "POST",
+                      headers: {"Content-Type": "application/json"},
+                      body: JSON.stringify({
+                        title: studioTitle,
+                        script: studioScript,
+                        keywords: studioKeywords,
+                        tags: studioTags,
+                        video_type: studioVideoType,
+                        duration_hint: d.estimated_duration_s || 60,
+                        prompts: allImgs,
+                      })
+                    });
+                    const d2 = await r2.json();
+                    if (d2.error) throw new Error(d2.error);
+                    setStudioProjectId(d2.project_id);
+                    setStudioStep(2);
+                  } catch(e: any) {
+                    setStudioError(e.message);
+                  } finally {
+                    setStudioLoading(false);
+                  }
+                }}
+                className="w-full py-3 rounded-xl font-bold text-sm transition-all bg-violet-600 hover:bg-violet-500 disabled:opacity-40 disabled:cursor-not-allowed text-white flex items-center justify-center gap-2"
+              >
+                {studioLoading ? (
+                  <><svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg> AI is analyzing script & generating scenes…</>
+                ) : "✨ Analyze Script & Generate Scene Prompts →"}
+              </button>
+            </div>
+          )}
+
+          {/* ── STEP 2: SCENE PROMPTS ── */}
+          {studioStep === 2 && (() => {
+            const allImages = studioScenes.flatMap((sc: any) => sc.images || []);
+            return (
+              <div className="space-y-4">
+                {/* Header */}
+                <div className="glass p-5">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="space-y-1">
+                      <h2 className="text-lg font-bold text-white flex items-center gap-2">🎨 Step 2 — Scene Breakdown & Image Prompts</h2>
+                      <div className="flex flex-wrap gap-3 text-xs">
+                        <span className="px-2 py-1 rounded-lg bg-violet-500/10 border border-violet-500/20 text-violet-300 font-semibold">
+                          {studioScenes.length} Scenes
+                        </span>
+                        <span className="px-2 py-1 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-300 font-semibold">
+                          {studioTotalImgs} Total Images
+                        </span>
+                        <span className="px-2 py-1 rounded-lg bg-slate-700 border border-white/10 text-slate-300">
+                          ~{studioEstDur}s · {studioVideoType === "short" ? "9:16" : "16:9"}
+                        </span>
+                        {studioShortWarn && (
+                          <span className="px-2 py-1 rounded-lg bg-amber-900/40 border border-amber-500/30 text-amber-300">
+                            ⚠️ Script may exceed 180s short limit — AI compressed it
+                          </span>
+                        )}
+                        {studioFallback && (
+                          <span className="px-2 py-1 rounded-lg bg-rose-900/40 border border-rose-500/30 text-rose-300">
+                            ⚠️ Gemini timed out — fallback prompts used. Try again for AI prompts.
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <button
+                        disabled={studioLoading}
+                        onClick={async () => {
+                          setStudioLoading(true);
+                          setStudioError("");
+                          try {
+                            const r = await fetch(`${API_URL}/api/studio/generate_prompts`, {
+                              method: "POST",
+                              headers: {"Content-Type": "application/json"},
+                              body: JSON.stringify({
+                                topic: studioTitle,
+                                title: studioTitle,
+                                script: studioScript,
+                                keywords: studioKeywords,
+                                video_type: studioVideoType,
+                              })
+                            });
+                            const d = await r.json();
+                            if (d.error) throw new Error(d.error);
+                            setStudioScenes(d.scenes || []);
+                            setStudioEstDur(d.estimated_duration_s || 0);
+                            setStudioTotalImgs(d.total_images || 0);
+                            setStudioFallback(d.fallback || false);
+                          } catch(e: any) {
+                            setStudioError(e.message);
+                          } finally {
+                            setStudioLoading(false);
+                          }
+                        }}
+                        className="px-3 py-2 bg-violet-600/30 hover:bg-violet-600/50 text-violet-200 hover:text-white text-xs font-semibold rounded-xl border border-violet-500/30 transition flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
+                      >
+                        {studioLoading ? "🔄 Regenerating..." : "🔄 Regenerate All Scenes"}
+                      </button>
+                      <button
+                        onClick={() => {
+                          const allCollapsed = studioScenes.every((_, idx) => collapsedScenes[idx]);
+                          if (allCollapsed) {
+                            setCollapsedScenes({});
+                          } else {
+                            const next: Record<number, boolean> = {};
+                            studioScenes.forEach((_, idx) => { next[idx] = true; });
+                            setCollapsedScenes(next);
+                          }
+                        }}
+                        className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium rounded-xl border border-white/10 transition flex items-center gap-1.5 cursor-pointer"
+                      >
+                        {studioScenes.length > 0 && studioScenes.every((_, idx) => collapsedScenes[idx]) ? "↕️ Expand All Scenes" : "↔️ Minimize All Scenes"}
+                      </button>
+                      <button
+                        onClick={() => {
+                          const all = studioScenes.flatMap((sc: any, si: number) => [
+                            `${'='.repeat(50)}`,
+                            `SCENE ${si+1}: ${sc.scene_title || ''} (~${sc.scene_duration_s}s)`,
+                            `Script: "${sc.script_excerpt || ''}"`,
+                            `${'─'.repeat(40)}`,
+                            ...(sc.images || []).map((img: any, ii: number) =>
+                              `Image ${ii+1}: ${img.filename}\n${img.prompt}\n`
+                            ),
+                          ]).join("\n");
+                          navigator.clipboard.writeText(all);
+                        }}
+                        className="shrink-0 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-xs font-medium rounded-xl transition cursor-pointer"
+                      >
+                        📋 Copy All ({studioTotalImgs} prompts)
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Scenes */}
+                <div className="space-y-4">
+                  {studioScenes.map((sc: any, si: number) => {
+                    const isCollapsed = Boolean(collapsedScenes[si]);
+                    return (
+                      <div key={si} className="glass p-4 space-y-3 transition-all duration-200">
+                        {/* Scene header */}
+                        <div className="flex items-center gap-3 pb-2 border-b border-white/10 select-none">
+                          <button
+                            onClick={() => setCollapsedScenes(prev => ({ ...prev, [si]: !prev[si] }))}
+                            className="flex items-center gap-3 flex-1 min-w-0 text-left hover:opacity-90 transition group cursor-pointer"
+                          >
+                            <div className="w-8 h-8 rounded-xl bg-violet-600/30 border border-violet-500/40 flex items-center justify-center text-sm font-black text-violet-300 group-hover:scale-105 transition shrink-0">
+                              {si+1}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="font-bold text-white text-sm flex items-center gap-2">
+                                <span>{sc.scene_title || `Scene ${si+1}`}</span>
+                                <span className="text-xs text-slate-400 font-normal">
+                                  ({isCollapsed ? `▶ Minimized` : `▼ Expanded`})
+                                </span>
+                              </div>
+                              <div className="text-xs text-slate-400 mt-0.5 italic truncate">"{sc.script_excerpt}"</div>
+                            </div>
+                          </button>
+
+                          <div className="flex items-center gap-2 shrink-0">
+                            <span className="text-xs text-slate-500 bg-slate-800 px-2 py-0.5 rounded-full">
+                              ~{sc.scene_duration_s}s
+                            </span>
+                            <span className="text-xs text-violet-300 bg-violet-500/10 border border-violet-500/20 px-2 py-0.5 rounded-full">
+                              {(sc.images || []).length} images
+                            </span>
+                            <button
+                              disabled={reloadingScene === si}
+                              onClick={() => handleRegenerateScene(si)}
+                              className="text-xs text-amber-300 hover:text-white px-3 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/20 transition flex items-center gap-1 disabled:opacity-50 cursor-pointer"
+                              title="Regenerate all image prompts for this scene"
+                            >
+                              {reloadingScene === si ? "🔄 Re-rolling..." : "🔄 Re-roll Scene"}
+                            </button>
+                            <button
+                              onClick={() => {
+                                const text = (sc.images || []).map((img: any, ii: number) =>
+                                  `=== ${img.filename} ===\n${img.prompt}\n`
+                                ).join("\n");
+                                navigator.clipboard.writeText(text);
+                              }}
+                              className="text-xs text-slate-400 hover:text-white px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 transition cursor-pointer"
+                            >
+                              Copy Scene
+                            </button>
+                            <button
+                              onClick={() => setCollapsedScenes(prev => ({ ...prev, [si]: !prev[si] }))}
+                              className="text-xs font-semibold px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-violet-600/40 text-slate-300 hover:text-white border border-white/10 transition flex items-center gap-1 cursor-pointer"
+                              title={isCollapsed ? "Expand Scene" : "Minimize Scene"}
+                            >
+                              {isCollapsed ? "▶ Expand" : "▼ Minimize"}
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Image prompts grid (hidden when collapsed) */}
+                        {!isCollapsed && (
+                          <div className="grid grid-cols-1 gap-2 pt-1">
+                            {(sc.images || []).map((img: any, ii: number) => (
+                              <div key={ii} className="flex items-start gap-3 bg-slate-900/40 rounded-xl p-3">
+                                <div className="w-6 h-6 rounded-lg bg-slate-700 text-[10px] font-bold text-slate-400 flex items-center justify-center shrink-0">
+                                  {ii+1}
+                                </div>
+                                <div className="flex-1 min-w-0 space-y-1">
+                                  <div className="flex items-center gap-2">
+                                    <code className="text-[10px] font-mono text-amber-300 bg-amber-500/10 px-1.5 py-0.5 rounded">{img.filename}</code>
+                                  </div>
+                                  {img.scene_description && (
+                                    <p className="text-xs text-slate-300">{img.scene_description}</p>
+                                  )}
+                                  <p className="text-[10px] text-slate-500 leading-relaxed font-mono line-clamp-2">{img.prompt}</p>
+                                </div>
+                                <div className="flex items-center gap-1.5 shrink-0">
+                                  <button
+                                    disabled={reloadingPrompt === `s${si}_i${ii}`}
+                                    onClick={() => handleRegenerateSinglePrompt(si, ii)}
+                                    className="text-[10px] text-amber-300 hover:text-white px-2 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/20 transition flex items-center gap-1 disabled:opacity-50 cursor-pointer"
+                                    title="Regenerate this specific image prompt"
+                                  >
+                                    {reloadingPrompt === `s${si}_i${ii}` ? "⏳" : "🔄 Re-roll"}
+                                  </button>
+                                  <button
+                                    onClick={() => navigator.clipboard.writeText(img.prompt)}
+                                    className="text-[10px] text-slate-400 hover:text-white px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 transition cursor-pointer"
+                                  >
+                                    Copy
+                                  </button>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Instructions */}
+                <div className="glass p-4 space-y-2">
+                  <h3 className="text-sm font-bold text-slate-200">📌 How to use these prompts</h3>
+                  <ol className="space-y-1 text-xs text-slate-400 list-decimal list-inside">
+                    <li>Work scene by scene — copy all prompts for Scene 1, generate images, then Scene 2, etc.</li>
+                    <li>Generate images at <strong className="text-white">{studioVideoType === "short" ? "portrait 9:16" : "landscape 16:9"}</strong> aspect ratio</li>
+                    <li>Save each image with the <strong className="text-amber-300">exact filename shown</strong> (e.g. <code className="text-amber-300 text-[10px]">0802short_s01_img001.png</code>)</li>
+                    <li>Images within a scene should feel cohesive — same mood, varying framing</li>
+                    <li>Upload all <strong className="text-white">{studioTotalImgs} images</strong> in the next step</li>
+                  </ol>
+                </div>
+
+                <div className="flex gap-3">
+                  <button onClick={() => setStudioStep(1)} className="px-6 py-3 rounded-xl font-medium text-sm bg-slate-700 hover:bg-slate-600 text-white transition">
+                    ← Back
+                  </button>
+                  <button
+                    onClick={() => setStudioStep(3)}
+                    className="flex-1 py-3 rounded-xl font-bold text-sm bg-violet-600 hover:bg-violet-500 text-white transition"
+                  >
+                    I've Generated All {studioTotalImgs} Images → Upload Now
+                  </button>
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* ── STEP 3: IMAGE UPLOAD ── */}
+          {studioStep === 3 && (() => {
+            const allImages = studioScenes.flatMap((sc: any) => sc.images || []);
+            const uploadedCount = Object.values(studioUploaded).filter(Boolean).length;
+            const allDone = uploadedCount >= allImages.length && allImages.length > 0;
+
+            const uploadFile = async (file: File, filename: string) => {
+              const fd = new FormData();
+              fd.append("image", file);
+              fd.append("filename", filename);
+              const r = await fetch(`${API_URL}/api/studio/upload_image/${studioProjectId}`, { method: "POST", body: fd });
+              if (r.ok) {
+                setStudioUploaded(prev => ({ ...prev, [filename]: true }));
+                const url = URL.createObjectURL(file);
+                setStudioUploadPreviews(prev => ({ ...prev, [filename]: url }));
+              }
+            };
+
+            return (
+              <div className="space-y-4">
+                {/* Global header */}
+                <div className="glass p-5">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h2 className="text-lg font-bold text-white flex items-center gap-2">📤 Step 3 — Upload Images</h2>
+                      <p className="text-xs text-slate-400 mt-0.5">
+                        {uploadedCount} / {allImages.length} uploaded across {studioScenes.length} scenes
+                        {allDone && <span className="ml-2 text-emerald-400 font-semibold">✅ All images ready!</span>}
+                      </p>
+                    </div>
+                    <label className="px-4 py-2 bg-violet-600 hover:bg-violet-500 text-xs font-bold rounded-xl cursor-pointer transition text-white">
+                      ⬆ Upload All At Once
+                      <input type="file" multiple accept="image/*" className="hidden" onChange={async (e) => {
+                        const files = Array.from(e.target.files || []);
+                        for (const file of files) {
+                          const match = allImages.find((img: any) => img.filename === file.name);
+                          await uploadFile(file, match ? match.filename : file.name);
+                        }
+                      }} />
+                    </label>
+                  </div>
+                  <div className="mt-3 h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                    <div
+                      className="h-full bg-violet-500 rounded-full transition-all duration-500"
+                      style={{width: `${allImages.length ? (uploadedCount/allImages.length)*100 : 0}%`}}
+                    />
+                  </div>
+                </div>
+
+                {/* Scenes upload groups */}
+                <div className="space-y-4">
+                  {studioScenes.map((sc: any, si: number) => {
+                    const imgs = sc.images || [];
+                    const scUploaded = imgs.filter((img: any) => studioUploaded[img.filename]).length;
+                    return (
+                      <div key={si} className="glass p-4 space-y-3">
+                        {/* Scene header */}
+                        <div className="flex items-center gap-3">
+                          <div className={`w-7 h-7 rounded-xl flex items-center justify-center text-xs font-black ${
+                            scUploaded === imgs.length ? "bg-emerald-500/20 text-emerald-300" : "bg-violet-600/30 text-violet-300"
+                          }`}>
+                            {scUploaded === imgs.length ? "✓" : si+1}
+                          </div>
+                          <div className="flex-1">
+                            <div className="text-sm font-semibold text-white">{sc.scene_title || `Scene ${si+1}`} <span className="text-xs font-normal text-slate-500">~{sc.scene_duration_s}s</span></div>
+                            <div className="text-[10px] text-slate-500 italic truncate">"{sc.script_excerpt}"</div>
+                          </div>
+                          <div className="text-xs text-slate-400">{scUploaded}/{imgs.length}</div>
+                          <label className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-[10px] font-bold rounded-lg cursor-pointer transition text-white">
+                            Upload Scene
+                            <input type="file" multiple accept="image/*" className="hidden" onChange={async (e) => {
+                              const files = Array.from(e.target.files || []);
+                              for (const file of files) {
+                                const match = imgs.find((img: any) => img.filename === file.name);
+                                await uploadFile(file, match ? match.filename : file.name);
+                              }
+                            }} />
+                          </label>
+                        </div>
+
+                        {/* Scene progress bar */}
+                        <div className="h-1 rounded-full bg-slate-800 overflow-hidden">
+                          <div
+                            className="h-full bg-violet-400 rounded-full transition-all duration-300"
+                            style={{width: `${imgs.length ? (scUploaded/imgs.length)*100 : 0}%`}}
+                          />
+                        </div>
+
+                        {/* Image grid for this scene */}
+                        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
+                          {imgs.map((img: any, ii: number) => {
+                            const done    = studioUploaded[img.filename];
+                            const preview = studioUploadPreviews[img.filename];
+                            return (
+                              <label key={ii} className={`relative cursor-pointer rounded-lg overflow-hidden border transition-all ${
+                                done ? "border-emerald-500/60" : "border-white/10 hover:border-violet-500/40"
+                              }`}>
+                                {preview ? (
+                                  <img src={preview} alt={img.filename}
+                                    className="w-full object-cover"
+                                    style={{aspectRatio: studioVideoType==="short"?"9/16":"16/9"}}
+                                  />
+                                ) : (
+                                  <div
+                                    className="w-full bg-slate-800/80 flex items-center justify-center"
+                                    style={{aspectRatio: studioVideoType==="short"?"9/16":"16/9"}}
+                                  >
+                                    <span className="text-slate-500 text-[10px]">{ii+1}</span>
+                                  </div>
+                                )}
+                                {done && (
+                                  <div className="absolute inset-0 flex items-center justify-center bg-emerald-900/30">
+                                    <span className="text-emerald-400 text-base">✓</span>
+                                  </div>
+                                )}
+                                <div className="absolute bottom-0 left-0 right-0 bg-black/60 px-1 py-0.5">
+                                  <p className="text-[8px] font-mono text-slate-400 truncate">{img.filename.split("_").slice(-1)[0]}</p>
+                                </div>
+                                <input type="file" accept="image/*" className="hidden" onChange={async (e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) await uploadFile(file, img.filename);
+                                }} />
+                              </label>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="flex gap-3">
+                  <button onClick={() => setStudioStep(2)} className="px-6 py-3 rounded-xl font-medium text-sm bg-slate-700 hover:bg-slate-600 text-white transition">
+                    ← Back
+                  </button>
+                  <button
+                    disabled={uploadedCount === 0 || studioLoading}
+                    onClick={async () => {
+                      setStudioLoading(true);
+                      setStudioError("");
+                      try {
+                        const r = await fetch(`${API_URL}/api/studio/render/${studioProjectId}`, { method: "POST" });
+                        const d = await r.json();
+                        if (d.error) throw new Error(d.error);
+                        setStudioJobId(d.job_id);
+                        setStudioStep(4);
+                        const poll = setInterval(async () => {
+                          const rs = await fetch(`${API_URL}/api/studio/render_status/${d.job_id}`);
+                          const rd = await rs.json();
+                          setStudioRenderStatus(rd);
+                          if (rd.status === "done" || rd.status === "error") clearInterval(poll);
+                        }, 2000);
+                        studioRenderPollRef.current = poll;
+                      } catch(e: any) {
+                        setStudioError(e.message);
+                      } finally {
+                        setStudioLoading(false);
+                      }
+                    }}
+                    className={`flex-1 py-3 rounded-xl font-bold text-sm transition text-white flex items-center justify-center gap-2 ${
+                      allDone ? "bg-violet-600 hover:bg-violet-500" : "bg-violet-600/60"
+                    } disabled:opacity-40 disabled:cursor-not-allowed`}
+                  >
+                    {studioLoading ? (
+                      <><svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg> Starting Render…</>
+                    ) : (
+                      allDone
+                        ? "🚀 Render Video Now"
+                        : `⚡ Render with ${uploadedCount} / ${allImages.length} images uploaded`
+                    )}
+                  </button>
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* ── STEP 4: RENDER ── */}
+          {studioStep === 4 && (
+            <div className="space-y-4">
+              <div className="glass p-5">
+                <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                  {studioRenderStatus?.status === "done" ? "🎉 Render Complete!" :
+                   studioRenderStatus?.status === "error" ? "❌ Render Failed" :
+                   "⚙️ Rendering…"}
+                </h2>
+                <p className="text-xs text-slate-400 mt-1">Project: <code className="text-violet-300">{studioProjectId}</code></p>
+              </div>
+
+              {/* Pipeline steps */}
+              <div className="glass p-5 space-y-3">
+                {[
+                  {key:"tts",   label:"1/5 Synthesizing narration (edge-tts 48kHz)"},
+                  {key:"slide", label:"2/5 Building 60 FPS Ken-Burns slideshow"},
+                  {key:"cap",   label:"3/5 Generating karaoke captions (Whisper)"},
+                  {key:"burn",  label:"4/5 Burning captions into final MP4"},
+                  {key:"mani",  label:"5/5 Writing manifest.json"},
+                ].map(step => {
+                  const log = studioRenderStatus?.log || "";
+                  const stepDone = studioRenderStatus?.status === "done";
+                  const stepErr  = studioRenderStatus?.status === "error";
+                  const active   = !stepDone && !stepErr && log.includes(step.label.split(" ")[0]);
+                  const done     = stepDone || log.includes(`Step ${step.label[0]}/5`);
+                  return (
+                    <div key={step.key} className={`flex items-center gap-3 p-3 rounded-xl border transition-all ${
+                      stepDone   ? "bg-emerald-950/20 border-emerald-500/20" :
+                      stepErr    ? "bg-rose-950/20 border-rose-500/20" :
+                      active     ? "bg-violet-950/20 border-violet-500/30" :
+                      "bg-slate-900/30 border-white/5 opacity-50"
+                    }`}>
+                      {stepDone ? <span className="text-emerald-400">✅</span> :
+                       stepErr  ? <span className="text-rose-400">❌</span> :
+                       active   ? <svg className="animate-spin w-4 h-4 text-violet-400 shrink-0" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg> :
+                       <span className="w-4 h-4 rounded-full border border-slate-600 inline-block shrink-0"/>}
+                      <span className="text-sm text-slate-300">{step.label}</span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Live Log */}
+              <div className="glass p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Pipeline Log</span>
+                  {(studioRenderStatus?.status === "running" || studioRenderStatus?.status === "starting") && (
+                    <span className="text-xs text-violet-400 flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-violet-400 animate-pulse inline-block"/>
+                      Live
+                    </span>
+                  )}
+                </div>
+                <pre className="bg-slate-950 rounded-xl p-3 text-xs text-slate-300 font-mono whitespace-pre-wrap max-h-48 overflow-y-auto">
+                  {studioRenderStatus?.log || "Waiting for pipeline to start…"}
+                </pre>
+              </div>
+
+              {/* Done state */}
+              {studioRenderStatus?.status === "done" && (
+                <div className="glass p-5 space-y-4 border border-emerald-500/20">
+                  <h3 className="font-bold text-emerald-300 text-base">🎬 Your Video Is Ready!</h3>
+                  <div className="grid grid-cols-3 gap-3 text-center">
+                    <div className="bg-slate-900/60 rounded-xl p-3">
+                      <div className="text-lg font-bold text-white">{studioRenderStatus.duration_s}s</div>
+                      <div className="text-xs text-slate-400">Duration</div>
+                    </div>
+                    <div className="bg-slate-900/60 rounded-xl p-3">
+                      <div className="text-lg font-bold text-white">{studioRenderStatus.resolution?.split(" ")[0]}</div>
+                      <div className="text-xs text-slate-400">Resolution</div>
+                    </div>
+                    <div className="bg-slate-900/60 rounded-xl p-3">
+                      <div className="text-lg font-bold text-white">{studioRenderStatus.size_mb} MB</div>
+                      <div className="text-xs text-slate-400">File Size</div>
+                    </div>
+                  </div>
+
+                  {/* Saved File Locations */}
+                  <div className="bg-slate-950 p-4 rounded-xl space-y-2 text-xs font-mono border border-emerald-500/20">
+                    <div className="text-emerald-400 font-bold text-[11px] mb-1 font-sans">📁 Saved File Locations:</div>
+                    <div className="flex items-center justify-between text-slate-300">
+                      <span className="text-slate-500">📜 Python Script:</span>
+                      <span className="text-amber-300 font-semibold truncate max-w-sm">
+                        packages/ClipPilot/my_videos/{studioProjectId ? (studioProjectId.split('/')[0] || "") : ""}/make_{studioProjectId ? (studioProjectId.split('/')[1] || "") : ""}_explainer.py
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-slate-300">
+                      <span className="text-slate-500">📁 Output Directory:</span>
+                      <span className="text-violet-300 font-semibold truncate max-w-sm">
+                        packages/ClipPilot/output/{studioProjectId}/
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-slate-300">
+                      <span className="text-slate-500">📋 Upload Manifest:</span>
+                      <span className="text-emerald-300 font-semibold truncate max-w-sm">
+                        packages/ClipPilot/output/{studioProjectId}/manifest.json
+                      </span>
+                    </div>
+                  </div>
+                  {studioRenderStatus.video_path && (
+                    <video
+                      controls
+                      autoPlay
+                      className="w-full rounded-xl max-h-[480px] object-contain bg-black"
+                      src={`${API_URL}/studio/video/${studioRenderStatus.video_path}`}
+                    />
+                  )}
+                  <div className="flex gap-3">
+                    {studioRenderStatus.video_path && (
+                      <a
+                        href={`${API_URL}/studio/video/${studioRenderStatus.video_path}`}
+                        download
+                        className="flex-1 py-3 rounded-xl font-bold text-sm bg-emerald-600 hover:bg-emerald-500 text-white text-center transition"
+                      >
+                        ⬇️ Download Video
+                      </a>
+                    )}
+                    <button
+                      onClick={() => {
+                        if (studioRenderPollRef.current) clearInterval(studioRenderPollRef.current);
+                        setStudioStep(1);
+                        setStudioTitle(""); setStudioScript(""); setStudioKeywords(""); setStudioTags("");
+                        setStudioScenes([]); setStudioEstDur(0); setStudioTotalImgs(0);
+                        setStudioProjectId(""); setStudioJobId("");
+                        setStudioRenderStatus(null); setStudioUploaded({}); setStudioUploadPreviews({});
+                        setStudioShortWarn(false); setStudioFallback(false); setStudioLoading(false); setStudioError("");
+                      }}
+                      className="flex-1 py-3 rounded-xl font-bold text-sm bg-violet-600 hover:bg-violet-500 text-white transition"
+                    >
+                      ✨ Create Another Video
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {studioRenderStatus?.status === "error" && (
+                <div className="glass p-4 border border-rose-500/30 space-y-3">
+                  <p className="text-rose-300 text-sm font-semibold">Render error: {studioRenderStatus.error}</p>
+                  <button onClick={() => setStudioStep(3)} className="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-sm text-white rounded-xl transition">
+                    ← Back to Upload
+                  </button>
+                </div>
+               )}
+            </div>
+          )}
+        </div>
+      )}
     </div>
+  )}
+</div>
   );
 }
