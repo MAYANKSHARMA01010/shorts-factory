@@ -731,6 +731,12 @@ export default function Dashboard() {
     setActiveVideo(video);
     setStatusMsg(null);
     setSlides([]);
+    // Pre-populate fields immediately so UI is never blank
+    setMetaTitle(video.name || "");
+    setMetaDesc(`Did you know ${video.name}? Watch till the end to find out! Subscribe for more daily mind-blowing facts.`);
+    setMetaTags("#shorts #facts #viral #trending #explainer");
+    setMetaVideoTags(`${video.name.toLowerCase()}, facts, viral shorts, science, did you know`);
+
     generateMetadataForVideo(video);
     generateCover(video, "2.0");
     fetchSlides(video.id);
@@ -1161,18 +1167,18 @@ export default function Dashboard() {
       {/* TAB 1: VIDEO STUDIO & PUBLISHER */}
       {activeTab === "videos" && (
         <div className="space-y-6">
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-          {/* 1. LEFT SIDEBAR: VIDEO SELECTOR LIST (3 Cols) */}
-          <div className="xl:col-span-3 lg:col-span-4 glass p-4 flex flex-col space-y-3 h-[760px]">
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <h2 className="text-sm font-bold text-white flex items-center gap-2">
-                <span>📁 Shorts List</span>
-                <span className="px-2 py-0.5 bg-indigo-500/20 text-indigo-300 text-xs rounded-full">{videos.length}</span>
-              </h2>
-              <span className="text-[10px] text-slate-400">ClipPilot</span>
-            </div>
+          <div className="grid grid-cols-12 gap-5 items-stretch">
+            {/* 1. LEFT SIDEBAR: VIDEO SELECTOR LIST (3 Cols) */}
+            <div className="col-span-12 md:col-span-4 lg:col-span-3 glass p-4 flex flex-col space-y-3 h-[720px]">
+              <div className="flex items-center justify-between border-b border-white/10 pb-3 shrink-0">
+                <h2 className="text-sm font-bold text-white flex items-center gap-2">
+                  <span>📁 Shorts List</span>
+                  <span className="px-2 py-0.5 bg-indigo-500/20 text-indigo-300 text-xs font-mono rounded-full">{videos.length}</span>
+                </h2>
+                <span className="text-[10px] text-slate-400 font-mono">ClipPilot</span>
+              </div>
 
-            <div className="flex-1 overflow-y-auto pr-1">
+              <div className="flex-1 overflow-y-auto pr-1">
               {videos.length === 0 ? (
                 <p className="text-xs text-slate-400 py-8 text-center">No generated Shorts found in data directory.</p>
               ) : (
@@ -1232,31 +1238,31 @@ export default function Dashboard() {
           </div>
 
           {/* 2. MIDDLE COLUMN: VIDEO PLAYER PREVIEW (4 Cols) */}
-          <div className="xl:col-span-4 lg:col-span-8 glass p-5 flex flex-col items-center justify-center space-y-4 h-[760px]">
+          <div className="col-span-12 md:col-span-8 lg:col-span-4 glass p-4 flex flex-col items-center justify-between h-[720px]">
             {activeVideo ? (
               <>
-                <div className="w-full flex items-center justify-between border-b border-white/10 pb-3">
-                  <h3 className="font-bold text-white text-sm truncate">{activeVideo.name}</h3>
-                  <span className="px-2 py-0.5 bg-slate-800 border border-slate-700 rounded text-[10px] text-slate-300">9:16 Vertical HD</span>
+                <div className="w-full flex items-center justify-between border-b border-white/10 pb-2.5 shrink-0">
+                  <h3 className="font-bold text-white text-xs truncate max-w-[220px]">{activeVideo.name}</h3>
+                  <span className="px-2 py-0.5 bg-slate-900 border border-slate-700 rounded text-[10px] text-slate-300 font-mono">9:16 Vertical HD</span>
                 </div>
 
-                <div className="relative aspect-[9/16] h-[580px] bg-black rounded-2xl overflow-hidden shadow-2xl border border-slate-800 group">
+                <div className="relative aspect-[9/16] h-[480px] bg-black rounded-2xl overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.8)] border border-slate-800 shrink-0 my-auto">
                   <video
                     ref={videoRef}
                     controls
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain bg-black"
                     src={`${API_URL}/video/${activeVideo.path}`}
                   />
                 </div>
 
-                <div className="w-full text-center text-[11px] text-slate-400 flex items-center justify-center gap-3">
-                  <span>📹 Path: <code className="text-slate-300">{activeVideo.filename}</code></span>
+                <div className="w-full text-center text-[11px] text-slate-400 flex items-center justify-center gap-2 pt-2 border-t border-white/5 shrink-0">
+                  <span className="truncate max-w-[170px]">📹 <code className="text-slate-300">{activeVideo.filename}</code></span>
                   <span>•</span>
-                  <span>📦 Size: <strong className="text-amber-300">{activeVideo.size_mb} MB</strong></span>
+                  <span>📦 <strong className="text-amber-300 font-mono">{activeVideo.size_mb} MB</strong></span>
                 </div>
               </>
             ) : (
-              <div className="text-center text-slate-400 space-y-3 p-8">
+              <div className="text-center text-slate-400 space-y-3 p-8 my-auto">
                 <div className="text-4xl">👈</div>
                 <h3 className="text-base font-semibold text-white">Select a Short Video</h3>
                 <p className="text-xs">Choose any video from the left sidebar to preview and publish.</p>
@@ -1265,7 +1271,7 @@ export default function Dashboard() {
           </div>
 
           {/* 3. RIGHT COLUMN: METADATA & YOUTUBE PUBLISHER (5 Cols) */}
-          <div className="xl:col-span-5 lg:col-span-12 glass p-5 flex flex-col space-y-4 h-[760px]">
+          <div className="col-span-12 lg:col-span-5 glass p-4 flex flex-col space-y-3 h-[720px]">
             {activeVideo ? (
               <>
                 {/* HEADER */}
@@ -2658,7 +2664,7 @@ export default function Dashboard() {
                           <div className="space-y-2">
                             <video
                               controls
-                              className="w-full rounded-xl aspect-[9/16] object-cover bg-black max-h-48"
+                              className="w-full rounded-xl aspect-[9/16] object-contain bg-black max-h-48"
                               style={{aspectRatio: proj.video_type==="short"?"9/16":"16/9"}}
                               src={`${API_URL}/studio/video/${proj.final_video}`}
                             />

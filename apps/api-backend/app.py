@@ -105,16 +105,74 @@ def find_final_video(item_dir: Path) -> Path | None:
     return max(all_mp4s, key=lambda f: f.stat().st_size)
 
 @app.route("/api/videos", methods=["GET"])
-def get_videos():
-    """Scan ClipPilot/data/ for generated .mp4 video projects, sorted newest first."""
+def list_videos():
+    """List all final generated videos from both OUTPUT_ROOT (new Studio videos) and DATA_DIR."""
     import json as _json
+    import datetime
     videos = []
+    seen_paths = set()
+
+    # 1. Scan OUTPUT_ROOT (new Studio generated videos)
+    if OUTPUT_ROOT.exists():
+        for date_dir in sorted(OUTPUT_ROOT.iterdir(), reverse=True):
+            if not date_dir.is_dir() or date_dir.name.startswith("."):
+                continue
+            for proj_dir in sorted(date_dir.iterdir(), reverse=True):
+                if not proj_dir.is_dir() or proj_dir.name.startswith("."):
+                    continue
+                finals = list(proj_dir.glob("Final_*.mp4"))
+                if not finals:
+                    finals = list(proj_dir.glob("*.mp4"))
+                if finals:
+                    final_video = finals[0]
+                    rel_path = str(final_video.relative_to(OUTPUT_ROOT))
+                    if rel_path in seen_paths:
+                        continue
+                    seen_paths.add(rel_path)
+
+                    created_at = None
+                    meta_path = proj_dir / "studio_meta.json"
+                    if meta_path.exists():
+                        try:
+                            with open(meta_path, "r", encoding="utf-8") as mf:
+                                mdata = _json.load(mf)
+                            created_at = mdata.get("created_at") or mdata.get("updated_at")
+                        except Exception:
+                            pass
+                    if not created_at:
+                        mtime = final_video.stat().st_mtime
+                        created_at = datetime.datetime.fromtimestamp(mtime, datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+                    title = None
+                    if meta_path.exists():
+                        try:
+                            with open(meta_path, "r", encoding="utf-8") as mf:
+                                title = _json.load(mf).get("title")
+                        except Exception:
+                            pass
+                    name = title or proj_dir.name.replace("_", " ").title()
+
+                    videos.append({
+                        "id": f"{date_dir.name}/{proj_dir.name}",
+                        "name": name,
+                        "path": rel_path,
+                        "filename": final_video.name,
+                        "size_mb": round(final_video.stat().st_size / (1024 * 1024), 2),
+                        "created_at": created_at,
+                        "source": "output",
+                    })
+
+    # 2. Scan DATA_DIR (Legacy explainer videos)
     if DATA_DIR.exists():
-        for item in DATA_DIR.iterdir():
+        for item in sorted(DATA_DIR.iterdir(), reverse=True):
             if item.is_dir() and (item.name.startswith("explainer_") or item.name.startswith("short_")):
                 final_video = find_final_video(item)
                 if final_video:
-                    # Read created_at from manifest.json; fall back to file mtime
+                    rel_path = str(final_video.relative_to(DATA_DIR))
+                    if rel_path in seen_paths:
+                        continue
+                    seen_paths.add(rel_path)
+
                     created_at = None
                     manifest_path = item / "manifest.json"
                     if manifest_path.exists():
@@ -125,26 +183,29 @@ def get_videos():
                         except Exception:
                             pass
                     if not created_at:
-                        # Fallback: use video file modification time as ISO string
-                        import datetime
                         mtime = final_video.stat().st_mtime
-                        created_at = datetime.datetime.utcfromtimestamp(mtime).strftime("%Y-%m-%dT%H:%M:%SZ")
+                        created_at = datetime.datetime.fromtimestamp(mtime, datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
                     videos.append({
                         "id": item.name,
                         "name": item.name.replace("explainer_", "").replace("short_", "").replace("_", " ").title(),
-                        "path": str(final_video.relative_to(DATA_DIR)),
+                        "path": rel_path,
                         "filename": final_video.name,
                         "size_mb": round(final_video.stat().st_size / (1024 * 1024), 2),
                         "created_at": created_at,
+                        "source": "data",
                     })
-    # Sort newest first
+
+    # Sort newest first by created_at
     videos.sort(key=lambda v: v.get("created_at", ""), reverse=True)
     return jsonify(videos)
 
 @app.route("/video/<path:filepath>", methods=["GET"])
 def serve_video(filepath):
-    """Serve .mp4 video files to the frontend video player."""
+    """Serve .mp4 video files to the frontend video player from DATA_DIR or OUTPUT_ROOT."""
     full_path = DATA_DIR / filepath
+    if not full_path.exists():
+        full_path = OUTPUT_ROOT / filepath
     if full_path.exists():
         return send_file(full_path, mimetype="video/mp4")
     return jsonify({"error": "Video not found"}), 404
@@ -326,9 +387,12 @@ def generate_cover():
         
     video_path = DATA_DIR / video_rel_path
     if not video_path.exists():
+        video_path = OUTPUT_ROOT / video_rel_path
+    if not video_path.exists():
         return jsonify({"error": f"Video file not found: {video_path}"}), 404
         
-    cover_dir = DATA_DIR / "covers"
+    base_dir = video_path.parent
+    cover_dir = base_dir / "covers"
     cover_dir.mkdir(parents=True, exist_ok=True)
     
     clean_name = video_path.stem.replace(" ", "_")
@@ -341,7 +405,10 @@ def generate_cover():
     ]
     try:
         subprocess.run(cmd, check=True, capture_output=True)
-        rel_cover = f"covers/{cover_filename}"
+        if cover_path.is_relative_to(OUTPUT_ROOT):
+            rel_cover = str(cover_path.relative_to(OUTPUT_ROOT))
+        else:
+            rel_cover = str(cover_path.relative_to(DATA_DIR))
         return jsonify({
             "success": True,
             "cover_path": rel_cover,
@@ -353,8 +420,10 @@ def generate_cover():
 
 @app.route("/cover/<path:filepath>", methods=["GET"])
 def serve_cover(filepath):
-    """Serve thumbnail cover images."""
+    """Serve thumbnail cover images from DATA_DIR or OUTPUT_ROOT."""
     full_path = DATA_DIR / filepath
+    if not full_path.exists():
+        full_path = OUTPUT_ROOT / filepath
     if full_path.exists():
         return send_file(full_path, mimetype="image/jpeg")
     return jsonify({"error": "Cover image not found"}), 404
@@ -609,15 +678,35 @@ except ImportError:
     _RECOMPOSE_AVAILABLE = False
 
 
-@app.route("/api/project/<project_id>/manifest", methods=["GET"])
-def get_project_manifest(project_id):
-    """Return per-slide metadata for the Slide Timeline Editor UI.
+def resolve_project_dir(project_id: str):
+    """Resolve a project directory from either DATA_DIR or OUTPUT_ROOT."""
+    if not project_id:
+        return None
+    p1 = DATA_DIR / project_id
+    if p1.exists() and p1.is_dir():
+        return p1
+    p2 = OUTPUT_ROOT / project_id
+    if p2.exists() and p2.is_dir():
+        return p2
+    if project_id.startswith("studio_"):
+        raw_id = project_id[7:]
+        p3 = OUTPUT_ROOT / raw_id
+        if p3.exists() and p3.is_dir():
+            return p3
+    if OUTPUT_ROOT.exists():
+        for date_dir in OUTPUT_ROOT.iterdir():
+            if date_dir.is_dir() and not date_dir.name.startswith("."):
+                candidate = date_dir / project_id
+                if candidate.exists() and candidate.is_dir():
+                    return candidate
+    return None
 
-    Each slide entry has: index, slide_file, broll_image, duration_s,
-    width, height, has_replacement.
-    """
-    project_dir = DATA_DIR / project_id
-    if not project_dir.exists() or not project_dir.is_dir():
+
+@app.route("/api/project/<path:project_id>/manifest", methods=["GET"])
+def get_project_manifest(project_id):
+    """Return per-slide metadata for the Slide Timeline Editor UI."""
+    project_dir = resolve_project_dir(project_id)
+    if not project_dir:
         return jsonify({"error": f"Project not found: {project_id}"}), 404
 
     if not _RECOMPOSE_AVAILABLE:
@@ -630,10 +719,12 @@ def get_project_manifest(project_id):
         return jsonify({"error": str(exc)}), 500
 
 
-@app.route("/api/project/<project_id>/slide_asset/<path:filename>", methods=["GET"])
+@app.route("/api/project/<path:project_id>/slide_asset/<path:filename>", methods=["GET"])
 def serve_slide_asset(project_id, filename):
     """Serve slide broll images for the Web UI timeline thumbnails."""
-    project_dir = DATA_DIR / project_id
+    project_dir = resolve_project_dir(project_id)
+    if not project_dir:
+        return jsonify({"error": "Project not found"}), 404
     asset_path = project_dir / filename
     if not asset_path.exists():
         return jsonify({"error": "Asset not found"}), 404
@@ -644,16 +735,11 @@ def serve_slide_asset(project_id, filename):
     return send_file(asset_path, mimetype=mime)
 
 
-@app.route("/api/project/<project_id>/replace_slide", methods=["POST"])
+@app.route("/api/project/<path:project_id>/replace_slide", methods=["POST"])
 def replace_slide_endpoint(project_id):
-    """Replace a slide's background image and re-render slide_XX.mp4.
-
-    Multipart form fields:
-      slide_index  — integer index of the slide to replace (0-based)
-      image        — the new background image file (JPEG, PNG, WEBP, etc.)
-    """
-    project_dir = DATA_DIR / project_id
-    if not project_dir.exists() or not project_dir.is_dir():
+    """Replace a slide's background image and re-render slide_XX.mp4."""
+    project_dir = resolve_project_dir(project_id)
+    if not project_dir:
         return jsonify({"error": f"Project not found: {project_id}"}), 404
 
     if not _RECOMPOSE_AVAILABLE:
@@ -695,14 +781,11 @@ def replace_slide_endpoint(project_id):
     return jsonify({"error": result.get("error", "Replace failed")}), 500
 
 
-@app.route("/api/project/<project_id>/revert_slide", methods=["POST"])
+@app.route("/api/project/<path:project_id>/revert_slide", methods=["POST"])
 def revert_slide_endpoint(project_id):
-    """Revert a slide to its original broll image (undo replace_slide).
-
-    JSON body: { "slide_index": 0 }
-    """
-    project_dir = DATA_DIR / project_id
-    if not project_dir.exists() or not project_dir.is_dir():
+    """Revert a slide to its original broll image."""
+    project_dir = resolve_project_dir(project_id)
+    if not project_dir:
         return jsonify({"error": f"Project not found: {project_id}"}), 404
 
     if not _RECOMPOSE_AVAILABLE:
@@ -724,17 +807,11 @@ def revert_slide_endpoint(project_id):
     return jsonify({"error": result.get("error", "Revert failed")}), 500
 
 
-@app.route("/api/project/<project_id>/recompose", methods=["POST"])
+@app.route("/api/project/<path:project_id>/recompose", methods=["POST"])
 def recompose_endpoint(project_id):
-    """Re-stitch all slide clips, mux with narration, re-burn captions,
-    update manifest.json, then delete the old Google Drive file and
-    upload the new final video in its place.
-
-    Returns: { success, video_path, video_url, manifest_updated,
-               drive_deleted, drive_reuploaded, drive_link, drive_error }
-    """
-    project_dir = DATA_DIR / project_id
-    if not project_dir.exists() or not project_dir.is_dir():
+    """Re-stitch all slide clips, mux with narration, re-burn captions."""
+    project_dir = resolve_project_dir(project_id)
+    if not project_dir:
         return jsonify({"error": f"Project not found: {project_id}"}), 404
 
     if not _RECOMPOSE_AVAILABLE:
