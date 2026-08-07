@@ -961,48 +961,172 @@ CRITICAL RULES:
     def _build_filename(si: int, ii: int) -> str:
         return f"{prefix}_s{si+1:03d}_img{ii+1:03d}.png"
 
-    def _parse_gemini(raw: str):
+    def _parse_json(raw: str):
         """Robust JSON extraction — strips markdown fences, finds outer braces."""
         raw = raw.replace("```json", "").replace("```", "").strip()
         start = raw.find("{")
         end   = raw.rfind("}") + 1
         if start < 0 or end <= start:
-            raise ValueError("No JSON object found in Gemini response")
+            start = raw.find("[")
+            end   = raw.rfind("]") + 1
+            if start < 0 or end <= start:
+                raise ValueError("No JSON found in Gemini response")
         return json.loads(raw[start:end])
 
+    def _call_gemini_with_key(prompt: str, key: str, model: str = "gemini-flash-latest", timeout: int = 60) -> str:
+        """Call Gemini using a specific key (bypasses key rotation — caller manages keys)."""
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
+        payload = {
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {"maxOutputTokens": 8192, "responseMimeType": "application/json"}
+        }
+        for attempt in range(3):
+            try:
+                resp = requests.post(url, json=payload, timeout=timeout)
+                if resp.status_code == 200:
+                    data = resp.json()
+                    return data["candidates"][0]["content"]["parts"][0]["text"]
+                elif resp.status_code == 429:
+                    print(f"[studio][key {key[:12]}...] 429 on attempt {attempt+1}, waiting 5s...")
+                    time.sleep(5)
+                    continue
+                else:
+                    raise Exception(f"HTTP {resp.status_code}: {resp.text[:120]}")
+            except Exception as ex:
+                if attempt < 2:
+                    print(f"[studio][key {key[:12]}...] Exception: {ex} — retry {attempt+2}")
+                    time.sleep(3)
+                else:
+                    raise
+        raise Exception(f"All 3 attempts failed for key {key[:12]}...")
+
+    # ── Get pool of keys for per-scene rotation ──────────────────────────────
+    raw_keys = os.environ.get("GEMINI_API_KEYS") or os.environ.get("GEMINI_API_KEY") or ""
+    key_pool  = [k.strip() for k in raw_keys.replace("\n", ",").split(",") if k.strip()]
+    primary_model = os.environ.get("GEMINI_PRIMARY_MODEL") or "gemini-flash-latest"
+
     try:
-        raw    = call_gemini(gemini_prompt, timeout=300, json_mode=True)
-        result = _parse_gemini(raw)
+        # ── PHASE 1: Plan the scene structure (small, fast call) ─────────────
+        scene_plan_prompt = f"""You are a video scene planner.
 
-        scenes = result.get("scenes", [])
-        if not scenes:
-            raise ValueError("Gemini returned empty scenes array")
+VIDEO: "{title}" ({video_type}, {aspect})
+SCRIPT ({word_count} words, ~{est_dur_secs}s at 140 wpm):
+{script}
 
+Plan the scenes. Each scene = 10-15 seconds of narration.
+{"Max 18 scenes for shorts (<=180s)." if video_type == "short" else "No scene limit for long videos."}
+
+Return JSON only — no markdown:
+{{"scenes": [
+  {{"scene_index": 1, "scene_title": "...", "script_excerpt": "exact sentence(s) from script for this scene", "scene_duration_s": 12}},
+  ...
+]}}"""
+
+        print(f"[studio] PHASE 1: Planning scene structure with {primary_model}...")
+        key1 = key_pool[0] if key_pool else ""
+        if not key1:
+            raise Exception("No API keys available")
+        plan_raw  = _call_gemini_with_key(scene_plan_prompt, key1, primary_model, timeout=45)
+        plan_data = _parse_json(plan_raw)
+        scene_plan = plan_data if isinstance(plan_data, list) else plan_data.get("scenes", [])
+        if not scene_plan:
+            raise ValueError("Scene planner returned no scenes")
+        print(f"[studio] PHASE 1 done — {len(scene_plan)} scenes planned.")
+
+        # ── PHASE 2: Generate image prompts per-scene, rotating keys ─────────
+        scenes       = []
         total_images = 0
-        for si, scene in enumerate(scenes):
-            scene["scene_index"] = si + 1
-            imgs = scene.get("images", [])
-            for ii, img in enumerate(imgs):
-                fn = _build_filename(si, ii)
-                img["image_index"]   = ii + 1
-                img["filename"]      = fn
-                img["aspect_ratio"]  = aspect
-                # Ensure the filename appears in the prompt text
-                if fn not in img.get("prompt", ""):
-                    img["prompt"] = img.get("prompt", "").rstrip(".") + f" Save this image as: {fn}."
+        n_keys       = len(key_pool)
+
+        for si, sp in enumerate(scene_plan):
+            scene_title   = sp.get("scene_title", f"Scene {si+1}")
+            excerpt       = sp.get("script_excerpt", "") or sp.get("narration", "")
+            duration_s    = sp.get("scene_duration_s", 12)
+            n_imgs        = max(8, min(15, round(duration_s * 0.9)))
+
+            # Rotate key: scene 0 → key[1 % n], scene 1 → key[2 % n], etc.
+            key_idx  = (si + 1) % n_keys
+            scene_key = key_pool[key_idx]
+            eg_fns    = [_build_filename(si, ii) for ii in range(3)]
+
+            img_prompt = f"""Generate {n_imgs} cinematic image prompts for one video scene.
+
+VIDEO: "{title}" — Scene {si+1}: "{scene_title}"
+NARRATION: {excerpt}
+ASPECT: {aspect}
+STYLE PREFIX (include verbatim at start of every prompt): {style_defaults}.
+NEGATIVE (include verbatim at end): Negative: {negative}.
+
+Rules:
+- Every prompt is UNIQUE — specific visual, specific angle
+- Same location/mood per scene, vary framing: wide, mid, close, overhead, low
+- Include filename exactly: "Save this image as: <filename>."
+- Filenames: {eg_fns[0]}, {eg_fns[1]}, {eg_fns[2]}, ... up to {_build_filename(si, n_imgs-1)}
+
+Return JSON only — no markdown:
+{{"images": [
+  {{"image_index": 1, "filename": "{eg_fns[0]}", "scene_description": "...", "prompt": "{style_defaults}. <specific visual>. Save this image as: {eg_fns[0]}. Negative: {negative}."}},
+  ...
+]}}"""
+
+            print(f"[studio] PHASE 2 — Scene {si+1}/{len(scene_plan)}: generating {n_imgs} prompts with key[{key_idx}]...")
+            try:
+                img_raw  = _call_gemini_with_key(img_prompt, scene_key, primary_model, timeout=60)
+                img_data = _parse_json(img_raw)
+                imgs_raw = img_data if isinstance(img_data, list) else img_data.get("images", [])
+                imgs = []
+                for ii, img in enumerate(imgs_raw[:n_imgs]):
+                    fn = _build_filename(si, ii)
+                    img["image_index"]  = ii + 1
+                    img["filename"]     = fn
+                    img["aspect_ratio"] = aspect
+                    if fn not in img.get("prompt", ""):
+                        img["prompt"] = img.get("prompt", "").rstrip(".") + f" Save this image as: {fn}."
+                    imgs.append(img)
+                print(f"[studio]   ✓ Scene {si+1}: {len(imgs)} image prompts generated.")
+            except Exception as scene_err:
+                print(f"[studio]   ✗ Scene {si+1} Gemini failed: {scene_err} — using fallback prompts")
+                imgs = []
+                ANGLE_VARIATIONS = ["extreme close-up", "medium shot", "wide shot", "overhead view", "low-angle hero shot", "over-the-shoulder", "tight portrait", "dramatic silhouette", "three-quarter angle", "dutch tilt"]
+                for ii in range(n_imgs):
+                    fn = _build_filename(si, ii)
+                    angle = ANGLE_VARIATIONS[ii % len(ANGLE_VARIATIONS)]
+                    imgs.append({
+                        "image_index":       ii + 1,
+                        "filename":          fn,
+                        "scene_description": f"{angle.capitalize()} of: {excerpt[:80]}",
+                        "prompt":            f"{style_defaults}. {angle} — {excerpt[:120].rstrip('.')} — dramatic cinematic mood, rich colors, ultra detailed. Save this image as: {fn}. Negative: {negative}.",
+                        "aspect_ratio":      aspect,
+                    })
+
             total_images += len(imgs)
+            scenes.append({
+                "scene_index":      si + 1,
+                "scene_title":      scene_title,
+                "script_excerpt":   excerpt,
+                "scene_duration_s": duration_s,
+                "images":           imgs,
+            })
+            # Small pace between scenes to avoid hitting per-key limits
+            if si < len(scene_plan) - 1:
+                time.sleep(1.5)
 
-        result["total_images"]  = total_images
-        result["aspect_ratio"]  = aspect
-        result["video_type"]    = video_type
-        result["short_warning"] = short_warning
-        result["word_count"]    = word_count
-        result["fallback"]      = False
+        all_fallback = all(not s["images"] or all("Save this image as" in i.get("prompt","") and "extreme close-up" in i.get("scene_description","").lower() or "medium shot" in i.get("scene_description","").lower() for i in s["images"]) for s in scenes)
 
-        return jsonify(result)
+        return jsonify({
+            "estimated_duration_s": est_dur_secs,
+            "scene_count":          len(scenes),
+            "total_images":         total_images,
+            "aspect_ratio":         aspect,
+            "video_type":           video_type,
+            "short_warning":        short_warning,
+            "word_count":           word_count,
+            "scenes":               scenes,
+            "fallback":             False,
+        })
 
     except Exception as e:
-        print(f"[studio] Gemini scene gen failed: {e} — building scene-specific fallback")
+        print(f"[studio] Full generation failed: {e} — building scene-specific fallback")
 
         # ── Scene-specific fallback: split script by sentences ───────────────
         import re as _re

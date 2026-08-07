@@ -1,12 +1,12 @@
 """Make a 60 FPS animated explainer video for: 'Octopuses Have THREE Hearts… And She Broke All Three 💔'
 
 Format  : 9:16 vertical
-Output  : /Users/mayanksharma/Downloads/New_Projects/shorts-factory/packages/ClipPilot/output/2026-08-02/octopuses_have_three_hearts_and_she_broke_all_thre
-Manifest: /Users/mayanksharma/Downloads/New_Projects/shorts-factory/packages/ClipPilot/output/2026-08-02/octopuses_have_three_hearts_and_she_broke_all_thre/manifest.json
+Output  : /Users/mayanksharma/Downloads/New_Projects/shorts-factory/packages/ClipPilot/output/2026-08-06/octopuses_have_three_hearts_and_she_broke_all_thre
+Manifest: /Users/mayanksharma/Downloads/New_Projects/shorts-factory/packages/ClipPilot/output/2026-08-06/octopuses_have_three_hearts_and_she_broke_all_thre/manifest.json
 
 Run via CLI:
     cd /Users/mayanksharma/Downloads/New_Projects/shorts-factory/packages/ClipPilot
-    PYTHONPATH="$PWD/src" python3 my_videos/2026-08-02/make_octopuses_have_three_hearts_and_she_broke_all_thre_explainer.py
+    PYTHONPATH="$PWD/src" python3 my_videos/2026-08-06/make_octopuses_have_three_hearts_and_she_broke_all_thre_explainer.py
 """
 import json
 import sys
@@ -17,7 +17,7 @@ SCRIPT     = "Did you know octopuses have three hearts?\n\nOne pumps blood to th
 KEYWORDS   = ["octopus facts", "three hearts", "heartbreak humor", "science facts", "funny science", "marine biology", "relatable shorts", "viral facts"]
 TAGS       = ["shorts", "octopus", "funfacts", "heartbreak", "science", "relatable", "viral", "trending", "biology", "lovefacts"]
 VIDEO_TYPE = "short"
-PROJECT_DIR= Path("/Users/mayanksharma/Downloads/New_Projects/shorts-factory/packages/ClipPilot/output/2026-08-02/octopuses_have_three_hearts_and_she_broke_all_thre")
+PROJECT_DIR= Path("/Users/mayanksharma/Downloads/New_Projects/shorts-factory/packages/ClipPilot/output/2026-08-06/octopuses_have_three_hearts_and_she_broke_all_thre")
 
 if __name__ == "__main__":
     print(f"🎬 Explainer Script for: {TITLE}")
