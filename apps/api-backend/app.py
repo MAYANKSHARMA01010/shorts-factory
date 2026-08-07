@@ -449,8 +449,14 @@ def publish_to_gdrive():
     if not video_id:
         return jsonify({"error": "Missing required field: video_id"}), 400
 
-    # Resolve project directory
-    project_dir = Path(video_id) if Path(video_id).is_absolute() else DATA_DIR / video_id
+    # Resolve project directory (check OUTPUT_ROOT first, then DATA_DIR)
+    if Path(video_id).is_absolute():
+        project_dir = Path(video_id)
+    elif (OUTPUT_ROOT / video_id).exists():
+        project_dir = OUTPUT_ROOT / video_id
+    else:
+        project_dir = DATA_DIR / video_id
+
     if not project_dir.exists() or not project_dir.is_dir():
         return jsonify({"error": f"Project folder not found: {project_dir}"}), 404
 
@@ -474,6 +480,32 @@ def publish_to_gdrive():
         return jsonify({"error": f"Google Drive upload failed: {str(exc)}"}), 500
 
     if result.get("success"):
+        # Persist gdrive details into manifest.json and studio_meta.json
+        manifest_path = project_dir / "manifest.json"
+        if manifest_path.exists():
+            try:
+                mdata = json.loads(manifest_path.read_text(encoding="utf-8"))
+                mdata["gdrive"] = {
+                    "drive_file_id": result.get("drive_file_id"),
+                    "drive_link": result.get("drive_link"),
+                    "upload_name": result.get("upload_name"),
+                    "date_folder": result.get("date_folder"),
+                    "uploaded_at": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+                }
+                manifest_path.write_text(json.dumps(mdata, indent=2), encoding="utf-8")
+            except Exception:
+                pass
+                
+        meta_path = project_dir / "studio_meta.json"
+        if meta_path.exists():
+            try:
+                metadata = json.loads(meta_path.read_text(encoding="utf-8"))
+                metadata["gdrive_link"] = result.get("drive_link")
+                metadata["gdrive_file_id"] = result.get("drive_file_id")
+                meta_path.write_text(json.dumps(metadata, indent=2), encoding="utf-8")
+            except Exception:
+                pass
+
         return jsonify({
             "success": True,
             "drive_link": result.get("drive_link"),
