@@ -189,6 +189,7 @@ export default function Dashboard() {
   const [studioGeneratingImgs, setStudioGeneratingImgs] = useState(false);
   const [studioGenStatus, setStudioGenStatus]           = useState("");
   const [rerollingImg, setRerollingImg]                 = useState<string | null>(null);
+  const [generatingImgFilename, setGeneratingImgFilename] = useState<string | null>(null);
   const [collapsedScenes, setCollapsedScenes]           = useState<Record<number, boolean>>({});
   const [reloadingPrompt, setReloadingPrompt]           = useState<string | null>(null);
   const [reloadingScene, setReloadingScene]             = useState<number | null>(null);
@@ -197,38 +198,107 @@ export default function Dashboard() {
 
   const handleAutoGenerateAllImages = async () => {
     if (!studioProjectId) return;
+    const allImages = studioScenes.flatMap((sc: any) => sc.images || []);
+    if (allImages.length === 0) return;
+
     setStudioGeneratingImgs(true);
     setStudioError("");
-    setStudioGenStatus("Initializing FLUX AI Engine...");
-    try {
-      const res = await fetch(`${API_URL}/api/studio/generate_images/${encodeURIComponent(studioProjectId)}`, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ force: false })
-      });
-      const data = await res.json();
-      if (data.error) throw new Error(data.error);
 
-      // Refresh project meta to mark all images as uploaded
-      const projRes = await fetch(`${API_URL}/api/studio/project/${encodeURIComponent(studioProjectId)}`);
-      const projData = await projRes.json();
-      if (projData.meta) {
-        const prompts = projData.meta.prompts || [];
-        const uploadedMap: Record<string, boolean> = {};
-        const previewsMap: Record<string, string> = {};
-        prompts.forEach((p: any) => {
-          uploadedMap[p.filename] = true;
-          previewsMap[p.filename] = `${API_URL}/studio/image/${encodeURIComponent(studioProjectId)}/images/${p.filename}?t=${Date.now()}`;
-        });
-        setStudioUploaded(uploadedMap);
-        setStudioUploadPreviews(prev => ({ ...prev, ...previewsMap }));
+    for (let i = 0; i < allImages.length; i++) {
+      if (i > 0) {
+        setStudioGenStatus(`⏳ Pause 2s (IP rate limit buffer)...`);
+        await new Promise(r => setTimeout(r, 2000));
       }
-    } catch(e: any) {
-      setStudioError(e.message || "Failed to generate images");
-    } finally {
-      setStudioGeneratingImgs(false);
-      setStudioGenStatus("");
+      const img = allImages[i];
+      const fn = img.filename;
+      const prompt = img.prompt;
+
+      setGeneratingImgFilename(fn);
+      setStudioGenStatus(`Generating Image ${i + 1} of ${allImages.length}: ${fn}...`);
+
+      try {
+        const res = await fetch(`${API_URL}/api/studio/generate_single_image/${encodeURIComponent(studioProjectId)}`, {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({ filename: fn, prompt: prompt })
+        });
+        const data = await res.json();
+        if (!res.ok || data.error) {
+          console.warn(`Failed image ${fn}:`, data.error);
+        } else {
+          // Immediately update card completion and preview thumbnail on screen!
+          setStudioUploaded(prev => ({ ...prev, [fn]: true }));
+          setStudioUploadPreviews(prev => ({
+            ...prev,
+            [fn]: `${API_URL}/studio/image/${encodeURIComponent(studioProjectId)}/images/${fn}?t=${Date.now()}`
+          }));
+        }
+      } catch(e: any) {
+        console.warn(`Error generating ${fn}:`, e.message);
+      }
     }
+
+    setGeneratingImgFilename(null);
+    setStudioGeneratingImgs(false);
+    setStudioGenStatus("");
+  };
+
+  const handleRegenerateAllImages = async () => {
+    if (!studioProjectId) return;
+    const allImages = studioScenes.flatMap((sc: any) => sc.images || []);
+    if (allImages.length === 0) return;
+
+    setStudioGeneratingImgs(true);
+    setStudioError("");
+    setStudioGenStatus("🗑️ Clearing old images...");
+
+    // Step 1: clear old images from disk so we start fresh
+    try {
+      await fetch(`${API_URL}/api/studio/clear_images/${encodeURIComponent(studioProjectId)}`, { method: "POST" });
+      // Clear previews in UI state
+      setStudioUploaded({});
+      setStudioUploadPreviews({});
+    } catch(e: any) {
+      console.warn("Could not clear images:", e.message);
+    }
+
+    // Step 2: regenerate each image one by one
+    for (let i = 0; i < allImages.length; i++) {
+      if (i > 0) {
+        setStudioGenStatus(`⏳ Pause 2s (IP rate limit buffer)...`);
+        await new Promise(r => setTimeout(r, 2000));
+      }
+      const img = allImages[i];
+      const fn = img.filename;
+      const prompt = img.prompt;
+
+      setGeneratingImgFilename(fn);
+      setStudioGenStatus(`🎨 Regenerating ${i + 1}/${allImages.length}: ${fn}...`);
+
+      try {
+        const res = await fetch(`${API_URL}/api/studio/generate_single_image/${encodeURIComponent(studioProjectId)}`, {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({ filename: fn, prompt: prompt })
+        });
+        const data = await res.json();
+        if (!res.ok || data.error) {
+          console.warn(`Failed image ${fn}:`, data.error);
+        } else {
+          setStudioUploaded(prev => ({ ...prev, [fn]: true }));
+          setStudioUploadPreviews(prev => ({
+            ...prev,
+            [fn]: `${API_URL}/studio/image/${encodeURIComponent(studioProjectId)}/images/${fn}?t=${Date.now()}`
+          }));
+        }
+      } catch(e: any) {
+        console.warn(`Error regenerating ${fn}:`, e.message);
+      }
+    }
+
+    setGeneratingImgFilename(null);
+    setStudioGeneratingImgs(false);
+    setStudioGenStatus("");
   };
 
   const handleRerollSingleImage = async (filename: string, prompt: string) => {
@@ -3045,13 +3115,21 @@ export default function Dashboard() {
                         {allDone && <span className="ml-2 text-emerald-400 font-semibold">✅ All images ready!</span>}
                       </p>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <button
                         disabled={studioGeneratingImgs}
                         onClick={handleAutoGenerateAllImages}
                         className="px-5 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-xs font-bold rounded-xl shadow-lg shadow-violet-600/30 transition text-white flex items-center gap-2 cursor-pointer disabled:opacity-50"
                       >
                         {studioGeneratingImgs ? "✨ Generating with FLUX AI..." : `✨ Auto-Generate All ${allImages.length} Images with AI (FLUX)`}
+                      </button>
+                      <button
+                        disabled={studioGeneratingImgs}
+                        onClick={handleRegenerateAllImages}
+                        title="Clears ALL existing images and regenerates from scratch with the fixed AI pipeline"
+                        className="px-4 py-2.5 bg-gradient-to-r from-orange-600 to-rose-600 hover:from-orange-500 hover:to-rose-500 text-xs font-bold rounded-xl shadow-lg shadow-orange-600/30 transition text-white flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                      >
+                        🔄 Regenerate All (Fresh Start)
                       </button>
                       <label className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 border border-white/10 text-xs font-semibold rounded-xl cursor-pointer transition text-slate-200">
                         ⬆ Manual Upload
@@ -3068,7 +3146,7 @@ export default function Dashboard() {
                   {studioGeneratingImgs && (
                     <div className="p-3 rounded-xl bg-violet-950/40 border border-violet-500/30 text-xs text-violet-300 flex items-center gap-3">
                       <div className="w-4 h-4 rounded-full border-2 border-violet-400 border-t-transparent animate-spin shrink-0"/>
-                      <span>Generating high-quality 8K visuals using FLUX AI engine. Images will appear automatically as they complete...</span>
+                      <span>{studioGenStatus || "Generating high-quality 8K visuals using FLUX AI engine..."}</span>
                     </div>
                   )}
                   <div className="h-1.5 rounded-full bg-slate-800 overflow-hidden">
@@ -3121,12 +3199,17 @@ export default function Dashboard() {
                         {/* Image grid for this scene */}
                         <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
                           {imgs.map((img: any, ii: number) => {
-                            const done      = studioUploaded[img.filename];
-                            const preview   = studioUploadPreviews[img.filename] || (done && studioProjectId ? `${API_URL}/studio/image/${encodeURIComponent(studioProjectId)}/images/${img.filename}` : null);
-                            const isRolling = rerollingImg === img.filename;
+                            const done         = studioUploaded[img.filename];
+                            const preview      = studioUploadPreviews[img.filename] || (done && studioProjectId ? `${API_URL}/studio/image/${encodeURIComponent(studioProjectId)}/images/${img.filename}` : null);
+                            const isGenerating = generatingImgFilename === img.filename;
+                            const isRolling    = rerollingImg === img.filename || isGenerating;
                             return (
                               <div key={ii} className={`relative group rounded-lg overflow-hidden border transition-all ${
-                                done ? "border-emerald-500/60" : "border-white/10 hover:border-violet-500/40"
+                                isGenerating
+                                  ? "border-2 border-violet-400 shadow-lg shadow-violet-500/50 animate-pulse ring-2 ring-violet-500/50 z-20"
+                                  : done
+                                  ? "border-emerald-500/60"
+                                  : "border-white/10 hover:border-violet-500/40"
                               }`}>
                                 {preview ? (
                                   <img src={preview} alt={img.filename}
@@ -3142,8 +3225,11 @@ export default function Dashboard() {
                                   </div>
                                 )}
                                 {isRolling && (
-                                  <div className="absolute inset-0 flex items-center justify-center bg-black/70 z-10">
-                                    <div className="w-4 h-4 rounded-full border-2 border-violet-400 border-t-transparent animate-spin"/>
+                                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 z-10 space-y-1">
+                                    <div className="w-5 h-5 rounded-full border-2 border-violet-400 border-t-transparent animate-spin"/>
+                                    <span className="text-[8px] font-bold text-violet-300 px-1 text-center">
+                                      {isGenerating ? "AI Generating..." : "Re-rolling..."}
+                                    </span>
                                   </div>
                                 )}
                                 <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition z-10 flex gap-1">

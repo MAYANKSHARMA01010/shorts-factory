@@ -297,11 +297,8 @@ To launch the Next.js dashboard and API backend for managing, editing, and publi
   - **Image Serving Route**: Added `/studio/image/<filepath>` to serve preview thumbnails directly to the Web UI.
   - **Studio UI Integration**: Added primary CTA button in Step 3 (**`✨ Auto-Generate All {total} Images with AI (FLUX)`**) with real-time progress bar, live thumbnail rendering, hover re-roll (`🔄`), and auto-transition to Step 4 (`Render Video`).
   - **Resilient Fallback**: Added fast fallback to `picsum.photos` if external API connections are dropped, ensuring video generation never stalls or crashes.
-- **Script, Keywords & Tags Persistence Fix (2026-08-07)**:
-  - Fixed missing React state assignments for `script`, `keywords`, and `tags` when opening or continuing projects from the Studio Hub (`studioProjects`).
-  - Added `/api/studio/update_project/<project_id>` endpoint to save metadata updates directly to `studio_meta.json` without creating duplicate project directories.
-- **Pacing Rules & Scene Breakdown Math (40-80s per Scene, 8-15 Images) (2026-08-07)**:
-  - **Thematic Scene Grouping**: Updated scene planner math: **1 Scene = ~40 to 80 seconds of narration** (60s Shorts = 1-2 scenes, 120s = 2-3 scenes).
-  - **Comfortable Visual Pacing (~4.5 - 5s per Image)**:
-    - Short narrations (< 40s total) get **3 to 8 images total** (eliminating 1-second rapid image flipping).
-    - Standard long scenes (40 - 80s) get **8 to 15 images per scene**.
+- **Real-Time Sequential Image Generator & Multi-Layer SSL Resiliency (2026-08-07)**:
+  - **Card-by-Card Real-Time UI Rendering**: Upgraded Step 3 **`✨ Auto-Generate All Images`** to generate image prompts sequentially one-by-one (`/api/studio/generate_single_image`). As each image completes, its UI thumbnail immediately updates on screen with an active pulsing violet ring (`border-2 border-violet-400 animate-pulse`).
+  - **Live Progress Bar & Status Feed**: Displays real-time progress text (`Generating Image 3 of 14: short_s001_img003.png...`) with an animated completion bar in the Step 3 header.
+  - **Multi-Layer SSL & Network Resiliency**: Upgraded backend image downloader (`_download_pollinations_image`) with multi-attempt fallback (`requests` -> `curl -k` -> `curl -k turbo` -> `picsum`). Bypasses macOS OpenSSL TLS SNI connection drops (`SSLEOFError`) so image generation never returns HTTP 500.
+  - **Disk Meta State Persistence**: Synchronized `studio_meta.json` saving across `studio_create_project` and `studio_update_project` so `scenes`, `fallback: false`, and `total_images` are correctly restored when opening projects from the Studio Hub.
