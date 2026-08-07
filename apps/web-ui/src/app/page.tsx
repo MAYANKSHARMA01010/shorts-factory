@@ -198,6 +198,100 @@ export default function Dashboard() {
   const [gdriveUploading, setGdriveUploading]           = useState(false);
   const [gdriveResult, setGdriveResult]                 = useState<any>(null);
 
+  // Voice, Subtitle & BGM Customizer State
+  const [voicePreset, setVoicePreset]             = useState("default");
+  const [selectedVoice, setSelectedVoice]         = useState("en-US-AndrewMultilingualNeural");
+  const [subtitleFont, setSubtitleFont]           = useState("Arial Black");
+  const [subtitleColor, setSubtitleColor]         = useState("&H00FFFFFF");
+  const [subtitleHighlight, setSubtitleHighlight] = useState("&H0000FFFF");
+  const [subtitleSize, setSubtitleSize]           = useState("100");
+  const [subtitlePosition, setSubtitlePosition]   = useState("bottom");
+  const [bgmPreset, setBgmPreset]                 = useState("none");
+  const [bgmVolume, setBgmVolume]                 = useState("0.12");
+
+  const [playingVoice, setPlayingVoice]           = useState(false);
+  const [playingBgm, setPlayingBgm]               = useState(false);
+  const voiceAudioRef                             = useRef<HTMLAudioElement | null>(null);
+  const bgmAudioRef                               = useRef<HTMLAudioElement | null>(null);
+  const bgmTimeoutRef                             = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const assColorToHex = (ass: string) => {
+    if (!ass) return "#FFFFFF";
+    if (ass.startsWith("#")) return ass;
+    const clean = ass.replace("&H", "").replace(/^00/, "");
+    if (clean.length === 6) {
+      const bb = clean.substring(0, 2);
+      const gg = clean.substring(2, 4);
+      const rr = clean.substring(4, 6);
+      return `#${rr}${gg}${bb}`;
+    }
+    return "#FFFFFF";
+  };
+
+  const stopAllAudioPreviews = () => {
+    if (voiceAudioRef.current) {
+      voiceAudioRef.current.pause();
+      voiceAudioRef.current.currentTime = 0;
+    }
+    if (bgmAudioRef.current) {
+      bgmAudioRef.current.pause();
+      bgmAudioRef.current.currentTime = 0;
+    }
+    if (bgmTimeoutRef.current) {
+      clearTimeout(bgmTimeoutRef.current);
+      bgmTimeoutRef.current = null;
+    }
+    setPlayingVoice(false);
+    setPlayingBgm(false);
+  };
+
+  const handlePlayVoicePreview = async () => {
+    if (playingVoice) {
+      stopAllAudioPreviews();
+      return;
+    }
+    stopAllAudioPreviews();
+    setPlayingVoice(true);
+    try {
+      const audio = new Audio(`${API_URL}/api/studio/preview_voice/${selectedVoice}`);
+      voiceAudioRef.current = audio;
+      await audio.play();
+      audio.onended = () => setPlayingVoice(false);
+      audio.onerror = () => setPlayingVoice(false);
+    } catch (e) {
+      console.error("Voice preview playback error:", e);
+      setPlayingVoice(false);
+    }
+  };
+
+  const handlePlayBgmPreview = async () => {
+    if (bgmPreset === "none") return;
+    if (playingBgm) {
+      stopAllAudioPreviews();
+      return;
+    }
+    stopAllAudioPreviews();
+    setPlayingBgm(true);
+    try {
+      const audio = new Audio(`${API_URL}/api/studio/preview_bgm/${bgmPreset}`);
+      bgmAudioRef.current = audio;
+      await audio.play();
+      audio.onended = () => setPlayingBgm(false);
+      audio.onerror = () => setPlayingBgm(false);
+      // Auto-stop BGM after 5s snippet
+      bgmTimeoutRef.current = setTimeout(() => {
+        if (bgmAudioRef.current) {
+          bgmAudioRef.current.pause();
+          bgmAudioRef.current.currentTime = 0;
+        }
+        setPlayingBgm(false);
+      }, 5000);
+    } catch (e) {
+      console.error("BGM preview playback error:", e);
+      setPlayingBgm(false);
+    }
+  };
+
   const handleUploadToGDrive = async () => {
     if (!studioProjectId) return;
     setGdriveUploading(true);
@@ -2618,6 +2712,16 @@ export default function Dashboard() {
                                 setStudioFallback(d.meta.fallback || false);
                                 setStudioTotalImgs(d.meta.total_images || (d.meta.prompts?.length || 0));
                                 setStudioEstDur(d.meta.duration_hint || 60);
+
+                                if (d.meta.voice) setSelectedVoice(d.meta.voice);
+                                if (d.meta.voice_preset) setVoicePreset(d.meta.voice_preset);
+                                if (d.meta.subtitle_font) setSubtitleFont(d.meta.subtitle_font);
+                                if (d.meta.subtitle_color) setSubtitleColor(d.meta.subtitle_color);
+                                if (d.meta.subtitle_highlight) setSubtitleHighlight(d.meta.subtitle_highlight);
+                                if (d.meta.subtitle_size) setSubtitleSize(String(d.meta.subtitle_size));
+                                if (d.meta.subtitle_position) setSubtitlePosition(d.meta.subtitle_position);
+                                if (d.meta.bgm_preset) setBgmPreset(d.meta.bgm_preset);
+                                if (d.meta.bgm_volume) setBgmVolume(String(d.meta.bgm_volume));
                               }
 
                               // ── 1. Populate uploaded images & previews state ──
@@ -2820,6 +2924,227 @@ export default function Dashboard() {
                 </div>
               </div>
 
+              {/* 🎛️ Voice, Subtitles & Audio Customizer with Live 9:16 Preview */}
+              <div className="glass p-5 rounded-2xl border border-violet-500/20 space-y-4">
+                <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xl">🎛️</span>
+                    <div>
+                      <h3 className="font-bold text-white text-sm">Voice, Subtitle & Audio Customizer</h3>
+                      <p className="text-xs text-slate-400">Default settings match your current production pipeline. Customize & preview live!</p>
+                    </div>
+                  </div>
+                  <span className="px-2.5 py-1 rounded-full text-[11px] font-mono bg-violet-500/10 text-violet-300 border border-violet-500/30">Live Preview Ready</span>
+                </div>
+
+                <div className="grid grid-cols-12 gap-5">
+                  {/* Left Column: Controls (7 cols) */}
+                  <div className="col-span-7 space-y-4">
+                    <div className="grid grid-cols-2 gap-3">
+                      {/* Voice & Genre Preset */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center justify-between">
+                          <span>🎙️ AI Voice / Tone</span>
+                          <span className="text-[10px] text-violet-400 font-mono">48kHz</span>
+                        </label>
+                        <select
+                          value={selectedVoice}
+                          onChange={e => setSelectedVoice(e.target.value)}
+                          className="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-violet-500/50"
+                        >
+                          <option value="en-US-AndrewMultilingualNeural">🎯 Default (Andrew — Authoritative)</option>
+                          <option value="en-US-AnaNeural">🤣 Funny / Comedic (Ana)</option>
+                          <option value="en-US-ChristopherNeural">🎭 Serious / Dark (Christopher)</option>
+                          <option value="en-US-BrianNeural">🔬 Educational (Brian)</option>
+                          <option value="en-US-GuyNeural">🚀 Hype / Energetic (Guy)</option>
+                          <option value="en-US-AriaNeural">🧘 Chill Storyteller (Aria)</option>
+                          <option value="en-US-JennyNeural">👩 Natural Female (Jenny)</option>
+                          <option value="en-US-EricNeural">👨 Smooth Conversational (Eric)</option>
+                          <option value="en-US-SteffanNeural">🎙️ Deep Radio Host (Steffan)</option>
+                        </select>
+                      </div>
+
+                      {/* Background Music Bed */}
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider flex items-center justify-between">
+                          <span>🎵 BGM Track</span>
+                          <span className="text-[10px] text-emerald-400 font-mono">Ducked</span>
+                        </label>
+                        <select
+                          value={bgmPreset}
+                          onChange={e => setBgmPreset(e.target.value)}
+                          className="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-violet-500/50"
+                        >
+                          <option value="none">🚫 None (Voice Only)</option>
+                          <option value="dramatic">🎭 Dramatic / Suspense</option>
+                          <option value="funny">🤣 Funny / Whimsical</option>
+                          <option value="upbeat">🚀 Upbeat / Energetic</option>
+                          <option value="chill">🌌 Chill / Lo-Fi Ambient</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Subtitle Customizer Controls Grid */}
+                    <div className="grid grid-cols-2 gap-3 pt-2 border-t border-white/5">
+                      {/* Subtitle Font */}
+                      <div className="space-y-1">
+                        <label className="text-[11px] font-semibold text-slate-400">Subtitle Font</label>
+                        <select
+                          value={subtitleFont}
+                          onChange={e => setSubtitleFont(e.target.value)}
+                          className="w-full bg-slate-900 border border-white/10 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none"
+                        >
+                          <option value="Arial Black">Arial Black (Default)</option>
+                          <option value="Impact">Impact (Meme/Shorts)</option>
+                          <option value="Montserrat">Montserrat (Modern)</option>
+                          <option value="Arial">Arial (Clean)</option>
+                        </select>
+                      </div>
+
+                      {/* Highlight Color (Active Karaoke Word) */}
+                      <div className="space-y-1">
+                        <label className="text-[11px] font-semibold text-slate-400">Karaoke Highlight Color</label>
+                        <select
+                          value={subtitleHighlight}
+                          onChange={e => setSubtitleHighlight(e.target.value)}
+                          className="w-full bg-slate-900 border border-white/10 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none"
+                        >
+                          <option value="&H0000FFFF">🟡 Yellow (#FFFF00 - Default)</option>
+                          <option value="&H00F0FF00">🩵 Neon Cyan (#00FFF0)</option>
+                          <option value="&H00FF00FF">🩷 Hot Pink (#FF00FF)</option>
+                          <option value="&H0000FF00">💚 Neon Green (#00FF00)</option>
+                          <option value="&H0000A5FF">🧡 Electric Orange (#FFA500)</option>
+                        </select>
+                      </div>
+
+                      {/* Base Text Color */}
+                      <div className="space-y-1">
+                        <label className="text-[11px] font-semibold text-slate-400">Base Text Color</label>
+                        <select
+                          value={subtitleColor}
+                          onChange={e => setSubtitleColor(e.target.value)}
+                          className="w-full bg-slate-900 border border-white/10 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none"
+                        >
+                          <option value="&H00FFFFFF">⚪ Pure White (Default)</option>
+                          <option value="&H00F3F5FF">🧊 Soft Ice White</option>
+                          <option value="&H00FFFFCC">🟡 Warm Yellow Tint</option>
+                          <option value="&H00E0E0E0">🩶 Soft Gray</option>
+                        </select>
+                      </div>
+
+                      {/* Subtitle Size & Pos */}
+                      <div className="space-y-1">
+                        <label className="text-[11px] font-semibold text-slate-400">Subtitle Size & Position</label>
+                        <div className="flex gap-1">
+                          <select
+                            value={subtitleSize}
+                            onChange={e => setSubtitleSize(e.target.value)}
+                            className="flex-1 bg-slate-900 border border-white/10 rounded-xl px-2 py-1.5 text-xs text-white focus:outline-none"
+                          >
+                            <option value="80">Small (80px)</option>
+                            <option value="100">Med (100px)</option>
+                            <option value="120">Large (120px)</option>
+                            <option value="140">Huge (140px)</option>
+                          </select>
+                          <select
+                            value={subtitlePosition}
+                            onChange={e => setSubtitlePosition(e.target.value)}
+                            className="flex-1 bg-slate-900 border border-white/10 rounded-xl px-2 py-1.5 text-xs text-white focus:outline-none"
+                          >
+                            <option value="bottom">Bottom</option>
+                            <option value="center">Center</option>
+                            <option value="top">Top</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Column: Live Interactive 9:16 Frame Preview & Audio Sample Buttons (5 cols) */}
+                  <div className="col-span-5 bg-slate-950 p-4 rounded-2xl border border-white/10 flex flex-col items-center justify-between space-y-3">
+                    <div className="flex items-center justify-between w-full text-[11px] text-slate-400 font-mono">
+                      <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
+                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"/>
+                        LIVE 9:16 PREVIEW
+                      </span>
+                      <span className="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300">
+                        {studioVideoType === "short" ? "9:16 Short (Vertical)" : "16:9 Long (Wide)"}
+                      </span>
+                    </div>
+
+                    {/* Smartphone 9:16 Mockup Container */}
+                    <div className="flex flex-col items-center justify-center py-1 w-full">
+                      <div className={`relative overflow-hidden rounded-[24px] border-[4px] border-slate-700 shadow-[0_15px_30px_rgba(0,0,0,0.9)] bg-black flex flex-col transition-all ${
+                        studioVideoType === "short" ? "w-[190px] aspect-[9/16]" : "w-full aspect-[16/9]"
+                      }`}>
+                        {/* Dynamic Island Notch for Shorts */}
+                        {studioVideoType === "short" && (
+                          <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-12 h-2.5 bg-black/90 rounded-full border border-white/10 z-30 flex items-center justify-center">
+                            <div className="w-1.5 h-1.5 rounded-full bg-slate-900 border border-white/20"/>
+                          </div>
+                        )}
+
+                        {/* Background Image Simulation (True Vertical Portrait 9:16) */}
+                        <img
+                          src="https://images.pexels.com/photos/3004909/pexels-photo-3004909.jpeg?auto=compress&cs=tinysrgb&h=800&w=450"
+                          alt="Vertical Preview"
+                          className="absolute inset-0 w-full h-full object-cover opacity-75"
+                        />
+
+                        {/* Gradient Overlays for contrast */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/50 pointer-events-none"/>
+
+                        {/* Top overlay badge */}
+                        <div className="relative z-20 pt-5 px-2.5 flex justify-between items-center text-[9px] text-white/90 font-mono">
+                          <span className="font-bold text-emerald-400">9:16 Short</span>
+                          <span className="px-1.5 py-0.5 rounded bg-black/70 border border-white/20 text-violet-300 font-bold">
+                            {selectedVoice.split("-")[2]?.replace("Neural","")}
+                          </span>
+                        </div>
+
+                        {/* Live Burned-in Subtitle Simulation */}
+                        <div className={`relative z-20 flex-1 flex flex-col px-3 ${
+                          subtitlePosition === "top" ? "justify-start pt-4" : (subtitlePosition === "center" ? "justify-center" : "justify-end pb-6")
+                        }`}>
+                          <div 
+                            className="text-center font-bold tracking-tight uppercase leading-snug drop-shadow-[0_2px_5px_rgba(0,0,0,0.95)]"
+                            style={{
+                              fontFamily: subtitleFont === "Arial Black" ? "Impact, Arial Black, sans-serif" : (subtitleFont === "Impact" ? "Impact, sans-serif" : "Arial, sans-serif"),
+                              fontSize: `${Math.max(11, Math.round(Number(subtitleSize) * 0.15))}px`,
+                            }}
+                          >
+                            <span style={{ color: assColorToHex(subtitleColor) }}>DID YOU KNOW </span>
+                            <span style={{ color: assColorToHex(subtitleHighlight), textShadow: `0 0 10px ${assColorToHex(subtitleHighlight)}` }}>OCTOPUSES</span>
+                            <span style={{ color: assColorToHex(subtitleColor) }}> HAVE THREE HEARTS?</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Live Audio Sample Buttons */}
+                    <div className="w-full grid grid-cols-2 gap-2 pt-1">
+                      <button
+                        onClick={handlePlayVoicePreview}
+                        className={`px-2 py-2 text-white rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1 shadow-md truncate ${
+                          playingVoice ? "bg-amber-600 hover:bg-amber-500 shadow-amber-950 animate-pulse" : "bg-violet-600 hover:bg-violet-500 shadow-violet-950"
+                        }`}
+                      >
+                        {playingVoice ? "⏹️ Stop Voice" : `🔊 Voice (${selectedVoice.split("-")[2]?.replace("Neural","")})`}
+                      </button>
+                      <button
+                        onClick={handlePlayBgmPreview}
+                        disabled={bgmPreset === "none"}
+                        className={`px-2 py-2 text-white rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1 disabled:opacity-30 shadow-md truncate ${
+                          playingBgm ? "bg-rose-600 hover:bg-rose-500 shadow-rose-950 animate-pulse" : "bg-emerald-600 hover:bg-emerald-500 shadow-emerald-950"
+                        }`}
+                      >
+                        {playingBgm ? "⏹️ Stop BGM (5s)" : `🎵 BGM (${bgmPreset})`}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               {/* Info box */}
               <div className="p-3 rounded-xl bg-violet-500/5 border border-violet-500/20 text-xs text-violet-300 space-y-1">
                 <p className="font-semibold">🤖 AI-Driven Scene Planning</p>
@@ -2868,6 +3193,15 @@ export default function Dashboard() {
                         prompts: allImgs,
                         fallback: d.fallback || false,
                         total_images: d.total_images || allImgs.length,
+                        voice_preset: voicePreset,
+                        voice: selectedVoice,
+                        subtitle_font: subtitleFont,
+                        subtitle_color: subtitleColor,
+                        subtitle_highlight: subtitleHighlight,
+                        subtitle_size: subtitleSize,
+                        subtitle_position: subtitlePosition,
+                        bgm_preset: bgmPreset,
+                        bgm_volume: bgmVolume,
                       })
                     });
                     const d2 = await r2.json();

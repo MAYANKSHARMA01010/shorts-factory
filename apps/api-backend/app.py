@@ -1444,23 +1444,32 @@ if __name__ == "__main__":
 
     project_id = f"{date_str}/{slug}"
     meta = {
-        "project_id":    project_id,
-        "date":          date_str,
-        "slug":          slug,
-        "title":         title,
-        "script":        script,
-        "keywords":      keywords,
-        "tags":          tags,
-        "video_type":    video_type,
-        "duration_hint": duration_hint,
-        "scenes":        req.get("scenes", []),
-        "prompts":       prompts,
-        "fallback":      req.get("fallback", False),
-        "total_images":  req.get("total_images", len(prompts)),
-        "py_script":     str(script_file.relative_to(PROJECT_ROOT)),
-        "created_at":    datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "status":        "awaiting_images",
-        "images_uploaded": 0,
+        "project_id":         project_id,
+        "date":               date_str,
+        "slug":               slug,
+        "title":              title,
+        "script":             script,
+        "keywords":           keywords,
+        "tags":               tags,
+        "video_type":         video_type,
+        "duration_hint":      duration_hint,
+        "scenes":             req.get("scenes", []),
+        "prompts":            prompts,
+        "fallback":           req.get("fallback", False),
+        "total_images":       req.get("total_images", len(prompts)),
+        "voice_preset":       req.get("voice_preset", "default"),
+        "voice":              req.get("voice", "en-US-AndrewMultilingualNeural"),
+        "subtitle_font":      req.get("subtitle_font", "Arial Black"),
+        "subtitle_color":     req.get("subtitle_color", "&H00FFFFFF"),
+        "subtitle_highlight": req.get("subtitle_highlight", "&H0000FFFF"),
+        "subtitle_size":      req.get("subtitle_size", 100),
+        "subtitle_position":  req.get("subtitle_position", "bottom"),
+        "bgm_preset":         req.get("bgm_preset", "none"),
+        "bgm_volume":         req.get("bgm_volume", "0.12"),
+        "py_script":          str(script_file.relative_to(PROJECT_ROOT)),
+        "created_at":         datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "status":             "awaiting_images",
+        "images_uploaded":     0,
     }
     (project_dir / "studio_meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
 
@@ -1477,7 +1486,7 @@ if __name__ == "__main__":
 
 @app.route("/api/studio/update_project/<path:project_id>", methods=["POST"])
 def studio_update_project(project_id):
-    """Update title, script, keywords, tags, scenes, fallback, or video_type in studio_meta.json."""
+    """Update title, script, keywords, tags, scenes, fallback, video_type, voice, subtitles, or bgm in studio_meta.json."""
     project_dir = OUTPUT_ROOT / project_id
     if not project_dir.exists():
         return jsonify({"error": f"Project not found: {project_id}"}), 404
@@ -1506,6 +1515,10 @@ def studio_update_project(project_id):
         meta["fallback"] = req["fallback"]
     if "total_images" in req:
         meta["total_images"] = req["total_images"]
+
+    for field in ["voice_preset", "voice", "subtitle_font", "subtitle_color", "subtitle_highlight", "subtitle_size", "subtitle_position", "bgm_preset", "bgm_volume"]:
+        if field in req:
+            meta[field] = req[field]
 
     meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
     return jsonify({"success": True, "meta": meta})
@@ -1977,9 +1990,10 @@ def _run_render_job(job_id: str, project_dir: Path, meta: dict):
             raise Exception("No images found in images/ — upload images first")
 
         # ── Step 1: TTS Narration ──────────────────────────────────────────
-        log("Step 1/5: Synthesizing narration (edge-tts 48 kHz)...")
+        voice_name = meta.get("voice", "en-US-AndrewMultilingualNeural")
+        log(f"Step 1/5: Synthesizing narration ({voice_name}, 48 kHz)...")
         wav = str(project_dir / "narration.wav")
-        res = tts.synthesize(script, wav)
+        res = tts.synthesize(script, wav, voice=voice_name)
         if not res.get("available"):
             raise Exception(f"TTS failed: {res.get('reason')}")
         duration = signals.probe(wav).duration_s or 0.0
@@ -2029,18 +2043,48 @@ def _run_render_job(job_id: str, project_dir: Path, meta: dict):
         log(f"  {len(pages)} caption pages ({timing_src})")
         w, h = (1080, 1920) if video_type == "short" else (1920, 1080)
         ass   = str(project_dir / "captions.ass")
-        style = E.skin_style("karaoke_yellow")
+        
+        # Apply custom user subtitle styles
+        sub_font = meta.get("subtitle_font", "Arial Black")
+        sub_color = meta.get("subtitle_color", "&H00FFFFFF")
+        sub_highlight = meta.get("subtitle_highlight", "&H0000FFFF")
+        sub_size = int(meta.get("subtitle_size", 100))
+        sub_pos = meta.get("subtitle_position", "bottom")
+        margin_v = 360 if sub_pos == "bottom" else (800 if sub_pos == "center" else 1400)
+        
+        custom_style = {
+            "font": sub_font,
+            "fontsize": sub_size,
+            "primary": sub_highlight,
+            "secondary": sub_color,
+            "margin_v": margin_v
+        }
+        style = {**E.skin_style("karaoke_yellow"), **custom_style}
         E.write_ass_karaoke(pages, ass, width=w, height=h, **style)
         p_ass = Path(ass)
         p_ass.write_text(p_ass.read_text(encoding="utf-8").replace("WrapStyle: 2", "WrapStyle: 0"), encoding="utf-8")
 
         # ── Step 4: Burn captions → Final MP4 ─────────────────────────────
-        log("Step 4/5: Burning captions into final video...")
+        log("Step 4/5: Burning captions & mixing audio into final video...")
         final_name = f"Final_{slug}.mp4"
         final_path = str(project_dir / final_name)
         final = E.burn_subtitles(video, ass, final_path)
         if not final:
             raise Exception("Caption burn-in failed — check ffmpeg / libass")
+            
+        # Optional BGM bed
+        bgm_preset = meta.get("bgm_preset", "none")
+        if bgm_preset and bgm_preset != "none":
+            bgm_file = PROJECT_ROOT / "packages" / "ClipPilot" / "assets" / "bgm" / f"{bgm_preset}.wav"
+            if bgm_file.exists():
+                log(f"  Mixing Background Music Bed ({bgm_preset})...")
+                bgm_out = str(project_dir / f"Final_{slug}_bgm.mp4")
+                vol = float(meta.get("bgm_volume", 0.12))
+                res_bgm = E.add_bgm(final_path, str(bgm_file), bgm_out, volume=vol)
+                if res_bgm:
+                    final_path = bgm_out
+                    final_name = Path(bgm_out).name
+                    
         log(f"  Final: {final_name}")
 
         # ── Step 5: manifest.json ──────────────────────────────────────────
@@ -2321,6 +2365,34 @@ def serve_studio_image(filepath):
             except Exception:
                 pass
     return jsonify({"error": "Image not found"}), 404
+
+
+@app.route("/api/studio/preview_voice/<voice_id>", methods=["GET"])
+def preview_voice(voice_id):
+    """Generate and serve a quick 2s voice audio preview via Edge-TTS."""
+    try:
+        sample_dir = PROJECT_ROOT / "packages" / "ClipPilot" / "data" / "voice_samples"
+        sample_dir.mkdir(parents=True, exist_ok=True)
+        sample_file = str(sample_dir / f"sample_{voice_id}.mp3")
+        if not Path(sample_file).exists() or Path(sample_file).stat().st_size == 0:
+            parts = voice_id.split("-")
+            clean_name = parts[2].replace("Neural", "") if len(parts) > 2 else voice_id
+            script = f"Hello! This is the {clean_name} voice for your video."
+            tts._synth_edge(script, sample_file, voice=voice_id)
+        if Path(sample_file).exists() and Path(sample_file).stat().st_size > 0:
+            return send_file(sample_file, mimetype="audio/mp3")
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    return jsonify({"error": "Voice preview failed"}), 400
+
+
+@app.route("/api/studio/preview_bgm/<bgm_preset>", methods=["GET"])
+def preview_bgm(bgm_preset):
+    """Serve stock BGM audio sample."""
+    bgm_file = PROJECT_ROOT / "packages" / "ClipPilot" / "assets" / "bgm" / f"{bgm_preset}.wav"
+    if bgm_file.exists():
+        return send_file(bgm_file, mimetype="audio/wav")
+    return jsonify({"error": f"BGM track {bgm_preset} not found"}), 404
 
 
 if __name__ == "__main__":
