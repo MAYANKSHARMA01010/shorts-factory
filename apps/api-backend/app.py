@@ -973,60 +973,76 @@ CRITICAL RULES:
                 raise ValueError("No JSON found in Gemini response")
         return json.loads(raw[start:end])
 
-    def _call_gemini_with_key(prompt: str, key: str, model: str = "gemini-flash-latest", timeout: int = 60) -> str:
-        """Call Gemini using a specific key (bypasses key rotation — caller manages keys)."""
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
-        payload = {
-            "contents": [{"parts": [{"text": prompt}]}],
-            "generationConfig": {"maxOutputTokens": 8192, "responseMimeType": "application/json"}
-        }
-        for attempt in range(3):
-            try:
-                resp = requests.post(url, json=payload, timeout=timeout)
-                if resp.status_code == 200:
-                    data = resp.json()
-                    return data["candidates"][0]["content"]["parts"][0]["text"]
-                elif resp.status_code == 429:
-                    print(f"[studio][key {key[:12]}...] 429 on attempt {attempt+1}, waiting 5s...")
-                    time.sleep(5)
-                    continue
-                else:
-                    raise Exception(f"HTTP {resp.status_code}: {resp.text[:120]}")
-            except Exception as ex:
-                if attempt < 2:
-                    print(f"[studio][key {key[:12]}...] Exception: {ex} — retry {attempt+2}")
-                    time.sleep(3)
-                else:
-                    raise
-        raise Exception(f"All 3 attempts failed for key {key[:12]}...")
-
     # ── Get pool of keys for per-scene rotation ──────────────────────────────
     raw_keys = os.environ.get("GEMINI_API_KEYS") or os.environ.get("GEMINI_API_KEY") or ""
     key_pool  = [k.strip() for k in raw_keys.replace("\n", ",").split(",") if k.strip()]
     primary_model = os.environ.get("GEMINI_PRIMARY_MODEL") or "gemini-flash-latest"
 
+    def _call_gemini_with_key_pool(prompt: str, start_idx: int = 0, model: str = primary_model, timeout: int = 45) -> tuple[str, int]:
+        """Call Gemini, automatically trying each key and fallback model with exponential backoff on 503/429/timeout."""
+        if not key_pool:
+            raise Exception("No Gemini API keys available in environment")
+        
+        n_keys = len(key_pool)
+        models_to_try = [model, "gemini-2.0-flash-lite", "gemini-2.0-flash", "gemini-2.0-flash-exp"]
+        # Remove duplicates preserving order
+        models_to_try = list(dict.fromkeys([m for m in models_to_try if m]))
+        last_err = None
+
+        payload = {
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {"maxOutputTokens": 8192, "responseMimeType": "application/json"}
+        }
+
+        for target_model in models_to_try:
+            for attempt in range(n_keys):
+                key_idx = (start_idx + attempt) % n_keys
+                key = key_pool[key_idx]
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/{target_model}:generateContent?key={key}"
+                
+                try:
+                    resp = requests.post(url, json=payload, timeout=timeout)
+                    if resp.status_code == 200:
+                        data = resp.json()
+                        text = data["candidates"][0]["content"]["parts"][0]["text"]
+                        return text, key_idx
+                    elif resp.status_code in (429, 503):
+                        sleep_s = min(8.0, 1.5 * (attempt + 1))
+                        print(f"[studio][key #{key_idx+1}/{n_keys}][{target_model}] HTTP {resp.status_code} (Limit/Busy) — backoff {sleep_s:.1f}s...")
+                        time.sleep(sleep_s)
+                        continue
+                    else:
+                        print(f"[studio][key #{key_idx+1}/{n_keys}][{target_model}] HTTP {resp.status_code}: {resp.text[:100]} — rotating...")
+                        time.sleep(1.0)
+                except Exception as ex:
+                    print(f"[studio][key #{key_idx+1}/{n_keys}][{target_model}] Exception: {ex} — rotating...")
+                    last_err = str(ex)
+                    time.sleep(1.0)
+                
+        raise Exception(f"All API keys and models exhausted. Last error: {last_err}")
+
     try:
         # ── PHASE 1: Plan the scene structure (small, fast call) ─────────────
+        target_n_scenes = max(1, math.ceil(est_dur_secs / 55))
         scene_plan_prompt = f"""You are a video scene planner.
 
 VIDEO: "{title}" ({video_type}, {aspect})
 SCRIPT ({word_count} words, ~{est_dur_secs}s at 140 wpm):
 {script}
 
-Plan the scenes. Each scene = 10-15 seconds of narration.
-{"Max 18 scenes for shorts (<=180s)." if video_type == "short" else "No scene limit for long videos."}
+SCENE BREAKDOWN RULE:
+- Group narration into long thematic scenes (each scene = ~40 to 80 seconds of narration).
+- Target scene count for this video: ~{target_n_scenes} scene(s).
+- Scenes must cover 100% of the narration script from start to finish.
 
 Return JSON only — no markdown:
 {{"scenes": [
-  {{"scene_index": 1, "scene_title": "...", "script_excerpt": "exact sentence(s) from script for this scene", "scene_duration_s": 12}},
+  {{"scene_index": 1, "scene_title": "...", "script_excerpt": "exact sentence(s) from script for this scene", "scene_duration_s": {min(est_dur_secs, 55)}}},
   ...
 ]}}"""
 
-        print(f"[studio] PHASE 1: Planning scene structure with {primary_model}...")
-        key1 = key_pool[0] if key_pool else ""
-        if not key1:
-            raise Exception("No API keys available")
-        plan_raw  = _call_gemini_with_key(scene_plan_prompt, key1, primary_model, timeout=45)
+        print(f"[studio] PHASE 1: Planning scene structure ({target_n_scenes} target scene(s)) with {primary_model}...")
+        plan_raw, last_key_idx = _call_gemini_with_key_pool(scene_plan_prompt, start_idx=0, model=primary_model, timeout=45)
         plan_data = _parse_json(plan_raw)
         scene_plan = plan_data if isinstance(plan_data, list) else plan_data.get("scenes", [])
         if not scene_plan:
@@ -1034,20 +1050,24 @@ Return JSON only — no markdown:
         print(f"[studio] PHASE 1 done — {len(scene_plan)} scenes planned.")
 
         # ── PHASE 2: Generate image prompts per-scene, rotating keys ─────────
-        scenes       = []
-        total_images = 0
-        n_keys       = len(key_pool)
+        scenes        = []
+        total_images  = 0
+        used_fallback = False
+        n_keys        = len(key_pool)
 
         for si, sp in enumerate(scene_plan):
             scene_title   = sp.get("scene_title", f"Scene {si+1}")
             excerpt       = sp.get("script_excerpt", "") or sp.get("narration", "")
-            duration_s    = sp.get("scene_duration_s", 12)
-            n_imgs        = max(8, min(15, round(duration_s * 0.9)))
+            duration_s    = sp.get("scene_duration_s", round(est_dur_secs / len(scene_plan)))
+            # ~4 to 5 seconds per image (short videos <40s get 3-8 images, long scenes get 8-15 images)
+            if duration_s < 40:
+                n_imgs = max(3, min(8, math.ceil(duration_s / 4.5)))
+            else:
+                n_imgs = max(8, min(15, math.ceil(duration_s / 4.8)))
 
-            # Rotate key: scene 0 → key[1 % n], scene 1 → key[2 % n], etc.
-            key_idx  = (si + 1) % n_keys
-            scene_key = key_pool[key_idx]
-            eg_fns    = [_build_filename(si, ii) for ii in range(3)]
+            # Rotate starting key index: scene 0 → (last_key + 1) % n, scene 1 → +2, etc.
+            start_k  = (last_key_idx + si + 1) % n_keys
+            eg_fns   = [_build_filename(si, ii) for ii in range(3)]
 
             img_prompt = f"""Generate {n_imgs} cinematic image prompts for one video scene.
 
@@ -1069,12 +1089,13 @@ Return JSON only — no markdown:
   ...
 ]}}"""
 
-            print(f"[studio] PHASE 2 — Scene {si+1}/{len(scene_plan)}: generating {n_imgs} prompts with key[{key_idx}]...")
+            print(f"[studio] PHASE 2 — Scene {si+1}/{len(scene_plan)}: generating {n_imgs} prompts starting with key #{start_k+1}...")
             try:
-                img_raw  = _call_gemini_with_key(img_prompt, scene_key, primary_model, timeout=60)
-                img_data = _parse_json(img_raw)
-                imgs_raw = img_data if isinstance(img_data, list) else img_data.get("images", [])
-                imgs = []
+                img_raw, used_k = _call_gemini_with_key_pool(img_prompt, start_idx=start_k, model=primary_model, timeout=60)
+                last_key_idx    = used_k
+                img_data        = _parse_json(img_raw)
+                imgs_raw        = img_data if isinstance(img_data, list) else img_data.get("images", [])
+                imgs            = []
                 for ii, img in enumerate(imgs_raw[:n_imgs]):
                     fn = _build_filename(si, ii)
                     img["image_index"]  = ii + 1
@@ -1083,9 +1104,10 @@ Return JSON only — no markdown:
                     if fn not in img.get("prompt", ""):
                         img["prompt"] = img.get("prompt", "").rstrip(".") + f" Save this image as: {fn}."
                     imgs.append(img)
-                print(f"[studio]   ✓ Scene {si+1}: {len(imgs)} image prompts generated.")
+                print(f"[studio]   ✓ Scene {si+1}: {len(imgs)} image prompts generated using key #{used_k+1}.")
             except Exception as scene_err:
                 print(f"[studio]   ✗ Scene {si+1} Gemini failed: {scene_err} — using fallback prompts")
+                used_fallback = True
                 imgs = []
                 ANGLE_VARIATIONS = ["extreme close-up", "medium shot", "wide shot", "overhead view", "low-angle hero shot", "over-the-shoulder", "tight portrait", "dramatic silhouette", "three-quarter angle", "dutch tilt"]
                 for ii in range(n_imgs):
@@ -1109,9 +1131,7 @@ Return JSON only — no markdown:
             })
             # Small pace between scenes to avoid hitting per-key limits
             if si < len(scene_plan) - 1:
-                time.sleep(1.5)
-
-        all_fallback = all(not s["images"] or all("Save this image as" in i.get("prompt","") and "extreme close-up" in i.get("scene_description","").lower() or "medium shot" in i.get("scene_description","").lower() for i in s["images"]) for s in scenes)
+                time.sleep(1.0)
 
         return jsonify({
             "estimated_duration_s": est_dur_secs,
@@ -1122,16 +1142,16 @@ Return JSON only — no markdown:
             "short_warning":        short_warning,
             "word_count":           word_count,
             "scenes":               scenes,
-            "fallback":             False,
+            "fallback":             used_fallback,
         })
 
     except Exception as e:
         print(f"[studio] Full generation failed: {e} — building scene-specific fallback")
 
-        # ── Scene-specific fallback: split script by sentences ───────────────
+        # ── Scene-specific fallback: split script into 40-80s scenes ──────────
         import re as _re
         sentences  = [s.strip() for s in _re.split(r'(?<=[.!?])\s+', script.strip()) if s.strip()]
-        n_scenes   = min(max_scenes, max(3, est_dur_secs // 12))
+        n_scenes   = max(1, math.ceil(est_dur_secs / 55))
         chunk_size = max(1, len(sentences) // n_scenes)
 
         # Per-scene visual keywords derived from the sentence content
@@ -1150,6 +1170,7 @@ Return JSON only — no markdown:
 
         scenes       = []
         total_images = 0
+        target_scene_dur = est_dur_secs / n_scenes
 
         for si in range(n_scenes):
             chunk_sents = sentences[si * chunk_size: (si + 1) * chunk_size]
@@ -1157,7 +1178,10 @@ Return JSON only — no markdown:
             # Extract a core visual noun from the excerpt (first meaningful words)
             core_words  = " ".join(excerpt.split()[:8])
 
-            n_imgs = 10  # default per scene for fallback
+            if target_scene_dur < 40:
+                n_imgs = max(3, min(8, math.ceil(target_scene_dur / 4.5)))
+            else:
+                n_imgs = max(8, min(15, math.ceil(target_scene_dur / 4.8)))
             imgs   = []
             for ii in range(n_imgs):
                 fn    = _build_filename(si, ii)
@@ -1397,7 +1421,10 @@ if __name__ == "__main__":
         "tags":          tags,
         "video_type":    video_type,
         "duration_hint": duration_hint,
+        "scenes":        req.get("scenes", []),
         "prompts":       prompts,
+        "fallback":      req.get("fallback", False),
+        "total_images":  req.get("total_images", len(prompts)),
         "py_script":     str(script_file.relative_to(PROJECT_ROOT)),
         "created_at":    datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
         "status":        "awaiting_images",
@@ -1414,6 +1441,42 @@ if __name__ == "__main__":
         "py_script":     str(script_file.relative_to(PROJECT_ROOT)),
         "expected_images": [p["filename"] for p in prompts],
     })
+
+
+@app.route("/api/studio/update_project/<path:project_id>", methods=["POST"])
+def studio_update_project(project_id):
+    """Update title, script, keywords, tags, scenes, fallback, or video_type in studio_meta.json."""
+    project_dir = OUTPUT_ROOT / project_id
+    if not project_dir.exists():
+        return jsonify({"error": f"Project not found: {project_id}"}), 404
+
+    meta_path = project_dir / "studio_meta.json"
+    meta      = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.exists() else {}
+
+    req = request.json or {}
+    if "title" in req:
+        meta["title"] = req["title"].strip()
+    if "script" in req:
+        meta["script"] = req["script"].strip()
+    if "keywords" in req:
+        kws = req["keywords"]
+        meta["keywords"] = [k.strip() for k in kws.split(",") if k.strip()] if isinstance(kws, str) else kws
+    if "tags" in req:
+        tgs = req["tags"]
+        meta["tags"] = [t.strip().lstrip("#") for t in tgs.split(",") if t.strip()] if isinstance(tgs, str) else tgs
+    if "video_type" in req:
+        meta["video_type"] = req["video_type"]
+    if "scenes" in req:
+        meta["scenes"] = req["scenes"]
+    if "prompts" in req:
+        meta["prompts"] = req["prompts"]
+    if "fallback" in req:
+        meta["fallback"] = req["fallback"]
+    if "total_images" in req:
+        meta["total_images"] = req["total_images"]
+
+    meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
+    return jsonify({"success": True, "meta": meta})
 
 
 def studio_upload_image(project_id):
@@ -1453,6 +1516,145 @@ def studio_upload_image(project_id):
         meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
 
     return jsonify({"success": True, "filename": safe_name, "total_uploaded": total})
+
+
+import urllib.parse
+
+def _download_pollinations_image(prompt: str, dest_path: Path, width: int = 1080, height: int = 1920, seed: int = 42) -> bool:
+    """Download FLUX image from Pollinations.ai API with fast fallback."""
+    encoded_prompt = urllib.parse.quote(prompt[:300])
+    url = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width={width}&height={height}&model=flux&nologo=true&seed={seed}"
+    headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"}
+    dest_path.parent.mkdir(parents=True, exist_ok=True)
+    
+    for attempt in range(2):
+        try:
+            resp = requests.get(url, headers=headers, timeout=12)
+            if resp.status_code == 200 and len(resp.content) > 1000:
+                dest_path.write_bytes(resp.content)
+                return True
+        except Exception as e:
+            print(f"[pollinations] Attempt {attempt+1} exception: {e}")
+            time.sleep(1)
+
+    # Fallback to high-res picsum photo if Pollinations API is unreachable
+    try:
+        fallback_url = f"https://picsum.photos/{width}/{height}?random={seed}"
+        resp = requests.get(fallback_url, headers=headers, timeout=10)
+        if resp.status_code == 200 and len(resp.content) > 1000:
+            dest_path.write_bytes(resp.content)
+            print(f"[image-gen-fallback] Used picsum photo for {dest_path.name}")
+            return True
+    except Exception as e:
+        print(f"[image-gen-fallback] Exception: {e}")
+
+    return False
+
+
+@app.route("/api/studio/generate_images/<path:project_id>", methods=["POST"])
+def studio_generate_images(project_id):
+    """Auto-generate all image prompts using Pollinations FLUX API and save to output/<project_id>/images/."""
+    project_dir = OUTPUT_ROOT / project_id
+    if not project_dir.exists():
+        return jsonify({"error": f"Project not found: {project_id}"}), 404
+
+    meta_path = project_dir / "studio_meta.json"
+    if not meta_path.exists():
+        return jsonify({"error": "studio_meta.json missing in project"}), 400
+
+    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    prompts = meta.get("prompts", [])
+    if not prompts:
+        return jsonify({"error": "No image prompts found in studio_meta.json"}), 400
+
+    video_type = meta.get("video_type", "short")
+    width, height = (1080, 1920) if video_type == "short" else (1920, 1080)
+    images_dir = project_dir / "images"
+    images_dir.mkdir(exist_ok=True)
+
+    req_data = request.json or {}
+    force    = req_data.get("force", False)
+
+    generated = []
+    failed    = []
+
+    for idx, item in enumerate(prompts):
+        filename = item.get("filename") or f"img_{idx+1:03d}.png"
+        prompt   = item.get("prompt", "")
+        dest     = images_dir / filename
+
+        if dest.exists() and dest.stat().st_size > 1000 and not force:
+            generated.append(filename)
+            continue
+
+        print(f"[studio-image-gen] [{idx+1}/{len(prompts)}] Generating {filename} with FLUX...")
+        seed = (idx * 37 + 101) % 100000
+        ok   = _download_pollinations_image(prompt, dest, width=width, height=height, seed=seed)
+        if ok:
+            generated.append(filename)
+        else:
+            failed.append(filename)
+
+        # Update meta progress dynamically
+        all_imgs = list(images_dir.glob("*.png")) + list(images_dir.glob("*.jpg")) + list(images_dir.glob("*.jpeg")) + list(images_dir.glob("*.webp"))
+        total    = len(all_imgs)
+        meta["status"]          = "ready_to_render" if total >= len(prompts) else f"generating ({total}/{len(prompts)})"
+        meta["images_uploaded"] = total
+        meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
+
+    all_imgs = list(images_dir.glob("*.png")) + list(images_dir.glob("*.jpg")) + list(images_dir.glob("*.jpeg")) + list(images_dir.glob("*.webp"))
+    total    = len(all_imgs)
+
+    return jsonify({
+        "success": True,
+        "total_generated": len(generated),
+        "total_images": total,
+        "expected_images": len(prompts),
+        "failed_images": failed,
+        "ready_to_render": total >= len(prompts),
+    })
+
+
+@app.route("/api/studio/generate_single_image/<path:project_id>", methods=["POST"])
+def studio_generate_single_image(project_id):
+    """Generate or re-roll a single image using Pollinations FLUX API."""
+    project_dir = OUTPUT_ROOT / project_id
+    if not project_dir.exists():
+        return jsonify({"error": f"Project not found: {project_id}"}), 404
+
+    meta_path = project_dir / "studio_meta.json"
+    meta      = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.exists() else {}
+    video_type = meta.get("video_type", "short")
+    width, height = (1080, 1920) if video_type == "short" else (1920, 1080)
+
+    req_data = request.json or {}
+    filename = req_data.get("filename")
+    prompt   = req_data.get("prompt")
+
+    if not filename or not prompt:
+        return jsonify({"error": "Missing filename or prompt"}), 400
+
+    images_dir = project_dir / "images"
+    images_dir.mkdir(exist_ok=True)
+    dest = images_dir / Path(filename).name
+
+    import random
+    seed = random.randint(1, 999999)
+    print(f"[studio-single-image] Generating {filename} with FLUX (seed={seed})...")
+    ok   = _download_pollinations_image(prompt, dest, width=width, height=height, seed=seed)
+    if not ok:
+        return jsonify({"error": "Failed to generate image via FLUX API"}), 500
+
+    all_imgs = list(images_dir.glob("*.png")) + list(images_dir.glob("*.jpg")) + list(images_dir.glob("*.jpeg")) + list(images_dir.glob("*.webp"))
+    total    = len(all_imgs)
+
+    if meta_path.exists():
+        expected = len(meta.get("prompts", []))
+        meta["status"]          = "ready_to_render" if total >= expected else f"uploading ({total}/{expected})"
+        meta["images_uploaded"] = total
+        meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
+
+    return jsonify({"success": True, "filename": filename, "total_uploaded": total})
 
 
 def _run_render_job(job_id: str, project_dir: Path, meta: dict):
@@ -1826,6 +2028,17 @@ def serve_studio_video(filepath):
     if full_path.exists():
         return send_file(full_path, mimetype="video/mp4")
     return jsonify({"error": "Video not found"}), 404
+
+
+@app.route("/studio/image/<path:filepath>", methods=["GET"])
+def serve_studio_image(filepath):
+    """Serve studio generated/uploaded image files for UI previews."""
+    full_path = OUTPUT_ROOT / filepath
+    if full_path.exists():
+        ext = full_path.suffix.lower()
+        mime = {".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".png": "image/png", ".webp": "image/webp"}.get(ext, "image/png")
+        return send_file(full_path, mimetype=mime)
+    return jsonify({"error": "Image not found"}), 404
 
 
 if __name__ == "__main__":

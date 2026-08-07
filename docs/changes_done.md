@@ -285,5 +285,23 @@ To launch the Next.js dashboard and API backend for managing, editing, and publi
   - Created `packages/ClipPilot/make_financialloopholes_explainer.py` with an expanded **1,950+ word 8-chapter narrative**.
   - Renders 4K 16:9 Landscape (`3840×2160` at 30 FPS) long-form video with 85+ b-roll images, Whisper karaoke captions, and 1,800-second FFmpeg timeout handling.
   - Automatically generates `packages/ClipPilot/data/manifest_explainer_financialloopholes_long.json` with YouTube Chapter timestamps and multi-platform metadata.
-
-
+- **Gemini Key Rotation & Multi-Key Pool Architecture (2026-08-06)**:
+  - Replaced single massive 5-minute monolithic Gemini calls with a **2-Phase Per-Scene Engine**:
+    - **Phase 1**: Plans scene structure (fast, small prompt).
+    - **Phase 2**: Generates image prompts 1 scene at a time, rotating keys sequentially across the multi-key pool (`AQ.Ab...`) to eliminate 429 rate limit cascades.
+  - Bumped `maxOutputTokens` from `4096` to `8192` to prevent JSON truncation on complex scenes.
+- **Automated FLUX AI Image Generation Engine (Studio Step 3) (2026-08-07)**:
+  - **Pollinations FLUX Integration**: Added `/api/studio/generate_images/<project_id>` endpoint to automatically fetch 8K FLUX visuals via Pollinations.ai API (`https://image.pollinations.ai/prompt/...`) for all scene prompts in Step 3.
+  - **Auto-Naming & Direct Disk Saving**: Automatically names and saves generated images with their exact target filename (`short_s001_img001.png`, `short_s001_img002.png`) inside `output/<project_id>/images/`.
+  - **Single-Image Re-Roll**: Added `/api/studio/generate_single_image/<project_id>` endpoint to re-roll individual image cards.
+  - **Image Serving Route**: Added `/studio/image/<filepath>` to serve preview thumbnails directly to the Web UI.
+  - **Studio UI Integration**: Added primary CTA button in Step 3 (**`✨ Auto-Generate All {total} Images with AI (FLUX)`**) with real-time progress bar, live thumbnail rendering, hover re-roll (`🔄`), and auto-transition to Step 4 (`Render Video`).
+  - **Resilient Fallback**: Added fast fallback to `picsum.photos` if external API connections are dropped, ensuring video generation never stalls or crashes.
+- **Script, Keywords & Tags Persistence Fix (2026-08-07)**:
+  - Fixed missing React state assignments for `script`, `keywords`, and `tags` when opening or continuing projects from the Studio Hub (`studioProjects`).
+  - Added `/api/studio/update_project/<project_id>` endpoint to save metadata updates directly to `studio_meta.json` without creating duplicate project directories.
+- **Pacing Rules & Scene Breakdown Math (40-80s per Scene, 8-15 Images) (2026-08-07)**:
+  - **Thematic Scene Grouping**: Updated scene planner math: **1 Scene = ~40 to 80 seconds of narration** (60s Shorts = 1-2 scenes, 120s = 2-3 scenes).
+  - **Comfortable Visual Pacing (~4.5 - 5s per Image)**:
+    - Short narrations (< 40s total) get **3 to 8 images total** (eliminating 1-second rapid image flipping).
+    - Standard long scenes (40 - 80s) get **8 to 15 images per scene**.

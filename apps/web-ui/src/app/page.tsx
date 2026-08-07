@@ -186,11 +186,70 @@ export default function Dashboard() {
   const [studioError, setStudioError]         = useState("");
   const [studioShortWarn, setStudioShortWarn] = useState(false);
   const [studioFallback, setStudioFallback]   = useState(false);
-  const [collapsedScenes, setCollapsedScenes] = useState<Record<number, boolean>>({});
-  const [reloadingPrompt, setReloadingPrompt] = useState<string | null>(null);
-  const [reloadingScene, setReloadingScene]   = useState<number | null>(null);
-  const [deletingProjId, setDeletingProjId]   = useState<string | null>(null);
-  const studioRenderPollRef                   = useRef<ReturnType<typeof setInterval>|null>(null);
+  const [studioGeneratingImgs, setStudioGeneratingImgs] = useState(false);
+  const [studioGenStatus, setStudioGenStatus]           = useState("");
+  const [rerollingImg, setRerollingImg]                 = useState<string | null>(null);
+  const [collapsedScenes, setCollapsedScenes]           = useState<Record<number, boolean>>({});
+  const [reloadingPrompt, setReloadingPrompt]           = useState<string | null>(null);
+  const [reloadingScene, setReloadingScene]             = useState<number | null>(null);
+  const [deletingProjId, setDeletingProjId]             = useState<string | null>(null);
+  const studioRenderPollRef                             = useRef<ReturnType<typeof setInterval>|null>(null);
+
+  const handleAutoGenerateAllImages = async () => {
+    if (!studioProjectId) return;
+    setStudioGeneratingImgs(true);
+    setStudioError("");
+    setStudioGenStatus("Initializing FLUX AI Engine...");
+    try {
+      const res = await fetch(`${API_URL}/api/studio/generate_images/${encodeURIComponent(studioProjectId)}`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ force: false })
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+
+      // Refresh project meta to mark all images as uploaded
+      const projRes = await fetch(`${API_URL}/api/studio/project/${encodeURIComponent(studioProjectId)}`);
+      const projData = await projRes.json();
+      if (projData.meta) {
+        const prompts = projData.meta.prompts || [];
+        const uploadedMap: Record<string, boolean> = {};
+        const previewsMap: Record<string, string> = {};
+        prompts.forEach((p: any) => {
+          uploadedMap[p.filename] = true;
+          previewsMap[p.filename] = `${API_URL}/studio/image/${encodeURIComponent(studioProjectId)}/images/${p.filename}?t=${Date.now()}`;
+        });
+        setStudioUploaded(uploadedMap);
+        setStudioUploadPreviews(prev => ({ ...prev, ...previewsMap }));
+      }
+    } catch(e: any) {
+      setStudioError(e.message || "Failed to generate images");
+    } finally {
+      setStudioGeneratingImgs(false);
+      setStudioGenStatus("");
+    }
+  };
+
+  const handleRerollSingleImage = async (filename: string, prompt: string) => {
+    if (!studioProjectId) return;
+    setRerollingImg(filename);
+    try {
+      const res = await fetch(`${API_URL}/api/studio/generate_single_image/${encodeURIComponent(studioProjectId)}`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ filename, prompt })
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      setStudioUploaded(prev => ({ ...prev, [filename]: true }));
+      setStudioUploadPreviews(prev => ({ ...prev, [filename]: `${API_URL}/studio/image/${encodeURIComponent(studioProjectId)}/images/${filename}?t=${Date.now()}` }));
+    } catch(e: any) {
+      setStudioError(e.message || "Failed to re-roll image");
+    } finally {
+      setRerollingImg(null);
+    }
+  };
 
   const handleRegenerateSinglePrompt = async (si: number, ii: number) => {
     const sc = studioScenes[si];
@@ -2447,13 +2506,26 @@ export default function Dashboard() {
                           onClick={async () => {
                             setStudioProjectId(proj.project_id);
                             setStudioTitle(proj.title || "");
+                            setStudioScript(proj.script || "");
+                            setStudioKeywords(Array.isArray(proj.keywords) ? proj.keywords.join(", ") : (proj.keywords || ""));
+                            setStudioTags(Array.isArray(proj.tags) ? proj.tags.join(", ") : (proj.tags || ""));
                             setStudioVideoType(proj.video_type || "short");
                             // Fetch full detail for prompts/scenes
                             try {
                               const r = await fetch(`${API_URL}/api/studio/project/${proj.project_id}`);
                               const d = await r.json();
                               if (d.meta) {
-                                setStudioScenes(d.meta.prompts ? [{ scene_index: 1, scene_title: "Uploaded Prompts", images: d.meta.prompts }] : []);
+                                setStudioTitle(d.meta.title || proj.title || "");
+                                setStudioScript(d.meta.script || proj.script || "");
+                                setStudioKeywords(Array.isArray(d.meta.keywords) ? d.meta.keywords.join(", ") : (proj.keywords || []).join(", "));
+                                setStudioTags(Array.isArray(d.meta.tags) ? d.meta.tags.join(", ") : (proj.tags || []).join(", "));
+                                const loadedScenes = (d.meta.scenes && d.meta.scenes.length > 0) 
+                                  ? d.meta.scenes 
+                                  : (d.meta.prompts ? [{ scene_index: 1, scene_title: "Scene 1", images: d.meta.prompts }] : []);
+                                setStudioScenes(loadedScenes);
+                                setStudioFallback(d.meta.fallback || false);
+                                setStudioTotalImgs(d.meta.total_images || (d.meta.prompts?.length || 0));
+                                setStudioEstDur(d.meta.duration_hint || 60);
                               }
                             } catch (e) {}
                             setStudioViewMode("wizard");
@@ -2658,8 +2730,9 @@ export default function Dashboard() {
                     setStudioFallback(d.fallback || false);
                     // Flatten all images across scenes for project creation
                     const allImgs = (d.scenes || []).flatMap((sc: any) => sc.images || []);
-                    // Create project folder
-                    const r2 = await fetch(`${API_URL}/api/studio/create_project`, {
+                    // Save or update project meta folder
+                    const saveEndpoint = studioProjectId ? `${API_URL}/api/studio/update_project/${encodeURIComponent(studioProjectId)}` : `${API_URL}/api/studio/create_project`;
+                    const r2 = await fetch(saveEndpoint, {
                       method: "POST",
                       headers: {"Content-Type": "application/json"},
                       body: JSON.stringify({
@@ -2669,12 +2742,15 @@ export default function Dashboard() {
                         tags: studioTags,
                         video_type: studioVideoType,
                         duration_hint: d.estimated_duration_s || 60,
+                        scenes: d.scenes || [],
                         prompts: allImgs,
+                        fallback: d.fallback || false,
+                        total_images: d.total_images || allImgs.length,
                       })
                     });
                     const d2 = await r2.json();
                     if (d2.error) throw new Error(d2.error);
-                    setStudioProjectId(d2.project_id);
+                    if (d2.project_id) setStudioProjectId(d2.project_id);
                     setStudioStep(2);
                   } catch(e: any) {
                     setStudioError(e.message);
@@ -2747,6 +2823,21 @@ export default function Dashboard() {
                             setStudioEstDur(d.estimated_duration_s || 0);
                             setStudioTotalImgs(d.total_images || 0);
                             setStudioFallback(d.fallback || false);
+                            
+                            // Save updated scenes and fallback status to disk
+                            if (studioProjectId) {
+                              const allImgs = (d.scenes || []).flatMap((sc: any) => sc.images || []);
+                              await fetch(`${API_URL}/api/studio/update_project/${encodeURIComponent(studioProjectId)}`, {
+                                method: "POST",
+                                headers: {"Content-Type": "application/json"},
+                                body: JSON.stringify({
+                                  scenes: d.scenes || [],
+                                  prompts: allImgs,
+                                  fallback: d.fallback || false,
+                                  total_images: d.total_images || allImgs.length,
+                                })
+                              });
+                            }
                           } catch(e: any) {
                             setStudioError(e.message);
                           } finally {
@@ -2945,29 +3036,44 @@ export default function Dashboard() {
             return (
               <div className="space-y-4">
                 {/* Global header */}
-                <div className="glass p-5">
-                  <div className="flex items-center justify-between">
+                <div className="glass p-5 space-y-4">
+                  <div className="flex flex-wrap items-center justify-between gap-4">
                     <div>
-                      <h2 className="text-lg font-bold text-white flex items-center gap-2">📤 Step 3 — Upload Images</h2>
+                      <h2 className="text-lg font-bold text-white flex items-center gap-2">🎨 Step 3 — Generate or Upload Images</h2>
                       <p className="text-xs text-slate-400 mt-0.5">
-                        {uploadedCount} / {allImages.length} uploaded across {studioScenes.length} scenes
+                        {uploadedCount} / {allImages.length} ready across {studioScenes.length} scenes
                         {allDone && <span className="ml-2 text-emerald-400 font-semibold">✅ All images ready!</span>}
                       </p>
                     </div>
-                    <label className="px-4 py-2 bg-violet-600 hover:bg-violet-500 text-xs font-bold rounded-xl cursor-pointer transition text-white">
-                      ⬆ Upload All At Once
-                      <input type="file" multiple accept="image/*" className="hidden" onChange={async (e) => {
-                        const files = Array.from(e.target.files || []);
-                        for (const file of files) {
-                          const match = allImages.find((img: any) => img.filename === file.name);
-                          await uploadFile(file, match ? match.filename : file.name);
-                        }
-                      }} />
-                    </label>
+                    <div className="flex items-center gap-2">
+                      <button
+                        disabled={studioGeneratingImgs}
+                        onClick={handleAutoGenerateAllImages}
+                        className="px-5 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-xs font-bold rounded-xl shadow-lg shadow-violet-600/30 transition text-white flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                      >
+                        {studioGeneratingImgs ? "✨ Generating with FLUX AI..." : `✨ Auto-Generate All ${allImages.length} Images with AI (FLUX)`}
+                      </button>
+                      <label className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 border border-white/10 text-xs font-semibold rounded-xl cursor-pointer transition text-slate-200">
+                        ⬆ Manual Upload
+                        <input type="file" multiple accept="image/*" className="hidden" onChange={async (e) => {
+                          const files = Array.from(e.target.files || []);
+                          for (const file of files) {
+                            const match = allImages.find((img: any) => img.filename === file.name);
+                            await uploadFile(file, match ? match.filename : file.name);
+                          }
+                        }} />
+                      </label>
+                    </div>
                   </div>
-                  <div className="mt-3 h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                  {studioGeneratingImgs && (
+                    <div className="p-3 rounded-xl bg-violet-950/40 border border-violet-500/30 text-xs text-violet-300 flex items-center gap-3">
+                      <div className="w-4 h-4 rounded-full border-2 border-violet-400 border-t-transparent animate-spin shrink-0"/>
+                      <span>Generating high-quality 8K visuals using FLUX AI engine. Images will appear automatically as they complete...</span>
+                    </div>
+                  )}
+                  <div className="h-1.5 rounded-full bg-slate-800 overflow-hidden">
                     <div
-                      className="h-full bg-violet-500 rounded-full transition-all duration-500"
+                      className="h-full bg-gradient-to-r from-violet-500 to-emerald-400 rounded-full transition-all duration-500"
                       style={{width: `${allImages.length ? (uploadedCount/allImages.length)*100 : 0}%`}}
                     />
                   </div>
@@ -3015,10 +3121,11 @@ export default function Dashboard() {
                         {/* Image grid for this scene */}
                         <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
                           {imgs.map((img: any, ii: number) => {
-                            const done    = studioUploaded[img.filename];
-                            const preview = studioUploadPreviews[img.filename];
+                            const done      = studioUploaded[img.filename];
+                            const preview   = studioUploadPreviews[img.filename] || (done && studioProjectId ? `${API_URL}/studio/image/${encodeURIComponent(studioProjectId)}/images/${img.filename}` : null);
+                            const isRolling = rerollingImg === img.filename;
                             return (
-                              <label key={ii} className={`relative cursor-pointer rounded-lg overflow-hidden border transition-all ${
+                              <div key={ii} className={`relative group rounded-lg overflow-hidden border transition-all ${
                                 done ? "border-emerald-500/60" : "border-white/10 hover:border-violet-500/40"
                               }`}>
                                 {preview ? (
@@ -3034,19 +3141,37 @@ export default function Dashboard() {
                                     <span className="text-slate-500 text-[10px]">{ii+1}</span>
                                   </div>
                                 )}
-                                {done && (
-                                  <div className="absolute inset-0 flex items-center justify-center bg-emerald-900/30">
-                                    <span className="text-emerald-400 text-base">✓</span>
+                                {isRolling && (
+                                  <div className="absolute inset-0 flex items-center justify-center bg-black/70 z-10">
+                                    <div className="w-4 h-4 rounded-full border-2 border-violet-400 border-t-transparent animate-spin"/>
                                   </div>
                                 )}
-                                <div className="absolute bottom-0 left-0 right-0 bg-black/60 px-1 py-0.5">
-                                  <p className="text-[8px] font-mono text-slate-400 truncate">{img.filename.split("_").slice(-1)[0]}</p>
+                                <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition z-10 flex gap-1">
+                                  <button
+                                    type="button"
+                                    disabled={isRolling}
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      handleRerollSingleImage(img.filename, img.prompt);
+                                    }}
+                                    className="w-6 h-6 rounded-md bg-black/80 hover:bg-violet-600 text-white text-[10px] flex items-center justify-center cursor-pointer shadow-md"
+                                    title="Re-roll image with FLUX AI"
+                                  >
+                                    🔄
+                                  </button>
                                 </div>
-                                <input type="file" accept="image/*" className="hidden" onChange={async (e) => {
-                                  const file = e.target.files?.[0];
-                                  if (file) await uploadFile(file, img.filename);
-                                }} />
-                              </label>
+                                <div className="absolute bottom-0 left-0 right-0 bg-black/70 px-1 py-0.5 flex justify-between items-center">
+                                  <p className="text-[8px] font-mono text-slate-300 truncate">{img.filename.split("_").slice(-1)[0]}</p>
+                                  {done && <span className="text-[9px] text-emerald-400 font-bold">✓</span>}
+                                </div>
+                                <label className="absolute inset-0 cursor-pointer opacity-0">
+                                  <input type="file" accept="image/*" className="hidden" onChange={async (e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) await uploadFile(file, img.filename);
+                                  }} />
+                                </label>
+                              </div>
                             );
                           })}
                         </div>
