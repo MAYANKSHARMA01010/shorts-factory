@@ -216,6 +216,52 @@ export default function Dashboard() {
   const bgmAudioRef                               = useRef<HTMLAudioElement | null>(null);
   const bgmTimeoutRef                             = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // SFX & Narration Settings State
+  const [showNarrationGuide, setShowNarrationGuide] = useState(true);
+  const [showSoundSettings, setShowSoundSettings]   = useState(true);
+  const [customSfxTag, setCustomSfxTag]             = useState("");
+  const [playingSfxTag, setPlayingSfxTag]           = useState<string | null>(null);
+  const scriptTextareaRef                           = useRef<HTMLTextAreaElement | null>(null);
+  const sfxAudioRef                                 = useRef<HTMLAudioElement | null>(null);
+
+  const insertTagAtCursor = (tagText: string) => {
+    const textarea = scriptTextareaRef.current;
+    if (!textarea) {
+      setStudioScript(prev => prev ? `${prev} ${tagText}` : tagText);
+      return;
+    }
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const currentVal = studioScript;
+    const prefixSpace = (start > 0 && currentVal[start - 1] !== ' ' && currentVal[start - 1] !== '\n') ? ' ' : '';
+    const suffixSpace = (end < currentVal.length && currentVal[end] !== ' ' && currentVal[end] !== '\n') ? ' ' : '';
+    const newVal = currentVal.substring(0, start) + prefixSpace + tagText + suffixSpace + currentVal.substring(end);
+    setStudioScript(newVal);
+    setTimeout(() => {
+      textarea.focus();
+      const newCursorPos = start + prefixSpace.length + tagText.length + suffixSpace.length;
+      textarea.setSelectionRange(newCursorPos, newCursorPos);
+    }, 50);
+  };
+
+  const playSfxPreview = (tag: string, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (playingSfxTag === tag) {
+      if (sfxAudioRef.current) {
+        sfxAudioRef.current.pause();
+      }
+      setPlayingSfxTag(null);
+      return;
+    }
+    stopAllAudioPreviews();
+    setPlayingSfxTag(tag);
+    const audio = new Audio(`/api/sfx/preview/${encodeURIComponent(tag)}`);
+    sfxAudioRef.current = audio;
+    audio.play().catch(() => setPlayingSfxTag(null));
+    audio.onended = () => setPlayingSfxTag(null);
+    audio.onerror = () => setPlayingSfxTag(null);
+  };
+
   const assColorToHex = (ass: string) => {
     if (!ass) return "#FFFFFF";
     if (ass.startsWith("#")) return ass;
@@ -238,12 +284,17 @@ export default function Dashboard() {
       bgmAudioRef.current.pause();
       bgmAudioRef.current.currentTime = 0;
     }
+    if (sfxAudioRef.current) {
+      sfxAudioRef.current.pause();
+      sfxAudioRef.current.currentTime = 0;
+    }
     if (bgmTimeoutRef.current) {
       clearTimeout(bgmTimeoutRef.current);
       bgmTimeoutRef.current = null;
     }
     setPlayingVoice(false);
     setPlayingBgm(false);
+    setPlayingSfxTag(null);
   };
 
   const handlePlayVoicePreview = async () => {
@@ -2932,6 +2983,54 @@ export default function Dashboard() {
                 />
               </div>
 
+              {/* Narration Guide Banner */}
+              <div className="bg-slate-900/80 border border-violet-500/30 rounded-xl p-4 text-xs text-slate-300 space-y-2">
+                <div className="flex items-center justify-between cursor-pointer" onClick={() => setShowNarrationGuide(!showNarrationGuide)}>
+                  <div className="flex items-center gap-2 font-bold text-violet-300">
+                    <span className="text-sm">📋</span>
+                    <span>How to Write Narration & Add Sound Effects / Emotions</span>
+                  </div>
+                  <span className="text-slate-400 hover:text-white font-mono text-[11px]">
+                    {showNarrationGuide ? "Collapse ▲" : "Expand Guide ▼"}
+                  </span>
+                </div>
+                {showNarrationGuide && (
+                  <div className="space-y-2.5 pt-2 border-t border-white/10 text-slate-300 leading-relaxed">
+                    <p>
+                      This studio generates narration and auto-mixes sound effects. Write your script naturally as you want it spoken aloud!
+                    </p>
+                    <div className="grid grid-cols-2 gap-3 bg-black/30 p-2.5 rounded-lg border border-white/5 text-[11px]">
+                      <div>
+                        <span className="font-semibold text-amber-300">🔊 Sound Effects — write <code className="text-amber-200 bg-amber-950/60 px-1 py-0.5 rounded">[tag]</code> anywhere:</span>
+                        <ul className="list-disc list-inside mt-1 space-y-0.5 text-slate-400">
+                          <li>Start, middle, or end of line: <code className="text-slate-200">[thunder] Breaking news!</code></li>
+                          <li>Preset tags: <code className="text-slate-200">[laugh] [gasp] [cash_register] [ding]</code></li>
+                          <li>Open custom tags: <code className="text-slate-200">[explosion] [airhorn] [cat_meow]</code></li>
+                        </ul>
+                      </div>
+                      <div>
+                        <span className="font-semibold text-purple-300">🎭 Voice Emotion — write <code className="text-purple-200 bg-purple-950/60 px-1 py-0.5 rounded">(emotion)</code> anywhere:</span>
+                        <ul className="list-disc list-inside mt-1 space-y-0.5 text-slate-400">
+                          <li>Changes voice prosody: <code className="text-slate-200">(serious) Pay up...</code></li>
+                          <li>Presets: <code className="text-slate-200">(funny) (serious) (dramatic) (whispering)</code></li>
+                          <li><code className="text-slate-200">(normal)</code> resets voice back to standard tone</li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div className="bg-slate-950/80 p-2.5 rounded-lg border border-violet-500/20 text-[11px] font-mono text-slate-300">
+                      <span className="text-violet-400 font-bold block mb-1">📌 Example Tagged Script:</span>
+                      <p className="text-slate-300">
+                        "[thunder] Breaking news! Trees demanded an oxygen tax! [laugh]<br/>
+                        The rate? [ding] Five cents per breath. [cash_register]<br/>
+                        One man (whispering) owed forty-seven dollars. [gasp]<br/>
+                        (serious) Pay up... or stop breathing! [dramatic_bass]<br/>
+                        (funny) Subscribe now! [applause] Plants coming soon!"
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+
               {/* Script */}
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
@@ -2948,12 +3047,168 @@ export default function Dashboard() {
                   )}
                 </div>
                 <textarea
+                  ref={scriptTextareaRef}
                   value={studioScript}
                   onChange={e => setStudioScript(e.target.value)}
                   rows={8}
-                  placeholder={`Paste your FULL narration script here.\n\nAI will:\n• Estimate duration from word count (140 wpm TTS speed)\n• Break script into 10–15 second scenes\n• Generate 8–15 image prompts per scene\n\nShorts: must be ≤ 180s. Long videos: no limit.`}
+                  placeholder={`Paste your FULL narration script here.\n\nYou can insert [sfx] and (emotion) markers anywhere inline:\nExample: "[thunder] Breaking news! Trees announced [laugh] an oxygen tax! The rate? [ding] Five cents per breath. [cash_register] (serious) Pay up... or stop breathing! [dramatic_bass]"\n\nAI will strip tags for TTS narration, then auto-mix sound effects at exact word timestamps!`}
                   className="w-full bg-slate-900/60 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-violet-500/50 resize-none font-mono leading-relaxed"
                 />
+
+                {/* Live Marker Detection Badge */}
+                {(() => {
+                  const sfxMatches = Array.from(studioScript.matchAll(/\[([a-zA-Z][a-zA-Z0-9_]*)\]/g)).map(m => m[1].toLowerCase());
+                  const emotionMatches = Array.from(studioScript.matchAll(/\(([a-zA-Z][a-zA-Z0-9_]*)\)/g)).map(m => m[1].toLowerCase());
+                  const cleanText = studioScript.replace(/\[[a-zA-Z][a-zA-Z0-9_]*\]/g, "").replace(/\([a-zA-Z][a-zA-Z0-9_]*\)/g, "").replace(/\s{2,}/g, " ").trim();
+                  const cleanWords = cleanText.split(/\s+/).filter(Boolean).length;
+
+                  if (sfxMatches.length === 0 && emotionMatches.length === 0) return null;
+
+                  return (
+                    <div className="flex flex-wrap items-center gap-2 bg-slate-900/90 border border-violet-500/20 rounded-lg p-2.5 text-xs">
+                      <span className="font-semibold text-slate-300">📊 Detected Markers:</span>
+                      {sfxMatches.length > 0 && (
+                        <span className="inline-flex items-center gap-1 bg-amber-950/60 border border-amber-500/30 text-amber-300 px-2 py-0.5 rounded-full text-[11px]">
+                          🎵 {sfxMatches.length} SFX ({[...new Set(sfxMatches)].map(s => `[${s}]`).join(" ")})
+                        </span>
+                      )}
+                      {emotionMatches.length > 0 && (
+                        <span className="inline-flex items-center gap-1 bg-purple-950/60 border border-purple-500/30 text-purple-300 px-2 py-0.5 rounded-full text-[11px]">
+                          🎭 {emotionMatches.length} Emotion ({[...new Set(emotionMatches)].map(e => `(${e})`).join(" ")})
+                        </span>
+                      )}
+                      <span className="text-slate-500 text-[11px]">
+                        (Clean narration: {cleanWords} words — tags stripped before voice synthesis)
+                      </span>
+                    </div>
+                  );
+                })()}
+              </div>
+
+              {/* Sound Effects & Voice Emotion Quick-Insert Panel */}
+              <div className="bg-slate-900/60 border border-white/10 rounded-xl p-4 space-y-3">
+                <div className="flex items-center justify-between border-b border-white/10 pb-2">
+                  <div className="flex items-center gap-2 cursor-pointer" onClick={() => setShowSoundSettings(!showSoundSettings)}>
+                    <span className="text-base">🔊</span>
+                    <span className="text-xs font-bold text-white uppercase tracking-wider">Sound Effects & Emotion Quick-Insert</span>
+                    <span className="text-[10px] text-violet-400 bg-violet-500/10 px-2 py-0.5 rounded-full border border-violet-500/20 font-mono">
+                      Click to insert at cursor
+                    </span>
+                  </div>
+                  <button onClick={() => setShowSoundSettings(!showSoundSettings)} className="text-xs text-slate-400 hover:text-white">
+                    {showSoundSettings ? "Collapse ▲" : "Expand ▼"}
+                  </button>
+                </div>
+
+                {showSoundSettings && (
+                  <div className="space-y-3 pt-1">
+                    {/* Preset SFX Buttons */}
+                    <div className="space-y-1.5">
+                      <label className="text-[11px] font-semibold text-amber-300 flex items-center justify-between">
+                        <span>🎵 Preset Sound Effects (Click tag to insert · Click ▶ to preview sound)</span>
+                      </label>
+                      <div className="flex flex-wrap gap-1.5">
+                        {[
+                          { tag: "laugh", emoji: "😂" },
+                          { tag: "gasp", emoji: "😱" },
+                          { tag: "cash_register", emoji: "💰" },
+                          { tag: "rimshot", emoji: "🥁" },
+                          { tag: "applause", emoji: "👏" },
+                          { tag: "crickets", emoji: "🦗" },
+                          { tag: "thunder", emoji: "⚡" },
+                          { tag: "ding", emoji: "🔔" },
+                          { tag: "sad_trombone", emoji: "😢" },
+                          { tag: "dramatic_bass", emoji: "💥" },
+                          { tag: "record_scratch", emoji: "📻" },
+                          { tag: "drum_roll", emoji: "🥁" },
+                          { tag: "woosh", emoji: "💨" },
+                          { tag: "airhorn", emoji: "📢" },
+                          { tag: "buzzer", emoji: "❌" },
+                          { tag: "chuckle", emoji: "🐿️" },
+                        ].map(item => (
+                          <div key={item.tag} className="inline-flex items-center bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg overflow-hidden text-xs transition">
+                            <button
+                              onClick={() => insertTagAtCursor(`[${item.tag}]`)}
+                              className="px-2 py-1 text-slate-200 hover:text-white font-mono flex items-center gap-1"
+                              title={`Insert [${item.tag}] into script`}
+                            >
+                              <span>{item.emoji}</span>
+                              <span>[{item.tag}]</span>
+                            </button>
+                            <button
+                              onClick={(e) => playSfxPreview(item.tag, e)}
+                              className={`px-1.5 py-1 border-l border-slate-700 text-[10px] ${playingSfxTag === item.tag ? "bg-amber-500 text-black font-bold" : "text-slate-400 hover:text-amber-300"}`}
+                              title="Preview sound effect"
+                            >
+                              {playingSfxTag === item.tag ? "⏹" : "▶"}
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Custom Tag Input */}
+                    <div className="flex items-center gap-2 pt-1 border-t border-white/5">
+                      <span className="text-[11px] font-semibold text-slate-400">✏️ Custom Tag:</span>
+                      <input
+                        value={customSfxTag}
+                        onChange={e => setCustomSfxTag(e.target.value.replace(/[^a-zA-Z0-9_]/g, ""))}
+                        placeholder="my_custom_tag"
+                        className="bg-slate-900 border border-white/10 rounded-lg px-2.5 py-1 text-xs text-white placeholder-slate-500 font-mono w-40 focus:outline-none focus:border-amber-500/50"
+                        onKeyDown={e => {
+                          if (e.key === 'Enter' && customSfxTag.trim()) {
+                            e.preventDefault();
+                            insertTagAtCursor(`[${customSfxTag.trim().toLowerCase()}]`);
+                            setCustomSfxTag("");
+                          }
+                        }}
+                      />
+                      <button
+                        onClick={() => {
+                          if (customSfxTag.trim()) {
+                            insertTagAtCursor(`[${customSfxTag.trim().toLowerCase()}]`);
+                            setCustomSfxTag("");
+                          }
+                        }}
+                        disabled={!customSfxTag.trim()}
+                        className="px-2.5 py-1 bg-amber-950/80 hover:bg-amber-900 border border-amber-500/40 text-amber-300 rounded-lg text-xs font-semibold disabled:opacity-40 transition"
+                      >
+                        + Insert Tag
+                      </button>
+                      <span className="text-[10px] text-slate-500">
+                        (Auto-searches Freesound CC0 if not bundled!)
+                      </span>
+                    </div>
+
+                    {/* Preset Emotion Buttons */}
+                    <div className="space-y-1.5 pt-1 border-t border-white/5">
+                      <label className="text-[11px] font-semibold text-purple-300">
+                        🎭 Voice Emotion Tone (Changes narrator voice pitch & speed)
+                      </label>
+                      <div className="flex flex-wrap gap-1.5">
+                        {[
+                          { tag: "funny", emoji: "😄" },
+                          { tag: "serious", emoji: "😤" },
+                          { tag: "dramatic", emoji: "🎭" },
+                          { tag: "whispering", emoji: "🤫" },
+                          { tag: "excited", emoji: "🎉" },
+                          { tag: "sarcastic", emoji: "😒" },
+                          { tag: "normal", emoji: "↩️" },
+                        ].map(item => (
+                          <button
+                            key={item.tag}
+                            onClick={() => insertTagAtCursor(`(${item.tag})`)}
+                            className="px-2 py-1 bg-slate-800 hover:bg-purple-950/80 border border-purple-500/30 hover:border-purple-500/60 rounded-lg text-xs font-mono text-purple-200 hover:text-white transition flex items-center gap-1"
+                            title={`Insert (${item.tag}) into script`}
+                          >
+                            <span>{item.emoji}</span>
+                            <span>({item.tag})</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Keywords & Tags */}

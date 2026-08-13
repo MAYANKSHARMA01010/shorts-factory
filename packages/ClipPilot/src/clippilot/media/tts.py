@@ -61,8 +61,10 @@ def tts_available() -> bool:
 def _synth_chatterbox(text: str, out_wav: str, timeout: int = 900) -> dict[str, Any]:
     model = os.environ.get("CHATTERBOX_MODEL", "base")
     Path(out_wav).parent.mkdir(parents=True, exist_ok=True)
+    # Strip any SSML tags if SSML text was passed
+    clean_text = re.sub(r'<[^>]+>', '', text).strip()
     with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False, encoding="utf-8") as tf:
-        tf.write(text)
+        tf.write(clean_text)
         textfile = tf.name
     try:
         proc = subprocess.run(

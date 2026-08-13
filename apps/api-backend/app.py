@@ -2210,6 +2210,17 @@ def _run_render_job(job_id: str, project_dir: Path, meta: dict):
         from clippilot.media import captions as C
         from clippilot.media import edit as E
         from clippilot.media import signals, tts
+        # SFX & emotion engine
+        _sfx_gen_path = str(PROJECT_ROOT / "scripts" / "generators")
+        if _sfx_gen_path not in sys.path:
+            sys.path.insert(0, _sfx_gen_path)
+        from sfx_engine import (
+            parse_sfx_markers, locate_sfx_timestamps,
+            mix_sfx_into_narration, build_ssml_with_emotions,
+            generate_preset_sfx,
+        )
+        _SFX_DIR = PROJECT_ROOT / "packages" / "ClipPilot" / "assets" / "sfx"
+        generate_preset_sfx(_SFX_DIR)   # idempotent — skips existing files
 
         images_dir = project_dir / "images"
         script     = meta.get("script") or meta.get("title", "")
@@ -2234,11 +2245,22 @@ def _run_render_job(job_id: str, project_dir: Path, meta: dict):
         if not image_paths:
             raise Exception("No images found in images/ — upload images first")
 
+        # ── Pre-Step 1: Parse SFX & emotion markers from script ───────────
+        script_raw   = meta.get("script") or meta.get("title", "")
+        clean_script, sfx_events = parse_sfx_markers(script_raw)
+        sfx_only     = [e for e in sfx_events if e["type"] == "sfx"]
+        emotion_evts = [e for e in sfx_events if e["type"] == "emotion"]
+        if sfx_events:
+            log(f"  Detected {len(sfx_only)} SFX tag(s) + {len(emotion_evts)} emotion tag(s)")
+        # Build SSML-wrapped text for emotion prosody (Edge-TTS only)
+        tts_text = build_ssml_with_emotions(clean_script, emotion_evts) if emotion_evts else clean_script
+        script   = clean_script   # use clean script everywhere downstream
+
         # ── Step 1: TTS Narration ──────────────────────────────────────────
         voice_name = meta.get("voice", "en-US-AndrewMultilingualNeural")
         log(f"Step 1/5: Synthesizing narration ({voice_name}, 48 kHz)...")
         wav = str(project_dir / "narration.wav")
-        res = tts.synthesize(script, wav, voice=voice_name)
+        res = tts.synthesize(tts_text, wav, voice=voice_name)
         if not res.get("available"):
             raise Exception(f"TTS failed: {res.get('reason')}")
         duration = signals.probe(wav).duration_s or 0.0
@@ -2286,6 +2308,22 @@ def _run_render_job(job_id: str, project_dir: Path, meta: dict):
                 pages.append({"start": round(start, 3), "end": round(end, 3), "tokens": p.get("tokens", [])})
 
         log(f"  {len(pages)} caption pages ({timing_src})")
+
+        # ── Post-Step 3: Mix SFX into narration ───────────────────────────
+        if sfx_only:
+            log(f"  Mixing {len(sfx_only)} SFX tag(s) into narration...")
+            # Build word_timings list for timestamp resolver
+            if words_list:
+                wt = [{"start_ms": int(w.get("start", 0) * 1000), "end_ms": int(w.get("end", 0) * 1000)}
+                      for w in words_list]
+            else:
+                wt = [{"start_ms": t["start_ms"], "end_ms": t["end_ms"]}
+                      for t in tts.word_timings(script, duration)]
+            sfx_ms = locate_sfx_timestamps(sfx_only, wt)
+            mixed_wav = str(project_dir / "narration_sfx.wav")
+            wav = mix_sfx_into_narration(wav, sfx_ms, _SFX_DIR, mixed_wav)
+            log(f"  SFX mix complete: {wav}")
+
         w, h = (1080, 1920) if video_type == "short" else (1920, 1080)
         ass   = str(project_dir / "captions.ass")
         
@@ -2638,6 +2676,42 @@ def preview_bgm(bgm_preset):
     if bgm_file.exists():
         return send_file(bgm_file, mimetype="audio/wav")
     return jsonify({"error": f"BGM track {bgm_preset} not found"}), 404
+
+
+# ── SFX Library & Preview ─────────────────────────────────────────────────────
+
+@app.route("/api/sfx/library", methods=["GET"])
+def sfx_library():
+    """Return all available SFX tags with emoji, description and preview URL."""
+    _sfx_gen_path = str(PROJECT_ROOT / "scripts" / "generators")
+    if _sfx_gen_path not in sys.path:
+        sys.path.insert(0, _sfx_gen_path)
+    from sfx_engine import get_sfx_library
+    return jsonify(get_sfx_library())
+
+
+@app.route("/api/sfx/preview/<tag>", methods=["GET"])
+def sfx_preview(tag):
+    """Stream the WAV file for an SFX tag (for in-browser click-to-hear).
+    If the preset doesn't exist yet, generate it on demand.
+    """
+    _sfx_gen_path = str(PROJECT_ROOT / "scripts" / "generators")
+    if _sfx_gen_path not in sys.path:
+        sys.path.insert(0, _sfx_gen_path)
+    from sfx_engine import resolve_sfx_asset, generate_preset_sfx
+
+    # Sanitise tag — alphanumeric + underscore only
+    import re as _re
+    if not _re.match(r'^[a-zA-Z][a-zA-Z0-9_]{0,40}$', tag):
+        return jsonify({"error": "Invalid tag name"}), 400
+
+    sfx_dir = PROJECT_ROOT / "packages" / "ClipPilot" / "assets" / "sfx"
+    generate_preset_sfx(sfx_dir)   # idempotent
+
+    wav_path = resolve_sfx_asset(tag, sfx_dir)
+    if wav_path and Path(wav_path).exists():
+        return send_file(wav_path, mimetype="audio/wav")
+    return jsonify({"error": f"SFX [{tag}] not found"}), 404
 
 
 if __name__ == "__main__":
