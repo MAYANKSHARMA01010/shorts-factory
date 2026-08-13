@@ -1645,30 +1645,114 @@ import re as _re
 import io as _io
 from PIL import Image as _PILImage
 
-def _enhance_prompt_for_realism(prompt: str) -> str:
-    """Transform abstract script prompts into National Geographic 8K photorealistic photography prompts."""
+# ── Fictional/satirical concept keywords that cannot be stock-photographed ──────────────
+_FICTIONAL_CONCEPT_PATTERNS = [
+    # Personified objects / talking entities
+    r'\b(?:expressive|wooden|bark)\s+face\b',
+    r'\b(?:tree|plant|leaf|flower|rock|cloud|sun|moon)\s+(?:with|forming|having)\s+(?:a|an)?\s*(?:face|expression|smile|frown|eyes|mouth|scowl|grin)\b',
+    r'\btalking\s+(?:tree|plant|leaf|cloud|animal|object)\b',
+    r'\bpersonified\b',
+    r'\bTree\s+Union\b',
+    r'\bspokesperson\s+(?:tree|plant|leaf|nature)\b',
+    # Fictional documents / impossible objects
+    r'\b(?:tax\s+document|oxygen\s+bill|breath\s+charge|oxygen\s+invoice|oxygen\s+tax)\b',
+    r'\bQR\s+code\s+(?:saying|reading|that\s+says|labeled|with\s+text)\b',
+    r'\b(?:leaf|branch|tree)\s+holding\s+(?:a|an)?\s*(?:sign|bill|document|paper|card|letter)\b',
+    # Breaking news / satire graphics
+    r'\bbreaking\s+news\s+(?:chyron|banner|ticker|graphic|screen)\b',
+    r'\bnews\s+ticker\b',
+    r'\bsatire\b',
+    # Impossible / fantasy scenes
+    r'\b(?:trees?|plants?)\s+(?:marching|protesting|holding\s+signs?|waving\s+banners?)\b',
+    r'\b(?:magical|surreal|fantastical|animated|cartoon|illustrated|digital\s+art)\b',
+    r'\bwaving\s+(?:a|their)?\s*(?:bill|receipt|invoice|paper)\b',
+    # Human crowd with very specific impossible signs
+    r'\bPAY\s+TO\s+BREATHE\b',
+    r'\bOxygen\s+(?:is\s+(?:our|my)\s+right|subscription|plan|premium)\b',
+    # Emotionally attributed non-human subjects
+    r'\b(?:stern|angry|gleeful|smirking|concerned|worried)\s+(?:tree|leaf|branch|root|plant)\b',
+    r'\b(?:tree|leaf|plant)\s+(?:spokesperson|leader|representative|collector|union)\b',
+]
+_FICTIONAL_RE = [_re.compile(p, _re.IGNORECASE) for p in _FICTIONAL_CONCEPT_PATTERNS]
+
+
+def _is_fictional_concept(prompt: str) -> bool:
+    """Return True if the prompt describes a concept that cannot be stock-photographed.
+    
+    Fictional/satirical/personified concepts (talking trees, tax documents, QR codes
+    with specific text, etc.) cannot be found on Pexels/Wikimedia and should be routed
+    directly to FLUX AI image generation.
+    """
+    # Strip boilerplate first for cleaner matching
+    p = prompt
+    if "Negative:" in p:
+        p = p.split("Negative:")[0]
+    p = _re.sub(r'Save this image as:\s*\S+', '', p, flags=_re.IGNORECASE)
+    boilerplate_end = r'(?:depth of field|wallpaper quality|focal detail)(?:.)?\.\s*'
+    stripped = _re.sub(r'^.*?' + boilerplate_end, '', p, flags=_re.IGNORECASE | _re.DOTALL).strip()
+    check_text = stripped if len(stripped) > 10 else p
+    
+    for pattern in _FICTIONAL_RE:
+        if pattern.search(check_text):
+            return True
+    return False
+
+
+def _build_flux_prompt(prompt: str) -> str:
+    """Build an optimized FLUX AI prompt from a scene description.
+    
+    For fictional/satirical concepts, FLUX AI can generate them directly.
+    Strip the style boilerplate (designed for stock photo searching) and
+    replace with AI-generation appropriate style tags.
+    """
     p = prompt
     if "Negative:" in p:
         p = p.split("Negative:")[0]
     p = _re.sub(r'Save this image as:\s*\S+', '', p, flags=_re.IGNORECASE)
     
-    # Strip old technical boilerplate header
-    boilerplate_end = r'(?:depth of field|wallpaper quality|focal detail)(?:\.)?\s*'
+    # Strip the style boilerplate prefix (up to first period containing camera/style specs)
+    boilerplate_end = r'(?:depth of field|wallpaper quality|focal detail|shallow depth|macro 85mm|8k|photorealistic).*?\.\s*'
+    stripped = _re.sub(r'^.*?' + boilerplate_end, '', p, flags=_re.IGNORECASE | _re.DOTALL).strip()
+    scene_desc = stripped if len(stripped) > 10 else p.strip()
+    
+    # Clean up whitespace
+    scene_desc = _re.sub(r'\s{2,}', ' ', scene_desc).strip(' .,')
+    
+    # Add AI-generation style tags (vertical 9:16, cinematic, high quality)
+    flux_style = "Cinematic digital illustration, ultra detailed, dramatic lighting, vibrant colors, 9:16 vertical composition, award-winning CGI art. "
+    full = flux_style + scene_desc
+    
+    # FLUX works best under ~300 chars
+    if len(full) > 300:
+        full = full[:300].rsplit(' ', 1)[0]
+    
+    return full
+
+
+def _enhance_prompt_for_realism(prompt: str) -> str:
+    """Transform abstract script prompts into National Geographic 8K photorealistic photography prompts.
+    Used only for REAL/concrete concepts sent to Pexels/Wikimedia or as fallback FLUX prompt.
+    """
+    p = prompt
+    if "Negative:" in p:
+        p = p.split("Negative:")[0]
+    p = _re.sub(r'Save this image as:\s*\S+', '', p, flags=_re.IGNORECASE)
+    
+    # Strip style boilerplate header
+    boilerplate_end = r'(?:depth of field|wallpaper quality|focal detail)(?:.)?\.\s*'
     full_boilerplate = _re.compile(r'^.*?' + boilerplate_end, _re.IGNORECASE | _re.DOTALL)
     stripped = full_boilerplate.sub('', p).strip()
     if len(stripped) > 10:
         p = stripped
 
-    # Convert confusing abstract script metaphors into realistic visual descriptions
-    p = _re.sub(r'three soft,?\s*warm red glowing heart organs beating inside', 'glowing red bioluminescent skin patterns under ocean water', p, flags=_re.IGNORECASE)
-    p = _re.sub(r'central systemic heart glowing like a warm ruby light bulb', 'detailed crimson skin texture under clear ocean water', p, flags=_re.IGNORECASE)
-    p = _re.sub(r'heart shattering into a beautiful cloud of tiny glowing crimson embers', 'crimson bioluminescent particles glowing in sunlit deep blue ocean water', p, flags=_re.IGNORECASE)
-    p = _re.sub(r'illuminated fractures like glowing cracked glass', 'vibrant glowing red bioluminescent patterns along octopus skin', p, flags=_re.IGNORECASE)
+    # Clean up abstract metaphors
+    p = _re.sub(r'glowing like a warm ruby light bulb', 'glowing with warm red light', p, flags=_re.IGNORECASE)
+    p = _re.sub(r'illuminated fractures like glowing cracked glass', 'glowing with cracked light patterns', p, flags=_re.IGNORECASE)
 
     p = _re.sub(r'\s{2,}', ' ', p).strip(' .,')
 
-    # Frame with National Geographic photorealism tags
-    prefix = "Award-winning National Geographic nature photograph, 8k resolution, photorealistic, 35mm lens, sharp focus, dramatic lighting. "
+    # Frame with photorealism tags for concrete real-world subjects
+    prefix = "Award-winning National Geographic photograph, 8k resolution, photorealistic, 35mm lens, sharp focus, dramatic lighting. "
     enhanced = prefix + p
     
     if len(enhanced) > 220:
@@ -1678,39 +1762,48 @@ def _enhance_prompt_for_realism(prompt: str) -> str:
 
 
 def _extract_topic_query(prompt: str) -> str:
-    """Extract clean scene subject terms (e.g. 'octopus coral reef', 'octopus cave') bypassing technical camera specs."""
+    """Extract 2-4 concrete nouns from a prompt for Pexels/Wikimedia stock photo search.
+    Only called for non-fictional prompts. Focuses on photographable subjects only.
+    """
     p = prompt
     if "Negative:" in p:
         p = p.split("Negative:")[0]
     p = _re.sub(r'Save this image as:\s*\S+', '', p, flags=_re.IGNORECASE).strip()
     
+    # Find the scene description sentence (skip the boilerplate style sentence)
     sentences = [s.strip() for s in p.split('.') if s.strip()]
     scene_sentence = ""
     for s in sentences:
-        if not _re.search(r'\b(?:85mm|9:16|f/1\.4|depth of field|composition|focal detail|wallpaper quality|photorealistic)\b', s, _re.IGNORECASE):
+        if not _re.search(r'\b(?:85mm|9:16|f/1\.4|depth of field|composition|focal detail|wallpaper quality|photorealistic|8k|portrait|vertical)\b', s, _re.IGNORECASE):
             scene_sentence = s
             break
-            
-    if not scene_sentence and len(sentences) > 1:
-        scene_sentence = sentences[1]
-    elif not scene_sentence:
-        scene_sentence = sentences[0]
+    if not scene_sentence:
+        scene_sentence = sentences[-1] if sentences else p
         
-    scene_sentence = _re.sub(r'^(?:Mid-shot|Wide shot|Close-up|Macro|Extreme macro|Low-angle|High-angle|Overhead shot|Tight cinematic mid-shot|Directly overhead|Eye-level)\s+(?:of|shot of|angle|view)?\s*', '', scene_sentence, flags=_re.IGNORECASE).strip()
+    # Strip camera direction prefix
+    scene_sentence = _re.sub(
+        r'^(?:Mid-shot|Wide shot|Close-up|Macro|Extreme macro|Low-angle|High-angle|Overhead|Eye-level|Aerial|Tight|Bird.s-eye)\s+(?:of|shot of|angle|view|perspective)?\s*',
+        '', scene_sentence, flags=_re.IGNORECASE
+    ).strip()
     
-    stopwords = {"with", "from", "this", "that", "there", "their", "about", "above", "under", "where", "portrait", "vertical", "shot", "view", "composition", "angle", "close-up", "macro", "eye-level", "lens", "camera", "photo", "photography", "level", "detail", "light", "visible", "centered", "frame"}
-    words = [w for w in _re.findall(r'\b[a-zA-Z]{3,}\b', scene_sentence) if w.lower() not in stopwords]
+    # Keep only concrete photographable nouns — skip verbs, adjectives, prepositions, org names
+    skip_words = {
+        "with", "from", "this", "that", "there", "their", "about", "above", "under",
+        "where", "portrait", "vertical", "shot", "view", "composition", "angle",
+        "close", "macro", "lens", "camera", "photo", "photography", "detail",
+        "light", "visible", "centered", "frame", "showing", "holding", "wearing",
+        "union", "spokesperson", "expressive", "intricate", "stern", "glowing",
+        "crisp", "official", "grand", "ancient", "bright", "medium", "wide",
+        "having", "forming", "featuring", "leaning", "standing", "sitting",
+    }
+    words = [
+        w for w in _re.findall(r'\b[a-zA-Z]{3,}\b', scene_sentence)
+        if w.lower() not in skip_words
+    ]
     
-    priority_topics = ["octopus", "coral", "reef", "cave", "sea", "ocean", "tentacle", "sucker", "sand", "anemone", "underwater", "marine"]
-    top_words = [w for w in words if w.lower() in priority_topics]
-    other_words = [w for w in words if w.lower() not in priority_topics]
-    
-    combined = top_words + other_words
-    if "octopus" not in [w.lower() for w in combined]:
-        combined.insert(0, "octopus")
-        
-    query = " ".join(combined[:3])
-    return query if len(query) > 5 else "octopus underwater"
+    # Prefer concrete nouns that Pexels actually has good photos for
+    query = " ".join(words[:3])
+    return query.strip() if len(query.strip()) > 3 else scene_sentence[:50]
 
 
 def _fetch_pexels_hd_photo(prompt: str, dest_path: Path, width: int = 1080, height: int = 1920, seed: int = 42) -> bool:
@@ -1748,15 +1841,10 @@ def _fetch_pexels_hd_photo(prompt: str, dest_path: Path, width: int = 1080, heig
 
 
 def _fetch_wikimedia_hd_photo(prompt: str, dest_path: Path, width: int = 1080, height: int = 1920) -> bool:
-    """Fallback engine: fetch genuine 8K marine/nature photography, center-cropped to 9:16 vertical."""
-    search_q = "Octopus underwater"
-    p_lower = prompt.lower()
-    if "cave" in p_lower:
-        search_q = "Octopus cave"
-    elif "skin" in p_lower or "macro" in p_lower or "texture" in p_lower or "sucker" in p_lower:
-        search_q = "Octopus macro"
-    elif "coral" in p_lower or "reef" in p_lower:
-        search_q = "Octopus coral"
+    """Fallback engine: fetch real HD photography from Wikimedia Commons, topic-matched to the prompt."""
+    search_q = _extract_topic_query(prompt)
+    if not search_q or len(search_q) < 3:
+        search_q = prompt[:60]
         
     print(f"[hd-photo-fallback] Searching real 8K photo for: '{search_q}'...")
     url = f"https://commons.wikimedia.org/w/api.php?action=query&list=search&srsearch={urllib.parse.quote(search_q)}&srnamespace=6&format=json&srlimit=8"
@@ -1778,37 +1866,43 @@ def _fetch_wikimedia_hd_photo(prompt: str, dest_path: Path, width: int = 1080, h
                 img_url = info.get("url", "")
                 mime = info.get("mime", "")
                 size = info.get("size", 0)
-                
-                if ("image/jpeg" in mime or "image/png" in mime) and size > 150000 and not img_url.endswith(".svg"):
-                    print(f"[hd-photo-fallback] Downloading {img_url} ({size//1024} KB)...")
-                    r_img = requests.get(img_url, headers=headers, timeout=12)
-                    if r_img.status_code == 200 and len(r_img.content) > 100000:
-                        img = _PILImage.open(_io.BytesIO(r_img.content)).convert("RGB")
-                        
-                        target_ratio = width / height
-                        img_ratio = img.width / img.height
-                        
-                        if img_ratio > target_ratio:
-                            new_w = int(img.height * target_ratio)
-                            offset = (img.width - new_w) // 2
-                            img_cropped = img.crop((offset, 0, offset + new_w, img.height))
-                        else:
-                            new_h = int(img.width / target_ratio)
-                            offset = (img.height - new_h) // 2
-                            img_cropped = img.crop((0, offset, img.width, offset + new_h))
-                            
-                        img_final = img_cropped.resize((width, height), _PILImage.Resampling.LANCZOS)
-                        dest_path.parent.mkdir(parents=True, exist_ok=True)
-                        img_final.save(dest_path, "PNG")
-                        print(f"[hd-photo-fallback] ✓ Saved 9:16 8K HD Photo {dest_path.name} ({dest_path.stat().st_size//1024} KB)")
-                        return True
+                if mime not in ("image/jpeg", "image/png") or size < 500_000:
+                    continue
+                try:
+                    r_img = requests.get(img_url, headers=headers, timeout=15, stream=True)
+                    if r_img.status_code != 200:
+                        continue
+                    raw = b"".join(r_img.iter_content(8192))
+                    if len(raw) < 100_000:
+                        continue
+                    img = _PILImage.open(_io.BytesIO(raw)).convert("RGB")
+                    orig_w, orig_h = img.size
+                    # Smart crop to 9:16 preserving subject
+                    target_ratio = width / height
+                    orig_ratio = orig_w / orig_h
+                    if orig_ratio > target_ratio:
+                        crop_w = int(orig_h * target_ratio)
+                        crop_x = (orig_w - crop_w) // 2
+                        img_cropped = img.crop((crop_x, 0, crop_x + crop_w, orig_h))
+                    else:
+                        crop_h = int(orig_w / target_ratio)
+                        crop_y = (orig_h - crop_h) // 2
+                        img_cropped = img.crop((0, crop_y, orig_w, crop_y + crop_h))
+                    img_final = img_cropped.resize((width, height), _PILImage.Resampling.LANCZOS)
+                    dest_path.parent.mkdir(parents=True, exist_ok=True)
+                    img_final.save(dest_path, "PNG")
+                    print(f"[hd-photo-fallback] ✓ Saved 9:16 8K HD Photo {dest_path.name} ({dest_path.stat().st_size//1024} KB)")
+                    return True
+                except Exception:
+                    continue
     except Exception as e:
         print(f"[hd-photo-fallback] Exception: {e}")
     return False
 
 
-def _download_pollinations_image(prompt: str, dest_path: Path, width: int = 1080, height: int = 1920, seed: int = 42) -> bool:
-    """Download photorealistic image via Pexels 8K Photography, Wikimedia HD, or FLUX AI."""
+
+def _download_pollinations_image(prompt: str, dest_path: Path, width: int = 1080, height: int = 1920, seed: int = 42, provider: str = "auto") -> bool:
+    """Download photorealistic image via FLUX AI, Pexels 8K Photography, Wikimedia HD, or Smart Auto-Routing."""
     import subprocess
     import time
     
@@ -1818,13 +1912,17 @@ def _download_pollinations_image(prompt: str, dest_path: Path, width: int = 1080
     
     ua = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
     
-    url_flux  = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width={width}&height={height}&model=flux&nologo=true&seed={seed}"
-    url_turbo = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width={width}&height={height}&model=turbo&nologo=true&seed={seed}"
+    flux_prompt   = _build_flux_prompt(prompt)
+    flux_encoded  = urllib.parse.quote(flux_prompt)
+    url_turbo_fic = f"https://image.pollinations.ai/prompt/{flux_encoded}?width={width}&height={height}&model=turbo&nologo=true&seed={seed}"
+    url_flux_fic  = f"https://image.pollinations.ai/prompt/{flux_encoded}?width={width}&height={height}&model=flux&nologo=true&seed={seed}"
+    url_nomodel_fic = f"https://image.pollinations.ai/prompt/{flux_encoded}?width={width}&height={height}&nologo=true&seed={seed}"
     
-    print(f"[image-gen] Photorealistic Prompt: '{clean_p[:70]}...' seed={seed}")
+    url_turbo = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width={width}&height={height}&model=turbo&nologo=true&seed={seed}"
+    url_flux  = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width={width}&height={height}&model=flux&nologo=true&seed={seed}"
     
     def _curl_download(url: str, max_time: int = 30) -> bool:
-        """Download via curl -k, return True on success."""
+        """Download via curl with retry logic, return True on success."""
         if dest_path.exists():
             try:
                 dest_path.unlink()
@@ -1832,7 +1930,8 @@ def _download_pollinations_image(prompt: str, dest_path: Path, width: int = 1080
                 pass
         cmd = [
             "curl", "-s", "-L", "-k",
-            "--tls-max", "1.2",
+            "--retry", "2",
+            "--retry-delay", "1",
             "--max-time", str(max_time),
             "-H", f"User-Agent: {ua}",
             "-o", str(dest_path),
@@ -1852,30 +1951,72 @@ def _download_pollinations_image(prompt: str, dest_path: Path, width: int = 1080
             return True
         return False
     
-    # ── Stage 1: Pexels 8K Curated HD Photography Engine (Primary — 100% Real, Zero AI Deformity)
-    print(f"[image-gen] [1/4] Pexels 8K HD Photography Engine (seed={seed})...")
-    if _fetch_pexels_hd_photo(prompt, dest_path, width=width, height=height, seed=seed):
-        return True
+    prov = (provider or "auto").lower()
 
-    # ── Stage 2: Wikimedia Commons 8K Photography Engine
-    print(f"[image-gen] [2/4] Wikimedia 8K HD Photography Engine...")
-    if _fetch_wikimedia_hd_photo(prompt, dest_path, width=width, height=height):
-        return True
+    if prov in ("flux", "ai"):
+        # ── 100% FLUX AI Generation Engine (Zero Stock Photos) ───────────────────
+        print(f"[image-gen] 🎨 Engine: AI ONLY (FLUX) | Prompt: '{flux_prompt[:80]}...' (seed={seed})")
+        if _curl_download(url_turbo_fic, max_time=25):
+            print(f"[image-gen] ✓ FLUX Turbo saved {dest_path.name} ({dest_path.stat().st_size//1024}KB)")
+            return True
+        time.sleep(1.0)
+        if _curl_download(url_flux_fic, max_time=35):
+            print(f"[image-gen] ✓ FLUX saved {dest_path.name} ({dest_path.stat().st_size//1024}KB)")
+            return True
+        if _curl_download(url_nomodel_fic, max_time=25):
+            print(f"[image-gen] ✓ AI saved {dest_path.name} ({dest_path.stat().st_size//1024}KB)")
+            return True
+        # Safety net: if AI service times out, fall back to Pexels so frame is never empty
+        print(f"[image-gen] AI models busy → Pexels safety fallback...")
+        if _fetch_pexels_hd_photo(prompt, dest_path, width=width, height=height, seed=seed):
+            return True
 
-    # ── Stage 3: Pollinations FLUX AI (With National Geographic photorealism prompt framing)
-    print(f"[image-gen] [3/4] FLUX AI Photorealism (seed={seed})...")
-    if _curl_download(url_flux, max_time=30):
-        print(f"[image-gen] ✓ FLUX saved {dest_path.name} ({dest_path.stat().st_size//1024}KB)")
-        return True
+    elif prov == "pexels":
+        # ── 100% Pexels Stock Photo Search ──────────────────────────────────────
+        print(f"[image-gen] 📷 Engine: PEXELS STOCK ONLY | Query: '{_extract_topic_query(prompt)}'")
+        if _fetch_pexels_hd_photo(prompt, dest_path, width=width, height=height, seed=seed):
+            return True
+        print(f"[image-gen] Pexels failed → FLUX fallback...")
+        if _curl_download(url_turbo_fic, max_time=25):
+            return True
 
-    time.sleep(1.5)
+    elif prov == "wikimedia":
+        # ── 100% Wikimedia Commons Archive Search ──────────────────────────────
+        print(f"[image-gen] 🏛️ Engine: WIKIMEDIA ONLY | Query: '{_extract_topic_query(prompt)}'")
+        if _fetch_wikimedia_hd_photo(prompt, dest_path, width=width, height=height):
+            return True
+        print(f"[image-gen] Wikimedia failed → FLUX fallback...")
+        if _curl_download(url_turbo_fic, max_time=25):
+            return True
 
-    # ── Stage 4: Pollinations Turbo AI
-    print(f"[image-gen] [4/4] Turbo AI Photorealism (seed={seed})...")
-    if _curl_download(url_turbo, max_time=15):
-        print(f"[image-gen] ✓ Turbo saved {dest_path.name} ({dest_path.stat().st_size//1024}KB)")
-        return True
-    
+    else:
+        # ── Smart Auto-Routing (Detects Fictional vs Real) ──────────────────────
+        is_fictional = _is_fictional_concept(prompt)
+        if is_fictional:
+            print(f"[image-gen] 🎨 FICTIONAL concept detected → FLUX AI first")
+            if _curl_download(url_turbo_fic, max_time=25):
+                print(f"[image-gen] ✓ FLUX Turbo saved {dest_path.name} ({dest_path.stat().st_size//1024}KB)")
+                return True
+            time.sleep(1.0)
+            if _curl_download(url_flux_fic, max_time=35):
+                print(f"[image-gen] ✓ FLUX saved {dest_path.name} ({dest_path.stat().st_size//1024}KB)")
+                return True
+            if _fetch_pexels_hd_photo(prompt, dest_path, width=width, height=height, seed=seed):
+                return True
+            if _curl_download(url_nomodel_fic, max_time=25):
+                return True
+        else:
+            print(f"[image-gen] 📷 REAL concept detected → Pexels HD first")
+            if _fetch_pexels_hd_photo(prompt, dest_path, width=width, height=height, seed=seed):
+                return True
+            if _fetch_wikimedia_hd_photo(prompt, dest_path, width=width, height=height):
+                return True
+            if _curl_download(url_turbo, max_time=20):
+                return True
+            time.sleep(1.0)
+            if _curl_download(url_flux, max_time=25):
+                return True
+
     if dest_path.exists() and dest_path.stat().st_size <= 3000:
         try:
             dest_path.unlink()
@@ -1888,7 +2029,7 @@ def _download_pollinations_image(prompt: str, dest_path: Path, width: int = 1080
 
 @app.route("/api/studio/generate_images/<path:project_id>", methods=["POST"])
 def studio_generate_images(project_id):
-    """Auto-generate all image prompts using Pollinations FLUX API and save to output/<project_id>/images/."""
+    """Auto-generate all image prompts using selected provider (FLUX AI, Pexels, Wikimedia, or Auto)."""
     project_dir = OUTPUT_ROOT / project_id
     if not project_dir.exists():
         return jsonify({"error": f"Project not found: {project_id}"}), 404
@@ -1909,6 +2050,8 @@ def studio_generate_images(project_id):
 
     req_data = request.json or {}
     force    = req_data.get("force", False)
+    provider = req_data.get("provider") or req_data.get("image_provider") or meta.get("image_provider") or "auto"
+    meta["image_provider"] = provider
 
     total_generated = 0
     failed_images = []
@@ -1924,8 +2067,11 @@ def studio_generate_images(project_id):
             total_generated += 1
             continue
 
+        if idx > 0:
+            time.sleep(1.5)  # IP rate-limit buffer for batch generation
+
         seed = (idx * 101) + 42
-        ok   = _download_pollinations_image(prompt, dest, width=width, height=height, seed=seed)
+        ok   = _download_pollinations_image(prompt, dest, width=width, height=height, seed=seed, provider=provider)
         if ok:
             total_generated += 1
         else:
@@ -1977,7 +2123,7 @@ def studio_clear_images(project_id):
 
 @app.route("/api/studio/generate_single_image/<path:project_id>", methods=["POST"])
 def studio_generate_single_image(project_id):
-    """Generate or re-roll a single image using Pollinations FLUX API."""
+    """Generate or re-roll a single image using Pollinations FLUX API or selected provider."""
     project_dir = OUTPUT_ROOT / project_id
     if not project_dir.exists():
         return jsonify({"error": f"Project not found: {project_id}"}), 404
@@ -1990,6 +2136,7 @@ def studio_generate_single_image(project_id):
     req_data = request.json or {}
     filename = req_data.get("filename")
     prompt   = req_data.get("prompt")
+    provider = req_data.get("provider") or req_data.get("image_provider") or meta.get("image_provider") or "auto"
 
     if not filename or not prompt:
         return jsonify({"error": "Missing filename or prompt"}), 400
@@ -2000,8 +2147,8 @@ def studio_generate_single_image(project_id):
 
     import random
     seed = random.randint(1, 999999)
-    print(f"[studio-single-image] Generating {filename} with FLUX (seed={seed})...")
-    ok   = _download_pollinations_image(prompt, dest, width=width, height=height, seed=seed)
+    print(f"[studio-single-image] Generating {filename} with provider='{provider}' (seed={seed})...")
+    ok   = _download_pollinations_image(prompt, dest, width=width, height=height, seed=seed, provider=provider)
 
     if not ok:
         if dest.exists() and dest.stat().st_size <= 3000:
@@ -2009,7 +2156,7 @@ def studio_generate_single_image(project_id):
                 dest.unlink()
             except Exception:
                 pass
-        return jsonify({"error": f"Failed to generate image {filename} via Pollinations FLUX API"}), 500
+        return jsonify({"error": f"Failed to generate image {filename} via provider '{provider}'"}), 500
 
     all_imgs = [f for f in (list(images_dir.glob("*.png")) + list(images_dir.glob("*.jpg")) + list(images_dir.glob("*.jpeg")) + list(images_dir.glob("*.webp"))) if f.stat().st_size > 3000]
     total    = len(all_imgs)
@@ -2018,6 +2165,7 @@ def studio_generate_single_image(project_id):
         expected = len(meta.get("prompts", []))
         meta["status"]          = "ready_to_render" if total >= expected else f"uploading ({total}/{expected})"
         meta["images_uploaded"] = total
+        meta["image_provider"]  = provider
         meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
 
     return jsonify({"success": True, "filename": filename, "total_uploaded": total})

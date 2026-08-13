@@ -194,6 +194,7 @@ export default function Dashboard() {
   const [reloadingPrompt, setReloadingPrompt]           = useState<string | null>(null);
   const [reloadingScene, setReloadingScene]             = useState<number | null>(null);
   const [deletingProjId, setDeletingProjId]             = useState<string | null>(null);
+  const [studioImageProvider, setStudioImageProvider]   = useState<"flux" | "auto" | "pexels" | "wikimedia">("flux");
   const studioRenderPollRef                             = useRef<ReturnType<typeof setInterval>|null>(null);
   const [gdriveUploading, setGdriveUploading]           = useState(false);
   const [gdriveResult, setGdriveResult]                 = useState<any>(null);
@@ -330,13 +331,13 @@ export default function Dashboard() {
       const prompt = img.prompt;
 
       setGeneratingImgFilename(fn);
-      setStudioGenStatus(`Generating Image ${i + 1} of ${allImages.length}: ${fn}...`);
+      setStudioGenStatus(`Generating Image ${i + 1} of ${allImages.length} via ${studioImageProvider.toUpperCase()}: ${fn}...`);
 
       try {
         const res = await fetch(`${API_URL}/api/studio/generate_single_image/${encodeURIComponent(studioProjectId)}`, {
           method: "POST",
           headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({ filename: fn, prompt: prompt })
+          body: JSON.stringify({ filename: fn, prompt: prompt, provider: studioImageProvider })
         });
         const data = await res.json();
         if (!res.ok || data.error) {
@@ -389,13 +390,13 @@ export default function Dashboard() {
       const prompt = img.prompt;
 
       setGeneratingImgFilename(fn);
-      setStudioGenStatus(`🎨 Regenerating ${i + 1}/${allImages.length}: ${fn}...`);
+      setStudioGenStatus(`🎨 Regenerating ${i + 1}/${allImages.length} via ${studioImageProvider.toUpperCase()}: ${fn}...`);
 
       try {
         const res = await fetch(`${API_URL}/api/studio/generate_single_image/${encodeURIComponent(studioProjectId)}`, {
           method: "POST",
           headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({ filename: fn, prompt: prompt })
+          body: JSON.stringify({ filename: fn, prompt: prompt, provider: studioImageProvider })
         });
         const data = await res.json();
         if (!res.ok || data.error) {
@@ -417,14 +418,15 @@ export default function Dashboard() {
     setStudioGenStatus("");
   };
 
-  const handleRerollSingleImage = async (filename: string, prompt: string) => {
+  const handleRerollSingleImage = async (filename: string, prompt: string, overrideProvider?: string) => {
     if (!studioProjectId) return;
+    const prov = overrideProvider || studioImageProvider || "flux";
     setRerollingImg(filename);
     try {
       const res = await fetch(`${API_URL}/api/studio/generate_single_image/${encodeURIComponent(studioProjectId)}`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ filename, prompt })
+        body: JSON.stringify({ filename, prompt, provider: prov })
       });
       const data = await res.json();
       if (data.error) throw new Error(data.error);
@@ -435,6 +437,52 @@ export default function Dashboard() {
     } finally {
       setRerollingImg(null);
     }
+  };
+
+  const handleGenerateSceneImages = async (sc: any, provider: string) => {
+    if (!studioProjectId) return;
+    const imgs = sc.images || [];
+    if (imgs.length === 0) return;
+
+    setStudioGeneratingImgs(true);
+    setStudioError("");
+
+    for (let i = 0; i < imgs.length; i++) {
+      if (i > 0) {
+        setStudioGenStatus(`⏳ Pause 1.5s (IP rate limit buffer)...`);
+        await new Promise(r => setTimeout(r, 1500));
+      }
+      const img = imgs[i];
+      const fn = img.filename;
+      const prompt = img.prompt;
+
+      setGeneratingImgFilename(fn);
+      setStudioGenStatus(`Generating ${sc.scene_title || 'Scene'} frame ${i + 1}/${imgs.length} via ${provider.toUpperCase()}: ${fn}...`);
+
+      try {
+        const res = await fetch(`${API_URL}/api/studio/generate_single_image/${encodeURIComponent(studioProjectId)}`, {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({ filename: fn, prompt: prompt, provider: provider })
+        });
+        const data = await res.json();
+        if (!res.ok || data.error) {
+          console.warn(`Failed scene image ${fn}:`, data.error);
+        } else {
+          setStudioUploaded(prev => ({ ...prev, [fn]: true }));
+          setStudioUploadPreviews(prev => ({
+            ...prev,
+            [fn]: `${API_URL}/studio/image/${encodeURIComponent(studioProjectId)}/images/${fn}?t=${Date.now()}`
+          }));
+        }
+      } catch(e: any) {
+        console.warn(`Error generating scene image ${fn}:`, e.message);
+      }
+    }
+
+    setGeneratingImgFilename(null);
+    setStudioGeneratingImgs(false);
+    setStudioGenStatus("");
   };
 
   const handleRegenerateSinglePrompt = async (si: number, ii: number) => {
@@ -3507,21 +3555,75 @@ export default function Dashboard() {
                         {allDone && <span className="ml-2 text-emerald-400 font-semibold">✅ All images ready!</span>}
                       </p>
                     </div>
+
+                    {/* Image Engine Selector */}
+                    <div className="flex flex-wrap items-center gap-1.5 p-1.5 bg-black/60 rounded-xl border border-white/10">
+                      <span className="text-[10px] font-bold text-slate-400 px-2 uppercase tracking-wider">Engine:</span>
+                      <button
+                        type="button"
+                        onClick={() => setStudioImageProvider("flux")}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
+                          studioImageProvider === "flux"
+                            ? "bg-violet-600 text-white shadow-md shadow-violet-600/40 ring-1 ring-violet-400"
+                            : "bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white"
+                        }`}
+                        title="100% FLUX AI Generation — Best for satire, cartoons, and custom fiction (No stock photo mismatch)"
+                      >
+                        ✨ AI Only (FLUX)
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setStudioImageProvider("auto")}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
+                          studioImageProvider === "auto"
+                            ? "bg-amber-600 text-white shadow-md shadow-amber-600/40 ring-1 ring-amber-400"
+                            : "bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white"
+                        }`}
+                        title="Smart Auto — Auto-detects fictional vs real concepts"
+                      >
+                        ⚡ Smart Auto
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setStudioImageProvider("pexels")}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
+                          studioImageProvider === "pexels"
+                            ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/40 ring-1 ring-emerald-400"
+                            : "bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white"
+                        }`}
+                        title="Pexels Stock Photography — Real photos only"
+                      >
+                        📷 Pexels Stock
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setStudioImageProvider("wikimedia")}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
+                          studioImageProvider === "wikimedia"
+                            ? "bg-blue-600 text-white shadow-md shadow-blue-600/40 ring-1 ring-blue-400"
+                            : "bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white"
+                        }`}
+                        title="Wikimedia Archive — Real open-source photos"
+                      >
+                        🏛️ Wikimedia
+                      </button>
+                    </div>
+
                     <div className="flex items-center gap-2 flex-wrap">
                       <button
                         disabled={studioGeneratingImgs}
                         onClick={handleAutoGenerateAllImages}
                         className="px-5 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-xs font-bold rounded-xl shadow-lg shadow-violet-600/30 transition text-white flex items-center gap-2 cursor-pointer disabled:opacity-50"
                       >
-                        {studioGeneratingImgs ? "✨ Generating with FLUX AI..." : `✨ Auto-Generate All ${allImages.length} Images with AI (FLUX)`}
+                        {studioGeneratingImgs ? "✨ Generating..." : `✨ Generate All with ${studioImageProvider.toUpperCase()}`}
                       </button>
                       <button
                         disabled={studioGeneratingImgs}
                         onClick={handleRegenerateAllImages}
-                        title="Clears ALL existing images and regenerates from scratch with the fixed AI pipeline"
+                        title="Clears ALL existing images and regenerates from scratch using selected engine"
                         className="px-4 py-2.5 bg-gradient-to-r from-orange-600 to-rose-600 hover:from-orange-500 hover:to-rose-500 text-xs font-bold rounded-xl shadow-lg shadow-orange-600/30 transition text-white flex items-center gap-2 cursor-pointer disabled:opacity-50"
                       >
-                        🔄 Regenerate All (Fresh Start)
+                        🔄 Regenerate All ({studioImageProvider.toUpperCase()})
                       </button>
                       <label className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 border border-white/10 text-xs font-semibold rounded-xl cursor-pointer transition text-slate-200">
                         ⬆ Manual Upload
@@ -3563,21 +3665,41 @@ export default function Dashboard() {
                           }`}>
                             {scUploaded === imgs.length ? "✓" : si+1}
                           </div>
-                          <div className="flex-1">
-                            <div className="text-sm font-semibold text-white">{sc.scene_title || `Scene ${si+1}`} <span className="text-xs font-normal text-slate-500">~{sc.scene_duration_s}s</span></div>
+                          <div className="flex-1 min-w-0">
+                            <div className="text-sm font-semibold text-white truncate">{sc.scene_title || `Scene ${si+1}`} <span className="text-xs font-normal text-slate-500">~{sc.scene_duration_s}s</span></div>
                             <div className="text-[10px] text-slate-500 italic truncate">"{sc.script_excerpt}"</div>
                           </div>
-                          <div className="text-xs text-slate-400">{scUploaded}/{imgs.length}</div>
-                          <label className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-[10px] font-bold rounded-lg cursor-pointer transition text-white">
-                            Upload Scene
-                            <input type="file" multiple accept="image/*" className="hidden" onChange={async (e) => {
-                              const files = Array.from(e.target.files || []);
-                              for (const file of files) {
-                                const match = imgs.find((img: any) => img.filename === file.name);
-                                await uploadFile(file, match ? match.filename : file.name);
-                              }
-                            }} />
-                          </label>
+                          <div className="flex items-center gap-2 shrink-0">
+                            <div className="text-xs text-slate-400 font-semibold">{scUploaded}/{imgs.length}</div>
+                            <select
+                              disabled={studioGeneratingImgs}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                if (val) {
+                                  handleGenerateSceneImages(sc, val);
+                                  e.target.value = "";
+                                }
+                              }}
+                              defaultValue=""
+                              className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 border border-white/10 text-white text-xs font-bold rounded-xl cursor-pointer transition outline-none"
+                            >
+                              <option value="" disabled>⚡ Scene Engine...</option>
+                              <option value="flux">✨ FLUX AI</option>
+                              <option value="pexels">📷 Pexels Stock</option>
+                              <option value="wikimedia">🏛️ Wikimedia</option>
+                              <option value="auto">⚡ Smart Auto</option>
+                            </select>
+                            <label className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 border border-white/10 text-xs font-bold rounded-xl cursor-pointer transition text-white shrink-0 flex items-center gap-1">
+                              ⬆ Upload Scene
+                              <input type="file" multiple accept="image/*" className="hidden" onChange={async (e) => {
+                                const files = Array.from(e.target.files || []);
+                                for (const file of files) {
+                                  const match = imgs.find((img: any) => img.filename === file.name);
+                                  await uploadFile(file, match ? match.filename : file.name);
+                                }
+                              }} />
+                            </label>
+                          </div>
                         </div>
 
                         {/* Scene progress bar */}
@@ -3624,20 +3746,64 @@ export default function Dashboard() {
                                     </span>
                                   </div>
                                 )}
-                                <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition z-10 flex gap-1">
-                                  <button
-                                    type="button"
-                                    disabled={isRolling}
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      e.stopPropagation();
-                                      handleRerollSingleImage(img.filename, img.prompt);
-                                    }}
-                                    className="w-6 h-6 rounded-md bg-black/80 hover:bg-violet-600 text-white text-[10px] flex items-center justify-center cursor-pointer shadow-md"
-                                    title="Re-roll image with FLUX AI"
-                                  >
-                                    🔄
-                                  </button>
+                                <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition z-20 p-1 bg-black/90 backdrop-blur-md rounded-lg shadow-xl border border-white/10">
+                                  <div className="grid grid-cols-2 gap-1">
+                                    <button
+                                      type="button"
+                                      disabled={isRolling}
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        handleRerollSingleImage(img.filename, img.prompt, "flux");
+                                      }}
+                                      className="w-6 h-6 rounded bg-violet-600/90 hover:bg-violet-500 text-white text-[10px] font-bold flex items-center justify-center cursor-pointer transition shadow"
+                                      title="Generate with FLUX AI"
+                                    >
+                                      ✨
+                                    </button>
+                                    <button
+                                      type="button"
+                                      disabled={isRolling}
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        handleRerollSingleImage(img.filename, img.prompt, "pexels");
+                                      }}
+                                      className="w-6 h-6 rounded bg-emerald-600/90 hover:bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center cursor-pointer transition shadow"
+                                      title="Search Pexels Stock Photos"
+                                    >
+                                      📷
+                                    </button>
+                                    <button
+                                      type="button"
+                                      disabled={isRolling}
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        handleRerollSingleImage(img.filename, img.prompt, "wikimedia");
+                                      }}
+                                      className="w-6 h-6 rounded bg-blue-600/90 hover:bg-blue-500 text-white text-[10px] font-bold flex items-center justify-center cursor-pointer transition shadow"
+                                      title="Search Wikimedia Archive"
+                                    >
+                                      🏛️
+                                    </button>
+                                    <label
+                                      className="w-6 h-6 rounded bg-amber-600/90 hover:bg-amber-500 text-white text-[10px] font-bold flex items-center justify-center cursor-pointer transition shadow"
+                                      title="Upload Custom Image"
+                                      onClick={(e) => e.stopPropagation()}
+                                    >
+                                      ⬆
+                                      <input
+                                        type="file"
+                                        accept="image/*"
+                                        className="hidden"
+                                        onChange={async (e) => {
+                                          const file = e.target.files?.[0];
+                                          if (file) await uploadFile(file, img.filename);
+                                        }}
+                                      />
+                                    </label>
+                                  </div>
                                 </div>
                                 <div className="absolute bottom-0 left-0 right-0 bg-black/70 px-1 py-0.5 flex justify-between items-center">
                                   <p className="text-[8px] font-mono text-slate-300 truncate">{img.filename.split("_").slice(-1)[0]}</p>
