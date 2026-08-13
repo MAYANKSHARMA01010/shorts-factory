@@ -1915,40 +1915,59 @@ def _download_pollinations_image(prompt: str, dest_path: Path, width: int = 1080
     flux_prompt   = _build_flux_prompt(prompt)
     flux_encoded  = urllib.parse.quote(flux_prompt)
     url_turbo_fic = f"https://image.pollinations.ai/prompt/{flux_encoded}?width={width}&height={height}&model=turbo&nologo=true&seed={seed}"
-    url_flux_fic  = f"https://image.pollinations.ai/prompt/{flux_encoded}?width={width}&height={height}&model=flux&nologo=true&seed={seed}"
     url_nomodel_fic = f"https://image.pollinations.ai/prompt/{flux_encoded}?width={width}&height={height}&nologo=true&seed={seed}"
+    url_realism_fic = f"https://image.pollinations.ai/prompt/{flux_encoded}?width={width}&height={height}&model=flux-realism&nologo=true&seed={seed}"
+    url_flux_fic  = f"https://image.pollinations.ai/prompt/{flux_encoded}?width={width}&height={height}&model=flux&nologo=true&seed={seed}"
     
     url_turbo = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width={width}&height={height}&model=turbo&nologo=true&seed={seed}"
     url_flux  = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width={width}&height={height}&model=flux&nologo=true&seed={seed}"
     
-    def _curl_download(url: str, max_time: int = 30) -> bool:
-        """Download via curl with retry logic, return True on success."""
+    def _robust_ai_download(url: str, max_time: int = 30) -> bool:
+        """Download via clean curl -s -L with python requests fallback, return True on success."""
         if dest_path.exists():
             try:
                 dest_path.unlink()
             except Exception:
                 pass
-        cmd = [
-            "curl", "-s", "-L", "-k",
-            "--retry", "2",
-            "--retry-delay", "1",
-            "--max-time", str(max_time),
-            "-H", f"User-Agent: {ua}",
-            "-o", str(dest_path),
-            url
-        ]
+
+        # 1. Clean curl -s -L execution
+        cmd = ["curl", "-s", "-L", "--max-time", str(max_time), "-o", str(dest_path), url]
         result = subprocess.run(cmd, capture_output=True)
-        if result.returncode != 0:
-            print(f"[image-gen] curl exit={result.returncode}: {result.stderr[:100]}")
-        
-        if dest_path.exists():
-            if dest_path.stat().st_size <= 3000:
-                try:
-                    dest_path.unlink()
-                except Exception:
-                    pass
-                return False
+        if dest_path.exists() and dest_path.stat().st_size > 30000:
             return True
+
+        if dest_path.exists():
+            try:
+                dest_path.unlink()
+            except Exception:
+                pass
+
+        # 2. Python requests fallback
+        import requests
+        import urllib3
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+        
+        session = requests.Session()
+        session.headers.update({
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+            "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+        })
+
+        for attempt in range(2):
+            try:
+                r = session.get(url, timeout=max_time, verify=False)
+                if r.status_code == 200 and len(r.content) > 30000:
+                    dest_path.write_bytes(r.content)
+                    return True
+            except Exception as ex:
+                print(f"[image-gen] Attempt {attempt+1} download error: {ex}")
+                time.sleep(1.5)
+
+        if dest_path.exists() and dest_path.stat().st_size <= 30000:
+            try:
+                dest_path.unlink()
+            except Exception:
+                pass
         return False
     
     prov = (provider or "auto").lower()
@@ -1956,19 +1975,20 @@ def _download_pollinations_image(prompt: str, dest_path: Path, width: int = 1080
     if prov in ("flux", "ai"):
         # ── 100% FLUX AI Generation Engine (Zero Stock Photos) ───────────────────
         print(f"[image-gen] 🎨 Engine: AI ONLY (FLUX) | Prompt: '{flux_prompt[:80]}...' (seed={seed})")
-        if _curl_download(url_turbo_fic, max_time=25):
+        if _robust_ai_download(url_turbo_fic, max_time=25):
             print(f"[image-gen] ✓ FLUX Turbo saved {dest_path.name} ({dest_path.stat().st_size//1024}KB)")
             return True
-        time.sleep(1.0)
-        if _curl_download(url_flux_fic, max_time=35):
-            print(f"[image-gen] ✓ FLUX saved {dest_path.name} ({dest_path.stat().st_size//1024}KB)")
-            return True
-        if _curl_download(url_nomodel_fic, max_time=25):
+        time.sleep(1.5)
+        if _robust_ai_download(url_nomodel_fic, max_time=25):
             print(f"[image-gen] ✓ AI saved {dest_path.name} ({dest_path.stat().st_size//1024}KB)")
             return True
-        # Safety net: if AI service times out, fall back to Pexels so frame is never empty
-        print(f"[image-gen] AI models busy → Pexels safety fallback...")
-        if _fetch_pexels_hd_photo(prompt, dest_path, width=width, height=height, seed=seed):
+        time.sleep(1.5)
+        if _robust_ai_download(url_realism_fic, max_time=25):
+            print(f"[image-gen] ✓ FLUX Realism saved {dest_path.name} ({dest_path.stat().st_size//1024}KB)")
+            return True
+        time.sleep(1.5)
+        if _robust_ai_download(url_flux_fic, max_time=30):
+            print(f"[image-gen] ✓ FLUX saved {dest_path.name} ({dest_path.stat().st_size//1024}KB)")
             return True
 
     elif prov == "pexels":
