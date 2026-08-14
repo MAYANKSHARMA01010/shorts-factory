@@ -16,6 +16,20 @@ from flask_cors import CORS
 # --- Setup Paths ---
 HERE = Path(__file__).resolve().parent
 PROJECT_ROOT = HERE.parent.parent
+
+def _load_env_file(filepath):
+    p = Path(filepath)
+    if p.exists():
+        with open(p, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    os.environ[k.strip()] = v.strip().strip("'\"")
+
+_load_env_file(PROJECT_ROOT / ".env")
+_load_env_file(HERE / ".env")
+
 sys.path.insert(0, str(PROJECT_ROOT / "packages" / "ClipPilot" / "src"))
 
 try:
@@ -1007,8 +1021,8 @@ NARRATION SCRIPT:
 3. FOR EACH SCENE: write 8–15 IMAGE PROMPTS
    - Each prompt = one still photo shown with Ken-Burns zoom during that scene
    - Images within a scene share mood/location, but vary in framing, angle, distance
-   - EVERY prompt must be UNIQUE and scene-specific — NO generic or repeated prompts
-   - EVERY prompt must start EXACTLY with the style defaults
+   - EVERY prompt must start with the HIGHLY SPECIFIC SCENE SUBJECT FIRST (at index 0)
+   - Follow the subject description with style defaults: {style_defaults}
    - EVERY prompt must end EXACTLY with the negative list
    - The prompt must ALSO state: "Save this image as: <filename>"
    - Image count: use 8 for short/simple scenes, up to 15 for dramatic/complex scenes
@@ -1019,7 +1033,7 @@ NARRATION SCRIPT:
    Scene 2 example: {prefix}_s002_img001.png, {prefix}_s002_img002.png
    ALWAYS 3-digit zero-padded for BOTH scene and image numbers.
 
-== STYLE DEFAULTS (start every prompt with this VERBATIM) ==
+== STYLE DEFAULTS (place after scene description) ==
 "{style_defaults}."
 
 == NEGATIVE PROMPT (end every prompt with this VERBATIM) ==
@@ -1044,13 +1058,13 @@ Return ONLY a valid JSON object. No markdown. No code blocks. No explanation.
           "image_index": 1,
           "filename": "{eg_fn1}",
           "scene_description": "<one sentence: what this specific image shows>",
-          "prompt": "{style_defaults}. <HIGHLY SPECIFIC subject, action, setting, mood, camera angle for this EXACT image>. Save this image as: {eg_fn1}. Negative: {negative}."
+          "prompt": "<HIGHLY SPECIFIC subject, action, setting, mood, camera angle for this EXACT image>. {style_defaults}. Save this image as: {eg_fn1}. Negative: {negative}."
         }},
         {{
           "image_index": 2,
           "filename": "{eg_fn2}",
           "scene_description": "<different angle / moment from same scene>",
-          "prompt": "{style_defaults}. <DIFFERENT framing from image 1, same scene>. Save this image as: {eg_fn2}. Negative: {negative}."
+          "prompt": "<DIFFERENT framing from image 1, same scene>. {style_defaults}. Save this image as: {eg_fn2}. Negative: {negative}."
         }}
       ]
     }}
@@ -1058,8 +1072,8 @@ Return ONLY a valid JSON object. No markdown. No code blocks. No explanation.
 }}
 
 CRITICAL RULES:
-- Every prompt is UNIQUE — describe a SPECIFIC visual, not a generic one
-- Every prompt starts with "{style_defaults}." (verbatim)
+- Every prompt is UNIQUE — describe a SPECIFIC visual FIRST (at index 0)
+- Follow scene visual with "{style_defaults}."
 - Every prompt ends with "Negative: {negative}." (verbatim)
 - Every prompt contains "Save this image as: <filename>."
 - Images in a scene: same location/mood, different angles (wide, mid, close, overhead, low)
@@ -1087,13 +1101,13 @@ CRITICAL RULES:
     key_pool  = [k.strip() for k in raw_keys.replace("\n", ",").split(",") if k.strip()]
     primary_model = os.environ.get("GEMINI_PRIMARY_MODEL") or "gemini-flash-latest"
 
-    def _call_gemini_with_key_pool(prompt: str, start_idx: int = 0, model: str = primary_model, timeout: int = 45) -> tuple[str, int]:
-        """Call Gemini, automatically trying each key and fallback model with exponential backoff on 503/429/timeout."""
+    def _call_gemini_with_key_pool(prompt: str, start_idx: int = 0, model: str = primary_model, timeout: int = 25) -> tuple[str, int]:
+        """Call Gemini, automatically trying each key and working models without hanging."""
         if not key_pool:
             raise Exception("No Gemini API keys available in environment")
         
         n_keys = len(key_pool)
-        models_to_try = [model, "gemini-2.0-flash-lite", "gemini-2.0-flash", "gemini-2.0-flash-exp"]
+        models_to_try = [model, "gemini-flash-latest"]
         # Remove duplicates preserving order
         models_to_try = list(dict.fromkeys([m for m in models_to_try if m]))
         last_err = None
@@ -1115,18 +1129,14 @@ CRITICAL RULES:
                         data = resp.json()
                         text = data["candidates"][0]["content"]["parts"][0]["text"]
                         return text, key_idx
-                    elif resp.status_code in (429, 503):
-                        sleep_s = min(8.0, 1.5 * (attempt + 1))
-                        print(f"[studio][key #{key_idx+1}/{n_keys}][{target_model}] HTTP {resp.status_code} (Limit/Busy) — backoff {sleep_s:.1f}s...")
-                        time.sleep(sleep_s)
-                        continue
                     else:
-                        print(f"[studio][key #{key_idx+1}/{n_keys}][{target_model}] HTTP {resp.status_code}: {resp.text[:100]} — rotating...")
-                        time.sleep(1.0)
+                        err_snippet = resp.text[:120].replace("\n", " ")
+                        print(f"[studio][key #{key_idx+1}/{n_keys}][{target_model}] HTTP {resp.status_code}: {err_snippet} — trying next key...")
+                        time.sleep(0.3)
                 except Exception as ex:
-                    print(f"[studio][key #{key_idx+1}/{n_keys}][{target_model}] Exception: {ex} — rotating...")
+                    print(f"[studio][key #{key_idx+1}/{n_keys}][{target_model}] Exception: {ex} — trying next key...")
                     last_err = str(ex)
-                    time.sleep(1.0)
+                    time.sleep(0.3)
                 
         raise Exception(f"All API keys and models exhausted. Last error: {last_err}")
 
@@ -1164,44 +1174,49 @@ Return JSON only — no markdown:
         used_fallback = False
         n_keys        = len(key_pool)
 
-        for si, sp in enumerate(scene_plan):
+        import concurrent.futures
+
+        def _process_single_scene(item):
+            si, sp = item
             scene_title   = sp.get("scene_title", f"Scene {si+1}")
             excerpt       = sp.get("script_excerpt", "") or sp.get("narration", "")
             duration_s    = sp.get("scene_duration_s", round(est_dur_secs / len(scene_plan)))
-            # ~4 to 5 seconds per image (short videos <40s get 3-8 images, long scenes get 8-15 images)
             if duration_s < 40:
                 n_imgs = max(3, min(8, math.ceil(duration_s / 4.5)))
             else:
                 n_imgs = max(8, min(15, math.ceil(duration_s / 4.8)))
 
-            # Rotate starting key index: scene 0 → (last_key + 1) % n, scene 1 → +2, etc.
-            start_k  = (last_key_idx + si + 1) % n_keys
+            start_k  = (last_key_idx + si) % n_keys
             eg_fns   = [_build_filename(si, ii) for ii in range(3)]
 
-            img_prompt = f"""Generate {n_imgs} cinematic image prompts for one video scene.
+            img_prompt = f"""Generate {n_imgs} distinct, cinematic image prompts for one video scene.
+These prompts are for FLUX AI text-to-image generator. Output must be realistic photography with clear actions and storytelling — NOT static portraits, NOT anime.
 
 VIDEO: "{title}" — Scene {si+1}: "{scene_title}"
 NARRATION: {excerpt}
 ASPECT: {aspect}
-STYLE PREFIX (include verbatim at start of every prompt): {style_defaults}.
-NEGATIVE (include verbatim at end): Negative: {negative}.
 
-Rules:
-- Every prompt is UNIQUE — specific visual, specific angle
-- Same location/mood per scene, vary framing: wide, mid, close, overhead, low
-- Include filename exactly: "Save this image as: <filename>."
-- Filenames: {eg_fns[0]}, {eg_fns[1]}, {eg_fns[2]}, ... up to {_build_filename(si, n_imgs-1)}
+CINEMATOGRAPHY & STORYTELLING RULES:
+1. ACTION & PHYSICALITY FIRST: Describe characters actively doing things with visible hands, facial expressions, and physical props (e.g. "pinching nose shut with fingers", "holding up a printed utility bill with green stamp", "speaking into press microphones at wooden podium", "running through forest trail looking back in panic").
+2. VARY SHOT FRAMING ACROSS THE {n_imgs} PROMPTS:
+   - Medium Action Shot (50mm, eye-level): showing hands, props, character body, and immediate room/street context.
+   - Environmental Wide Shot (24mm/35mm, deep focus): showing full crowd, landscape, forest canopy, city street, or laboratory scale.
+   - Prop / Interaction Close-Up: focused on the key object (meter attached to bark, glowing smartphone screen, breath clip, bill) with natural lighting.
+3. NATURAL DESCRIPTIVE LANGUAGE (NO TAG SOUP): Do NOT spam comma-separated camera tags like "RAW photo, 85mm DSLR lens, f/1.8, 8k". Write fluent descriptive sentences about the scene, lighting, and mood.
+4. CHARACTER DIVERSITY: Specify age, gender, and attire matched to the script role (e.g. "A 52-year-old South Asian botanist in a white lab coat", "A 24-year-old Middle Eastern man in a t-shirt", "A 29-year-old Black woman at a cafe").
+5. Append filename: "Save this image as: <filename>."
+6. End with: Negative: {negative}.
 
 Return JSON only — no markdown:
 {{"images": [
-  {{"image_index": 1, "filename": "{eg_fns[0]}", "scene_description": "...", "prompt": "{style_defaults}. <specific visual>. Save this image as: {eg_fns[0]}. Negative: {negative}."}},
+  {{"image_index": 1, "filename": "{eg_fns[0]}", "scene_description": "...", "prompt": "<Cinematic shot framing of specific subject performing action with props and setting, natural lighting and authentic mood>. Save this image as: {eg_fns[0]}. Negative: {negative}."}},
   ...
 ]}}"""
 
             print(f"[studio] PHASE 2 — Scene {si+1}/{len(scene_plan)}: generating {n_imgs} prompts starting with key #{start_k+1}...")
+            scene_fallback = False
             try:
-                img_raw, used_k = _call_gemini_with_key_pool(img_prompt, start_idx=start_k, model=primary_model, timeout=60)
-                last_key_idx    = used_k
+                img_raw, used_k = _call_gemini_with_key_pool(img_prompt, start_idx=start_k, model=primary_model, timeout=20)
                 img_data        = _parse_json(img_raw)
                 imgs_raw        = img_data if isinstance(img_data, list) else img_data.get("images", [])
                 imgs            = []
@@ -1216,7 +1231,7 @@ Return JSON only — no markdown:
                 print(f"[studio]   ✓ Scene {si+1}: {len(imgs)} image prompts generated using key #{used_k+1}.")
             except Exception as scene_err:
                 print(f"[studio]   ✗ Scene {si+1} Gemini failed: {scene_err} — using fallback prompts")
-                used_fallback = True
+                scene_fallback = True
                 imgs = []
                 ANGLE_VARIATIONS = ["extreme close-up", "medium shot", "wide shot", "overhead view", "low-angle hero shot", "over-the-shoulder", "tight portrait", "dramatic silhouette", "three-quarter angle", "dutch tilt"]
                 for ii in range(n_imgs):
@@ -1226,21 +1241,27 @@ Return JSON only — no markdown:
                         "image_index":       ii + 1,
                         "filename":          fn,
                         "scene_description": f"{angle.capitalize()} of: {excerpt[:80]}",
-                        "prompt":            f"{style_defaults}. {angle} — {excerpt[:120].rstrip('.')} — dramatic cinematic mood, rich colors, ultra detailed. Save this image as: {fn}. Negative: {negative}.",
+                        "prompt":            f"{excerpt[:120].rstrip('.')} — {angle}, dramatic cinematic mood, rich colors, ultra detailed. {style_defaults}. Save this image as: {fn}. Negative: {negative}.",
                         "aspect_ratio":      aspect,
                     })
 
-            total_images += len(imgs)
-            scenes.append({
+            return (si, {
                 "scene_index":      si + 1,
                 "scene_title":      scene_title,
                 "script_excerpt":   excerpt,
                 "scene_duration_s": duration_s,
                 "images":           imgs,
-            })
-            # Small pace between scenes to avoid hitting per-key limits
-            if si < len(scene_plan) - 1:
-                time.sleep(1.0)
+            }, scene_fallback)
+
+        scenes_map = {}
+        with concurrent.futures.ThreadPoolExecutor(max_workers=min(4, len(scene_plan))) as executor:
+            results = list(executor.map(_process_single_scene, enumerate(scene_plan)))
+
+        for si, scene_obj, fb in sorted(results, key=lambda x: x[0]):
+            scenes.append(scene_obj)
+            total_images += len(scene_obj["images"])
+            if fb:
+                used_fallback = True
 
         return jsonify({
             "estimated_duration_s": est_dur_secs,
@@ -1357,9 +1378,9 @@ def studio_regenerate_prompt():
 Aspect ratio: {aspect}.
 Scene excerpt: "{script_excerpt}".
 Save filename: {filename}.
-Start prompt with: "{style_defaults}."
+Rule: Start prompt with the HIGHLY SPECIFIC visual subject FIRST (at index 0), followed by style details: "{style_defaults}."
 End prompt with: "Negative: {negative}."
-Return JSON: {{"prompt": "...", "scene_description": "..."}}"""
+Return JSON: {{"prompt": "<specific visual subject>. {style_defaults}. Save this image as: {filename}. Negative: {negative}.", "scene_description": "..."}}"""
         try:
             raw = call_gemini(p, timeout=20, json_mode=True)
             d = json.loads(raw)
@@ -1377,9 +1398,8 @@ Return JSON: {{"prompt": "...", "scene_description": "..."}}"""
         ]
         chosen_angle = random.choice(angles)
         prompt_text = (
-            f"{style_defaults}. {chosen_angle} — {script_excerpt[:120].rstrip('.')} — "
-            f"dramatic cinematic lighting, rich colors, 8k quality. Save this image as: {filename}. "
-            f"Negative: {negative}."
+            f"{script_excerpt[:120].rstrip('.')} — {chosen_angle}, dramatic cinematic lighting, rich colors, 8k quality. "
+            f"{style_defaults}. Save this image as: {filename}. Negative: {negative}."
         )
         scene_desc = f"{chosen_angle.capitalize()} visualizing beat: '{script_excerpt[:60]}...'"
 
@@ -1413,9 +1433,9 @@ def studio_regenerate_scene():
         p = f"""Create {image_count} cinematic image prompts for Scene {scene_index+1} of '{title}'.
 Excerpt: "{script_excerpt}".
 Filenames: {_build_fn(scene_index, 0)} to {_build_fn(scene_index, image_count-1)}.
-Start prompts with: "{style_defaults}."
+Rule: Start prompts with the HIGHLY SPECIFIC visual subject FIRST (at index 0), followed by style details: "{style_defaults}."
 End prompts with: "Negative: {negative}."
-Return JSON: {{"images": [{{"filename": "...", "prompt": "...", "scene_description": "..."}}]}}"""
+Return JSON: {{"images": [{{"filename": "...", "prompt": "<specific visual subject>. {style_defaults}. Save this image as: ... Negative: {negative}.", "scene_description": "..."}}]}}"""
         try:
             raw = call_gemini(p, timeout=40, json_mode=True)
             d = json.loads(raw)
@@ -1435,9 +1455,8 @@ Return JSON: {{"images": [{{"filename": "...", "prompt": "...", "scene_descripti
             fn = _build_fn(scene_index, ii)
             angle = ANGLE_VARIATIONS[ii % len(ANGLE_VARIATIONS)]
             prompt = (
-                f"{style_defaults}. {angle} — {script_excerpt[:120].rstrip('.')} — "
-                f"dramatic cinematic mood, rich color palette, high contrast lighting. "
-                f"Save this image as: {fn}. Negative: {negative}."
+                f"{script_excerpt[:120].rstrip('.')} — {angle}, dramatic cinematic mood, rich color palette, high contrast lighting. "
+                f"{style_defaults}. Save this image as: {fn}. Negative: {negative}."
             )
             images.append({
                 "filename": fn,
@@ -1677,56 +1696,85 @@ _FICTIONAL_RE = [_re.compile(p, _re.IGNORECASE) for p in _FICTIONAL_CONCEPT_PATT
 
 
 def _is_fictional_concept(prompt: str) -> bool:
-    """Return True if the prompt describes a concept that cannot be stock-photographed.
-    
-    Fictional/satirical/personified concepts (talking trees, tax documents, QR codes
-    with specific text, etc.) cannot be found on Pexels/Wikimedia and should be routed
-    directly to FLUX AI image generation.
-    """
-    # Strip boilerplate first for cleaner matching
+    """Return True if the prompt describes a concept that cannot be stock-photographed."""
     p = prompt
     if "Negative:" in p:
         p = p.split("Negative:")[0]
-    p = _re.sub(r'Save this image as:\s*\S+', '', p, flags=_re.IGNORECASE)
-    boilerplate_end = r'(?:depth of field|wallpaper quality|focal detail)(?:.)?\.\s*'
-    stripped = _re.sub(r'^.*?' + boilerplate_end, '', p, flags=_re.IGNORECASE | _re.DOTALL).strip()
-    check_text = stripped if len(stripped) > 10 else p
+    p = _re.sub(r'Save this image as:\s*\S+', '', p, flags=_re.IGNORECASE).strip()
     
     for pattern in _FICTIONAL_RE:
-        if pattern.search(check_text):
+        if pattern.search(p):
             return True
     return False
 
 
-def _build_flux_prompt(prompt: str) -> str:
-    """Build an optimized FLUX AI prompt from a scene description.
-    
-    For fictional/satirical concepts, FLUX AI can generate them directly.
-    Strip the style boilerplate (designed for stock photo searching) and
-    replace with AI-generation appropriate style tags.
-    """
+# ── Style Presets ─────────────────────────────────────────────────────────────
+STYLE_PRESETS = {
+    "photorealistic": "Candid editorial photography, sharp focus, natural textures and real lighting, authentic 35mm documentary film still, vertical 9:16 composition",
+    "3d_pixar": "High quality 3D animated movie render, Pixar Disney character design, expressive facial features, soft studio lighting, vibrant colors, 8k resolution, vertical 9:16 composition",
+    "comic_graphic": "Dynamic graphic novel illustration, bold linework, rich cinematic color palette, detailed comic book art style, vertical 9:16 composition",
+    "cyberpunk": "Cyberpunk aesthetic, neon reflections, futuristic night atmosphere, volumetric lighting, highly detailed 8k, vertical 9:16 composition",
+    "vintage_film": "Vintage 1970s 35mm Kodachrome film photograph, film grain, nostalgic warm tones, candid composition, 8k, vertical 9:16 composition",
+    "anime_ghibli": "Studio Ghibli inspired anime illustration, hand-painted digital art, beautiful watercolor aesthetic, expressive characters, vertical 9:16 composition",
+}
+
+# ── Ethnicity & Character Diversity Descriptors ──────────────────────────────
+ETHNICITY_DESCRIPTORS = {
+    "cauc_western": "Caucasian Western subject with short styled brown hair and natural features",
+    "latino": "Latino Hispanic subject with dark hair and warm skin tones",
+    "african_american": "African American subject with textured hair and rich skin tones",
+    "south_asian": "South Asian subject with dark hair and expressive features",
+    "east_asian": "East Asian subject with short dark hair and natural facial features",
+    "diverse_global": "distinct global character features and natural skin texture",
+}
+
+
+# Anti-anime suppressors injected into every photorealistic FLUX prompt
+_FLUX_PHOTOREALISTIC_NEGATIVE = (
+    "anime, cartoon, illustration, drawing, painting, CGI, render, 3D, manga, "
+    "stylized, artistic, digital art, concept art, fantasy art, unrealistic skin, "
+    "Asian anime female, big eyes, cute, chibi, long straight black hair girl, "
+    "perfect skin, airbrushed, smooth, plastic, doll-like, symmetric perfection"
+)
+
+
+def _build_flux_prompt(prompt: str, style: str = "photorealistic", ethnicity: str = "cauc_western", negative_prompt: str = "") -> str:
+    """Build an optimal FLUX AI prompt by cleaning boilerplate and ensuring natural descriptive storytelling."""
     p = prompt
     if "Negative:" in p:
         p = p.split("Negative:")[0]
-    p = _re.sub(r'Save this image as:\s*\S+', '', p, flags=_re.IGNORECASE)
+    p = _re.sub(r'Save this image as:\s*\S+', '', p, flags=_re.IGNORECASE).strip()
+
+    # Regex patterns for legacy camera / resolution / framing tag spam to clean up
+    tag_patterns = [
+        r'^(?:Vertical portrait 9:16 composition|Widescreen 16:9 cinematic shot)[^.]*\.\s*',
+        r'^(?:subject centered in frame|rule of thirds|full subject visible|expansive view)[^.]*\.\s*',
+        r'(?:RAW photo,?\s*|DSLR,?\s*|85mm DSLR lens,?\s*|f/1\.8 aperture,?\s*|natural skin texture,?\s*|genuine expression,?\s*|dramatic cinematic lighting,?\s*|photorealistic 8k\.?)',
+        r'(?:photorealistic 8k resolution,?\s*|hyper-detailed professional photography,?\s*|vertical 9:16 portrait composition\.?)',
+    ]
     
-    # Strip the style boilerplate prefix (up to first period containing camera/style specs)
-    boilerplate_end = r'(?:depth of field|wallpaper quality|focal detail|shallow depth|macro 85mm|8k|photorealistic).*?\.\s*'
-    stripped = _re.sub(r'^.*?' + boilerplate_end, '', p, flags=_re.IGNORECASE | _re.DOTALL).strip()
-    scene_desc = stripped if len(stripped) > 10 else p.strip()
-    
-    # Clean up whitespace
-    scene_desc = _re.sub(r'\s{2,}', ' ', scene_desc).strip(' .,')
-    
-    # Add AI-generation style tags (vertical 9:16, cinematic, high quality)
-    flux_style = "Cinematic digital illustration, ultra detailed, dramatic lighting, vibrant colors, 9:16 vertical composition, award-winning CGI art. "
-    full = flux_style + scene_desc
-    
-    # FLUX works best under ~300 chars
-    if len(full) > 300:
-        full = full[:300].rsplit(' ', 1)[0]
-    
-    return full
+    for pat in tag_patterns:
+        p = _re.sub(pat, '', p, flags=_re.IGNORECASE).strip()
+
+    # Clean up double spaces or trailing punctuation
+    p = _re.sub(r'\s{2,}', ' ', p).strip(' .,')
+
+    # Retrieve style preset
+    style_desc = STYLE_PRESETS.get(style, STYLE_PRESETS["photorealistic"])
+
+    if style == "photorealistic":
+        final_prompt = f"{p}. {style_desc}"
+    else:
+        final_prompt = f"{p}, {style_desc}"
+
+    # Clean up duplicate periods / spaces
+    final_prompt = _re.sub(r'\.{2,}', '.', final_prompt)
+    final_prompt = _re.sub(r'\s{2,}', ' ', final_prompt).strip()
+
+    if len(final_prompt) > 850:
+        final_prompt = final_prompt[:850].rsplit(' ', 1)[0]
+
+    return final_prompt
 
 
 def _enhance_prompt_for_realism(prompt: str) -> str:
@@ -1736,7 +1784,7 @@ def _enhance_prompt_for_realism(prompt: str) -> str:
     p = prompt
     if "Negative:" in p:
         p = p.split("Negative:")[0]
-    p = _re.sub(r'Save this image as:\s*\S+', '', p, flags=_re.IGNORECASE)
+    p = _re.sub(r'Save this image as:\s*\S+', '', p, flags=_re.IGNORECASE).strip()
     
     # Strip style boilerplate header
     boilerplate_end = r'(?:depth of field|wallpaper quality|focal detail)(?:.)?\.\s*'
@@ -1755,8 +1803,8 @@ def _enhance_prompt_for_realism(prompt: str) -> str:
     prefix = "Award-winning National Geographic photograph, 8k resolution, photorealistic, 35mm lens, sharp focus, dramatic lighting. "
     enhanced = prefix + p
     
-    if len(enhanced) > 220:
-        enhanced = enhanced[:220].rsplit(' ', 1)[0]
+    if len(enhanced) > 400:
+        enhanced = enhanced[:400].rsplit(' ', 1)[0]
     
     return enhanced
 
@@ -1829,7 +1877,7 @@ def _fetch_pexels_hd_photo(prompt: str, dest_path: Path, width: int = 1080, heig
                 if img_url:
                     print(f"[pexels-hd] Downloading Pexels photo ID {photo['id']}...")
                     r_img = requests.get(img_url, headers=headers, timeout=12)
-                    if r_img.status_code == 200 and len(r_img.content) > 30000:
+                    if r_img.status_code == 200 and len(r_img.content) > 35000:
                         dest_path.parent.mkdir(parents=True, exist_ok=True)
                         dest_path.write_bytes(r_img.content)
                         print(f"[pexels-hd] ✓ Saved 8K Pexels Photo {dest_path.name} ({len(r_img.content)//1024} KB)")
@@ -1900,29 +1948,42 @@ def _fetch_wikimedia_hd_photo(prompt: str, dest_path: Path, width: int = 1080, h
     return False
 
 
-
-def _download_pollinations_image(prompt: str, dest_path: Path, width: int = 1080, height: int = 1920, seed: int = 42, provider: str = "auto") -> bool:
-    """Download photorealistic image via FLUX AI, Pexels 8K Photography, Wikimedia HD, or Smart Auto-Routing."""
+def _download_pollinations_image(
+    prompt: str,
+    dest_path: Path,
+    width: int = 1080,
+    height: int = 1920,
+    seed: int = 42,
+    provider: str = "auto",
+    style: str = "photorealistic",
+    ethnicity: str = "cauc_western",
+    negative_prompt: str = ""
+) -> bool:
+    """Download photorealistic image via FLUX AI with Style Presets, Ethnicity Descriptors, and Multi-Provider Routing."""
     import subprocess
     import time
+    import random
     
     clean_p = _enhance_prompt_for_realism(prompt)
-    encoded_prompt = urllib.parse.quote(clean_p)
     dest_path.parent.mkdir(parents=True, exist_ok=True)
     
-    ua = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+    flux_prompt = _build_flux_prompt(prompt, style=style, ethnicity=ethnicity, negative_prompt=negative_prompt)
+    print(f"[image-gen] 🎨 Full Prompt ({len(flux_prompt)} chars): '{flux_prompt}'")
+
+    def _make_urls(cur_seed: int):
+        encoded_prompt = urllib.parse.quote(flux_prompt)
+        # Pass anti-anime suppressors as Pollinations' dedicated negative URL parameter
+        encoded_neg = urllib.parse.quote(_FLUX_PHOTOREALISTIC_NEGATIVE) if style == "photorealistic" else ""
+        nonce = random.randint(10000, 99999)
+        neg_param = f"&negative={encoded_neg}" if encoded_neg else ""
+        return [
+            (f"https://image.pollinations.ai/prompt/{encoded_prompt}?width={width}&height={height}&model=flux&nologo=true&seed={cur_seed}&cache=false{neg_param}&nc={nonce}", "Pollinations FLUX"),
+            (f"https://image.pollinations.ai/prompt/{encoded_prompt}?width={width}&height={height}&model=turbo&nologo=true&seed={cur_seed}&cache=false{neg_param}&nc={nonce}", "Pollinations Turbo"),
+            (f"https://image.pollinations.ai/prompt/{encoded_prompt}?width={width}&height={height}&nologo=true&seed={cur_seed}&cache=false{neg_param}&nc={nonce}", "Pollinations Default"),
+            (f"https://image.pollinations.ai/prompt/{encoded_prompt}?width={width}&height={height}&model=sdxl&nologo=true&seed={cur_seed}&cache=false&nc={nonce}", "Pollinations SDXL"),
+        ]
     
-    flux_prompt   = _build_flux_prompt(prompt)
-    flux_encoded  = urllib.parse.quote(flux_prompt)
-    url_turbo_fic = f"https://image.pollinations.ai/prompt/{flux_encoded}?width={width}&height={height}&model=turbo&nologo=true&seed={seed}"
-    url_nomodel_fic = f"https://image.pollinations.ai/prompt/{flux_encoded}?width={width}&height={height}&nologo=true&seed={seed}"
-    url_realism_fic = f"https://image.pollinations.ai/prompt/{flux_encoded}?width={width}&height={height}&model=flux-realism&nologo=true&seed={seed}"
-    url_flux_fic  = f"https://image.pollinations.ai/prompt/{flux_encoded}?width={width}&height={height}&model=flux&nologo=true&seed={seed}"
-    
-    url_turbo = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width={width}&height={height}&model=turbo&nologo=true&seed={seed}"
-    url_flux  = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width={width}&height={height}&model=flux&nologo=true&seed={seed}"
-    
-    def _robust_ai_download(url: str, max_time: int = 30) -> bool:
+    def _robust_ai_download(url: str, max_time: int = 50) -> bool:
         """Download via clean curl -s -L with python requests fallback, return True on success."""
         if dest_path.exists():
             try:
@@ -1932,8 +1993,8 @@ def _download_pollinations_image(prompt: str, dest_path: Path, width: int = 1080
 
         # 1. Clean curl -s -L execution
         cmd = ["curl", "-s", "-L", "--max-time", str(max_time), "-o", str(dest_path), url]
-        result = subprocess.run(cmd, capture_output=True)
-        if dest_path.exists() and dest_path.stat().st_size > 30000:
+        subprocess.run(cmd, capture_output=True)
+        if dest_path.exists() and dest_path.stat().st_size > 35000:
             return True
 
         if dest_path.exists():
@@ -1942,28 +2003,32 @@ def _download_pollinations_image(prompt: str, dest_path: Path, width: int = 1080
             except Exception:
                 pass
 
-        # 2. Python requests fallback
+        # 2. Python requests fallback with 429 backoff
         import requests
         import urllib3
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         
         session = requests.Session()
         session.headers.update({
-            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+            "User-Agent": f"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/12{random.randint(4,6)}.0.0.0 Safari/537.36",
             "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+            "Cache-Control": "no-cache",
         })
 
-        for attempt in range(2):
+        for attempt in range(3):
             try:
                 r = session.get(url, timeout=max_time, verify=False)
-                if r.status_code == 200 and len(r.content) > 30000:
+                if r.status_code == 200 and len(r.content) > 35000:
                     dest_path.write_bytes(r.content)
                     return True
+                elif r.status_code == 429:
+                    print(f"[image-gen] ⚠️ Rate limit 429 on attempt {attempt+1} — waiting 5s for IP window reset...")
+                    time.sleep(5.0)
             except Exception as ex:
                 print(f"[image-gen] Attempt {attempt+1} download error: {ex}")
-                time.sleep(1.5)
+                time.sleep(3.0)
 
-        if dest_path.exists() and dest_path.stat().st_size <= 30000:
+        if dest_path.exists() and dest_path.stat().st_size <= 35000:
             try:
                 dest_path.unlink()
             except Exception:
@@ -1972,72 +2037,57 @@ def _download_pollinations_image(prompt: str, dest_path: Path, width: int = 1080
     
     prov = (provider or "auto").lower()
 
-    if prov in ("flux", "ai"):
-        # ── 100% FLUX AI Generation Engine (Zero Stock Photos) ───────────────────
-        print(f"[image-gen] 🎨 Engine: AI ONLY (FLUX) | Prompt: '{flux_prompt[:80]}...' (seed={seed})")
-        if _robust_ai_download(url_turbo_fic, max_time=25):
-            print(f"[image-gen] ✓ FLUX Turbo saved {dest_path.name} ({dest_path.stat().st_size//1024}KB)")
-            return True
-        time.sleep(1.5)
-        if _robust_ai_download(url_nomodel_fic, max_time=25):
-            print(f"[image-gen] ✓ AI saved {dest_path.name} ({dest_path.stat().st_size//1024}KB)")
-            return True
-        time.sleep(1.5)
-        if _robust_ai_download(url_realism_fic, max_time=25):
-            print(f"[image-gen] ✓ FLUX Realism saved {dest_path.name} ({dest_path.stat().st_size//1024}KB)")
-            return True
-        time.sleep(1.5)
-        if _robust_ai_download(url_flux_fic, max_time=30):
-            print(f"[image-gen] ✓ FLUX saved {dest_path.name} ({dest_path.stat().st_size//1024}KB)")
-            return True
+    # Unconditionally unlink any stale file on disk before generation
+    if dest_path.exists():
+        try:
+            dest_path.unlink()
+        except Exception:
+            pass
 
-    elif prov == "pexels":
-        # ── 100% Pexels Stock Photo Search ──────────────────────────────────────
+    if prov == "pexels":
         print(f"[image-gen] 📷 Engine: PEXELS STOCK ONLY | Query: '{_extract_topic_query(prompt)}'")
         if _fetch_pexels_hd_photo(prompt, dest_path, width=width, height=height, seed=seed):
             return True
         print(f"[image-gen] Pexels failed → FLUX fallback...")
-        if _curl_download(url_turbo_fic, max_time=25):
+        urls = _make_urls(seed)
+        if _robust_ai_download(urls[0][0], max_time=30):
+            return True
+
+    elif prov in ("auto", "smart"):
+        print(f"[image-gen] ⚡ Engine: SMART AUTO (FLUX AI Primary + Pexels Fallback)")
+        urls = _make_urls(seed)
+        for url, label in urls:
+            if _robust_ai_download(url, max_time=30):
+                print(f"[image-gen] ✓ {label} saved {dest_path.name} ({dest_path.stat().st_size//1024}KB)")
+                return True
+            time.sleep(0.5)
+        print(f"[image-gen] FLUX AI rate-limited → Pexels 8K HD Photo Fallback...")
+        if _fetch_pexels_hd_photo(prompt, dest_path, width=width, height=height, seed=seed):
+            return True
+
+    elif prov in ("flux", "ai"):
+        print(f"[image-gen] 🎨 Engine: FLUX AI ONLY")
+        urls = _make_urls(seed)
+        for url, label in urls:
+            if _robust_ai_download(url, max_time=30):
+                print(f"[image-gen] ✓ {label} saved {dest_path.name} ({dest_path.stat().st_size//1024}KB)")
+                return True
+            time.sleep(1.0)
+        # If FLUX AI is 429 rate limited, fall back to Pexels 8K HD Photo safety net!
+        print(f"[image-gen] ⚠️ FLUX AI rate-limited → Pexels 8K HD Photo Fallback...")
+        if _fetch_pexels_hd_photo(prompt, dest_path, width=width, height=height, seed=seed):
             return True
 
     elif prov == "wikimedia":
-        # ── 100% Wikimedia Commons Archive Search ──────────────────────────────
         print(f"[image-gen] 🏛️ Engine: WIKIMEDIA ONLY | Query: '{_extract_topic_query(prompt)}'")
         if _fetch_wikimedia_hd_photo(prompt, dest_path, width=width, height=height):
             return True
         print(f"[image-gen] Wikimedia failed → FLUX fallback...")
-        if _curl_download(url_turbo_fic, max_time=25):
+        urls = _make_urls(seed)
+        if _robust_ai_download(urls[0][0], max_time=30):
             return True
 
-    else:
-        # ── Smart Auto-Routing (Detects Fictional vs Real) ──────────────────────
-        is_fictional = _is_fictional_concept(prompt)
-        if is_fictional:
-            print(f"[image-gen] 🎨 FICTIONAL concept detected → FLUX AI first")
-            if _curl_download(url_turbo_fic, max_time=25):
-                print(f"[image-gen] ✓ FLUX Turbo saved {dest_path.name} ({dest_path.stat().st_size//1024}KB)")
-                return True
-            time.sleep(1.0)
-            if _curl_download(url_flux_fic, max_time=35):
-                print(f"[image-gen] ✓ FLUX saved {dest_path.name} ({dest_path.stat().st_size//1024}KB)")
-                return True
-            if _fetch_pexels_hd_photo(prompt, dest_path, width=width, height=height, seed=seed):
-                return True
-            if _curl_download(url_nomodel_fic, max_time=25):
-                return True
-        else:
-            print(f"[image-gen] 📷 REAL concept detected → Pexels HD first")
-            if _fetch_pexels_hd_photo(prompt, dest_path, width=width, height=height, seed=seed):
-                return True
-            if _fetch_wikimedia_hd_photo(prompt, dest_path, width=width, height=height):
-                return True
-            if _curl_download(url_turbo, max_time=20):
-                return True
-            time.sleep(1.0)
-            if _curl_download(url_flux, max_time=25):
-                return True
-
-    if dest_path.exists() and dest_path.stat().st_size <= 3000:
+    if dest_path.exists() and dest_path.stat().st_size <= 30000:
         try:
             dest_path.unlink()
         except Exception:
@@ -2064,14 +2114,20 @@ def studio_generate_images(project_id):
         return jsonify({"error": "No image prompts found in studio_meta.json"}), 400
 
     video_type = meta.get("video_type", "short")
-    width, height = (1080, 1920) if video_type == "short" else (1920, 1080)
+    width, height = (768, 1344) if video_type == "short" else (1344, 768)
     images_dir = project_dir / "images"
     images_dir.mkdir(exist_ok=True)
 
     req_data = request.json or {}
     force    = req_data.get("force", False)
     provider = req_data.get("provider") or req_data.get("image_provider") or meta.get("image_provider") or "auto"
+    style    = req_data.get("style") or req_data.get("image_style") or meta.get("image_style") or "photorealistic"
+    ethnicity = req_data.get("ethnicity") or req_data.get("character_ethnicity") or meta.get("character_ethnicity") or "cauc_western"
+    negative_prompt = req_data.get("negative_prompt", "")
+
     meta["image_provider"] = provider
+    meta["image_style"] = style
+    meta["character_ethnicity"] = ethnicity
 
     total_generated = 0
     failed_images = []
@@ -2091,7 +2147,10 @@ def studio_generate_images(project_id):
             time.sleep(1.5)  # IP rate-limit buffer for batch generation
 
         seed = (idx * 101) + 42
-        ok   = _download_pollinations_image(prompt, dest, width=width, height=height, seed=seed, provider=provider)
+        ok   = _download_pollinations_image(
+            prompt, dest, width=width, height=height, seed=seed,
+            provider=provider, style=style, ethnicity=ethnicity, negative_prompt=negative_prompt
+        )
         if ok:
             total_generated += 1
         else:
@@ -2151,12 +2210,15 @@ def studio_generate_single_image(project_id):
     meta_path = project_dir / "studio_meta.json"
     meta      = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.exists() else {}
     video_type = meta.get("video_type", "short")
-    width, height = (1080, 1920) if video_type == "short" else (1920, 1080)
+    width, height = (768, 1344) if video_type == "short" else (1344, 768)
 
     req_data = request.json or {}
     filename = req_data.get("filename")
     prompt   = req_data.get("prompt")
     provider = req_data.get("provider") or req_data.get("image_provider") or meta.get("image_provider") or "auto"
+    style    = req_data.get("style") or req_data.get("image_style") or meta.get("image_style") or "photorealistic"
+    ethnicity = req_data.get("ethnicity") or req_data.get("character_ethnicity") or meta.get("character_ethnicity") or "cauc_western"
+    negative_prompt = req_data.get("negative_prompt", "")
 
     if not filename or not prompt:
         return jsonify({"error": "Missing filename or prompt"}), 400
@@ -2167,8 +2229,11 @@ def studio_generate_single_image(project_id):
 
     import random
     seed = random.randint(1, 999999)
-    print(f"[studio-single-image] Generating {filename} with provider='{provider}' (seed={seed})...")
-    ok   = _download_pollinations_image(prompt, dest, width=width, height=height, seed=seed, provider=provider)
+    print(f"[studio-single-image] Generating {filename} (style='{style}', ethnicity='{ethnicity}', provider='{provider}', seed={seed})...")
+    ok   = _download_pollinations_image(
+        prompt, dest, width=width, height=height, seed=seed,
+        provider=provider, style=style, ethnicity=ethnicity, negative_prompt=negative_prompt
+    )
 
     if not ok:
         if dest.exists() and dest.stat().st_size <= 3000:

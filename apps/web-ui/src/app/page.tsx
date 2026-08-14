@@ -194,7 +194,10 @@ export default function Dashboard() {
   const [reloadingPrompt, setReloadingPrompt]           = useState<string | null>(null);
   const [reloadingScene, setReloadingScene]             = useState<number | null>(null);
   const [deletingProjId, setDeletingProjId]             = useState<string | null>(null);
-  const [studioImageProvider, setStudioImageProvider]   = useState<"flux" | "auto" | "pexels" | "wikimedia">("flux");
+  const [studioImageProvider, setStudioImageProvider]   = useState<"flux" | "auto" | "pexels" | "wikimedia">("auto");
+  const [studioImageStyle, setStudioImageStyle]         = useState("photorealistic");
+  const [studioCharacterEthnicity, setStudioCharacterEthnicity] = useState("cauc_western");
+  const [studioNegativePrompt, setStudioNegativePrompt] = useState("deformed face, generic face, bad anatomy, watermarks, signature, blurry");
   const studioRenderPollRef                             = useRef<ReturnType<typeof setInterval>|null>(null);
   const [gdriveUploading, setGdriveUploading]           = useState(false);
   const [gdriveResult, setGdriveResult]                 = useState<any>(null);
@@ -374,21 +377,28 @@ export default function Dashboard() {
 
     for (let i = 0; i < allImages.length; i++) {
       if (i > 0) {
-        setStudioGenStatus(`⏳ Pause 2s (IP rate limit buffer)...`);
-        await new Promise(r => setTimeout(r, 2000));
+        setStudioGenStatus(`⏳ Pause 5.5s (IP rate limit buffer)...`);
+        await new Promise(r => setTimeout(r, 5500));
       }
       const img = allImages[i];
       const fn = img.filename;
       const prompt = img.prompt;
 
       setGeneratingImgFilename(fn);
-      setStudioGenStatus(`Generating Image ${i + 1} of ${allImages.length} via ${studioImageProvider.toUpperCase()}: ${fn}...`);
+      setStudioGenStatus(`🎨 Generating HD FLUX AI Image ${i + 1} of ${allImages.length}: ${fn}...`);
 
       try {
         const res = await fetch(`${API_URL}/api/studio/generate_single_image/${encodeURIComponent(studioProjectId)}`, {
           method: "POST",
           headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({ filename: fn, prompt: prompt, provider: studioImageProvider })
+          body: JSON.stringify({
+            filename: fn,
+            prompt: prompt,
+            provider: studioImageProvider,
+            style: studioImageStyle,
+            ethnicity: studioCharacterEthnicity,
+            negative_prompt: studioNegativePrompt
+          })
         });
         const data = await res.json();
         if (!res.ok || data.error) {
@@ -433,21 +443,28 @@ export default function Dashboard() {
     // Step 2: regenerate each image one by one
     for (let i = 0; i < allImages.length; i++) {
       if (i > 0) {
-        setStudioGenStatus(`⏳ Pause 2s (IP rate limit buffer)...`);
-        await new Promise(r => setTimeout(r, 2000));
+        setStudioGenStatus(`⏳ Pause 5.5s (IP rate limit buffer)...`);
+        await new Promise(r => setTimeout(r, 5500));
       }
       const img = allImages[i];
       const fn = img.filename;
       const prompt = img.prompt;
 
       setGeneratingImgFilename(fn);
-      setStudioGenStatus(`🎨 Regenerating ${i + 1}/${allImages.length} via ${studioImageProvider.toUpperCase()}: ${fn}...`);
+      setStudioGenStatus(`🎨 Regenerating HD FLUX AI ${i + 1}/${allImages.length}: ${fn}...`);
 
       try {
         const res = await fetch(`${API_URL}/api/studio/generate_single_image/${encodeURIComponent(studioProjectId)}`, {
           method: "POST",
           headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({ filename: fn, prompt: prompt, provider: studioImageProvider })
+          body: JSON.stringify({
+            filename: fn,
+            prompt: prompt,
+            provider: studioImageProvider,
+            style: studioImageStyle,
+            ethnicity: studioCharacterEthnicity,
+            negative_prompt: studioNegativePrompt
+          })
         });
         const data = await res.json();
         if (!res.ok || data.error) {
@@ -477,7 +494,14 @@ export default function Dashboard() {
       const res = await fetch(`${API_URL}/api/studio/generate_single_image/${encodeURIComponent(studioProjectId)}`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ filename, prompt, provider: prov })
+        body: JSON.stringify({
+          filename,
+          prompt,
+          provider: prov,
+          style: studioImageStyle,
+          ethnicity: studioCharacterEthnicity,
+          negative_prompt: studioNegativePrompt
+        })
       });
       const data = await res.json();
       if (data.error) throw new Error(data.error);
