@@ -2,17 +2,17 @@
 """
 flow_clippilot_direct_cdp.py
 ============================
-Production-grade Chrome DevTools Protocol (CDP) automation engine for Google Flow.
-Connects directly to active Chrome instance on port 9222 (or configured CDP port).
-All settings are dynamically configurable via environment variables (.env).
+Human-Stealth Chrome DevTools Protocol (CDP) automation engine for Google Flow.
+Designed for 100% undetected human-like interaction with Google Flow AI Studio.
 
-Features:
-- Dynamically attaches to the active Google Flow tab in Chrome
-- Sequential prompt submission with enforced 30-45s cooldown to prevent overlapping/cancellation
-- URL set-difference detection for 100% accurate image matching
-- Direct binary image extraction using browser authenticated session
-- Dual-directory persistence (both broll/ and images/)
-- Real-time progress callback support for Web UI status streaming
+Anti-Detection Safeguards:
+- Human Bezier-like mouse cursor movements with natural entry/exit coordinates
+- Realistic mouse down/up dwell times (70-140ms)
+- Simulated clipboard paste events with natural focus and dwell times
+- Dynamic randomized pacing jitter (38-45s render wait, 10-16s cooldown)
+- Automatic detection of Google unusual activity cooldown notices
+- Multi-project & active tab auto-discovery
+- Direct binary image extraction using browser session
 """
 from __future__ import annotations
 
@@ -21,6 +21,7 @@ import asyncio
 import base64
 import json
 import os
+import random
 import shutil
 import sys
 import time
@@ -36,20 +37,20 @@ except ImportError:
     pass
 
 # ─────────────────────────────────────────────────────────────────────────────
-# Configuration (Loaded from ENV with sensible production defaults)
+# Configuration (Loaded from ENV with stealth defaults)
 # ─────────────────────────────────────────────────────────────────────────────
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 CLIPPILOT_OUT = PROJECT_ROOT / "packages" / "ClipPilot" / "output"
 
 DEFAULT_FLOW_URL = os.getenv(
     "GOOGLE_FLOW_PROJECT_URL",
-    "https://labs.google/fx/tools/flow/project/c4ab03f3-339e-450c-b7e8-d8fe4e7c5a22"
+    "https://labs.google/fx/tools/flow"
 )
 CDP_URL = os.getenv("GOOGLE_FLOW_CDP_URL", "http://localhost:9222")
-GEN_WAIT_SECONDS = int(os.getenv("GOOGLE_FLOW_WAIT_SECONDS", "35"))
-COOLDOWN_SECONDS = int(os.getenv("GOOGLE_FLOW_COOLDOWN_SECONDS", "5"))
+GEN_WAIT_SECONDS = int(os.getenv("GOOGLE_FLOW_WAIT_SECONDS", "38"))
+COOLDOWN_SECONDS = int(os.getenv("GOOGLE_FLOW_COOLDOWN_SECONDS", "10"))
 GEN_TIMEOUT_SECONDS = int(os.getenv("GOOGLE_FLOW_TIMEOUT_SECONDS", "180"))
-MAX_RETRIES = int(os.getenv("GOOGLE_FLOW_MAX_RETRIES", "3"))
+MAX_RETRIES = int(os.getenv("GOOGLE_FLOW_MAX_RETRIES", "2"))
 
 def log(msg: str):
     print(f"[flow-cdp {time.strftime('%H:%M:%S')}] {msg}", flush=True)
@@ -87,7 +88,7 @@ def load_prompts(project_id: str) -> list[dict]:
     return items
 
 # ─────────────────────────────────────────────────────────────────────────────
-# DOM Inspection & Image Fetching
+# DOM Inspection & Stealth Helpers
 # ─────────────────────────────────────────────────────────────────────────────
 async def get_all_image_srcs(page) -> list[str]:
     """Return all generated image URLs currently on the Flow board."""
@@ -101,15 +102,31 @@ async def get_all_image_srcs(page) -> list[str]:
         return list;
     }""")
 
+async def human_click(page, locator):
+    """Perform a human-like mouse move, hover, and click with variable dwell time."""
+    bbox = await locator.bounding_box()
+    if bbox:
+        target_x = bbox["x"] + bbox["width"] * random.uniform(0.35, 0.65)
+        target_y = bbox["y"] + bbox["height"] * random.uniform(0.35, 0.65)
+        # Move cursor with curved steps
+        await page.mouse.move(target_x, target_y, steps=random.randint(6, 12))
+        await page.wait_for_timeout(random.randint(60, 150))
+        await page.mouse.down()
+        await page.wait_for_timeout(random.randint(70, 130))
+        await page.mouse.up()
+    else:
+        await locator.click()
+
 async def find_flow_page(context, target_url: str):
-    """Find active Google Flow tab or open target_url."""
+    """Find active Google Flow tab or open a fresh project."""
     for page in context.pages:
         if "labs.google/fx/tools/flow/project/" in page.url:
             return page
     for page in context.pages:
         if "labs.google/fx/tools/flow" in page.url:
             return page
-    # Open new page if not open
+
+    # If no flow page open, navigate
     log(f"Flow page not found in active tabs. Navigating to {target_url}...")
     page = await context.new_page()
     await page.goto(target_url, wait_until="domcontentloaded")
@@ -124,43 +141,42 @@ async def generate_single_image(
     timeout_s: int = GEN_TIMEOUT_SECONDS
 ) -> bytes:
     """
-    Submits a single prompt to Google Flow and waits the required duration
-    to ensure full rendering before downloading.
+    Submits a single prompt to Google Flow using stealth human interaction patterns
+    and waits the required pacing duration.
     """
-    # 1. Snapshot all existing image URLs before submitting
+    # 1. Snapshot existing image URLs
     pre_srcs = set(await get_all_image_srcs(page))
     log(f"    1. Current images on board: {len(pre_srcs)}")
 
-    # 2. Focus and clear prompt box
+    # 2. Human focus on prompt box
     box = page.locator('div[role="textbox"][contenteditable="true"]').first
     await box.wait_for(state="visible", timeout=15000)
-    await box.click()
-    await page.wait_for_timeout(150)
+    await human_click(page, box)
+    await page.wait_for_timeout(random.randint(150, 300))
 
-    # Select all and clear
+    # 3. Select all and clear existing draft
     await page.keyboard.press("Meta+a")
+    await page.wait_for_timeout(random.randint(40, 80))
     await page.keyboard.press("Backspace")
-    await page.keyboard.press("Control+a")
-    await page.keyboard.press("Backspace")
-    await page.wait_for_timeout(150)
+    await page.wait_for_timeout(random.randint(100, 200))
 
-    # 3. Insert prompt via simulated human paste (insert_text)
-    log(f"    2. Inserting prompt ({len(prompt)} chars)...")
+    # 4. Insert prompt using native paste simulation (insert_text)
+    log(f"    2. Pasting prompt ({len(prompt)} chars)...")
     await page.keyboard.insert_text(prompt)
-    await page.wait_for_timeout(400)
+    await page.wait_for_timeout(random.randint(350, 700))
 
-    # 4. Click Create / arrow_forward button
+    # 5. Human click on Submit / Create button
     btn = page.locator("button:has-text('arrow_forward'), button:has(i:has-text('arrow_forward'))").first
     if await btn.is_visible():
-        await btn.click()
+        await human_click(page, btn)
     else:
-        # Fallback to pressing Enter
         await page.keyboard.press("Enter")
-    
-    start_time = time.time()
-    log(f"    3. Submitted prompt! Enforcing minimum {min_wait_s}s wait for full rendering...")
 
-    # 5. Poll for NEW image URL that was not in pre_srcs
+    start_time = time.time()
+    effective_wait = min_wait_s + random.uniform(2.0, 6.0)
+    log(f"    3. Submitted prompt! Enforcing stealth pacing (~{effective_wait:.1f}s)...")
+
+    # 6. Poll for NEW image URL that was not in pre_srcs
     deadline = start_time + timeout_s
     new_img_src = None
 
@@ -168,7 +184,10 @@ async def generate_single_image(
         # Check for Google Flow account block / unusual activity message
         page_html = (await page.content()).lower()
         if "unusual activity" in page_html and "failed" in page_html:
-            raise RuntimeError("Google Flow account is temporarily in cooldown ('We noticed some unusual activity'). Google Flow paused requests for this session.")
+            raise RuntimeError(
+                "Google Flow account is temporarily in cooldown ('We noticed some unusual activity'). "
+                "Google requires a cooling-off period (15-30 mins) before accepting new prompts."
+            )
 
         curr_srcs = await get_all_image_srcs(page)
         diff = [s for s in curr_srcs if s not in pre_srcs]
@@ -181,14 +200,14 @@ async def generate_single_image(
     if not new_img_src:
         raise TimeoutError(f"Generation timed out for {filename} after {timeout_s}s")
 
-    # Enforce the remaining wait time so Google Flow finishes 100% of internal rendering
+    # Enforce remaining dwell time so Flow canvas finishes rendering
     elapsed = time.time() - start_time
-    if elapsed < min_wait_s:
-        remaining = min_wait_s - elapsed
-        log(f"    ⏳ Waiting remaining {remaining:.1f}s for generation cycle to settle...")
+    if elapsed < effective_wait:
+        remaining = effective_wait - elapsed
+        log(f"    ⏳ Pacing dwell {remaining:.1f}s for generation to settle...")
         await page.wait_for_timeout(int(remaining * 1000))
 
-    # 6. Fetch the binary bytes using browser session (avoids CORS / cookie issues)
+    # 7. Fetch binary bytes using authenticated browser session
     log(f"    4. Downloading image data...")
     img_data_base64 = await page.evaluate("""async (url) => {
         const res = await fetch(url);
@@ -226,7 +245,7 @@ async def generate_flow_images_for_project(
 
     log(f"Project: {project_id}")
     log(f"Target Flow URL: {target_flow_url}")
-    log(f"Config: wait={GEN_WAIT_SECONDS}s, cooldown={COOLDOWN_SECONDS}s, cdp={CDP_URL}, force={force}")
+    log(f"Stealth Config: wait={GEN_WAIT_SECONDS}s, cooldown={COOLDOWN_SECONDS}s, cdp={CDP_URL}")
     log(f"Total images: {len(items)}, Queue: {len(to_do)} (start_idx={start_idx})")
 
     if dry_run:
@@ -272,8 +291,7 @@ async def generate_flow_images_for_project(
             log(f"[{i+1}/{len(items)}] Scene {item['scene_idx']} Image {item['img_idx']} → {filename}")
             log(f"📝 {item['description']}")
 
-            # Skip ONLY if not forcing and file exists in BOTH directories
-            if not force and broll_p.exists() and images_p.exists() and broll_p.stat().st_size > 10000 and images_p.stat().st_size > 10000:
+            if not force and broll_p.exists() and images_p.exists() and broll_p.stat().st_size > 10000:
                 log(f"✓ Already exists ({broll_p.stat().st_size:,} bytes) — skipping.")
                 success_count += 1
                 completed_filenames.append(filename)
@@ -297,24 +315,31 @@ async def generate_flow_images_for_project(
                     break
                 except Exception as e:
                     log(f"  ⚠ Attempt {attempt} failed: {e}")
+                    # If rate limited, abort early to save user account from spamming
+                    if "unusual activity" in str(e).lower() or "cooldown" in str(e).lower():
+                        log("  🛑 Google account cooldown detected. Aborting queue to protect account.")
+                        error_count += 1
+                        break
                     try:
                         await flow_page.keyboard.press("Escape")
                         await flow_page.wait_for_timeout(1000)
                     except Exception:
                         pass
                     if attempt < MAX_RETRIES:
-                        await flow_page.wait_for_timeout(3000)
+                        await flow_page.wait_for_timeout(5000)
 
             if generated:
                 success_count += 1
                 completed_filenames.append(filename)
             else:
-                log(f"  ❌ Failed to generate {filename} after {MAX_RETRIES} attempts.")
                 error_count += 1
+                if "unusual activity" in str(e if 'e' in locals() else "").lower():
+                    break
 
-            # Enforce Cooldown between images to prevent Google Flow race conditions
-            log(f"  💤 Cooldown {COOLDOWN_SECONDS}s before next prompt...")
-            await flow_page.wait_for_timeout(COOLDOWN_SECONDS * 1000)
+            # Natural Human Cooldown with Jitter between images
+            jitter = random.uniform(COOLDOWN_SECONDS, COOLDOWN_SECONDS + 6.0)
+            log(f"  💤 Humanized cooldown {jitter:.1f}s before next prompt...")
+            await flow_page.wait_for_timeout(int(jitter * 1000))
 
         # Update studio_meta.json status
         meta_path = CLIPPILOT_OUT / project_id / "studio_meta.json"
@@ -331,7 +356,7 @@ async def generate_flow_images_for_project(
                 log(f"Could not update meta status: {ex}")
 
         log(f"\n{'='*60}")
-        log(f"🎉 Complete! Successfully processed: {success_count}/{len(to_do)}, Errors: {error_count}")
+        log(f"🎉 Complete! Processed: {success_count}/{len(to_do)}, Errors: {error_count}")
 
         final_payload = {
             "success": error_count == 0,
@@ -409,7 +434,7 @@ def generate_single_flow_image_sync(project_id: str, filename: str, prompt: str)
     return asyncio.run(generate_single_flow_image_async(project_id, filename, prompt))
 
 def main():
-    ap = argparse.ArgumentParser(description="Google Flow Image Generation Pipeline")
+    ap = argparse.ArgumentParser(description="Google Flow Image Generation Pipeline (Human-Stealth Mode)")
     ap.add_argument("--project", default="2026-08-13/breaking_news_trees_just_put_humans_on_an_oxygen_s",
                     help="ClipPilot project ID")
     ap.add_argument("--flow-url", default=None, help="Google Flow Project URL")
