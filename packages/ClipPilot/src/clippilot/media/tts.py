@@ -18,6 +18,7 @@ timing run faster-whisper over the generated WAV (media/transcribe.py).
 from __future__ import annotations
 
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -88,22 +89,41 @@ def _synth_edge(text: str, out_wav: str, voice: Optional[str] = None, timeout: i
     voice = voice or os.environ.get("EDGE_TTS_VOICE", _DEFAULT_EDGE_VOICE)
     Path(out_wav).parent.mkdir(parents=True, exist_ok=True)
     tmp_mp3 = str(Path(out_wav).with_suffix(".edge.mp3"))
+
+    # Ensure all XML / SSML / bracket tags are stripped so Edge-TTS never speaks tags aloud
+    clean_text = re.sub(r'<[^>]+>', '', text)
+    clean_text = re.sub(r'\[[^\]]+\]', '', clean_text)
+    clean_text = re.sub(r'\([a-zA-Z0-9_]+\)', '', clean_text)
+    clean_text = re.sub(r' {2,}', ' ', clean_text).strip()
+
+    # Direct Python edge_tts API (fastest, handles long scripts safely)
     try:
-        proc = subprocess.run(
-            [sys.executable, "-m", "edge_tts", "--voice", voice, "--text", text, "--write-media", tmp_mp3],
-            capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=timeout,
-        )
-    except (subprocess.TimeoutExpired, OSError) as exc:
-        return {"available": False, "reason": f"edge-tts: {exc}"}
+        import asyncio
+        import edge_tts
+        async def _save():
+            comm = edge_tts.Communicate(clean_text, voice)
+            await comm.save(tmp_mp3)
+        asyncio.run(_save())
+    except Exception:
+        # Fallback to subprocess
+        try:
+            proc = subprocess.run(
+                [sys.executable, "-m", "edge_tts", "--voice", voice, "--text", clean_text, "--write-media", tmp_mp3],
+                capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=timeout,
+            )
+        except (subprocess.TimeoutExpired, OSError) as exc:
+            return {"available": False, "reason": f"edge-tts: {exc}"}
+
     if not (Path(tmp_mp3).exists() and Path(tmp_mp3).stat().st_size > 0):
-        return {"available": False, "reason": (proc.stderr or "edge-tts produced no output")[-400:]}
-    # Transcode to the requested path (usually .wav) so downstream gets a real WAV.
+        return {"available": False, "reason": "edge-tts produced no output"}
+
+    # Transcode to the requested path (usually .wav) with high-fidelity 48kHz
     if str(out_wav).lower().endswith(".mp3"):
         shutil.move(tmp_mp3, out_wav)
     else:
         from .ffmpeg import run_ffmpeg
         try:
-            run_ffmpeg(["-y", "-i", tmp_mp3, "-ar", "24000", "-ac", "1", str(Path(out_wav).resolve())], timeout=120)
+            run_ffmpeg(["-y", "-i", tmp_mp3, "-ar", "48000", "-ac", "2", str(Path(out_wav).resolve())], timeout=120)
         except Exception as exc:  # noqa: BLE001
             return {"available": False, "reason": f"edge transcode: {exc}"}
         finally:

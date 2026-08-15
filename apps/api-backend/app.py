@@ -2686,8 +2686,8 @@ def _run_render_job(job_id: str, project_dir: Path, meta: dict):
         emotion_evts = [e for e in sfx_events if e["type"] == "emotion"]
         if sfx_events:
             log(f"  Detected {len(sfx_only)} SFX tag(s) + {len(emotion_evts)} emotion tag(s)")
-        # Build SSML-wrapped text for emotion prosody (Edge-TTS only)
-        tts_text = build_ssml_with_emotions(clean_script, emotion_evts) if emotion_evts else clean_script
+        # Pure clean script for TTS narration (avoids Edge-TTS speaking SSML/XML tags aloud)
+        tts_text = clean_script
         script   = clean_script   # use clean script everywhere downstream
 
         # ── Step 1: TTS Narration ──────────────────────────────────────────
@@ -2921,6 +2921,18 @@ def studio_render(project_id):
         return jsonify({"error": f"Project not found: {project_id}"}), 404
     if not meta_path.exists():
         return jsonify({"error": "studio_meta.json not found in project"}), 404
+
+    # Remove previous output artifacts to ensure a fresh, clean render
+    for old_file in list(project_dir.glob("Final_*.mp4")) + list(project_dir.glob("slide_*.mp4")) + [
+        project_dir / "manifest.json", project_dir / "base.mp4", project_dir / "slides_silent.mp4",
+        project_dir / "slides_concat.txt", project_dir / "narration.wav", project_dir / "narration_sfx.wav",
+        project_dir / "captions.ass"
+    ]:
+        try:
+            if old_file.exists():
+                old_file.unlink()
+        except Exception:
+            pass
 
     meta   = json.loads(meta_path.read_text(encoding="utf-8"))
     job_id = str(uuid.uuid4())[:8]

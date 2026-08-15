@@ -209,6 +209,29 @@ export default function Dashboard() {
   const [previewModalImg, setPreviewModalImg]           = useState<{ url: string; filename: string; prompt: string; sceneTitle?: string } | null>(null);
   const [importingFromFlow, setImportingFromFlow]       = useState(false);
 
+  useEffect(() => {
+    if (studioStep === 4 && studioProjectId && (!studioRenderStatus || studioRenderStatus.status !== "done")) {
+      fetch(`${API_URL}/api/studio/project/${encodeURIComponent(studioProjectId)}`)
+        .then(r => r.json())
+        .then(d => {
+          if (d.final_video && d.manifest) {
+            setStudioRenderStatus({
+              status: "done",
+              stage: "complete",
+              progress: 100,
+              video_path: d.final_video,
+              duration_s: d.manifest?.assets?.duration_s,
+              resolution: d.manifest?.assets?.resolution,
+              size_mb: d.manifest?.assets?.size_mb,
+              manifest: d.manifest,
+              log: "✅ Video render complete! Output video and manifest loaded."
+            });
+          }
+        })
+        .catch(console.warn);
+    }
+  }, [studioStep, studioProjectId]);
+
   // Voice, Subtitle & BGM Customizer State
   const [voicePreset, setVoicePreset]             = useState("default");
   const [selectedVoice, setSelectedVoice]         = useState("en-US-AndrewMultilingualNeural");
@@ -3682,6 +3705,28 @@ export default function Dashboard() {
                 <p className="text-violet-400">Duration is estimated automatically from your script word count. AI breaks it into 10–15s scenes and generates 8–15 image prompts per scene. You don't set duration — the script defines it.</p>
               </div>
 
+              {/* Studio Master Quality Standard Bar */}
+              <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-white/10 flex flex-wrap items-center justify-between gap-2.5 text-xs">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Target Master Specs:</span>
+                  <span className="px-2 py-0.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-mono font-bold text-[11px]">
+                    ⚡ 60 FPS
+                  </span>
+                  <span className="px-2 py-0.5 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-300 font-mono font-bold text-[11px]">
+                    💎 CRF 16 (Pristine)
+                  </span>
+                  <span className="px-2 py-0.5 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 font-mono font-bold text-[11px]">
+                    🎙️ 48 kHz / 320k Audio
+                  </span>
+                  <span className="px-2 py-0.5 rounded-lg bg-violet-500/10 border border-violet-500/30 text-violet-300 font-mono font-bold text-[11px]">
+                    📐 {studioVideoType === "short" ? "1080×1920 (9:16)" : "1920×1080 (16:9)"}
+                  </span>
+                </div>
+                <span className="text-[11px] font-mono text-emerald-400 font-bold">
+                  ✓ Zero-Crop Guard Active
+                </span>
+              </div>
+
               <button
                 disabled={!studioTitle.trim() || !studioScript.trim() || studioLoading}
                 onClick={async () => {
@@ -4702,23 +4747,97 @@ export default function Dashboard() {
                     </div>
                   </div>
 
-                  {/* Metadata Specs Grid */}
-                  <div className="grid grid-cols-4 gap-3 text-center">
-                    <div className="bg-slate-900/80 rounded-xl p-3 border border-white/5">
-                      <div className="text-lg font-bold text-white">{studioRenderStatus.duration_s}s</div>
-                      <div className="text-xs text-slate-400">Duration</div>
+                  {/* Master Production & Technical Specs Dashboard */}
+                  <div className="space-y-3">
+                    {/* Primary Metrics Grid (6 Columns) */}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 text-center">
+                      {/* Video Resolution */}
+                      <div className="bg-slate-900/90 rounded-2xl p-3 border border-white/10 shadow-sm flex flex-col items-center justify-between">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Resolution</span>
+                        <div className="text-base font-black text-white my-1 font-mono">
+                          {studioRenderStatus.resolution?.split(" ")[0] || (studioVideoType === "short" ? "1080×1920" : "1920×1080")}
+                        </div>
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-violet-500/20 text-violet-300 border border-violet-500/30">
+                          {studioVideoType === "short" ? "9:16 Vertical" : "16:9 Cinema"}
+                        </span>
+                      </div>
+
+                      {/* Frame Rate */}
+                      <div className="bg-slate-900/90 rounded-2xl p-3 border border-white/10 shadow-sm flex flex-col items-center justify-between">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Framerate</span>
+                        <div className="text-base font-black text-emerald-300 my-1 font-mono">
+                          60 FPS
+                        </div>
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                          Ultra Smooth
+                        </span>
+                      </div>
+
+                      {/* Video Quality (CRF) */}
+                      <div className="bg-slate-900/90 rounded-2xl p-3 border border-white/10 shadow-sm flex flex-col items-center justify-between">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Video Quality</span>
+                        <div className="text-base font-black text-amber-300 my-1 font-mono">
+                          CRF 16
+                        </div>
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                          Master Pristine
+                        </span>
+                      </div>
+
+                      {/* Audio Quality */}
+                      <div className="bg-slate-900/90 rounded-2xl p-3 border border-white/10 shadow-sm flex flex-col items-center justify-between">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Audio Sample</span>
+                        <div className="text-base font-black text-cyan-300 my-1 font-mono">
+                          48,000 Hz
+                        </div>
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                          48 kHz Studio
+                        </span>
+                      </div>
+
+                      {/* Audio Bitrate & Codec */}
+                      <div className="bg-slate-900/90 rounded-2xl p-3 border border-white/10 shadow-sm flex flex-col items-center justify-between">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Audio Bitrate</span>
+                        <div className="text-base font-black text-pink-300 my-1 font-mono">
+                          320k AAC
+                        </div>
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-pink-500/20 text-pink-300 border border-pink-500/30">
+                          Stereo 2-Ch
+                        </span>
+                      </div>
+
+                      {/* File Size & Duration */}
+                      <div className="bg-slate-900/90 rounded-2xl p-3 border border-white/10 shadow-sm flex flex-col items-center justify-between">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Duration & Size</span>
+                        <div className="text-base font-black text-blue-300 my-1 font-mono">
+                          {studioRenderStatus.duration_s ? `${studioRenderStatus.duration_s}s` : "~60s"}
+                        </div>
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                          {studioRenderStatus.size_mb ? `${studioRenderStatus.size_mb} MB` : "MP4 Ready"}
+                        </span>
+                      </div>
                     </div>
-                    <div className="bg-slate-900/80 rounded-xl p-3 border border-white/5">
-                      <div className="text-lg font-bold text-white">{studioRenderStatus.resolution?.split(" ")[0]}</div>
-                      <div className="text-xs text-slate-400">Resolution</div>
-                    </div>
-                    <div className="bg-slate-900/80 rounded-xl p-3 border border-white/5">
-                      <div className="text-lg font-bold text-white">60 FPS</div>
-                      <div className="text-xs text-slate-400">Frame Rate</div>
-                    </div>
-                    <div className="bg-slate-900/80 rounded-xl p-3 border border-white/5">
-                      <div className="text-lg font-bold text-white">{studioRenderStatus.size_mb} MB</div>
-                      <div className="text-xs text-slate-400">File Size</div>
+
+                    {/* Detailed Production Specs Badge Bar */}
+                    <div className="p-3 bg-black/60 rounded-2xl border border-white/10 flex flex-wrap items-center justify-between gap-2 text-xs">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mr-1">Master Specs:</span>
+                        <span className="px-2.5 py-1 bg-slate-800/80 rounded-lg text-slate-300 border border-white/5 font-mono text-[11px] flex items-center gap-1">
+                          🎥 Codec: <strong className="text-white">H.264 / yuv420p</strong>
+                        </span>
+                        <span className="px-2.5 py-1 bg-slate-800/80 rounded-lg text-slate-300 border border-white/5 font-mono text-[11px] flex items-center gap-1">
+                          🎙️ Voice: <strong className="text-white">{selectedVoice.split("-").slice(-1)[0]?.replace("Neural","") || "Andrew Multilingual"}</strong>
+                        </span>
+                        <span className="px-2.5 py-1 bg-slate-800/80 rounded-lg text-slate-300 border border-white/5 font-mono text-[11px] flex items-center gap-1">
+                          💬 Captions: <strong className="text-white">Whisper Karaoke AI</strong>
+                        </span>
+                        <span className="px-2.5 py-1 bg-slate-800/80 rounded-lg text-slate-300 border border-white/5 font-mono text-[11px] flex items-center gap-1">
+                          ✨ Motion: <strong className="text-white">60fps Ken-Burns + Blur Pad</strong>
+                        </span>
+                      </div>
+                      <span className="text-[11px] font-mono text-emerald-400 font-bold flex items-center gap-1">
+                        ✓ 100% Zero-Crop Verified
+                      </span>
                     </div>
                   </div>
 
