@@ -102,6 +102,29 @@ async def get_all_image_srcs(page) -> list[str]:
         return list;
     }""")
 
+async def has_in_flight_generations(page) -> bool:
+    """Return True if any generation tile is actively rendering (e.g. progress percentage visible)."""
+    try:
+        return await page.evaluate("""() => {
+            // 1. Check for percentage text anywhere in cards/DOM (e.g. "10%", "55%")
+            const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+            let node;
+            while ((node = walker.nextNode())) {
+                const text = node.textContent?.trim();
+                if (text && /^\\d{1,2}%$/.test(text)) {
+                    return true;
+                }
+            }
+            // 2. Check for elements with progress roles or classes
+            const progressEl = document.querySelector('[role="progressbar"], [class*="progress"], [class*="generating"], [class*="loading"]');
+            if (progressEl && progressEl.offsetParent !== null) {
+                return true;
+            }
+            return false;
+        }""")
+    except Exception:
+        return False
+
 async def human_click(page, locator):
     """Perform a human-like mouse move, hover, and click with variable dwell time."""
     bbox = await locator.bounding_box()
@@ -110,9 +133,9 @@ async def human_click(page, locator):
         target_y = bbox["y"] + bbox["height"] * random.uniform(0.35, 0.65)
         # Move cursor with curved steps
         await page.mouse.move(target_x, target_y, steps=random.randint(6, 12))
-        await page.wait_for_timeout(random.randint(60, 150))
+        await page.wait_for_timeout(random.randint(80, 180))
         await page.mouse.down()
-        await page.wait_for_timeout(random.randint(70, 130))
+        await page.wait_for_timeout(random.randint(80, 150))
         await page.mouse.up()
     else:
         await locator.click()
@@ -138,12 +161,27 @@ async def generate_single_image(
     prompt: str,
     filename: str,
     min_wait_s: int = GEN_WAIT_SECONDS,
-    timeout_s: int = GEN_TIMEOUT_SECONDS
+    timeout_s: int = GEN_TIMEOUT_SECONDS,
+    cancel_check: Optional[Callable[[], bool]] = None
 ) -> bytes:
     """
     Submits a single prompt to Google Flow using stealth human interaction patterns
     and waits the required pacing duration.
     """
+    if cancel_check and cancel_check():
+        raise InterruptedError("Generation was cancelled.")
+
+    # 0. Wait for any previous in-flight generations on board to settle
+    settle_start = time.time()
+    while await has_in_flight_generations(page):
+        if time.time() - settle_start > 90:
+            log("    ⚠ Board settle wait exceeded 90s, proceeding cautiously...")
+            break
+        if cancel_check and cancel_check():
+            raise InterruptedError("Generation was cancelled.")
+        log("    ⏳ Waiting for existing in-flight tile on Flow board to finish rendering...")
+        await page.wait_for_timeout(4000)
+
     # 1. Snapshot existing image URLs
     pre_srcs = set(await get_all_image_srcs(page))
     log(f"    1. Current images on board: {len(pre_srcs)}")
@@ -152,7 +190,7 @@ async def generate_single_image(
     box = page.locator('div[role="textbox"][contenteditable="true"]').first
     await box.wait_for(state="visible", timeout=15000)
     await human_click(page, box)
-    await page.wait_for_timeout(random.randint(150, 300))
+    await page.wait_for_timeout(random.randint(250, 450))
 
     # 3. Select all and clear existing draft
     await page.keyboard.press("Meta+a")
@@ -163,7 +201,7 @@ async def generate_single_image(
     # 4. Insert prompt using native paste simulation (insert_text)
     log(f"    2. Pasting prompt ({len(prompt)} chars)...")
     await page.keyboard.insert_text(prompt)
-    await page.wait_for_timeout(random.randint(350, 700))
+    await page.wait_for_timeout(random.randint(500, 900))
 
     # 5. Human click on Submit / Create button
     btn = page.locator("button:has-text('arrow_forward'), button:has(i:has-text('arrow_forward'))").first
@@ -173,7 +211,7 @@ async def generate_single_image(
         await page.keyboard.press("Enter")
 
     start_time = time.time()
-    effective_wait = min_wait_s + random.uniform(2.0, 6.0)
+    effective_wait = min_wait_s + random.uniform(3.0, 8.0)
     log(f"    3. Submitted prompt! Enforcing stealth pacing (~{effective_wait:.1f}s)...")
 
     # 6. Poll for NEW image URL that was not in pre_srcs
@@ -181,21 +219,31 @@ async def generate_single_image(
     new_img_src = None
 
     while time.time() < deadline:
+        if cancel_check and cancel_check():
+            raise InterruptedError("Generation was cancelled.")
+
         # Check for Google Flow account block / unusual activity message
-        page_html = (await page.content()).lower()
-        if "unusual activity" in page_html and "failed" in page_html:
-            raise RuntimeError(
-                "Google Flow account is temporarily in cooldown ('We noticed some unusual activity'). "
-                "Google requires a cooling-off period (15-30 mins) before accepting new prompts."
-            )
+        try:
+            page_html = (await page.content()).lower()
+            if "unusual activity" in page_html and ("cooldown" in page_html or "cooling-off" in page_html or "failed" in page_html):
+                raise RuntimeError(
+                    "Google Flow account is temporarily in cooldown ('We noticed some unusual activity'). "
+                    "Google requires a cooling-off period (15-30 mins) before accepting new prompts."
+                )
+        except RuntimeError:
+            raise
+        except Exception:
+            pass
 
         curr_srcs = await get_all_image_srcs(page)
         diff = [s for s in curr_srcs if s not in pre_srcs]
         if diff:
-            new_img_src = diff[0]
-            log(f"    ✓ New image detected on board: {new_img_src[:65]}...")
-            break
-        await page.wait_for_timeout(1000)
+            # Check that board in-flight rendering is fully complete
+            if not await has_in_flight_generations(page):
+                new_img_src = diff[0]
+                log(f"    ✓ New image fully rendered on board: {new_img_src[:65]}...")
+                break
+        await page.wait_for_timeout(2000)
 
     if not new_img_src:
         raise TimeoutError(f"Generation timed out for {filename} after {timeout_s}s")
@@ -232,6 +280,7 @@ async def generate_flow_images_for_project(
     start_idx: int = 0,
     count: Optional[int] = None,
     progress_callback: Optional[Callable[[dict], None]] = None,
+    cancel_check: Optional[Callable[[], bool]] = None,
     dry_run: bool = False,
     force: bool = True
 ) -> dict:
@@ -270,6 +319,17 @@ async def generate_flow_images_for_project(
         completed_filenames = []
 
         for i, item in enumerate(to_do, start_idx):
+            if cancel_check and cancel_check():
+                log("🛑 Google Flow generation was cancelled by user.")
+                return {
+                    "success": False,
+                    "status": "cancelled",
+                    "total_images": len(items),
+                    "generated_count": success_count,
+                    "error_count": error_count,
+                    "completed_filenames": completed_filenames
+                }
+
             filename = item["filename"]
             prompt = item["clean_prompt"]
             broll_p = item["broll_path"]
@@ -299,6 +359,8 @@ async def generate_flow_images_for_project(
 
             generated = False
             for attempt in range(1, MAX_RETRIES + 1):
+                if cancel_check and cancel_check():
+                    break
                 try:
                     log(f"  Attempt {attempt}/{MAX_RETRIES} generating {filename}...")
                     img_bytes = await generate_single_image(
@@ -306,12 +368,16 @@ async def generate_flow_images_for_project(
                         prompt,
                         filename,
                         min_wait_s=GEN_WAIT_SECONDS,
-                        timeout_s=GEN_TIMEOUT_SECONDS
+                        timeout_s=GEN_TIMEOUT_SECONDS,
+                        cancel_check=cancel_check
                     )
                     broll_p.write_bytes(img_bytes)
                     images_p.write_bytes(img_bytes)
                     log(f"  ✅ Saved: {broll_p.name} ({len(img_bytes):,} bytes)")
                     generated = True
+                    break
+                except InterruptedError:
+                    log("  🛑 Generation cancelled.")
                     break
                 except Exception as e:
                     log(f"  ⚠ Attempt {attempt} failed: {e}")
@@ -326,7 +392,11 @@ async def generate_flow_images_for_project(
                     except Exception:
                         pass
                     if attempt < MAX_RETRIES:
-                        await flow_page.wait_for_timeout(5000)
+                        await flow_page.wait_for_timeout(6000)
+
+            if cancel_check and cancel_check():
+                log("🛑 Generation loop aborted due to cancellation.")
+                break
 
             if generated:
                 success_count += 1
@@ -336,10 +406,25 @@ async def generate_flow_images_for_project(
                 if "unusual activity" in str(e if 'e' in locals() else "").lower():
                     break
 
-            # Natural Human Cooldown with Jitter between images
-            jitter = random.uniform(COOLDOWN_SECONDS, COOLDOWN_SECONDS + 6.0)
-            log(f"  💤 Humanized cooldown {jitter:.1f}s before next prompt...")
-            await flow_page.wait_for_timeout(int(jitter * 1000))
+            # Natural Human Cooldown with Jitter between images (if more images remain)
+            if i + 1 < len(to_do):
+                jitter = random.uniform(COOLDOWN_SECONDS, COOLDOWN_SECONDS + 10.0)
+                log(f"  💤 Humanized cooldown {jitter:.1f}s before next prompt...")
+                if progress_callback:
+                    progress_callback({
+                        "status": "cooling_down",
+                        "current_index": i + 1,
+                        "total_images": len(items),
+                        "percent": int(((i + 1) / len(items)) * 100),
+                        "message": f"Cooldown {int(jitter)}s for safety before image {i+2}..."
+                    })
+                # Sleep in short intervals so cancellation responds immediately
+                slept = 0.0
+                while slept < jitter:
+                    if cancel_check and cancel_check():
+                        break
+                    await flow_page.wait_for_timeout(500)
+                    slept += 0.5
 
         # Update studio_meta.json status
         meta_path = CLIPPILOT_OUT / project_id / "studio_meta.json"
@@ -417,6 +502,7 @@ def run_flow_pipeline_sync(
     start_idx: int = 0,
     count: Optional[int] = None,
     progress_callback: Optional[Callable[[dict], None]] = None,
+    cancel_check: Optional[Callable[[], bool]] = None,
     dry_run: bool = False,
     force: bool = True
 ) -> dict:
@@ -426,6 +512,7 @@ def run_flow_pipeline_sync(
         start_idx=start_idx,
         count=count,
         progress_callback=progress_callback,
+        cancel_check=cancel_check,
         dry_run=dry_run,
         force=force
     ))

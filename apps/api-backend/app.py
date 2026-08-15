@@ -2175,17 +2175,22 @@ def studio_generate_images(project_id):
 
 @app.route("/api/studio/clear_images/<path:project_id>", methods=["DELETE", "POST"])
 def studio_clear_images(project_id):
-    """Delete all existing images in a project's images/ folder so they can be regenerated."""
+    """Delete all existing images in a project's images/ and broll/ folders so they can be regenerated."""
     project_dir = OUTPUT_ROOT / project_id
     if not project_dir.exists():
         return jsonify({"error": f"Project not found: {project_id}"}), 404
     images_dir = project_dir / "images"
+    broll_dir  = project_dir / "broll"
     deleted = 0
-    if images_dir.exists():
-        for f in images_dir.glob("*"):
-            if f.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}:
-                f.unlink()
-                deleted += 1
+    for d in [images_dir, broll_dir]:
+        if d.exists():
+            for f in d.glob("*"):
+                if f.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}:
+                    try:
+                        f.unlink()
+                        deleted += 1
+                    except Exception:
+                        pass
     # Reset status in meta
     meta_path = project_dir / "studio_meta.json"
     if meta_path.exists():
@@ -2196,8 +2201,95 @@ def studio_clear_images(project_id):
             meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
         except Exception:
             pass
-    print(f"[studio-clear-images] Deleted {deleted} images from {project_id}")
+    print(f"[studio-clear-images] Deleted {deleted} image files from {project_id}")
     return jsonify({"success": True, "deleted": deleted})
+
+
+@app.route("/api/studio/delete_single_image/<path:project_id>", methods=["DELETE", "POST"])
+def studio_delete_single_image(project_id):
+    """Delete a specific single image from a project's images/ and broll/ folders."""
+    project_dir = OUTPUT_ROOT / project_id
+    if not project_dir.exists():
+        return jsonify({"error": f"Project not found: {project_id}"}), 404
+    req_data = request.json or {}
+    filename = req_data.get("filename") or request.args.get("filename")
+    if not filename:
+        return jsonify({"error": "filename is required"}), 400
+    
+    cleaned_fn = Path(filename).name
+    images_dir = project_dir / "images"
+    broll_dir  = project_dir / "broll"
+    
+    deleted = False
+    for d in [images_dir, broll_dir]:
+        target = d / cleaned_fn
+        if target.exists():
+            try:
+                target.unlink()
+                deleted = True
+            except Exception as e:
+                print(f"[delete-err] {e}")
+    
+    # Update status in meta
+    all_imgs = [f for f in (list(images_dir.glob("*.png")) + list(images_dir.glob("*.jpg")) + list(images_dir.glob("*.jpeg")) + list(images_dir.glob("*.webp"))) if f.stat().st_size > 3000] if images_dir.exists() else []
+    total = len(all_imgs)
+    
+    meta_path = project_dir / "studio_meta.json"
+    if meta_path.exists():
+        try:
+            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+            expected = len(meta.get("prompts", []))
+            meta["images_uploaded"] = total
+            meta["status"] = "ready_to_render" if total >= expected else f"uploading ({total}/{expected})"
+            meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
+        except Exception:
+            pass
+    
+    print(f"[studio-delete-single-image] Deleted {cleaned_fn} from {project_id} (remaining: {total})")
+    return jsonify({"success": True, "filename": cleaned_fn, "deleted": deleted, "total_uploaded": total})
+
+
+@app.route("/api/studio/clear_scene_images/<path:project_id>", methods=["DELETE", "POST"])
+def studio_clear_scene_images(project_id):
+    """Delete all images belonging to a specific scene."""
+    project_dir = OUTPUT_ROOT / project_id
+    if not project_dir.exists():
+        return jsonify({"error": f"Project not found: {project_id}"}), 404
+    req_data = request.json or {}
+    filenames = req_data.get("filenames") or []
+    if not filenames:
+        return jsonify({"error": "filenames list is required"}), 400
+    
+    images_dir = project_dir / "images"
+    broll_dir  = project_dir / "broll"
+    deleted_count = 0
+    for fn in filenames:
+        clean_fn = Path(fn).name
+        for d in [images_dir, broll_dir]:
+            target = d / clean_fn
+            if target.exists():
+                try:
+                    target.unlink()
+                    deleted_count += 1
+                except Exception:
+                    pass
+    
+    all_imgs = [f for f in (list(images_dir.glob("*.png")) + list(images_dir.glob("*.jpg")) + list(images_dir.glob("*.jpeg")) + list(images_dir.glob("*.webp"))) if f.stat().st_size > 3000] if images_dir.exists() else []
+    total = len(all_imgs)
+    
+    meta_path = project_dir / "studio_meta.json"
+    if meta_path.exists():
+        try:
+            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+            expected = len(meta.get("prompts", []))
+            meta["images_uploaded"] = total
+            meta["status"] = "ready_to_render" if total >= expected else f"uploading ({total}/{expected})"
+            meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
+        except Exception:
+            pass
+    
+    print(f"[studio-clear-scene-images] Deleted {deleted_count} files from {project_id} (remaining: {total})")
+    return jsonify({"success": True, "deleted_count": deleted_count, "total_uploaded": total})
 
 
 @app.route("/api/studio/generate_single_image/<path:project_id>", methods=["POST"])
@@ -2233,8 +2325,9 @@ def studio_generate_single_image(project_id):
             if sys_gen_path not in sys.path:
                 sys.path.insert(0, sys_gen_path)
             import flow_clippilot_direct_cdp
-            print(f"[studio-single-image] Generating {filename} via Google Flow CDP...")
-            ok = flow_clippilot_direct_cdp.generate_single_flow_image_sync(project_id, filename, prompt)
+            print(f"[studio-single-image] Generating {filename} via Google Flow CDP (waiting for lock)...")
+            with _FLOW_LOCK:
+                ok = flow_clippilot_direct_cdp.generate_single_flow_image_sync(project_id, filename, prompt)
         except Exception as flow_err:
             print(f"[FLOW-SINGLE-ERR] {flow_err}")
             ok = False
@@ -2271,14 +2364,16 @@ def studio_generate_single_image(project_id):
 # ─────────────────────────────────────────────────────────────────────────────
 # Google Flow AI Studio Integration
 # ─────────────────────────────────────────────────────────────────────────────
+_FLOW_LOCK = threading.Lock()
 _FLOW_JOBS: dict = {}  # project_id -> status dict
+_FLOW_CANCEL_EVENTS: dict[str, threading.Event] = {}
 
-def _run_flow_job(project_id: str, options: dict):
-    """Run Google Flow CDP automation in a background worker thread."""
+def _run_flow_job(project_id: str, options: dict, cancel_event: threading.Event):
+    """Run Google Flow CDP automation in a background worker thread with lock protection."""
     if project_id not in _FLOW_JOBS:
         _FLOW_JOBS[project_id] = {}
     _FLOW_JOBS[project_id]["status"] = "running"
-    _FLOW_JOBS[project_id]["log"] = "Connecting to Google Flow via CDP..."
+    _FLOW_JOBS[project_id]["log"] = "Acquiring Google Flow browser session lock..."
 
     def progress_callback(info: dict):
         if project_id in _FLOW_JOBS:
@@ -2291,21 +2386,36 @@ def _run_flow_job(project_id: str, options: dict):
 
         import flow_clippilot_direct_cdp
 
-        res = flow_clippilot_direct_cdp.run_flow_pipeline_sync(
-            project_id=project_id,
-            flow_url=options.get("flow_url"),
-            start_idx=options.get("start_index", 0),
-            count=options.get("count"),
-            progress_callback=progress_callback,
-            dry_run=options.get("dry_run", False),
-            force=options.get("force", True)
-        )
-        _FLOW_JOBS[project_id].update({
-            "status": "completed" if res.get("success") else "completed_with_errors",
-            "percent": 100,
-            "message": f"Done! Generated {res.get('generated_count', 0)}/{res.get('total_images', 0)} images.",
-            "completed_filenames": res.get("completed_filenames", [])
-        })
+        with _FLOW_LOCK:
+            if cancel_event.is_set():
+                _FLOW_JOBS[project_id]["status"] = "cancelled"
+                _FLOW_JOBS[project_id]["message"] = "Flow generation was cancelled."
+                return
+
+            res = flow_clippilot_direct_cdp.run_flow_pipeline_sync(
+                project_id=project_id,
+                flow_url=options.get("flow_url"),
+                start_idx=options.get("start_index", 0),
+                count=options.get("count"),
+                progress_callback=progress_callback,
+                cancel_check=lambda: cancel_event.is_set(),
+                dry_run=options.get("dry_run", False),
+                force=options.get("force", True)
+            )
+
+        if cancel_event.is_set() or res.get("status") == "cancelled":
+            _FLOW_JOBS[project_id].update({
+                "status": "cancelled",
+                "message": "Flow generation was stopped.",
+                "completed_filenames": res.get("completed_filenames", [])
+            })
+        else:
+            _FLOW_JOBS[project_id].update({
+                "status": "completed" if res.get("success") else "completed_with_errors",
+                "percent": 100,
+                "message": f"Done! Generated {res.get('generated_count', 0)}/{res.get('total_images', 0)} images.",
+                "completed_filenames": res.get("completed_filenames", [])
+            })
     except Exception as exc:
         import traceback
         print(f"[FLOW-ERROR {project_id}] {exc}\n{traceback.format_exc()}")
@@ -2329,6 +2439,9 @@ def studio_generate_flow_images(project_id):
     if current_job.get("status") == "running":
         return jsonify({"success": True, "project_id": project_id, "status": "running", "already_running": True})
 
+    cancel_event = threading.Event()
+    _FLOW_CANCEL_EVENTS[project_id] = cancel_event
+
     _FLOW_JOBS[project_id] = {
         "status": "starting",
         "project_id": project_id,
@@ -2340,7 +2453,7 @@ def studio_generate_flow_images(project_id):
         "message": "Initializing Google Flow automation...",
         "error": None
     }
-    threading.Thread(target=_run_flow_job, args=(project_id, req_data), daemon=True).start()
+    threading.Thread(target=_run_flow_job, args=(project_id, req_data, cancel_event), daemon=True).start()
     return jsonify({"success": True, "project_id": project_id, "status": "started"})
 
 
@@ -2372,10 +2485,144 @@ def studio_flow_status(project_id):
 @app.route("/api/studio/cancel_flow_generation/<path:project_id>", methods=["POST"])
 def studio_cancel_flow_generation(project_id):
     """Cancel/reset Google Flow generation status."""
+    if project_id in _FLOW_CANCEL_EVENTS:
+        _FLOW_CANCEL_EVENTS[project_id].set()
     if project_id in _FLOW_JOBS:
         _FLOW_JOBS[project_id]["status"] = "cancelled"
         _FLOW_JOBS[project_id]["message"] = "Generation was cancelled."
     return jsonify({"success": True, "project_id": project_id, "status": "cancelled"})
+
+
+@app.route("/api/studio/import_from_flow/<path:project_id>", methods=["POST"])
+def studio_import_from_flow(project_id):
+    """
+    Directly import and sync all generated images / Veo video clips from the active
+    Google Flow board over Chrome CDP into the ClipPilot project directories.
+    """
+    project_dir = OUTPUT_ROOT / project_id
+    if not project_dir.exists():
+        return jsonify({"error": f"Project not found: {project_id}"}), 404
+    meta_path = project_dir / "studio_meta.json"
+    if not meta_path.exists():
+        return jsonify({"error": "studio_meta.json missing in project"}), 400
+
+    import asyncio
+    import base64
+    from pathlib import Path
+    
+    images_dir = project_dir / "images"
+    broll_dir = project_dir / "broll"
+    images_dir.mkdir(parents=True, exist_ok=True)
+    broll_dir.mkdir(parents=True, exist_ok=True)
+
+    try:
+        meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    except Exception as e:
+        return jsonify({"error": f"Invalid studio_meta.json: {e}"}), 400
+
+    all_img_defs = []
+    for sc in meta.get("scenes", []):
+        for img in sc.get("images", []):
+            all_img_defs.append(img.get("filename"))
+
+    if not all_img_defs:
+        return jsonify({"error": "No image definitions found in project scenes"}), 400
+
+    async def _do_sync():
+        from playwright.async_api import async_playwright
+        cdp_url = os.getenv("GOOGLE_FLOW_CDP_URL", "http://localhost:9222")
+        async with async_playwright() as pw:
+            try:
+                browser = await pw.chromium.connect_over_cdp(cdp_url)
+            except Exception as e:
+                raise RuntimeError(f"Could not connect to Chrome CDP at {cdp_url}: {e}. Ensure Chrome is running with remote debugging.")
+                
+            context = browser.contexts[0]
+            flow_page = None
+            for p in context.pages:
+                if "labs.google/fx/tools/flow" in p.url:
+                    flow_page = p
+                    break
+            
+            if not flow_page:
+                raise RuntimeError("No Google Flow tab found open in Chrome. Please open your Google Flow project in Chrome first.")
+
+            # Extract both images and videos from the Flow board in DOM order
+            flow_media = await flow_page.evaluate("""() => {
+                const list = [];
+                // Check images
+                document.querySelectorAll("img").forEach(img => {
+                    const src = img.src || '';
+                    const alt = img.alt || '';
+                    if (src && (src.includes("getMediaUrlRedirect") || alt === "Generated image")) {
+                        list.push({ type: 'image', src: src });
+                    }
+                });
+                // Check videos (if Veo video generation was used)
+                document.querySelectorAll("video").forEach(v => {
+                    const src = v.src || v.currentSrc || '';
+                    if (src && src.includes("getMediaUrlRedirect")) {
+                        list.push({ type: 'video', src: src });
+                    }
+                });
+                return list;
+            }""")
+
+            if not flow_media:
+                raise RuntimeError("No generated media found on the active Google Flow board.")
+
+            # Google Flow board displays media in newest-first (LIFO) order,
+            # so reverse the array to match the sequential/chronological prompt order
+            chronological_media = list(reversed(flow_media))
+
+            downloaded = []
+            for idx, item in enumerate(chronological_media):
+                if idx >= len(all_img_defs):
+                    break
+                filename = all_img_defs[idx]
+                src = item["src"]
+                
+                # Fetch bytes inside browser session
+                b64_data = await flow_page.evaluate("""async (url) => {
+                    const res = await fetch(url);
+                    const blob = await res.blob();
+                    return new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onloadend = () => resolve(reader.result.split(',')[1]);
+                        reader.readAsDataURL(blob);
+                    });
+                }""", src)
+
+                raw_bytes = base64.b64decode(b64_data)
+                img_dest = images_dir / filename
+                broll_dest = broll_dir / filename
+                img_dest.write_bytes(raw_bytes)
+                broll_dest.write_bytes(raw_bytes)
+                downloaded.append(filename)
+
+            return downloaded
+
+    try:
+        loop = asyncio.new_event_loop()
+        downloaded_files = loop.run_until_complete(_do_sync())
+        loop.close()
+
+        # Update studio_meta.json
+        meta["images_generated"] = len(downloaded_files)
+        meta["images_ready"] = len(downloaded_files) >= len(all_img_defs)
+        meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
+
+        return jsonify({
+            "success": True,
+            "project_id": project_id,
+            "imported_count": len(downloaded_files),
+            "total_needed": len(all_img_defs),
+            "filenames": downloaded_files
+        })
+    except Exception as exc:
+        import traceback
+        print(f"[FLOW-IMPORT-ERROR] {exc}\n{traceback.format_exc()}")
+        return jsonify({"error": str(exc)}), 500
 
 
 def _run_render_job(job_id: str, project_dir: Path, meta: dict):

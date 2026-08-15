@@ -206,6 +206,8 @@ export default function Dashboard() {
   const [flowGenerating, setFlowGenerating]             = useState(false);
   const [flowStatus, setFlowStatus]                     = useState<any>(null);
   const flowPollRef                                     = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [previewModalImg, setPreviewModalImg]           = useState<{ url: string; filename: string; prompt: string; sceneTitle?: string } | null>(null);
+  const [importingFromFlow, setImportingFromFlow]       = useState(false);
 
   // Voice, Subtitle & BGM Customizer State
   const [voicePreset, setVoicePreset]             = useState("default");
@@ -502,6 +504,84 @@ export default function Dashboard() {
     setStudioGenStatus("");
   };
 
+  const handleClearAllImages = async () => {
+    if (!studioProjectId) return;
+    if (!window.confirm("Are you sure you want to delete ALL images for this project? This will remove all generated files.")) return;
+    try {
+      setStudioGenStatus("🗑️ Deleting all images...");
+      const res = await fetch(`${API_URL}/api/studio/clear_images/${encodeURIComponent(studioProjectId)}`, { method: "POST" });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      setStudioUploaded({});
+      setStudioUploadPreviews({});
+      setStudioGenStatus("");
+    } catch (e: any) {
+      setStudioError(e.message || "Failed to clear images");
+    }
+  };
+
+  const handleDeleteSingleImage = async (filename: string) => {
+    if (!studioProjectId) return;
+    try {
+      setRerollingImg(filename);
+      const res = await fetch(`${API_URL}/api/studio/delete_single_image/${encodeURIComponent(studioProjectId)}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ filename })
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      
+      setStudioUploaded(prev => {
+        const next = { ...prev };
+        delete next[filename];
+        return next;
+      });
+      setStudioUploadPreviews(prev => {
+        const next = { ...prev };
+        delete next[filename];
+        return next;
+      });
+      if (previewModalImg?.filename === filename) {
+        setPreviewModalImg(null);
+      }
+    } catch (e: any) {
+      setStudioError(e.message || `Failed to delete ${filename}`);
+    } finally {
+      setRerollingImg(null);
+    }
+  };
+
+  const handleClearSceneImages = async (sc: any) => {
+    if (!studioProjectId) return;
+    const imgs = sc.images || [];
+    if (imgs.length === 0) return;
+    if (!window.confirm(`Delete all images in "${sc.scene_title || 'this scene'}"?`)) return;
+    try {
+      const filenames = imgs.map((img: any) => img.filename);
+      const res = await fetch(`${API_URL}/api/studio/clear_scene_images/${encodeURIComponent(studioProjectId)}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ filenames })
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      
+      setStudioUploaded(prev => {
+        const next = { ...prev };
+        filenames.forEach((fn: string) => delete next[fn]);
+        return next;
+      });
+      setStudioUploadPreviews(prev => {
+        const next = { ...prev };
+        filenames.forEach((fn: string) => delete next[fn]);
+        return next;
+      });
+    } catch (e: any) {
+      setStudioError(e.message || "Failed to clear scene images");
+    }
+  };
+
   const handleRerollSingleImage = async (filename: string, prompt: string, overrideProvider?: string) => {
     if (!studioProjectId) return;
     const prov = overrideProvider || studioImageProvider || "flux";
@@ -643,6 +723,38 @@ export default function Dashboard() {
       setFlowStatus(null);
     } catch (e) {
       console.warn("Failed to cancel flow:", e);
+    }
+  };
+
+  const handleImportFromFlow = async () => {
+    if (!studioProjectId) return;
+    setImportingFromFlow(true);
+    setStudioError("");
+    setStudioGenStatus("📥 Syncing images/videos from active Google Flow board...");
+    try {
+      const res = await fetch(`${API_URL}/api/studio/import_from_flow/${encodeURIComponent(studioProjectId)}`, {
+        method: "POST"
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) throw new Error(data.error || "Failed to import from Flow");
+      
+      const newUploaded: Record<string, boolean> = { ...studioUploaded };
+      const newPreviews: Record<string, string> = { ...studioUploadPreviews };
+      const timestamp = Date.now();
+      
+      (data.filenames || []).forEach((fn: string) => {
+        newUploaded[fn] = true;
+        newPreviews[fn] = `${API_URL}/studio/image/${encodeURIComponent(studioProjectId)}/images/${fn}?t=${timestamp}`;
+      });
+      
+      setStudioUploaded(newUploaded);
+      setStudioUploadPreviews(newPreviews);
+      setStudioGenStatus(`✓ Successfully imported ${data.imported_count} images from Google Flow!`);
+      setTimeout(() => setStudioGenStatus(""), 4000);
+    } catch (e: any) {
+      setStudioError(e.message || "Failed to import from Google Flow");
+    } finally {
+      setImportingFromFlow(false);
     }
   };
 
@@ -3949,7 +4061,7 @@ export default function Dashboard() {
                         }`}
                         title="Google Flow AI — 100% Free 9:16 high-definition photorealistic generation via CDP"
                       >
-                        🍌 Google Flow (0 Credits)
+                        🍌 Google Flow
                       </button>
                       <button
                         type="button"
@@ -3959,9 +4071,9 @@ export default function Dashboard() {
                             ? "bg-violet-600 text-white shadow-md shadow-violet-600/40 ring-1 ring-violet-400"
                             : "bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white"
                         }`}
-                        title="100% FLUX AI Generation — Best for satire, cartoons, and custom fiction (No stock photo mismatch)"
+                        title="100% FLUX AI Generation — Best for satire, cartoons, and custom fiction"
                       >
-                        ✨ AI Only (FLUX)
+                        ✨ FLUX AI
                       </button>
                       <button
                         type="button"
@@ -4001,36 +4113,116 @@ export default function Dashboard() {
                       </button>
                     </div>
 
+                    {/* Main Action Bar — Clean & Unified */}
                     <div className="flex items-center gap-2 flex-wrap">
+                      {/* SINGLE UNIFIED PRIMARY ACTION BUTTON */}
+                      {studioImageProvider === "google_flow" ? (
+                        <button
+                          disabled={flowGenerating || studioGeneratingImgs}
+                          onClick={handleTriggerGoogleFlow}
+                          className="px-4 py-2.5 bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 hover:from-amber-400 hover:to-yellow-300 text-xs font-black rounded-xl shadow-lg shadow-amber-500/30 transition text-slate-950 flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                          title="Automates Google Flow 1-by-1 via Chrome CDP with safe stealth pacing"
+                        >
+                          {flowGenerating ? (
+                            <><svg className="animate-spin w-4 h-4 text-slate-950" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg> 🍌 Generating ({flowStatus?.current_index || 1}/{allImages.length})…</>
+                          ) : (
+                            <>🍌 Google Flow</>
+                          )}
+                        </button>
+                      ) : studioImageProvider === "flux" ? (
+                        <button
+                          disabled={studioGeneratingImgs || flowGenerating}
+                          onClick={handleAutoGenerateAllImages}
+                          className="px-4 py-2.5 bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-xs font-black rounded-xl shadow-lg shadow-violet-600/30 transition text-white flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                          title="Generate all images with FLUX AI"
+                        >
+                          {studioGeneratingImgs ? (
+                            <><svg className="animate-spin w-4 h-4 text-white" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg> ✨ Generating...</>
+                          ) : (
+                            <>✨ Generate All (FLUX AI)</>
+                          )}
+                        </button>
+                      ) : studioImageProvider === "pexels" ? (
+                        <button
+                          disabled={studioGeneratingImgs || flowGenerating}
+                          onClick={handleAutoGenerateAllImages}
+                          className="px-4 py-2.5 bg-gradient-to-r from-emerald-600 via-teal-600 to-green-600 hover:from-emerald-500 hover:to-teal-500 text-xs font-black rounded-xl shadow-lg shadow-emerald-600/30 transition text-white flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                          title="Fetch real stock photos from Pexels"
+                        >
+                          {studioGeneratingImgs ? (
+                            <><svg className="animate-spin w-4 h-4 text-white" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg> 📷 Fetching...</>
+                          ) : (
+                            <>📷 Fetch All (Pexels Stock)</>
+                          )}
+                        </button>
+                      ) : studioImageProvider === "wikimedia" ? (
+                        <button
+                          disabled={studioGeneratingImgs || flowGenerating}
+                          onClick={handleAutoGenerateAllImages}
+                          className="px-4 py-2.5 bg-gradient-to-r from-blue-600 via-sky-600 to-indigo-600 hover:from-blue-500 hover:to-sky-500 text-xs font-black rounded-xl shadow-lg shadow-blue-600/30 transition text-white flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                          title="Fetch public domain images from Wikimedia"
+                        >
+                          {studioGeneratingImgs ? (
+                            <><svg className="animate-spin w-4 h-4 text-white" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg> 🏛️ Fetching...</>
+                          ) : (
+                            <>🏛️ Fetch All (Wikimedia)</>
+                          )}
+                        </button>
+                      ) : (
+                        <button
+                          disabled={studioGeneratingImgs || flowGenerating}
+                          onClick={handleAutoGenerateAllImages}
+                          className="px-4 py-2.5 bg-gradient-to-r from-amber-600 via-orange-600 to-yellow-600 hover:from-amber-500 hover:to-orange-500 text-xs font-black rounded-xl shadow-lg shadow-amber-600/30 transition text-white flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                          title="Smart Auto — Automatically chooses best provider per prompt"
+                        >
+                          {studioGeneratingImgs ? (
+                            <><svg className="animate-spin w-4 h-4 text-white" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg> ⚡ Generating...</>
+                          ) : (
+                            <>⚡ Generate All (Smart Auto)</>
+                          )}
+                        </button>
+                      )}
+
+                      {/* DIRECT IMPORT FROM GOOGLE FLOW BUTTON */}
                       <button
-                        disabled={flowGenerating || studioGeneratingImgs}
-                        onClick={handleTriggerGoogleFlow}
-                        className="px-4 py-2.5 bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 hover:from-amber-400 hover:to-yellow-300 text-xs font-black rounded-xl shadow-lg shadow-amber-500/30 transition text-slate-950 flex items-center gap-2 cursor-pointer disabled:opacity-50"
-                        title="Automates Google Flow 1-by-1 via Chrome CDP with smart 35s pacing to prevent prompt cancellation"
+                        type="button"
+                        disabled={importingFromFlow || flowGenerating || studioGeneratingImgs}
+                        onClick={handleImportFromFlow}
+                        title="Directly pulls all generated images / Veo video clips from your open Google Flow tab into this project"
+                        className="px-3.5 py-2.5 bg-gradient-to-r from-teal-600 via-emerald-600 to-cyan-600 hover:from-teal-500 hover:to-cyan-500 text-white text-xs font-black rounded-xl shadow-lg shadow-teal-500/20 transition flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
                       >
-                        {flowGenerating ? (
-                          <><svg className="animate-spin w-4 h-4 text-slate-950" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg> 🍌 Generating ({flowStatus?.current_index || 1}/{allImages.length})…</>
+                        {importingFromFlow ? (
+                          <><svg className="animate-spin w-4 h-4 text-white" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg> 📥 Syncing…</>
                         ) : (
-                          <>🍌 Auto-Generate (Google Flow)</>
+                          <>📥 Import from Flow</>
                         )}
                       </button>
+
+                      {/* CLEAR ALL IMAGES BUTTON */}
                       <button
-                        disabled={studioGeneratingImgs || flowGenerating}
-                        onClick={handleAutoGenerateAllImages}
-                        className="px-4 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-xs font-bold rounded-xl shadow-lg shadow-violet-600/30 transition text-white flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                        type="button"
+                        disabled={studioGeneratingImgs || flowGenerating || uploadedCount === 0}
+                        onClick={handleClearAllImages}
+                        title="Permanently delete all generated/uploaded images for this project"
+                        className="px-3.5 py-2.5 bg-red-950/40 hover:bg-red-900/60 border border-red-500/30 hover:border-red-400/60 text-xs font-bold rounded-xl transition text-red-300 flex items-center gap-1.5 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                       >
-                        {studioGeneratingImgs ? "✨ Generating..." : `✨ Generate All (${studioImageProvider.toUpperCase()})`}
+                        🗑️ Clear All ({uploadedCount})
                       </button>
+
+                      {/* RE-ROLL ALL BUTTON */}
                       <button
+                        type="button"
                         disabled={studioGeneratingImgs || flowGenerating}
                         onClick={handleRegenerateAllImages}
-                        title="Clears ALL existing images and regenerates from scratch using selected engine"
-                        className="px-3.5 py-2.5 bg-gradient-to-r from-orange-600 to-rose-600 hover:from-orange-500 hover:to-rose-500 text-xs font-bold rounded-xl shadow-lg shadow-orange-600/30 transition text-white flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                        title="Clears all existing images and generates new versions with selected engine"
+                        className="px-3.5 py-2.5 bg-slate-800 hover:bg-slate-700 border border-white/10 text-xs font-semibold rounded-xl transition text-slate-200 flex items-center gap-1.5 cursor-pointer disabled:opacity-40"
                       >
-                        🔄 Clear & Re-roll All
+                        🔄 Re-roll All
                       </button>
-                      <label className="px-3.5 py-2.5 bg-slate-800 hover:bg-slate-700 border border-white/10 text-xs font-semibold rounded-xl cursor-pointer transition text-slate-200">
-                        ⬆ Upload
+
+                      {/* BATCH UPLOAD BUTTON */}
+                      <label className="px-3.5 py-2.5 bg-slate-800 hover:bg-slate-700 border border-white/10 text-xs font-semibold rounded-xl cursor-pointer transition text-slate-200 flex items-center gap-1.5">
+                        ⬆ Upload Files
                         <input type="file" multiple accept="image/*" className="hidden" onChange={async (e) => {
                           const files = Array.from(e.target.files || []);
                           for (const file of files) {
@@ -4080,7 +4272,7 @@ export default function Dashboard() {
                   {studioGeneratingImgs && (
                     <div className="p-3 rounded-xl bg-violet-950/40 border border-violet-500/30 text-xs text-violet-300 flex items-center gap-3">
                       <div className="w-4 h-4 rounded-full border-2 border-violet-400 border-t-transparent animate-spin shrink-0"/>
-                      <span>{studioGenStatus || "Generating high-quality 8K visuals using FLUX AI engine..."}</span>
+                      <span>{studioGenStatus || "Generating high-quality visuals..."}</span>
                     </div>
                   )}
                   <div className="h-1.5 rounded-full bg-slate-800 overflow-hidden">
@@ -4112,7 +4304,7 @@ export default function Dashboard() {
                           <div className="flex items-center gap-2 shrink-0">
                             <div className="text-xs text-slate-400 font-semibold">{scUploaded}/{imgs.length}</div>
                             <select
-                              disabled={studioGeneratingImgs}
+                              disabled={studioGeneratingImgs || flowGenerating}
                               onChange={(e) => {
                                 const val = e.target.value;
                                 if (val) {
@@ -4139,6 +4331,16 @@ export default function Dashboard() {
                                 }
                               }} />
                             </label>
+                            {scUploaded > 0 && (
+                              <button
+                                type="button"
+                                onClick={() => handleClearSceneImages(sc)}
+                                title={`Delete all ${scUploaded} images in this scene`}
+                                className="px-2.5 py-1 bg-red-950/40 hover:bg-red-900/60 border border-red-500/30 text-red-300 text-xs font-bold rounded-xl transition cursor-pointer flex items-center gap-1"
+                              >
+                                🗑️ Clear Scene
+                              </button>
+                            )}
                           </div>
                         </div>
 
@@ -4151,110 +4353,122 @@ export default function Dashboard() {
                         </div>
 
                         {/* Image grid for this scene */}
-                        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
+                        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2.5">
                           {imgs.map((img: any, ii: number) => {
                             const done         = studioUploaded[img.filename];
                             const preview      = studioUploadPreviews[img.filename] || (done && studioProjectId ? `${API_URL}/studio/image/${encodeURIComponent(studioProjectId)}/images/${img.filename}` : null);
                             const isGenerating = generatingImgFilename === img.filename;
                             const isRolling    = rerollingImg === img.filename || isGenerating;
                             return (
-                              <div key={ii} className={`relative group rounded-lg overflow-hidden border transition-all ${
-                                isGenerating
-                                  ? "border-2 border-violet-400 shadow-lg shadow-violet-500/50 animate-pulse ring-2 ring-violet-500/50 z-20"
-                                  : done
-                                  ? "border-emerald-500/60"
-                                  : "border-white/10 hover:border-violet-500/40"
-                              }`}>
+                              <div
+                                key={ii}
+                                className={`relative group rounded-xl overflow-hidden border transition-all duration-200 ${
+                                  isGenerating
+                                    ? "border-2 border-violet-400 shadow-lg shadow-violet-500/50 animate-pulse ring-2 ring-violet-500/50 z-20"
+                                    : done
+                                    ? "border-emerald-500/50 hover:border-emerald-400 bg-slate-950 shadow-sm"
+                                    : "border-dashed border-slate-700/80 hover:border-violet-500/60 bg-slate-900/40"
+                                }`}
+                              >
                                 {preview ? (
-                                  <img src={preview} alt={img.filename}
-                                    className="w-full object-cover"
-                                    style={{aspectRatio: studioVideoType==="short"?"9/16":"16/9"}}
+                                  <img
+                                    src={preview}
+                                    alt={img.filename}
+                                    className="w-full object-cover cursor-pointer group-hover:scale-105 transition-transform duration-300"
+                                    style={{ aspectRatio: studioVideoType === "short" ? "9/16" : "16/9" }}
+                                    onClick={() => setPreviewModalImg({ url: preview, filename: img.filename, prompt: img.prompt, sceneTitle: sc.scene_title })}
                                   />
                                 ) : (
                                   <div
-                                    className="w-full bg-slate-800/80 flex items-center justify-center"
-                                    style={{aspectRatio: studioVideoType==="short"?"9/16":"16/9"}}
+                                    className="w-full flex flex-col items-center justify-center p-2 text-center select-none"
+                                    style={{ aspectRatio: studioVideoType === "short" ? "9/16" : "16/9" }}
                                   >
-                                    <span className="text-slate-500 text-[10px]">{ii+1}</span>
+                                    <span className="text-slate-500 text-xs font-bold font-mono mb-1">#{ii + 1}</span>
+                                    <button
+                                      type="button"
+                                      disabled={isRolling || flowGenerating || studioGeneratingImgs}
+                                      onClick={() => handleRerollSingleImage(img.filename, img.prompt)}
+                                      className="px-2 py-1 bg-violet-600/30 hover:bg-violet-600/60 border border-violet-500/30 text-violet-300 text-[10px] font-bold rounded-lg transition flex items-center gap-1 cursor-pointer"
+                                      title="Generate this image with active engine"
+                                    >
+                                      ⚡ Gen
+                                    </button>
                                   </div>
                                 )}
+
                                 {isRolling && (
-                                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 z-10 space-y-1">
-                                    <div className="w-5 h-5 rounded-full border-2 border-violet-400 border-t-transparent animate-spin"/>
-                                    <span className="text-[8px] font-bold text-violet-300 px-1 text-center">
-                                      {isGenerating ? "AI Generating..." : "Re-rolling..."}
+                                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/85 z-20 space-y-1.5">
+                                    <div className="w-5 h-5 rounded-full border-2 border-violet-400 border-t-transparent animate-spin" />
+                                    <span className="text-[8px] font-bold text-violet-300 px-1 text-center font-mono">
+                                      {isGenerating ? "Generating..." : "Working..."}
                                     </span>
                                   </div>
                                 )}
-                                <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition z-20 p-1 bg-black/90 backdrop-blur-md rounded-lg shadow-xl border border-white/10">
-                                  <div className="grid grid-cols-2 gap-1">
-                                    <button
-                                      type="button"
-                                      disabled={isRolling}
-                                      onClick={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                        handleRerollSingleImage(img.filename, img.prompt, "google_flow");
-                                      }}
-                                      className="w-6 h-6 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 text-[10px] font-black flex items-center justify-center cursor-pointer transition shadow"
-                                      title="Generate with Google Flow AI"
-                                    >
-                                      🍌
-                                    </button>
-                                    <button
-                                      type="button"
-                                      disabled={isRolling}
-                                      onClick={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                        handleRerollSingleImage(img.filename, img.prompt, "flux");
-                                      }}
-                                      className="w-6 h-6 rounded bg-violet-600/90 hover:bg-violet-500 text-white text-[10px] font-bold flex items-center justify-center cursor-pointer transition shadow"
-                                      title="Generate with FLUX AI"
-                                    >
-                                      ✨
-                                    </button>
-                                    <button
-                                      type="button"
-                                      disabled={isRolling}
-                                      onClick={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                        handleRerollSingleImage(img.filename, img.prompt, "pexels");
-                                      }}
-                                      className="w-6 h-6 rounded bg-emerald-600/90 hover:bg-emerald-500 text-white text-[10px] font-bold flex items-center justify-center cursor-pointer transition shadow"
-                                      title="Search Pexels Stock Photos"
-                                    >
-                                      📷
-                                    </button>
-                                    <label
-                                      className="w-6 h-6 rounded bg-amber-600/90 hover:bg-amber-500 text-white text-[10px] font-bold flex items-center justify-center cursor-pointer transition shadow"
-                                      title="Upload Custom Image"
-                                      onClick={(e) => e.stopPropagation()}
-                                    >
-                                      ⬆
-                                      <input
-                                        type="file"
-                                        accept="image/*"
-                                        className="hidden"
-                                        onChange={async (e) => {
-                                          const file = e.target.files?.[0];
-                                          if (file) await uploadFile(file, img.filename);
+
+                                {/* HOVER ACTION TOOLBAR OVERLAY */}
+                                {done && !isRolling && (
+                                  <div className="absolute inset-0 bg-black/75 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 flex flex-col justify-between p-1.5">
+                                    <div className="flex justify-between items-center">
+                                      <button
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setPreviewModalImg({ url: preview!, filename: img.filename, prompt: img.prompt, sceneTitle: sc.scene_title });
                                         }}
-                                      />
-                                    </label>
+                                        className="w-6 h-6 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs flex items-center justify-center cursor-pointer transition shadow"
+                                        title="View Full Preview"
+                                      >
+                                        👁️
+                                      </button>
+                                      <button
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleDeleteSingleImage(img.filename);
+                                        }}
+                                        className="w-6 h-6 rounded-lg bg-red-900/80 hover:bg-red-600 text-white text-xs flex items-center justify-center cursor-pointer transition shadow"
+                                        title="Delete / Clear this image"
+                                      >
+                                        🗑️
+                                      </button>
+                                    </div>
+                                    <div className="flex gap-1 justify-center">
+                                      <button
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleRerollSingleImage(img.filename, img.prompt);
+                                        }}
+                                        className="px-1.5 py-1 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-[9px] font-bold flex items-center gap-1 cursor-pointer transition shadow flex-1 justify-center"
+                                        title={`Regenerate with ${studioImageProvider.toUpperCase()}`}
+                                      >
+                                        🔄 Re-roll
+                                      </button>
+                                      <label
+                                        className="px-1.5 py-1 rounded-lg bg-slate-700 hover:bg-slate-600 text-white text-[9px] font-bold flex items-center justify-center cursor-pointer transition shadow"
+                                        title="Upload Replacement Image"
+                                        onClick={(e) => e.stopPropagation()}
+                                      >
+                                        ⬆
+                                        <input
+                                          type="file"
+                                          accept="image/*"
+                                          className="hidden"
+                                          onChange={async (e) => {
+                                            const file = e.target.files?.[0];
+                                            if (file) await uploadFile(file, img.filename);
+                                          }}
+                                        />
+                                      </label>
+                                    </div>
                                   </div>
-                                </div>
-                                <div className="absolute bottom-0 left-0 right-0 bg-black/70 px-1 py-0.5 flex justify-between items-center">
+                                )}
+
+                                {/* Bottom Label Strip */}
+                                <div className="absolute bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm px-1.5 py-0.5 flex justify-between items-center border-t border-white/5 pointer-events-none">
                                   <p className="text-[8px] font-mono text-slate-300 truncate">{img.filename.split("_").slice(-1)[0]}</p>
                                   {done && <span className="text-[9px] text-emerald-400 font-bold">✓</span>}
                                 </div>
-                                <label className="absolute inset-0 cursor-pointer opacity-0">
-                                  <input type="file" accept="image/*" className="hidden" onChange={async (e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file) await uploadFile(file, img.filename);
-                                  }} />
-                                </label>
                               </div>
                             );
                           })}
@@ -4263,6 +4477,104 @@ export default function Dashboard() {
                     );
                   })}
                 </div>
+
+                {/* FULLSCREEN IMAGE PREVIEW LIGHTBOX MODAL */}
+                {previewModalImg && (
+                  <div
+                    className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
+                    onClick={() => setPreviewModalImg(null)}
+                  >
+                    <div
+                      className="bg-slate-900 border border-white/10 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden flex flex-col shadow-2xl"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {/* Modal Header */}
+                      <div className="p-4 border-b border-white/10 flex items-center justify-between bg-slate-950/60">
+                        <div className="min-w-0 flex-1 mr-4">
+                          <h3 className="text-sm font-bold text-white truncate font-mono">{previewModalImg.filename}</h3>
+                          {previewModalImg.sceneTitle && (
+                            <p className="text-xs text-slate-400 truncate">{previewModalImg.sceneTitle}</p>
+                          )}
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setPreviewModalImg(null)}
+                          className="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition cursor-pointer text-sm font-bold"
+                        >
+                          ✕
+                        </button>
+                      </div>
+
+                      {/* Modal Body */}
+                      <div className="flex-1 overflow-y-auto p-4 flex flex-col items-center gap-4">
+                        <div className="relative max-h-[50vh] flex items-center justify-center bg-black rounded-xl overflow-hidden border border-white/10 shadow-lg">
+                          <img
+                            src={previewModalImg.url}
+                            alt={previewModalImg.filename}
+                            className="max-h-[50vh] w-auto object-contain"
+                          />
+                        </div>
+
+                        {previewModalImg.prompt && (
+                          <div className="w-full bg-slate-950 p-3 rounded-xl border border-white/5 space-y-1">
+                            <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Prompt:</span>
+                            <p className="text-xs text-slate-300 leading-relaxed font-sans select-all">{previewModalImg.prompt}</p>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Modal Footer Actions */}
+                      <div className="p-4 border-t border-white/10 flex items-center justify-between bg-slate-950/60 flex-wrap gap-2">
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              handleRerollSingleImage(previewModalImg.filename, previewModalImg.prompt);
+                              setPreviewModalImg(null);
+                            }}
+                            className="px-3.5 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold flex items-center gap-1.5 transition cursor-pointer shadow"
+                          >
+                            🔄 Regenerate
+                          </button>
+                          <label className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold flex items-center gap-1.5 transition cursor-pointer shadow">
+                            ⬆ Replace Image
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              onChange={async (e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  await uploadFile(file, previewModalImg.filename);
+                                  setPreviewModalImg(null);
+                                }
+                              }}
+                            />
+                          </label>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteSingleImage(previewModalImg.filename)}
+                            className="px-3.5 py-2 rounded-xl bg-red-950/50 hover:bg-red-900/80 border border-red-500/40 text-red-300 text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
+                          >
+                            🗑️ Delete Image
+                          </button>
+                          <a
+                            href={previewModalImg.url}
+                            download={previewModalImg.filename}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
+                          >
+                            💾 Download
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 <div className="flex gap-3">
                   <button onClick={() => setStudioStep(2)} className="px-6 py-3 rounded-xl font-medium text-sm bg-slate-700 hover:bg-slate-600 text-white transition">
