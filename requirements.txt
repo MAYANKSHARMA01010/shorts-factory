@@ -28,6 +28,9 @@ numpy>=1.24.0
 imageio-ffmpeg>=0.5.0
 yt-dlp>=2025.1.0
 
+# --- Browser Automation (Google Flow image download) ---
+playwright>=1.45.0
+
 # --- Optional Add-ons & Experimental (uncomment if needed) ---
 # PySide6-Essentials>=6.11.0   # Native GUI shell
 # torch>=2.0.0                  # GPU AI image generation

@@ -2227,13 +2227,25 @@ def studio_generate_single_image(project_id):
     images_dir.mkdir(exist_ok=True)
     dest = images_dir / Path(filename).name
 
-    import random
-    seed = random.randint(1, 999999)
-    print(f"[studio-single-image] Generating {filename} (style='{style}', ethnicity='{ethnicity}', provider='{provider}', seed={seed})...")
-    ok   = _download_pollinations_image(
-        prompt, dest, width=width, height=height, seed=seed,
-        provider=provider, style=style, ethnicity=ethnicity, negative_prompt=negative_prompt
-    )
+    if provider == "google_flow":
+        try:
+            sys_gen_path = str(PROJECT_ROOT / "scripts" / "generators")
+            if sys_gen_path not in sys.path:
+                sys.path.insert(0, sys_gen_path)
+            import flow_clippilot_direct_cdp
+            print(f"[studio-single-image] Generating {filename} via Google Flow CDP...")
+            ok = flow_clippilot_direct_cdp.generate_single_flow_image_sync(project_id, filename, prompt)
+        except Exception as flow_err:
+            print(f"[FLOW-SINGLE-ERR] {flow_err}")
+            ok = False
+    else:
+        import random
+        seed = random.randint(1, 999999)
+        print(f"[studio-single-image] Generating {filename} (style='{style}', ethnicity='{ethnicity}', provider='{provider}', seed={seed})...")
+        ok   = _download_pollinations_image(
+            prompt, dest, width=width, height=height, seed=seed,
+            provider=provider, style=style, ethnicity=ethnicity, negative_prompt=negative_prompt
+        )
 
     if not ok:
         if dest.exists() and dest.stat().st_size <= 3000:
@@ -2254,6 +2266,116 @@ def studio_generate_single_image(project_id):
         meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
 
     return jsonify({"success": True, "filename": filename, "total_uploaded": total})
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Google Flow AI Studio Integration
+# ─────────────────────────────────────────────────────────────────────────────
+_FLOW_JOBS: dict = {}  # project_id -> status dict
+
+def _run_flow_job(project_id: str, options: dict):
+    """Run Google Flow CDP automation in a background worker thread."""
+    if project_id not in _FLOW_JOBS:
+        _FLOW_JOBS[project_id] = {}
+    _FLOW_JOBS[project_id]["status"] = "running"
+    _FLOW_JOBS[project_id]["log"] = "Connecting to Google Flow via CDP..."
+
+    def progress_callback(info: dict):
+        if project_id in _FLOW_JOBS:
+            _FLOW_JOBS[project_id].update(info)
+
+    try:
+        sys_gen_path = str(PROJECT_ROOT / "scripts" / "generators")
+        if sys_gen_path not in sys.path:
+            sys.path.insert(0, sys_gen_path)
+
+        import flow_clippilot_direct_cdp
+
+        res = flow_clippilot_direct_cdp.run_flow_pipeline_sync(
+            project_id=project_id,
+            flow_url=options.get("flow_url"),
+            start_idx=options.get("start_index", 0),
+            count=options.get("count"),
+            progress_callback=progress_callback,
+            dry_run=options.get("dry_run", False),
+            force=options.get("force", True)
+        )
+        _FLOW_JOBS[project_id].update({
+            "status": "completed" if res.get("success") else "completed_with_errors",
+            "percent": 100,
+            "message": f"Done! Generated {res.get('generated_count', 0)}/{res.get('total_images', 0)} images.",
+            "completed_filenames": res.get("completed_filenames", [])
+        })
+    except Exception as exc:
+        import traceback
+        print(f"[FLOW-ERROR {project_id}] {exc}\n{traceback.format_exc()}")
+        _FLOW_JOBS[project_id]["status"] = "error"
+        _FLOW_JOBS[project_id]["error"] = str(exc)
+        _FLOW_JOBS[project_id]["message"] = f"Error: {exc}"
+
+
+@app.route("/api/studio/generate_flow_images/<path:project_id>", methods=["POST"])
+def studio_generate_flow_images(project_id):
+    """Trigger sequential automated image generation via Google Flow CDP."""
+    project_dir = OUTPUT_ROOT / project_id
+    if not project_dir.exists():
+        return jsonify({"error": f"Project not found: {project_id}"}), 404
+    meta_path = project_dir / "studio_meta.json"
+    if not meta_path.exists():
+        return jsonify({"error": "studio_meta.json missing in project"}), 400
+
+    req_data = request.json or {}
+    current_job = _FLOW_JOBS.get(project_id, {})
+    if current_job.get("status") == "running":
+        return jsonify({"success": True, "project_id": project_id, "status": "running", "already_running": True})
+
+    _FLOW_JOBS[project_id] = {
+        "status": "starting",
+        "project_id": project_id,
+        "current_index": 0,
+        "total_images": 0,
+        "current_filename": "",
+        "current_description": "",
+        "percent": 0,
+        "message": "Initializing Google Flow automation...",
+        "error": None
+    }
+    threading.Thread(target=_run_flow_job, args=(project_id, req_data), daemon=True).start()
+    return jsonify({"success": True, "project_id": project_id, "status": "started"})
+
+
+@app.route("/api/studio/flow_status/<path:project_id>", methods=["GET"])
+def studio_flow_status(project_id):
+    """Poll status of Google Flow generation for a project."""
+    job = _FLOW_JOBS.get(project_id)
+    if not job:
+        project_dir = OUTPUT_ROOT / project_id
+        images_dir = project_dir / "images"
+        meta_path = project_dir / "studio_meta.json"
+        expected = 0
+        if meta_path.exists():
+            try:
+                meta = json.loads(meta_path.read_text(encoding="utf-8"))
+                expected = len(meta.get("prompts", []))
+            except Exception:
+                pass
+        existing = len(list(images_dir.glob("*.png"))) if images_dir.exists() else 0
+        return jsonify({
+            "status": "idle",
+            "project_id": project_id,
+            "total_images": expected,
+            "generated_count": existing
+        })
+    return jsonify(job)
+
+
+@app.route("/api/studio/cancel_flow_generation/<path:project_id>", methods=["POST"])
+def studio_cancel_flow_generation(project_id):
+    """Cancel/reset Google Flow generation status."""
+    if project_id in _FLOW_JOBS:
+        _FLOW_JOBS[project_id]["status"] = "cancelled"
+        _FLOW_JOBS[project_id]["message"] = "Generation was cancelled."
+    return jsonify({"success": True, "project_id": project_id, "status": "cancelled"})
 
 
 def _run_render_job(job_id: str, project_dir: Path, meta: dict):

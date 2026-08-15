@@ -194,13 +194,18 @@ export default function Dashboard() {
   const [reloadingPrompt, setReloadingPrompt]           = useState<string | null>(null);
   const [reloadingScene, setReloadingScene]             = useState<number | null>(null);
   const [deletingProjId, setDeletingProjId]             = useState<string | null>(null);
-  const [studioImageProvider, setStudioImageProvider]   = useState<"flux" | "auto" | "pexels" | "wikimedia">("auto");
+  const [studioImageProvider, setStudioImageProvider]   = useState<"flux" | "auto" | "pexels" | "wikimedia" | "google_flow">("auto");
   const [studioImageStyle, setStudioImageStyle]         = useState("photorealistic");
   const [studioCharacterEthnicity, setStudioCharacterEthnicity] = useState("cauc_western");
   const [studioNegativePrompt, setStudioNegativePrompt] = useState("deformed face, generic face, bad anatomy, watermarks, signature, blurry");
   const studioRenderPollRef                             = useRef<ReturnType<typeof setInterval>|null>(null);
   const [gdriveUploading, setGdriveUploading]           = useState(false);
   const [gdriveResult, setGdriveResult]                 = useState<any>(null);
+
+  // Google Flow AI Studio State
+  const [flowGenerating, setFlowGenerating]             = useState(false);
+  const [flowStatus, setFlowStatus]                     = useState<any>(null);
+  const flowPollRef                                     = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Voice, Subtitle & BGM Customizer State
   const [voicePreset, setVoicePreset]             = useState("default");
@@ -369,6 +374,9 @@ export default function Dashboard() {
 
   const handleAutoGenerateAllImages = async () => {
     if (!studioProjectId) return;
+    if (studioImageProvider === "google_flow") {
+      return handleTriggerGoogleFlow();
+    }
     const allImages = studioScenes.flatMap((sc: any) => sc.images || []);
     if (allImages.length === 0) return;
 
@@ -423,6 +431,14 @@ export default function Dashboard() {
 
   const handleRegenerateAllImages = async () => {
     if (!studioProjectId) return;
+    if (studioImageProvider === "google_flow") {
+      try {
+        await fetch(`${API_URL}/api/studio/clear_images/${encodeURIComponent(studioProjectId)}`, { method: "POST" });
+        setStudioUploaded({});
+        setStudioUploadPreviews({});
+      } catch(e) {}
+      return handleTriggerGoogleFlow();
+    }
     const allImages = studioScenes.flatMap((sc: any) => sc.images || []);
     if (allImages.length === 0) return;
 
@@ -558,6 +574,76 @@ export default function Dashboard() {
     setGeneratingImgFilename(null);
     setStudioGeneratingImgs(false);
     setStudioGenStatus("");
+  };
+
+  const handleTriggerGoogleFlow = async () => {
+    if (!studioProjectId) return;
+    setFlowGenerating(true);
+    setStudioError("");
+    setStudioImageProvider("google_flow");
+
+    try {
+      const res = await fetch(`${API_URL}/api/studio/generate_flow_images/${encodeURIComponent(studioProjectId)}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({})
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        throw new Error(data.error || "Failed to start Google Flow generation");
+      }
+
+      // Start polling status
+      if (flowPollRef.current) clearInterval(flowPollRef.current);
+      flowPollRef.current = setInterval(async () => {
+        try {
+          const sRes = await fetch(`${API_URL}/api/studio/flow_status/${encodeURIComponent(studioProjectId)}`);
+          const sData = await sRes.json();
+          setFlowStatus(sData);
+
+          if (sData.completed_filenames && Array.isArray(sData.completed_filenames)) {
+            const nextUp: Record<string, boolean> = {};
+            const nextPrev: Record<string, string> = {};
+            sData.completed_filenames.forEach((fn: string) => {
+              nextUp[fn] = true;
+              nextPrev[fn] = `${API_URL}/studio/image/${encodeURIComponent(studioProjectId)}/images/${fn}?t=${Date.now()}`;
+            });
+            setStudioUploaded(prev => ({ ...prev, ...nextUp }));
+            setStudioUploadPreviews(prev => ({ ...prev, ...nextPrev }));
+          }
+
+          if (sData.status === "completed" || sData.status === "completed_with_errors" || sData.status === "error" || sData.status === "cancelled") {
+            if (flowPollRef.current) clearInterval(flowPollRef.current);
+            flowPollRef.current = null;
+            setFlowGenerating(false);
+            if (sData.status === "error") {
+              setStudioError(sData.error || "Google Flow encountered an error");
+            }
+          }
+        } catch (pollErr: any) {
+          console.warn("Flow status polling error:", pollErr);
+        }
+      }, 2500);
+
+    } catch (e: any) {
+      setStudioError(e.message || "Failed to launch Google Flow automation");
+      setFlowGenerating(false);
+    }
+  };
+
+  const handleCancelGoogleFlow = async () => {
+    if (!studioProjectId) return;
+    try {
+      await fetch(`${API_URL}/api/studio/cancel_flow_generation/${encodeURIComponent(studioProjectId)}`, { method: "POST" });
+      if (flowPollRef.current) {
+        clearInterval(flowPollRef.current);
+        flowPollRef.current = null;
+      }
+      setFlowGenerating(false);
+      setFlowStatus(null);
+    } catch (e) {
+      console.warn("Failed to cancel flow:", e);
+    }
   };
 
   const handleRegenerateSinglePrompt = async (si: number, ii: number) => {
@@ -3669,6 +3755,21 @@ export default function Dashboard() {
                       >
                         📋 Copy All ({studioTotalImgs} prompts)
                       </button>
+                      <button
+                        disabled={flowGenerating || studioLoading}
+                        onClick={() => {
+                          handleTriggerGoogleFlow();
+                          setStudioStep(3);
+                        }}
+                        className="shrink-0 px-4 py-2 bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 hover:from-amber-400 hover:to-yellow-300 text-slate-950 text-xs font-black rounded-xl shadow-lg shadow-amber-500/25 transition flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                        title="Automates Google Flow 1-by-1 via Chrome CDP with smart 35s pacing to prevent prompt cancellation"
+                      >
+                        {flowGenerating ? (
+                          <><svg className="animate-spin w-3.5 h-3.5 text-slate-950" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg> 🍌 Generating ({flowStatus?.current_index || 1}/{studioTotalImgs})…</>
+                        ) : (
+                          <>🍌 Auto-Generate via Google Flow (0 Credits)</>
+                        )}
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -3840,6 +3941,18 @@ export default function Dashboard() {
                       <span className="text-[10px] font-bold text-slate-400 px-2 uppercase tracking-wider">Engine:</span>
                       <button
                         type="button"
+                        onClick={() => setStudioImageProvider("google_flow")}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
+                          studioImageProvider === "google_flow"
+                            ? "bg-amber-500 text-slate-950 shadow-md shadow-amber-500/40 ring-1 ring-amber-300 font-black"
+                            : "bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white"
+                        }`}
+                        title="Google Flow AI — 100% Free 9:16 high-definition photorealistic generation via CDP"
+                      >
+                        🍌 Google Flow (0 Credits)
+                      </button>
+                      <button
+                        type="button"
                         onClick={() => setStudioImageProvider("flux")}
                         className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
                           studioImageProvider === "flux"
@@ -3890,22 +4003,34 @@ export default function Dashboard() {
 
                     <div className="flex items-center gap-2 flex-wrap">
                       <button
-                        disabled={studioGeneratingImgs}
-                        onClick={handleAutoGenerateAllImages}
-                        className="px-5 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-xs font-bold rounded-xl shadow-lg shadow-violet-600/30 transition text-white flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                        disabled={flowGenerating || studioGeneratingImgs}
+                        onClick={handleTriggerGoogleFlow}
+                        className="px-4 py-2.5 bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 hover:from-amber-400 hover:to-yellow-300 text-xs font-black rounded-xl shadow-lg shadow-amber-500/30 transition text-slate-950 flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                        title="Automates Google Flow 1-by-1 via Chrome CDP with smart 35s pacing to prevent prompt cancellation"
                       >
-                        {studioGeneratingImgs ? "✨ Generating..." : `✨ Generate All with ${studioImageProvider.toUpperCase()}`}
+                        {flowGenerating ? (
+                          <><svg className="animate-spin w-4 h-4 text-slate-950" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg> 🍌 Generating ({flowStatus?.current_index || 1}/{allImages.length})…</>
+                        ) : (
+                          <>🍌 Auto-Generate (Google Flow)</>
+                        )}
                       </button>
                       <button
-                        disabled={studioGeneratingImgs}
+                        disabled={studioGeneratingImgs || flowGenerating}
+                        onClick={handleAutoGenerateAllImages}
+                        className="px-4 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-xs font-bold rounded-xl shadow-lg shadow-violet-600/30 transition text-white flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                      >
+                        {studioGeneratingImgs ? "✨ Generating..." : `✨ Generate All (${studioImageProvider.toUpperCase()})`}
+                      </button>
+                      <button
+                        disabled={studioGeneratingImgs || flowGenerating}
                         onClick={handleRegenerateAllImages}
                         title="Clears ALL existing images and regenerates from scratch using selected engine"
-                        className="px-4 py-2.5 bg-gradient-to-r from-orange-600 to-rose-600 hover:from-orange-500 hover:to-rose-500 text-xs font-bold rounded-xl shadow-lg shadow-orange-600/30 transition text-white flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                        className="px-3.5 py-2.5 bg-gradient-to-r from-orange-600 to-rose-600 hover:from-orange-500 hover:to-rose-500 text-xs font-bold rounded-xl shadow-lg shadow-orange-600/30 transition text-white flex items-center gap-2 cursor-pointer disabled:opacity-50"
                       >
-                        🔄 Regenerate All ({studioImageProvider.toUpperCase()})
+                        🔄 Clear & Re-roll All
                       </button>
-                      <label className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 border border-white/10 text-xs font-semibold rounded-xl cursor-pointer transition text-slate-200">
-                        ⬆ Manual Upload
+                      <label className="px-3.5 py-2.5 bg-slate-800 hover:bg-slate-700 border border-white/10 text-xs font-semibold rounded-xl cursor-pointer transition text-slate-200">
+                        ⬆ Upload
                         <input type="file" multiple accept="image/*" className="hidden" onChange={async (e) => {
                           const files = Array.from(e.target.files || []);
                           for (const file of files) {
@@ -3916,6 +4041,42 @@ export default function Dashboard() {
                       </label>
                     </div>
                   </div>
+                  {flowGenerating && (
+                    <div className="p-4 rounded-2xl bg-gradient-to-r from-amber-950/50 via-amber-900/30 to-black/70 border border-amber-500/40 shadow-xl space-y-2.5">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <span className="text-2xl animate-bounce">🍌</span>
+                          <div>
+                            <div className="text-xs font-black text-amber-300 flex items-center gap-2">
+                              <span>Google Flow AI Studio Pipeline Active</span>
+                              <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-[10px] text-amber-200 border border-amber-500/30 font-mono">
+                                Image {flowStatus?.current_index || 1} of {allImages.length}
+                              </span>
+                            </div>
+                            <div className="text-[11px] text-slate-300 mt-0.5 font-medium">
+                              {flowStatus?.message || "Submitting prompt & enforcing 35s pacing to prevent queue overlap..."}
+                            </div>
+                          </div>
+                        </div>
+                        <button
+                          onClick={handleCancelGoogleFlow}
+                          className="px-3 py-1 bg-red-500/20 hover:bg-red-500/30 text-red-300 text-xs font-bold rounded-lg border border-red-500/30 transition cursor-pointer"
+                        >
+                          Stop Flow
+                        </button>
+                      </div>
+                      <div className="h-2 rounded-full bg-slate-800 overflow-hidden">
+                        <div
+                          className="h-full bg-gradient-to-r from-amber-500 to-yellow-400 rounded-full transition-all duration-700"
+                          style={{ width: `${allImages.length ? Math.min(100, Math.round(((flowStatus?.current_index || 0) / allImages.length) * 100)) : 0}%` }}
+                        />
+                      </div>
+                      <div className="text-[10px] text-slate-400 flex items-center justify-between">
+                        <span>💡 Automatic 30-45s cooldown ensures Google Flow completes 100% of rendering without cancelling in-flight jobs.</span>
+                        <span className="font-mono text-amber-300 font-bold">{allImages.length ? Math.min(100, Math.round(((flowStatus?.current_index || 0) / allImages.length) * 100)) : 0}%</span>
+                      </div>
+                    </div>
+                  )}
                   {studioGeneratingImgs && (
                     <div className="p-3 rounded-xl bg-violet-950/40 border border-violet-500/30 text-xs text-violet-300 flex items-center gap-3">
                       <div className="w-4 h-4 rounded-full border-2 border-violet-400 border-t-transparent animate-spin shrink-0"/>
@@ -4033,6 +4194,19 @@ export default function Dashboard() {
                                       onClick={(e) => {
                                         e.preventDefault();
                                         e.stopPropagation();
+                                        handleRerollSingleImage(img.filename, img.prompt, "google_flow");
+                                      }}
+                                      className="w-6 h-6 rounded bg-amber-500 hover:bg-amber-400 text-slate-950 text-[10px] font-black flex items-center justify-center cursor-pointer transition shadow"
+                                      title="Generate with Google Flow AI"
+                                    >
+                                      🍌
+                                    </button>
+                                    <button
+                                      type="button"
+                                      disabled={isRolling}
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
                                         handleRerollSingleImage(img.filename, img.prompt, "flux");
                                       }}
                                       className="w-6 h-6 rounded bg-violet-600/90 hover:bg-violet-500 text-white text-[10px] font-bold flex items-center justify-center cursor-pointer transition shadow"
@@ -4052,19 +4226,6 @@ export default function Dashboard() {
                                       title="Search Pexels Stock Photos"
                                     >
                                       📷
-                                    </button>
-                                    <button
-                                      type="button"
-                                      disabled={isRolling}
-                                      onClick={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                        handleRerollSingleImage(img.filename, img.prompt, "wikimedia");
-                                      }}
-                                      className="w-6 h-6 rounded bg-blue-600/90 hover:bg-blue-500 text-white text-[10px] font-bold flex items-center justify-center cursor-pointer transition shadow"
-                                      title="Search Wikimedia Archive"
-                                    >
-                                      🏛️
                                     </button>
                                     <label
                                       className="w-6 h-6 rounded bg-amber-600/90 hover:bg-amber-500 text-white text-[10px] font-bold flex items-center justify-center cursor-pointer transition shadow"
