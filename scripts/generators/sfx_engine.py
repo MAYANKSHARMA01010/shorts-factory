@@ -259,10 +259,11 @@ def mix_sfx_into_narration(
     filter_parts.append(
         f"[0:a]{sfx_labels}amix=inputs={n_sfx+1}:duration=first:dropout_transition=1[a]"
     )
+    codec_args = ["-c:a", "pcm_s16le", "-ar", "48000"] if str(out_wav).endswith(".wav") else ["-c:a", "aac", "-ar", "48000", "-b:a", "320k"]
     cmd += [
         "-filter_complex", ";".join(filter_parts),
         "-map", "[a]",
-        "-c:a", "aac", "-ar", "48000", "-b:a", "320k",
+        *codec_args,
         "-y", str(out_wav),
     ]
 

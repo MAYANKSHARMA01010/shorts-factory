@@ -231,10 +231,11 @@ def write_ass_karaoke(pages: list[dict[str, Any]], path: str, width: int = 1080,
     return path
 
 
-def burn_subtitles(src: str, sub_path: str, out: str, style: str = DEFAULT_STYLE, timeout: int = 1800) -> Optional[str]:
+def burn_subtitles(src: str, sub_path: str, out: str, audio_path: Optional[str] = None, style: str = DEFAULT_STYLE, timeout: int = 1800) -> Optional[str]:
     """Burn a subtitle file (SRT or ASS) into the video. Runs ffmpeg with cwd = the
     subtitle's dir so the filter references a bare filename (no Windows path
-    escaping). For .ass the file's own styles are used; force_style is SRT-only."""
+    escaping). For .ass the file's own styles are used; force_style is SRT-only.
+    If audio_path is provided, it replaces the audio stream with the 48kHz mixed audio."""
     Path(out).parent.mkdir(parents=True, exist_ok=True)
     sub_dir = str(Path(sub_path).resolve().parent)
     name = Path(sub_path).name
@@ -242,8 +243,26 @@ def burn_subtitles(src: str, sub_path: str, out: str, style: str = DEFAULT_STYLE
         vf = f"subtitles={name}"
     else:
         vf = f"subtitles={name}:force_style='{style}'" if style else f"subtitles={name}"
-    args = ["-i", str(Path(src).resolve()), "-vf", vf,
-            "-c:v", "libx264", "-pix_fmt", "yuv420p", "-c:a", "copy", "-y", str(Path(out).resolve())]
+
+    if audio_path and Path(audio_path).exists():
+        args = [
+            "-i", str(Path(src).resolve()),
+            "-i", str(Path(audio_path).resolve()),
+            "-map", "0:v", "-map", "1:a",
+            "-vf", vf,
+            "-c:v", "libx264", "-crf", "16", "-pix_fmt", "yuv420p",
+            "-c:a", "aac", "-b:a", "320k", "-ar", "48000",
+            "-shortest",
+            "-y", str(Path(out).resolve()),
+        ]
+    else:
+        args = [
+            "-i", str(Path(src).resolve()),
+            "-vf", vf,
+            "-c:v", "libx264", "-crf", "16", "-pix_fmt", "yuv420p",
+            "-c:a", "copy",
+            "-y", str(Path(out).resolve()),
+        ]
     return out if _ok(run_ffmpeg(args, cwd=sub_dir, timeout=timeout), out) else None
 
 

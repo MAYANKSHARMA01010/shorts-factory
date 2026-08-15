@@ -7,12 +7,13 @@ Get a free key at: https://aistudio.google.com/apikey  (sign in with Google, cli
 Set in ClipPilot/.env:
     GEMINI_API_KEY=AIza...
     CLIPPILOT_BRAIN_PROVIDER=gemini      # tells client.py to use this instead of Anthropic
-    CLIPPILOT_BRAIN_MODEL=gemini-2.0-flash   # fastest free model
+    CLIPPILOT_BRAIN_MODEL=gemini-3.5-flash   # fastest active free model
 
 Supported models (all free-tier):
-    gemini-2.0-flash       — fastest, best for this use case
-    gemini-1.5-flash       — fallback
-    gemini-1.5-pro         — slower but smarter (50 req/day on free tier)
+    gemini-3.5-flash       — fastest, best for this use case
+    gemini-flash-lite-latest — ultra-fast lightweight fallback
+    gemini-3.5-flash-lite  — high quota fallback
+    gemini-3.6-flash       — advanced reasoning fallback
 """
 from __future__ import annotations
 
@@ -28,7 +29,15 @@ from typing import Any
 from ..understanding import Understanding
 
 GEMINI_API_KEY_VAR = "GEMINI_API_KEY"
-DEFAULT_MODEL = "gemini-flash-latest"
+DEFAULT_MODEL = "gemini-3.5-flash"
+FALLBACK_MODELS = [
+    "gemini-3.5-flash",
+    "gemini-flash-lite-latest",
+    "gemini-3.5-flash-lite",
+    "gemini-3.6-flash",
+    "gemini-3.1-flash-lite",
+    "gemini-flash-latest",
+]
 BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models"
 _KEY_LAST_CALL: dict[str, float] = {}
 
@@ -48,10 +57,10 @@ def has_gemini_key() -> bool:
 
 
 class GeminiVisionClient:
-    """Free Gemini drop-in for AnthropicVisionClient with key rotation.
+    """Free Gemini drop-in for AnthropicVisionClient with key rotation and multi-model failover.
 
     Uses the REST API directly (no SDK) so no extra pip install is needed.
-    Falls back gracefully across multiple comma-separated keys.
+    Falls back gracefully across multiple comma-separated keys and active models.
     """
 
     def __init__(self, model: str = DEFAULT_MODEL):
@@ -101,37 +110,38 @@ class GeminiVisionClient:
             },
         }
 
+        models_to_try = list(dict.fromkeys([self.model] + FALLBACK_MODELS))
         last_error = None
-        for key_idx, key in enumerate(keys):
-            import time
-            now = time.time()
-            last_used = _KEY_LAST_CALL.get(key, 0)
-            if now - last_used < 4.5:
-                time.sleep(4.5 - (now - last_used))
-            _KEY_LAST_CALL[key] = time.time()
 
-            url = f"{BASE_URL}/{self.model}:generateContent?key={key}"
-            body = json.dumps(payload).encode()
-            req = urllib.request.Request(
-                url, data=body,
-                headers={"Content-Type": "application/json"},
-                method="POST",
-            )
-            try:
-                with urllib.request.urlopen(req, timeout=60) as resp:
-                    raw = json.load(resp)
-                    text = raw["candidates"][0]["content"]["parts"][0]["text"]
-                    return json.loads(text)
-            except urllib.error.HTTPError as e:
-                last_error = f"Gemini API error {e.code}: {e.read().decode()[:300]}"
-                if e.code == 429 and key_idx < len(keys) - 1:
-                    print(f"[GeminiVisionClient] Key #{key_idx+1} rate limited (429), pacing 5s before switching to Key #{key_idx+2}...")
-                    time.sleep(5)
-                    continue
-            except (KeyError, IndexError, json.JSONDecodeError) as e:
-                last_error = f"Gemini returned unexpected response: {str(e)}"
+        for target_model in models_to_try:
+            for key_idx, key in enumerate(keys):
+                import time
+                now = time.time()
+                last_used = _KEY_LAST_CALL.get(key, 0)
+                if now - last_used < 4.5:
+                    time.sleep(4.5 - (now - last_used))
+                _KEY_LAST_CALL[key] = time.time()
 
-        raise RuntimeError(f"All Gemini API keys failed. Last error: {last_error}")
+                url = f"{BASE_URL}/{target_model}:generateContent?key={key}"
+                body = json.dumps(payload).encode()
+                req = urllib.request.Request(
+                    url, data=body,
+                    headers={"Content-Type": "application/json"},
+                    method="POST",
+                )
+                try:
+                    with urllib.request.urlopen(req, timeout=60) as resp:
+                        raw = json.load(resp)
+                        text = raw["candidates"][0]["content"]["parts"][0]["text"]
+                        return json.loads(text)
+                except urllib.error.HTTPError as e:
+                    last_error = f"Gemini API error {e.code} on model {target_model}: {e.read().decode()[:300]}"
+                    if e.code in (404, 429):
+                        continue
+                except (KeyError, IndexError, json.JSONDecodeError) as e:
+                    last_error = f"Gemini returned unexpected response on model {target_model}: {str(e)}"
+
+        raise RuntimeError(f"All Gemini models and API keys failed. Last error: {last_error}")
 
 
 def _build_prompt(u: Understanding) -> str:

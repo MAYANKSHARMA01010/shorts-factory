@@ -85,18 +85,137 @@ def _synth_chatterbox(text: str, out_wav: str, timeout: int = 900) -> dict[str, 
     return {"available": False, "reason": (proc.stderr or proc.stdout or "no output")[-400:]}
 
 
+EMOTION_PROSODY: dict[str, dict[str, str]] = {
+    # High energy & comedy
+    "excited":    {"rate": "+18%", "pitch": "+16Hz", "volume": "+20%"},
+    "hype":       {"rate": "+22%", "pitch": "+18Hz", "volume": "+25%"},
+    "funny":      {"rate": "+12%", "pitch": "+12Hz", "volume": "+5%"},
+    "playful":    {"rate": "+12%", "pitch": "+12Hz", "volume": "+5%"},
+    "happy":      {"rate": "+10%", "pitch": "+10Hz", "volume": "+8%"},
+    "cheerful":   {"rate": "+10%", "pitch": "+10Hz", "volume": "+8%"},
+    
+    # Serious & dramatic
+    "serious":    {"rate": "-6%",  "pitch": "-8Hz",  "volume": "+10%"},
+    "solemn":     {"rate": "-8%",  "pitch": "-10Hz", "volume": "+8%"},
+    "dramatic":   {"rate": "-14%", "pitch": "-10Hz", "volume": "+20%"},
+    "suspense":   {"rate": "-14%", "pitch": "-10Hz", "volume": "+20%"},
+    "shocked":    {"rate": "+10%", "pitch": "+16Hz", "volume": "+15%"},
+    "surprised":  {"rate": "+12%", "pitch": "+14Hz", "volume": "+12%"},
+    
+    # Whisper & quiet
+    "whispering": {"rate": "-10%", "pitch": "-4Hz",  "volume": "-45%"},
+    "whisper":    {"rate": "-10%", "pitch": "-4Hz",  "volume": "-45%"},
+    "quiet":      {"rate": "-8%",  "pitch": "-4Hz",  "volume": "-35%"},
+    "secret":     {"rate": "-10%", "pitch": "-4Hz",  "volume": "-40%"},
+    
+    # Sad & angry
+    "sad":        {"rate": "-15%", "pitch": "-12Hz", "volume": "-15%"},
+    "crying":     {"rate": "-18%", "pitch": "-10Hz", "volume": "-20%"},
+    "angry":      {"rate": "+15%", "pitch": "+10Hz", "volume": "+30%"},
+    "furious":    {"rate": "+20%", "pitch": "+12Hz", "volume": "+35%"},
+    "annoyed":    {"rate": "+5%",  "pitch": "+6Hz",  "volume": "+15%"},
+    
+    # Sarcastic & inquisitive
+    "sarcastic":  {"rate": "-5%",  "pitch": "+6Hz",  "volume": "+0%"},
+    "confused":   {"rate": "-5%",  "pitch": "+10Hz", "volume": "+0%"},
+    "bored":      {"rate": "-12%", "pitch": "-6Hz",  "volume": "-10%"},
+    "calm":       {"rate": "-5%",  "pitch": "-4Hz",  "volume": "-5%"},
+    "normal":     {"rate": "+0%",  "pitch": "+0Hz",  "volume": "+0%"},
+}
+
+
 def _synth_edge(text: str, out_wav: str, voice: Optional[str] = None, timeout: int = 180) -> dict[str, Any]:
     voice = voice or os.environ.get("EDGE_TTS_VOICE", _DEFAULT_EDGE_VOICE)
     Path(out_wav).parent.mkdir(parents=True, exist_ok=True)
+
+    # Strip XML/HTML and SFX [tag] markers, but keep (emotion) tags for segment parsing
+    text_no_sfx = re.sub(r'<[^>]+>', '', text)
+    text_no_sfx = re.sub(r'\[[a-zA-Z0-9_]+\]', '', text_no_sfx)
+
+    emotion_pattern = re.compile(r'\(([a-zA-Z][a-zA-Z0-9_]*)\)')
+    has_emotions = bool(emotion_pattern.search(text_no_sfx))
+
+    # ── Multi-Emotion Segmented Synthesis ────────────────────────────────────
+    if has_emotions:
+        segments = []
+        last_pos = 0
+        current_emotion = "normal"
+
+        for m in emotion_pattern.finditer(text_no_sfx):
+            chunk = text_no_sfx[last_pos:m.start()].strip()
+            if chunk:
+                segments.append({"emotion": current_emotion, "text": chunk})
+            current_emotion = m.group(1).lower()
+            last_pos = m.end()
+
+        remaining = text_no_sfx[last_pos:].strip()
+        if remaining:
+            segments.append({"emotion": current_emotion, "text": remaining})
+
+        if segments:
+            tmp_dir = Path(tempfile.mkdtemp(prefix="edge_emotion_"))
+            wav_files: list[Path] = []
+            try:
+                import asyncio
+                import edge_tts
+
+                async def _synth_all_segments():
+                    tasks = []
+                    for i, seg in enumerate(segments):
+                        em_cfg = EMOTION_PROSODY.get(seg["emotion"], EMOTION_PROSODY["normal"])
+                        seg_mp3 = tmp_dir / f"seg_{i:03d}.mp3"
+                        seg_wav = tmp_dir / f"seg_{i:03d}.wav"
+                        wav_files.append(seg_wav)
+
+                        async def _synth_one(t_text: str, cfg: dict, mp3_p: Path, wav_p: Path):
+                            comm = edge_tts.Communicate(
+                                t_text,
+                                voice,
+                                rate=cfg.get("rate", "+0%"),
+                                pitch=cfg.get("pitch", "+0Hz"),
+                                volume=cfg.get("volume", "+0%"),
+                            )
+                            await comm.save(str(mp3_p))
+                            if mp3_p.exists() and mp3_p.stat().st_size > 0:
+                                from .ffmpeg import run_ffmpeg
+                                run_ffmpeg([
+                                    "-y", "-i", str(mp3_p),
+                                    "-ar", "48000", "-ac", "2", "-c:a", "pcm_s16le",
+                                    str(wav_p)
+                                ], timeout=60)
+
+                        tasks.append(_synth_one(seg["text"], em_cfg, seg_mp3, seg_wav))
+                    await asyncio.gather(*tasks)
+
+                asyncio.run(_synth_all_segments())
+
+                # Validate segments
+                valid_wavs = [w for w in wav_files if w.exists() and w.stat().st_size > 0]
+                if valid_wavs:
+                    concat_list = tmp_dir / "concat.txt"
+                    with open(concat_list, "w", encoding="utf-8") as f:
+                        for w in valid_wavs:
+                            f.write(f"file '{w.resolve()}'\n")
+
+                    from .ffmpeg import run_ffmpeg
+                    run_ffmpeg([
+                        "-y", "-f", "concat", "-safe", "0", "-i", str(concat_list),
+                        "-c:a", "pcm_s16le", "-ar", "48000", "-ac", "2",
+                        str(Path(out_wav).resolve())
+                    ], timeout=120)
+
+                    if Path(out_wav).exists() and Path(out_wav).stat().st_size > 0:
+                        return {"available": True, "path": out_wav, "engine": "edge_emotional", "segments": len(valid_wavs)}
+            except Exception as exc:
+                print(f"[tts] Segmented emotion synthesis failed, falling back to standard: {exc}")
+            finally:
+                shutil.rmtree(tmp_dir, ignore_errors=True)
+
+    # ── Standard Single-Pass Synthesis (Fallback or No Emotions) ──────────────
+    clean_text = emotion_pattern.sub('', text_no_sfx)
+    clean_text = re.sub(r' {2,}', ' ', clean_text).strip()
     tmp_mp3 = str(Path(out_wav).with_suffix(".edge.mp3"))
 
-    # Ensure all XML / SSML / bracket tags are stripped so Edge-TTS never speaks tags aloud
-    clean_text = re.sub(r'<[^>]+>', '', text)
-    clean_text = re.sub(r'\[[^\]]+\]', '', clean_text)
-    clean_text = re.sub(r'\([a-zA-Z0-9_]+\)', '', clean_text)
-    clean_text = re.sub(r' {2,}', ' ', clean_text).strip()
-
-    # Direct Python edge_tts API (fastest, handles long scripts safely)
     try:
         import asyncio
         import edge_tts
@@ -105,7 +224,6 @@ def _synth_edge(text: str, out_wav: str, voice: Optional[str] = None, timeout: i
             await comm.save(tmp_mp3)
         asyncio.run(_save())
     except Exception:
-        # Fallback to subprocess
         try:
             proc = subprocess.run(
                 [sys.executable, "-m", "edge_tts", "--voice", voice, "--text", clean_text, "--write-media", tmp_mp3],
@@ -117,20 +235,20 @@ def _synth_edge(text: str, out_wav: str, voice: Optional[str] = None, timeout: i
     if not (Path(tmp_mp3).exists() and Path(tmp_mp3).stat().st_size > 0):
         return {"available": False, "reason": "edge-tts produced no output"}
 
-    # Transcode to the requested path (usually .wav) with high-fidelity 48kHz
     if str(out_wav).lower().endswith(".mp3"):
         shutil.move(tmp_mp3, out_wav)
     else:
         from .ffmpeg import run_ffmpeg
         try:
-            run_ffmpeg(["-y", "-i", tmp_mp3, "-ar", "48000", "-ac", "2", str(Path(out_wav).resolve())], timeout=120)
-        except Exception as exc:  # noqa: BLE001
+            run_ffmpeg(["-y", "-i", tmp_mp3, "-ar", "48000", "-ac", "2", "-c:a", "pcm_s16le", str(Path(out_wav).resolve())], timeout=120)
+        except Exception as exc:
             return {"available": False, "reason": f"edge transcode: {exc}"}
         finally:
             try:
                 os.unlink(tmp_mp3)
             except OSError:
                 pass
+
     if Path(out_wav).exists() and Path(out_wav).stat().st_size > 0:
         return {"available": True, "path": out_wav, "engine": "edge"}
     return {"available": False, "reason": "edge transcode produced no output"}

@@ -194,10 +194,14 @@ export default function Dashboard() {
   const [reloadingPrompt, setReloadingPrompt]           = useState<string | null>(null);
   const [reloadingScene, setReloadingScene]             = useState<number | null>(null);
   const [deletingProjId, setDeletingProjId]             = useState<string | null>(null);
-  const [studioImageProvider, setStudioImageProvider]   = useState<"flux" | "auto" | "pexels" | "wikimedia" | "google_flow">("auto");
-  const [studioImageStyle, setStudioImageStyle]         = useState("photorealistic");
+  const [studioImageProvider, setStudioImageProvider]   = useState<"flux" | "auto" | "pexels" | "wikimedia" | "google_flow">("google_flow");
+  const [studioImageStyle, setStudioImageStyle]         = useState("cinematic_photorealism");
   const [studioCharacterEthnicity, setStudioCharacterEthnicity] = useState("cauc_western");
   const [studioNegativePrompt, setStudioNegativePrompt] = useState("deformed face, generic face, bad anatomy, watermarks, signature, blurry");
+  const [editingPromptKey, setEditingPromptKey]         = useState<string | null>(null);
+  const [editingPromptText, setEditingPromptText]       = useState("");
+  const [editingSceneDesc, setEditingSceneDesc]         = useState("");
+  const [enhancingPromptKey, setEnhancingPromptKey]     = useState<string | null>(null);
   const studioRenderPollRef                             = useRef<ReturnType<typeof setInterval>|null>(null);
   const [gdriveUploading, setGdriveUploading]           = useState(false);
   const [gdriveResult, setGdriveResult]                 = useState<any>(null);
@@ -256,6 +260,13 @@ export default function Dashboard() {
   const [playingSfxTag, setPlayingSfxTag]           = useState<string | null>(null);
   const scriptTextareaRef                           = useRef<HTMLTextAreaElement | null>(null);
   const sfxAudioRef                                 = useRef<HTMLAudioElement | null>(null);
+
+  // Audio Preview & Modular Re-render State
+  const [audioPreviewLoading, setAudioPreviewLoading] = useState(false);
+  const [audioPreviewUrl, setAudioPreviewUrl]         = useState<string | null>(null);
+  const [audioPreviewMeta, setAudioPreviewMeta]       = useState<any>(null);
+  const [audioPreviewError, setAudioPreviewError]     = useState("");
+  const [reRenderMode, setReRenderMode]               = useState<string | null>(null);
 
   const insertTagAtCursor = (tagText: string) => {
     const textarea = scriptTextareaRef.current;
@@ -374,6 +385,93 @@ export default function Dashboard() {
     } catch (e) {
       console.error("BGM preview playback error:", e);
       setPlayingBgm(false);
+    }
+  };
+
+  const handlePreviewAudio = async () => {
+    if (!studioScript.trim()) return;
+    setAudioPreviewLoading(true);
+    setAudioPreviewError("");
+    stopAllAudioPreviews();
+    try {
+      const res = await fetch(`${API_URL}/api/studio/preview_audio`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          script: studioScript,
+          voice: selectedVoice,
+          sfx_volume: 0.85,
+          bgm_preset: bgmPreset,
+          bgm_volume: bgmVolume,
+        })
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      setAudioPreviewUrl(`${API_URL}${data.audio_url}`);
+      setAudioPreviewMeta(data);
+    } catch (e: any) {
+      setAudioPreviewError(e.message || "Failed to generate audio preview");
+    } finally {
+      setAudioPreviewLoading(false);
+    }
+  };
+
+  const handleModularReRender = async (mode: "full" | "narration_only" | "slideshow_only" | "subtitles_only" = "full") => {
+    if (!studioProjectId) return;
+    setReRenderMode(mode);
+    setStudioLoading(true);
+    setStudioError("");
+    try {
+      if (studioRenderPollRef.current) clearInterval(studioRenderPollRef.current);
+      const r = await fetch(`${API_URL}/api/studio/render/${studioProjectId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          mode,
+          script: studioScript,
+          voice: selectedVoice,
+          sfx_volume: 0.85,
+          bgm_preset: bgmPreset,
+          bgm_volume: bgmVolume,
+          subtitle_font: subtitleFont,
+          subtitle_color: subtitleColor,
+          subtitle_highlight: subtitleHighlight,
+          subtitle_size: subtitleSize,
+          subtitle_position: subtitlePosition,
+        })
+      });
+      const d = await r.json();
+      if (d.error) throw new Error(d.error);
+      setStudioJobId(d.job_id);
+      setStudioStep(4);
+      setStudioRenderStatus({ status: "running", log: `Starting ${mode} re-render pipeline…` });
+      if (studioRenderPollRef.current) clearInterval(studioRenderPollRef.current);
+      const poll = setInterval(async () => {
+        try {
+          const rs = await fetch(`${API_URL}/api/studio/render_status/${d.job_id}`);
+          if (!rs.ok) {
+            clearInterval(poll);
+            studioRenderPollRef.current = null;
+            setReRenderMode(null);
+            return;
+          }
+          const rd = await rs.json();
+          setStudioRenderStatus(rd);
+          if (rd.status === "done" || rd.status === "error") {
+            clearInterval(poll);
+            studioRenderPollRef.current = null;
+            setReRenderMode(null);
+          }
+        } catch (pollErr) {
+          console.warn("Render poll error:", pollErr);
+        }
+      }, 1500);
+      studioRenderPollRef.current = poll;
+    } catch (e: any) {
+      setStudioError(e.message);
+      setReRenderMode(null);
+    } finally {
+      setStudioLoading(false);
     }
   };
 
@@ -749,6 +847,21 @@ export default function Dashboard() {
     }
   };
 
+  const handleLaunchChrome = async () => {
+    try {
+      setStatusMsg({ text: "🚀 Launching Google Chrome on port 9222...", type: "info" });
+      const r = await fetch(`${API_URL}/api/studio/launch_flow_chrome`, { method: "POST" });
+      const d = await r.json();
+      if (d.running) {
+        setStatusMsg({ text: "✅ Chrome on port 9222 is active and connected to Flow AI!", type: "success" });
+      } else {
+        setStatusMsg({ text: "Could not auto-launch Chrome. Please start Chrome with --remote-debugging-port=9222", type: "error" });
+      }
+    } catch (e: any) {
+      setStatusMsg({ text: "Launch error: " + e.message, type: "error" });
+    }
+  };
+
   const handleImportFromFlow = async () => {
     if (!studioProjectId) return;
     setImportingFromFlow(true);
@@ -798,6 +911,7 @@ export default function Dashboard() {
           filename: img.filename,
           scene_index: si,
           image_index: ii,
+          image_style: studioImageStyle,
         })
       });
       const data = await res.json();
@@ -813,11 +927,93 @@ export default function Dashboard() {
           next[si] = { ...next[si], images: updatedImgs };
           return next;
         });
+        if (studioProjectId) {
+          saveCurrentScenesToDisk();
+        }
       }
     } catch (err: any) {
       setStudioError(err.message || "Failed to regenerate prompt");
     } finally {
       setReloadingPrompt(null);
+    }
+  };
+
+  const handleEnhancePrompt = async (si: number, ii: number) => {
+    const sc = studioScenes[si];
+    const img = sc?.images?.[ii];
+    if (!img) return;
+    const key = `s${si}_i${ii}`;
+    setEnhancingPromptKey(key);
+    try {
+      const res = await fetch(`${API_URL}/api/studio/enhance_prompt`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: img.prompt,
+          video_type: studioVideoType,
+          image_style: studioImageStyle,
+          filename: img.filename,
+          script_excerpt: sc.script_excerpt || sc.scene_title || studioTitle,
+        })
+      });
+      const data = await res.json();
+      if (data.prompt) {
+        setStudioScenes(prev => {
+          const next = [...prev];
+          const updatedImgs = [...(next[si].images || [])];
+          updatedImgs[ii] = {
+            ...updatedImgs[ii],
+            prompt: data.prompt,
+            scene_description: data.scene_description || updatedImgs[ii].scene_description,
+          };
+          next[si] = { ...next[si], images: updatedImgs };
+          return next;
+        });
+        if (studioProjectId) {
+          saveCurrentScenesToDisk();
+        }
+      }
+    } catch (err: any) {
+      setStudioError(err.message || "Failed to enhance prompt");
+    } finally {
+      setEnhancingPromptKey(null);
+    }
+  };
+
+  const saveCurrentScenesToDisk = async (customScenes?: any[]) => {
+    if (!studioProjectId) return;
+    const scenesToSave = customScenes || studioScenes;
+    const allImgs = scenesToSave.flatMap((sc: any) => sc.images || []);
+    try {
+      await fetch(`${API_URL}/api/studio/update_project/${encodeURIComponent(studioProjectId)}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          scenes: scenesToSave,
+          prompts: allImgs,
+          total_images: allImgs.length,
+        })
+      });
+    } catch (err) {
+      console.warn("Auto-save failed:", err);
+    }
+  };
+
+  const handleSaveEditedPrompt = (si: number, ii: number, newPrompt: string, newDesc?: string) => {
+    setStudioScenes(prev => {
+      const next = [...prev];
+      const updatedImgs = [...(next[si].images || [])];
+      updatedImgs[ii] = {
+        ...updatedImgs[ii],
+        prompt: newPrompt,
+        scene_description: newDesc !== undefined ? newDesc : updatedImgs[ii].scene_description,
+      };
+      next[si] = { ...next[si], images: updatedImgs };
+      return next;
+    });
+    setEditingPromptKey(null);
+    if (studioProjectId) {
+      saveCurrentScenesToDisk();
     }
   };
 
@@ -835,6 +1031,7 @@ export default function Dashboard() {
           scene_index: si,
           script_excerpt: sc.script_excerpt || sc.scene_title || studioTitle,
           image_count: (sc.images || []).length || 10,
+          image_style: studioImageStyle,
         })
       });
       const data = await res.json();
@@ -844,6 +1041,9 @@ export default function Dashboard() {
           next[si] = { ...next[si], images: data.images };
           return next;
         });
+        if (studioProjectId) {
+          saveCurrentScenesToDisk();
+        }
       }
     } catch (err: any) {
       setStudioError(err.message || "Failed to regenerate scene");
@@ -3456,6 +3656,80 @@ export default function Dashboard() {
                 )}
               </div>
 
+              {/* Full Narration & SFX Synthesizer / Audio Preview Player */}
+              <div className="bg-gradient-to-r from-violet-950/40 via-slate-900 to-indigo-950/40 border border-violet-500/30 rounded-xl p-4 space-y-3 shadow-lg shadow-violet-950/20">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2.5">
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg">🎧</span>
+                    <div>
+                      <h4 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                        Narration & Sound Effects Live Preview
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-violet-500/20 text-violet-300 border border-violet-500/30">48 kHz • Stereo</span>
+                      </h4>
+                      <p className="text-[11px] text-slate-400">Synthesizes full voice narration with all inline [SFX] mixed at exact millisecond timestamps before generating video.</p>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handlePreviewAudio}
+                    disabled={audioPreviewLoading || !studioScript.trim()}
+                    className="px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white rounded-xl text-xs font-bold shadow-md shadow-violet-950 transition flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    {audioPreviewLoading ? (
+                      <>
+                        <svg className="animate-spin w-3.5 h-3.5" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg>
+                        Synthesizing Voice & Mixing SFX…
+                      </>
+                    ) : (
+                      <>
+                        <span>🎙️</span>
+                        <span>Generate & Preview Narration + SFX</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                {audioPreviewError && (
+                  <div className="p-2.5 bg-rose-950/50 border border-rose-500/30 rounded-lg text-rose-300 text-xs">
+                    ⚠️ {audioPreviewError}
+                  </div>
+                )}
+
+                {audioPreviewUrl && (
+                  <div className="space-y-2 pt-1">
+                    <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="px-2 py-0.5 rounded-md bg-emerald-950/60 border border-emerald-500/30 text-emerald-300 font-mono text-[11px] font-bold">
+                          ✅ Mixed Audio Ready ({audioPreviewMeta?.duration_s || 0}s)
+                        </span>
+                        {audioPreviewMeta?.sfx_count > 0 && (
+                          <span className="px-2 py-0.5 rounded-md bg-amber-950/60 border border-amber-500/30 text-amber-300 font-mono text-[11px]">
+                            🎵 {audioPreviewMeta.sfx_count} SFX Embedded
+                          </span>
+                        )}
+                        <span className="px-2 py-0.5 rounded-md bg-slate-800 border border-white/10 text-slate-300 font-mono text-[11px]">
+                          🎙️ {selectedVoice.split("-")[2]?.replace("Neural","") || "Andrew"} (48kHz AAC)
+                        </span>
+                      </div>
+                      <a
+                        href={audioPreviewUrl}
+                        download="narration_preview_master.wav"
+                        className="text-violet-300 hover:text-violet-200 text-xs underline underline-offset-2 flex items-center gap-1 font-medium"
+                      >
+                        ⬇️ Download Preview Audio
+                      </a>
+                    </div>
+                    <audio
+                      controls
+                      autoPlay
+                      src={audioPreviewUrl}
+                      className="w-full h-10 rounded-lg bg-slate-950/90 border border-white/10"
+                    />
+                  </div>
+                )}
+              </div>
+
               {/* Keywords & Tags */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
@@ -3727,6 +4001,39 @@ export default function Dashboard() {
                 </span>
               </div>
 
+              {/* Visual Style Preset Selector */}
+              <div className="glass p-4 rounded-2xl border border-amber-500/20 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
+                    <span>🍌 Image Generation Style (Google Flow / Nano Banana Pro)</span>
+                  </label>
+                  <span className="text-[10px] font-mono text-amber-400/80 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">8K Master Photography</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-5 gap-2">
+                  {[
+                    { id: "cinematic_photorealism", label: "🍌 Nano Banana Pro", desc: "8k Photorealistic & Actions", color: "border-amber-500/40 text-amber-300 bg-amber-500/10" },
+                    { id: "investigative_doc", label: "📸 Documentary", desc: "NatGeo / Reuters Realism", color: "border-emerald-500/40 text-emerald-300 bg-emerald-500/10" },
+                    { id: "cyberpunk_scifi", label: "🛸 Cyberpunk Sci-Fi", desc: "Neon & Holographic UI", color: "border-cyan-500/40 text-cyan-300 bg-cyan-500/10" },
+                    { id: "dark_satire_comedy", label: "🎭 Satire & Comedy", desc: "Vibrant & Expressive Faces", color: "border-purple-500/40 text-purple-300 bg-purple-500/10" },
+                    { id: "3d_pixar_animation", label: "🎨 3D Animation", desc: "Pixar / Unreal Engine 5", color: "border-rose-500/40 text-rose-300 bg-rose-500/10" },
+                  ].map(s => (
+                    <button
+                      key={s.id}
+                      type="button"
+                      onClick={() => setStudioImageStyle(s.id)}
+                      className={`p-2.5 rounded-xl border text-left transition flex flex-col justify-between cursor-pointer ${
+                        studioImageStyle === s.id
+                          ? `${s.color} ring-2 ring-amber-400 font-bold shadow-lg shadow-amber-500/10`
+                          : "border-white/10 bg-slate-900/60 text-slate-400 hover:border-white/20 hover:text-white"
+                      }`}
+                    >
+                      <span className="text-xs font-bold">{s.label}</span>
+                      <span className="text-[10px] text-slate-400 mt-0.5">{s.desc}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <button
                 disabled={!studioTitle.trim() || !studioScript.trim() || studioLoading}
                 onClick={async () => {
@@ -3742,6 +4049,7 @@ export default function Dashboard() {
                         script: studioScript,
                         keywords: studioKeywords,
                         video_type: studioVideoType,
+                        image_style: studioImageStyle,
                       })
                     });
                     const d = await r.json();
@@ -3764,6 +4072,7 @@ export default function Dashboard() {
                         keywords: studioKeywords,
                         tags: studioTags,
                         video_type: studioVideoType,
+                        image_style: studioImageStyle,
                         duration_hint: d.estimated_duration_s || 60,
                         scenes: d.scenes || [],
                         prompts: allImgs,
@@ -3790,11 +4099,11 @@ export default function Dashboard() {
                     setStudioLoading(false);
                   }
                 }}
-                className="w-full py-3 rounded-xl font-bold text-sm transition-all bg-violet-600 hover:bg-violet-500 disabled:opacity-40 disabled:cursor-not-allowed text-white flex items-center justify-center gap-2"
+                className="w-full py-3.5 rounded-xl font-bold text-sm transition-all bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 hover:from-amber-400 hover:to-yellow-300 text-slate-950 shadow-lg shadow-amber-500/20 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
               >
                 {studioLoading ? (
-                  <><svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg> AI is analyzing script & generating scenes…</>
-                ) : "✨ Analyze Script & Generate Scene Prompts →"}
+                  <><svg className="animate-spin w-4 h-4 text-slate-950" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg> 🍌 Generating Google Flow Nano Banana Pro Scenes…</>
+                ) : "🍌 Analyze Script & Generate Google Flow Prompts →"}
               </button>
             </div>
           )}
@@ -3802,36 +4111,53 @@ export default function Dashboard() {
           {/* ── STEP 2: SCENE PROMPTS ── */}
           {studioStep === 2 && (() => {
             const allImages = studioScenes.flatMap((sc: any) => sc.images || []);
+            
+            // Calculate scene start/end times cumulatively
+            let runningTime = 0;
+            const sceneTimings = studioScenes.map((sc: any) => {
+              const start = runningTime;
+              const dur = sc.scene_duration_s || Math.max(5, Math.round(studioEstDur / (studioScenes.length || 1)));
+              runningTime += dur;
+              return { start, end: runningTime, duration: dur };
+            });
+
             return (
-              <div className="space-y-4">
-                {/* Header */}
-                <div className="glass p-5">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="space-y-1">
-                      <h2 className="text-lg font-bold text-white flex items-center gap-2">🎨 Step 2 — Scene Breakdown & Image Prompts</h2>
-                      <div className="flex flex-wrap gap-3 text-xs">
-                        <span className="px-2 py-1 rounded-lg bg-violet-500/10 border border-violet-500/20 text-violet-300 font-semibold">
+              <div className="space-y-5">
+                {/* Header Card */}
+                <div className="glass p-5 space-y-4 border border-amber-500/20 shadow-xl shadow-amber-500/5">
+                  <div className="flex flex-wrap items-start justify-between gap-4">
+                    <div className="space-y-1.5">
+                      <div className="flex items-center gap-2">
+                        <h2 className="text-xl font-black text-white flex items-center gap-2">
+                          <span className="text-2xl">🎨</span> Step 2 — Scene Breakdown & Image Prompts
+                        </h2>
+                        <span className="px-2.5 py-0.5 rounded-full text-[11px] font-black bg-amber-500 text-slate-950 shadow-md shadow-amber-500/30">
+                          🍌 Google Flow (Nano Banana Pro)
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-2 text-xs">
+                        <span className="px-2.5 py-1 rounded-lg bg-violet-500/10 border border-violet-500/20 text-violet-300 font-bold">
                           {studioScenes.length} Scenes
                         </span>
-                        <span className="px-2 py-1 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-300 font-semibold">
+                        <span className="px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-300 font-bold">
                           {studioTotalImgs} Total Images
                         </span>
-                        <span className="px-2 py-1 rounded-lg bg-slate-700 border border-white/10 text-slate-300">
-                          ~{studioEstDur}s · {studioVideoType === "short" ? "9:16" : "16:9"}
+                        <span className="px-2.5 py-1 rounded-lg bg-slate-800 border border-white/10 text-slate-300 font-mono">
+                          ~{studioEstDur}s · {studioVideoType === "short" ? "9:16 Vertical" : "16:9 Wide"}
                         </span>
-                        {studioShortWarn && (
-                          <span className="px-2 py-1 rounded-lg bg-amber-900/40 border border-amber-500/30 text-amber-300">
-                            ⚠️ Script may exceed 180s short limit — AI compressed it
-                          </span>
-                        )}
+                        <span className="px-2.5 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 font-semibold">
+                          ✓ 8K Master Photorealism
+                        </span>
                         {studioFallback && (
-                          <span className="px-2 py-1 rounded-lg bg-rose-900/40 border border-rose-500/30 text-rose-300">
-                            ⚠️ Gemini timed out — fallback prompts used. Try again for AI prompts.
+                          <span className="px-2.5 py-1 rounded-lg bg-rose-900/40 border border-rose-500/30 text-rose-300">
+                            ⚠️ Fallback prompts active. Click "Regenerate All Scenes" for fresh AI prompts.
                           </span>
                         )}
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 shrink-0">
+
+                    {/* Top Action Buttons */}
+                    <div className="flex flex-wrap items-center gap-2 shrink-0">
                       <button
                         disabled={studioLoading}
                         onClick={async () => {
@@ -3847,6 +4173,7 @@ export default function Dashboard() {
                                 script: studioScript,
                                 keywords: studioKeywords,
                                 video_type: studioVideoType,
+                                image_style: studioImageStyle,
                               })
                             });
                             const d = await r.json();
@@ -3856,7 +4183,6 @@ export default function Dashboard() {
                             setStudioTotalImgs(d.total_images || 0);
                             setStudioFallback(d.fallback || false);
                             
-                            // Save updated scenes and fallback status to disk
                             if (studioProjectId) {
                               const allImgs = (d.scenes || []).flatMap((sc: any) => sc.images || []);
                               await fetch(`${API_URL}/api/studio/update_project/${encodeURIComponent(studioProjectId)}`, {
@@ -3867,6 +4193,7 @@ export default function Dashboard() {
                                   prompts: allImgs,
                                   fallback: d.fallback || false,
                                   total_images: d.total_images || allImgs.length,
+                                  image_style: studioImageStyle,
                                 })
                               });
                             }
@@ -3876,10 +4203,12 @@ export default function Dashboard() {
                             setStudioLoading(false);
                           }
                         }}
-                        className="px-3 py-2 bg-violet-600/30 hover:bg-violet-600/50 text-violet-200 hover:text-white text-xs font-semibold rounded-xl border border-violet-500/30 transition flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
+                        className="px-3.5 py-2 bg-violet-600/30 hover:bg-violet-600/50 text-violet-200 hover:text-white text-xs font-bold rounded-xl border border-violet-500/30 transition flex items-center gap-1.5 disabled:opacity-50 cursor-pointer"
+                        title="Regenerate all scenes and prompts with current style"
                       >
                         {studioLoading ? "🔄 Regenerating..." : "🔄 Regenerate All Scenes"}
                       </button>
+
                       <button
                         onClick={() => {
                           const allCollapsed = studioScenes.every((_, idx) => collapsedScenes[idx]);
@@ -3893,57 +4222,87 @@ export default function Dashboard() {
                         }}
                         className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium rounded-xl border border-white/10 transition flex items-center gap-1.5 cursor-pointer"
                       >
-                        {studioScenes.length > 0 && studioScenes.every((_, idx) => collapsedScenes[idx]) ? "↕️ Expand All Scenes" : "↔️ Minimize All Scenes"}
+                        {studioScenes.length > 0 && studioScenes.every((_, idx) => collapsedScenes[idx]) ? "↕️ Expand All" : "↔️ Collapse All"}
                       </button>
+
                       <button
                         onClick={() => {
-                          const all = studioScenes.flatMap((sc: any, si: number) => [
-                            `${'='.repeat(50)}`,
-                            `SCENE ${si+1}: ${sc.scene_title || ''} (~${sc.scene_duration_s}s)`,
-                            `Script: "${sc.script_excerpt || ''}"`,
-                            `${'─'.repeat(40)}`,
-                            ...(sc.images || []).map((img: any, ii: number) =>
-                              `Image ${ii+1}: ${img.filename}\n${img.prompt}\n`
-                            ),
-                          ]).join("\n");
-                          navigator.clipboard.writeText(all);
+                          const cleanBatch = studioScenes.flatMap((sc: any) =>
+                            (sc.images || []).map((img: any) => img.prompt)
+                          ).join("\n\n");
+                          navigator.clipboard.writeText(cleanBatch);
+                          setStatusMsg({ text: `Copied all ${studioTotalImgs} prompts for Google Flow!`, type: "success" });
                         }}
-                        className="shrink-0 px-4 py-2 bg-slate-700 hover:bg-slate-600 text-xs font-medium rounded-xl transition cursor-pointer"
+                        className="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-white/10 transition flex items-center gap-1.5 cursor-pointer"
+                        title="Copy raw prompt list formatted for Google Flow"
                       >
-                        📋 Copy All ({studioTotalImgs} prompts)
+                        📋 Copy Prompts ({studioTotalImgs})
                       </button>
+
                       <button
                         disabled={flowGenerating || studioLoading}
                         onClick={() => {
                           handleTriggerGoogleFlow();
                           setStudioStep(3);
                         }}
-                        className="shrink-0 px-4 py-2 bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 hover:from-amber-400 hover:to-yellow-300 text-slate-950 text-xs font-black rounded-xl shadow-lg shadow-amber-500/25 transition flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                        className="px-4 py-2 bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 hover:from-amber-400 hover:to-yellow-300 text-slate-950 text-xs font-black rounded-xl shadow-lg shadow-amber-500/30 transition flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
                         title="Automates Google Flow 1-by-1 via Chrome CDP with smart 35s pacing to prevent prompt cancellation"
                       >
                         {flowGenerating ? (
                           <><svg className="animate-spin w-3.5 h-3.5 text-slate-950" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg> 🍌 Generating ({flowStatus?.current_index || 1}/{studioTotalImgs})…</>
                         ) : (
-                          <>🍌 Auto-Generate via Google Flow (0 Credits)</>
+                          <>🍌 Auto-Generate via Google Flow (0 Credits) →</>
                         )}
                       </button>
                     </div>
                   </div>
+
+                  {/* Visual Style Preset Ribbon */}
+                  <div className="pt-3 border-t border-white/5 flex flex-wrap items-center justify-between gap-3">
+                    <div className="flex items-center gap-2 text-xs font-bold text-slate-400">
+                      <span>🎨 Active Style:</span>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {[
+                        { id: "cinematic_photorealism", label: "🍌 Nano Banana Pro (Photoreal)", icon: "🍌" },
+                        { id: "investigative_doc", label: "📸 Documentary Realism", icon: "📸" },
+                        { id: "cyberpunk_scifi", label: "🛸 Cyberpunk Sci-Fi", icon: "🛸" },
+                        { id: "dark_satire_comedy", label: "🎭 Satire & Drama", icon: "🎭" },
+                        { id: "3d_pixar_animation", label: "🎨 3D Animation", icon: "🎨" },
+                      ].map(st => (
+                        <button
+                          key={st.id}
+                          onClick={() => setStudioImageStyle(st.id)}
+                          className={`px-2.5 py-1 rounded-lg text-xs font-medium transition flex items-center gap-1 cursor-pointer ${
+                            studioImageStyle === st.id
+                              ? "bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold"
+                              : "bg-slate-900/60 text-slate-400 border border-white/5 hover:text-white"
+                          }`}
+                        >
+                          <span>{st.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
 
-                {/* Scenes */}
+                {/* Scenes List */}
                 <div className="space-y-4">
                   {studioScenes.map((sc: any, si: number) => {
                     const isCollapsed = Boolean(collapsedScenes[si]);
+                    const timing = sceneTimings[si] || { start: 0, end: 0, duration: 0 };
+                    const imgList = sc.images || [];
+                    const imgDuration = imgList.length > 0 ? (timing.duration / imgList.length) : 4.0;
+
                     return (
-                      <div key={si} className="glass p-4 space-y-3 transition-all duration-200">
-                        {/* Scene header */}
-                        <div className="flex items-center gap-3 pb-2 border-b border-white/10 select-none">
+                      <div key={si} className="glass p-4.5 rounded-2xl space-y-3 transition-all duration-200 border border-white/10 hover:border-violet-500/30">
+                        {/* Scene Header */}
+                        <div className="flex items-center gap-3 pb-3 border-b border-white/10 select-none">
                           <button
                             onClick={() => setCollapsedScenes(prev => ({ ...prev, [si]: !prev[si] }))}
                             className="flex items-center gap-3 flex-1 min-w-0 text-left hover:opacity-90 transition group cursor-pointer"
                           >
-                            <div className="w-8 h-8 rounded-xl bg-violet-600/30 border border-violet-500/40 flex items-center justify-center text-sm font-black text-violet-300 group-hover:scale-105 transition shrink-0">
+                            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-500/20 to-violet-600/30 border border-amber-500/30 flex items-center justify-center text-sm font-black text-amber-300 group-hover:scale-105 transition shrink-0">
                               {si+1}
                             </div>
                             <div className="flex-1 min-w-0">
@@ -3958,26 +4317,27 @@ export default function Dashboard() {
                           </button>
 
                           <div className="flex items-center gap-2 shrink-0">
-                            <span className="text-xs text-slate-500 bg-slate-800 px-2 py-0.5 rounded-full">
-                              ~{sc.scene_duration_s}s
+                            <span className="text-xs text-slate-300 bg-slate-800/90 border border-white/10 px-2.5 py-0.5 rounded-full font-mono">
+                              ⏱️ {timing.start.toFixed(1)}s – {timing.end.toFixed(1)}s (~{timing.duration}s)
                             </span>
-                            <span className="text-xs text-violet-300 bg-violet-500/10 border border-violet-500/20 px-2 py-0.5 rounded-full">
-                              {(sc.images || []).length} images
+                            <span className="text-xs text-amber-300 bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5 rounded-full font-semibold">
+                              {imgList.length} Prompts
                             </span>
                             <button
                               disabled={reloadingScene === si}
                               onClick={() => handleRegenerateScene(si)}
                               className="text-xs text-amber-300 hover:text-white px-3 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/20 transition flex items-center gap-1 disabled:opacity-50 cursor-pointer"
-                              title="Regenerate all image prompts for this scene"
+                              title="Regenerate all image prompts for this scene with Google Flow Nano Banana Pro engine"
                             >
                               {reloadingScene === si ? "🔄 Re-rolling..." : "🔄 Re-roll Scene"}
                             </button>
                             <button
                               onClick={() => {
-                                const text = (sc.images || []).map((img: any, ii: number) =>
+                                const text = imgList.map((img: any) =>
                                   `=== ${img.filename} ===\n${img.prompt}\n`
                                 ).join("\n");
                                 navigator.clipboard.writeText(text);
+                                setStatusMsg({ text: `Copied Scene ${si+1} prompts!`, type: "success" });
                               }}
                               className="text-xs text-slate-400 hover:text-white px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 transition cursor-pointer"
                             >
@@ -3993,41 +4353,146 @@ export default function Dashboard() {
                           </div>
                         </div>
 
-                        {/* Image prompts grid (hidden when collapsed) */}
+                        {/* Image Prompts Grid */}
                         {!isCollapsed && (
-                          <div className="grid grid-cols-1 gap-2 pt-1">
-                            {(sc.images || []).map((img: any, ii: number) => (
-                              <div key={ii} className="flex items-start gap-3 bg-slate-900/40 rounded-xl p-3">
-                                <div className="w-6 h-6 rounded-lg bg-slate-700 text-[10px] font-bold text-slate-400 flex items-center justify-center shrink-0">
-                                  {ii+1}
-                                </div>
-                                <div className="flex-1 min-w-0 space-y-1">
-                                  <div className="flex items-center gap-2">
-                                    <code className="text-[10px] font-mono text-amber-300 bg-amber-500/10 px-1.5 py-0.5 rounded">{img.filename}</code>
-                                  </div>
-                                  {img.scene_description && (
-                                    <p className="text-xs text-slate-300">{img.scene_description}</p>
+                          <div className="grid grid-cols-1 gap-2.5 pt-1">
+                            {imgList.map((img: any, ii: number) => {
+                              const promptKey = `s${si}_i${ii}`;
+                              const isEditing = editingPromptKey === promptKey;
+                              const isEnhancing = enhancingPromptKey === promptKey;
+                              const isReloading = reloadingPrompt === promptKey;
+                              const imgStart = timing.start + (ii * imgDuration);
+                              const imgEnd = timing.start + ((ii + 1) * imgDuration);
+
+                              return (
+                                <div
+                                  key={ii}
+                                  className={`rounded-xl p-3.5 transition-all ${
+                                    isEditing
+                                      ? "bg-slate-900 border-2 border-amber-500/60 shadow-lg shadow-amber-500/10"
+                                      : "bg-slate-900/50 hover:bg-slate-900/80 border border-white/5 hover:border-white/15"
+                                  }`}
+                                >
+                                  {isEditing ? (
+                                    /* Inline Prompt Editor Form */
+                                    <div className="space-y-3">
+                                      <div className="flex items-center justify-between">
+                                        <div className="flex items-center gap-2">
+                                          <span className="text-xs font-bold text-amber-300 uppercase tracking-wider">✏️ Editing Prompt #{ii+1}</span>
+                                          <code className="text-[10px] font-mono text-amber-300 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">{img.filename}</code>
+                                        </div>
+                                        <span className="text-[11px] font-mono text-slate-400">
+                                          ⏱️ {imgStart.toFixed(1)}s – {imgEnd.toFixed(1)}s
+                                        </span>
+                                      </div>
+
+                                      <div className="space-y-1">
+                                        <label className="text-[10px] font-semibold text-slate-400">Scene Headline / Visual Beat Summary:</label>
+                                        <input
+                                          value={editingSceneDesc}
+                                          onChange={e => setEditingSceneDesc(e.target.value)}
+                                          placeholder="Short description of this shot..."
+                                          className="w-full bg-slate-950 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-amber-500/50"
+                                        />
+                                      </div>
+
+                                      <div className="space-y-1">
+                                        <label className="text-[10px] font-semibold text-slate-400">Google Flow (Nano Banana Pro) Full Prompt:</label>
+                                        <textarea
+                                          rows={3}
+                                          value={editingPromptText}
+                                          onChange={e => setEditingPromptText(e.target.value)}
+                                          className="w-full bg-slate-950 border border-white/10 rounded-lg p-2.5 text-xs text-amber-200 font-mono focus:outline-none focus:border-amber-500/50 leading-relaxed"
+                                        />
+                                      </div>
+
+                                      <div className="flex items-center justify-end gap-2 pt-1">
+                                        <button
+                                          type="button"
+                                          onClick={() => setEditingPromptKey(null)}
+                                          className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition cursor-pointer"
+                                        >
+                                          ✖ Cancel
+                                        </button>
+                                        <button
+                                          type="button"
+                                          onClick={() => handleSaveEditedPrompt(si, ii, editingPromptText, editingSceneDesc)}
+                                          className="px-4 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold transition shadow-md shadow-amber-500/20 cursor-pointer"
+                                        >
+                                          💾 Save Changes
+                                        </button>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    /* Normal Display Mode */
+                                    <div className="flex items-start gap-3">
+                                      <div className="w-6 h-6 rounded-lg bg-slate-800 border border-white/10 text-[10px] font-bold text-amber-300 flex items-center justify-center shrink-0 mt-0.5">
+                                        {ii+1}
+                                      </div>
+                                      <div className="flex-1 min-w-0 space-y-1.5">
+                                        <div className="flex flex-wrap items-center gap-2">
+                                          <code className="text-[11px] font-mono text-amber-300 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20 font-bold">{img.filename}</code>
+                                          <span className="text-[10px] font-mono text-slate-400 bg-slate-800 px-2 py-0.5 rounded">
+                                            ⏱️ {imgStart.toFixed(1)}s – {imgEnd.toFixed(1)}s
+                                          </span>
+                                          <span className="text-[9px] font-mono text-amber-400/70 uppercase">🍌 Nano Banana Pro</span>
+                                        </div>
+
+                                        {img.scene_description && (
+                                          <p className="text-xs font-semibold text-slate-200">{img.scene_description}</p>
+                                        )}
+                                        <p className="text-[11px] text-slate-400 leading-relaxed font-mono line-clamp-2 hover:line-clamp-none transition-all">{img.prompt}</p>
+                                      </div>
+
+                                      {/* Prompt Action Toolbar */}
+                                      <div className="flex items-center gap-1.5 shrink-0">
+                                        <button
+                                          type="button"
+                                          onClick={() => {
+                                            setEditingPromptKey(promptKey);
+                                            setEditingPromptText(img.prompt);
+                                            setEditingSceneDesc(img.scene_description || "");
+                                          }}
+                                          className="text-[11px] text-slate-300 hover:text-white px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-white/10 transition flex items-center gap-1 cursor-pointer"
+                                          title="Edit this prompt inline"
+                                        >
+                                          ✏️ Edit
+                                        </button>
+                                        <button
+                                          type="button"
+                                          disabled={isEnhancing}
+                                          onClick={() => handleEnhancePrompt(si, ii)}
+                                          className="text-[11px] text-amber-300 hover:text-white px-2.5 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 transition flex items-center gap-1 disabled:opacity-50 cursor-pointer"
+                                          title="Use Gemini to enhance lighting, lens, and physical actions for Google Flow"
+                                        >
+                                          {isEnhancing ? "✨ Enhancing..." : "✨ Enhance"}
+                                        </button>
+                                        <button
+                                          type="button"
+                                          disabled={isReloading}
+                                          onClick={() => handleRegenerateSinglePrompt(si, ii)}
+                                          className="text-[11px] text-violet-300 hover:text-white px-2.5 py-1 rounded-lg bg-violet-500/10 hover:bg-violet-500/20 border border-violet-500/30 transition flex items-center gap-1 disabled:opacity-50 cursor-pointer"
+                                          title="Re-roll this specific prompt"
+                                        >
+                                          {isReloading ? "🔄" : "🔄 Re-roll"}
+                                        </button>
+                                        <button
+                                          type="button"
+                                          onClick={() => {
+                                            navigator.clipboard.writeText(img.prompt);
+                                            setStatusMsg({ text: `Copied prompt for ${img.filename}!`, type: "success" });
+                                          }}
+                                          className="text-[11px] text-slate-400 hover:text-white px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 transition cursor-pointer"
+                                          title="Copy full prompt to clipboard"
+                                        >
+                                          Copy
+                                        </button>
+                                      </div>
+                                    </div>
                                   )}
-                                  <p className="text-[10px] text-slate-500 leading-relaxed font-mono line-clamp-2">{img.prompt}</p>
                                 </div>
-                                <div className="flex items-center gap-1.5 shrink-0">
-                                  <button
-                                    disabled={reloadingPrompt === `s${si}_i${ii}`}
-                                    onClick={() => handleRegenerateSinglePrompt(si, ii)}
-                                    className="text-[10px] text-amber-300 hover:text-white px-2 py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/20 transition flex items-center gap-1 disabled:opacity-50 cursor-pointer"
-                                    title="Regenerate this specific image prompt"
-                                  >
-                                    {reloadingPrompt === `s${si}_i${ii}` ? "⏳" : "🔄 Re-roll"}
-                                  </button>
-                                  <button
-                                    onClick={() => navigator.clipboard.writeText(img.prompt)}
-                                    className="text-[10px] text-slate-400 hover:text-white px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 transition cursor-pointer"
-                                  >
-                                    Copy
-                                  </button>
-                                </div>
-                              </div>
-                            ))}
+                              );
+                            })}
                           </div>
                         )}
                       </div>
@@ -4035,27 +4500,30 @@ export default function Dashboard() {
                   })}
                 </div>
 
-                {/* Instructions */}
-                <div className="glass p-4 space-y-2">
-                  <h3 className="text-sm font-bold text-slate-200">📌 How to use these prompts</h3>
-                  <ol className="space-y-1 text-xs text-slate-400 list-decimal list-inside">
-                    <li>Work scene by scene — copy all prompts for Scene 1, generate images, then Scene 2, etc.</li>
-                    <li>Generate images at <strong className="text-white">{studioVideoType === "short" ? "portrait 9:16" : "landscape 16:9"}</strong> aspect ratio</li>
-                    <li>Save each image with the <strong className="text-amber-300">exact filename shown</strong> (e.g. <code className="text-amber-300 text-[10px]">0802short_s01_img001.png</code>)</li>
-                    <li>Images within a scene should feel cohesive — same mood, varying framing</li>
-                    <li>Upload all <strong className="text-white">{studioTotalImgs} images</strong> in the next step</li>
+                {/* Instructions Box */}
+                <div className="glass p-4.5 rounded-2xl space-y-2 border border-amber-500/10 bg-slate-950/60">
+                  <h3 className="text-sm font-bold text-amber-300 flex items-center gap-2">
+                    <span>🍌 Google Flow (Nano Banana Pro) Workflow Guide</span>
+                  </h3>
+                  <ol className="space-y-1.5 text-xs text-slate-300 list-decimal list-inside leading-relaxed">
+                    <li>Click <strong className="text-amber-300">🍌 Auto-Generate via Google Flow</strong> above to generate all {studioTotalImgs} images automatically with zero credit cost.</li>
+                    <li>Or copy individual prompts and paste them into your Google Flow session at <strong className="text-white">{studioVideoType === "short" ? "9:16 portrait" : "16:9 widescreen"}</strong>.</li>
+                    <li>Save images with the exact filenames shown (e.g. <code className="text-amber-300 text-[11px] font-mono">short_s001_img001.png</code>).</li>
+                    <li>Click <strong className="text-violet-300">✨ Enhance</strong> on any prompt to have AI inject volumetric lighting, specific camera lenses (85mm/24mm), and tactile character actions.</li>
+                    <li>Proceed to Step 3 to review generated images or drop in your downloaded files!</li>
                   </ol>
                 </div>
 
-                <div className="flex gap-3">
-                  <button onClick={() => setStudioStep(1)} className="px-6 py-3 rounded-xl font-medium text-sm bg-slate-700 hover:bg-slate-600 text-white transition">
-                    ← Back
+                {/* Bottom Navigation */}
+                <div className="flex gap-3 pt-2">
+                  <button onClick={() => setStudioStep(1)} className="px-6 py-3 rounded-xl font-medium text-sm bg-slate-800 hover:bg-slate-700 text-white transition border border-white/10 cursor-pointer">
+                    ← Back to Script
                   </button>
                   <button
                     onClick={() => setStudioStep(3)}
-                    className="flex-1 py-3 rounded-xl font-bold text-sm bg-violet-600 hover:bg-violet-500 text-white transition"
+                    className="flex-1 py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-violet-600 via-indigo-600 to-amber-600 hover:from-violet-500 hover:to-amber-500 text-white transition shadow-lg shadow-violet-600/25 cursor-pointer flex items-center justify-center gap-2"
                   >
-                    I've Generated All {studioTotalImgs} Images → Upload Now
+                    <span>Proceed to Step 3: Generate & Upload Images ({studioTotalImgs} Ready) →</span>
                   </button>
                 </div>
               </div>
@@ -4227,6 +4695,16 @@ export default function Dashboard() {
                           )}
                         </button>
                       )}
+
+                      {/* LAUNCH CHROME REMOTE DEBUGGING BUTTON */}
+                      <button
+                        type="button"
+                        onClick={handleLaunchChrome}
+                        title="Launches Google Chrome with remote debugging on port 9222 for Google Flow automation"
+                        className="px-3.5 py-2.5 bg-slate-800 hover:bg-slate-700 text-amber-300 hover:text-amber-200 border border-amber-500/30 text-xs font-bold rounded-xl transition flex items-center gap-1.5 cursor-pointer shadow-sm"
+                      >
+                        🚀 Open Chrome (9222)
+                      </button>
 
                       {/* DIRECT IMPORT FROM GOOGLE FLOW BUTTON */}
                       <button
@@ -4636,12 +5114,26 @@ export default function Dashboard() {
                         if (d.error) throw new Error(d.error);
                         setStudioJobId(d.job_id);
                         setStudioStep(4);
+                        setStudioRenderStatus({ status: "running", log: "Starting video render pipeline…" });
+                        if (studioRenderPollRef.current) clearInterval(studioRenderPollRef.current);
                         const poll = setInterval(async () => {
-                          const rs = await fetch(`${API_URL}/api/studio/render_status/${d.job_id}`);
-                          const rd = await rs.json();
-                          setStudioRenderStatus(rd);
-                          if (rd.status === "done" || rd.status === "error") clearInterval(poll);
-                        }, 2000);
+                          try {
+                            const rs = await fetch(`${API_URL}/api/studio/render_status/${d.job_id}`);
+                            if (!rs.ok) {
+                              clearInterval(poll);
+                              studioRenderPollRef.current = null;
+                              return;
+                            }
+                            const rd = await rs.json();
+                            setStudioRenderStatus(rd);
+                            if (rd.status === "done" || rd.status === "error") {
+                              clearInterval(poll);
+                              studioRenderPollRef.current = null;
+                            }
+                          } catch (pollErr) {
+                            console.warn("Render poll error:", pollErr);
+                          }
+                        }, 1500);
                         studioRenderPollRef.current = poll;
                       } catch(e: any) {
                         setStudioError(e.message);
@@ -4950,6 +5442,88 @@ export default function Dashboard() {
                       <span className="text-emerald-300 font-semibold truncate font-mono text-[11px]">
                         packages/ClipPilot/output/{studioProjectId}/manifest.json
                       </span>
+                    </div>
+                  </div>
+
+                  {/* Modular Fast Re-Render Control Toolbar */}
+                  <div className="bg-slate-900/90 p-5 rounded-2xl border border-violet-500/30 space-y-3 shadow-lg">
+                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-3">
+                      <div>
+                        <h4 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                          <span>⚡ Modular Fast Re-Render Center</span>
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-violet-500/20 text-violet-300 border border-violet-500/30">Targeted Updates</span>
+                        </h4>
+                        <p className="text-[11px] text-slate-400 mt-0.5">Need to adjust only one component? Re-render selectively in seconds without re-doing the full pipeline!</p>
+                      </div>
+
+                      {reRenderMode && (
+                        <div className="flex items-center gap-2 text-xs text-amber-300 bg-amber-950/60 border border-amber-500/30 px-3 py-1 rounded-full font-mono">
+                          <svg className="animate-spin w-3.5 h-3.5" viewBox="0 0 24 24" fill="none"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg>
+                          Re-rendering ({reRenderMode})…
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 pt-1">
+                      {/* 1. Narration & SFX Only */}
+                      <button
+                        onClick={() => handleModularReRender("narration_only")}
+                        disabled={studioLoading || !!reRenderMode}
+                        className="p-3 bg-slate-800/80 hover:bg-violet-950/60 border border-white/10 hover:border-violet-500/50 rounded-xl text-left transition group disabled:opacity-40"
+                      >
+                        <div className="flex items-center gap-2 font-bold text-xs text-white group-hover:text-violet-300">
+                          <span className="text-base">🎙️</span>
+                          <span>Re-render Narration & SFX</span>
+                        </div>
+                        <p className="text-[10px] text-slate-400 mt-1 leading-snug">
+                          Updates speech, 18 SFX, & captions onto existing video in <strong className="text-emerald-400 font-mono">~4s</strong>.
+                        </p>
+                      </button>
+
+                      {/* 2. Video / Slides Only */}
+                      <button
+                        onClick={() => handleModularReRender("slideshow_only")}
+                        disabled={studioLoading || !!reRenderMode}
+                        className="p-3 bg-slate-800/80 hover:bg-violet-950/60 border border-white/10 hover:border-violet-500/50 rounded-xl text-left transition group disabled:opacity-40"
+                      >
+                        <div className="flex items-center gap-2 font-bold text-xs text-white group-hover:text-violet-300">
+                          <span className="text-base">🎬</span>
+                          <span>Re-render Video / Slides</span>
+                        </div>
+                        <p className="text-[10px] text-slate-400 mt-1 leading-snug">
+                          Re-encodes 60fps Ken-Burns slides from images and merges with audio in <strong className="text-emerald-400 font-mono">~10s</strong>.
+                        </p>
+                      </button>
+
+                      {/* 3. Subtitles & Styling Only */}
+                      <button
+                        onClick={() => handleModularReRender("subtitles_only")}
+                        disabled={studioLoading || !!reRenderMode}
+                        className="p-3 bg-slate-800/80 hover:bg-violet-950/60 border border-white/10 hover:border-violet-500/50 rounded-xl text-left transition group disabled:opacity-40"
+                      >
+                        <div className="flex items-center gap-2 font-bold text-xs text-white group-hover:text-violet-300">
+                          <span className="text-base">💬</span>
+                          <span>Re-burn Subtitles Style</span>
+                        </div>
+                        <p className="text-[10px] text-slate-400 mt-1 leading-snug">
+                          Re-burns font, colors, positioning, and highlight styling in <strong className="text-emerald-400 font-mono">~3s</strong>.
+                        </p>
+                      </button>
+
+                      {/* 4. Full Pipeline Re-render */}
+                      <button
+                        onClick={() => handleModularReRender("full")}
+                        disabled={studioLoading || !!reRenderMode}
+                        className="p-3 bg-slate-800/80 hover:bg-rose-950/40 border border-white/10 hover:border-rose-500/40 rounded-xl text-left transition group disabled:opacity-40"
+                      >
+                        <div className="flex items-center gap-2 font-bold text-xs text-white group-hover:text-rose-300">
+                          <span className="text-base">🔄</span>
+                          <span>Full Video Re-render</span>
+                        </div>
+                        <p className="text-[10px] text-slate-400 mt-1 leading-snug">
+                          Fresh clean rebuild of all 5 steps from scratch.
+                        </p>
+                      </button>
                     </div>
                   </div>
 

@@ -95,7 +95,7 @@ def get_client(settings: Optional[cfg.Settings] = None) -> Optional[VisionClient
     if provider == "gemini" or (not env.has_api_key() and os.environ.get("GEMINI_API_KEY")):
         from .gemini_client import GeminiVisionClient, has_gemini_key
         if has_gemini_key():
-            model = os.environ.get("CLIPPILOT_BRAIN_MODEL", "gemini-2.0-flash")
+            model = os.environ.get("CLIPPILOT_BRAIN_MODEL", "gemini-3.5-flash")
             return GeminiVisionClient(model=model)
 
     # ── Anthropic (paid) ──────────────────────────────────────────────────

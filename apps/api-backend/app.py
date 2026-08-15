@@ -136,7 +136,13 @@ def list_videos():
                     continue
                 finals = list(proj_dir.glob("Final_*.mp4"))
                 if not finals:
-                    finals = list(proj_dir.glob("*.mp4"))
+                    finals = [
+                        f for f in proj_dir.glob("*.mp4")
+                        if not f.name.startswith("slide_")
+                        and not f.name.startswith("slides_")
+                        and not f.name.startswith("mnorm_")
+                        and f.name not in ("base.mp4", "silent.mp4", "mmontage_silent.mp4")
+                    ]
                 if finals:
                     final_video = finals[0]
                     rel_path = str(final_video.relative_to(OUTPUT_ROOT))
@@ -239,10 +245,19 @@ def call_gemini(prompt: str, timeout: int = 300, json_mode: bool = False) -> str
     if not keys:
         raise Exception("GEMINI_API_KEY is missing in .env")
     
-    primary_model  = os.environ.get("GEMINI_PRIMARY_MODEL") or os.environ.get("GEMINI_MODEL") or "gemini-flash-latest"
-    fallback_model = os.environ.get("GEMINI_CANDIDATE_MODEL") or os.environ.get("GEMINI_FALLBACK_MODEL") or "gemini-flash-lite-latest"
+    primary_model  = os.environ.get("GEMINI_PRIMARY_MODEL") or os.environ.get("GEMINI_MODEL") or "gemini-flash-lite-latest"
+    fallback_model = os.environ.get("GEMINI_CANDIDATE_MODEL") or os.environ.get("GEMINI_FALLBACK_MODEL") or "gemini-3.5-flash-lite"
     
-    candidate_models = [primary_model, "gemini-2.0-flash", fallback_model, "gemini-2.0-flash-lite"]
+    candidate_models = [
+        primary_model,
+        "gemini-flash-lite-latest",
+        "gemini-3.5-flash-lite",
+        "gemini-3.1-flash-lite",
+        "gemini-3.5-flash",
+        fallback_model,
+        "gemini-3.6-flash",
+        "gemini-flash-latest"
+    ]
     models = list(dict.fromkeys([m for m in candidate_models if m]))
     
     total_keys = len(keys)
@@ -418,7 +433,16 @@ def generate_cover():
         "-vframes", "1", "-q:v", "2", str(cover_path)
     ]
     try:
-        subprocess.run(cmd, check=True, capture_output=True)
+        res = subprocess.run(cmd, capture_output=True)
+        if res.returncode != 0 or not cover_path.exists() or cover_path.stat().st_size == 0:
+            # Fallback: check for project images to use as cover thumbnail
+            imgs = sorted(list((base_dir / "images").glob("*.png")) + list((base_dir / "images").glob("*.jpg")))
+            if imgs:
+                import shutil
+                shutil.copyfile(imgs[0], cover_path)
+            else:
+                return jsonify({"error": f"Cover extraction failed: FFmpeg returned exit status {res.returncode}"}), 400
+
         if cover_path.is_relative_to(OUTPUT_ROOT):
             rel_cover = str(cover_path.relative_to(OUTPUT_ROOT))
         else:
@@ -969,21 +993,44 @@ def studio_generate_prompts():
     aspect = "9:16" if video_type == "short" else "16:9"
     prefix = "short" if video_type == "short" else "long"
 
-    # ── Style constants from VIDEO_GENERATION_GUIDE.md ──────────────────────
+    image_style = req.get("image_style") or req.get("style") or "cinematic_photorealism"
+
+    STYLE_PRESETS = {
+        "cinematic_photorealism": {
+            "name": "Google Flow Nano Banana Pro (Photorealistic 8k)",
+            "short_desc": "Vertical portrait 9:16 framing, subject centered in frame, full subject visible, natural skin texture, volumetric cinematic lighting, photorealistic 8k, crisp focal detail, 85mm f/1.4 prime lens, creamy bokeh, authentic physical interactions",
+            "long_desc": "Widescreen 16:9 cinematic shot, expansive rule-of-thirds composition, authentic physical interactions, volumetric amber key lighting, photorealistic 8k, 35mm anamorphic lens flare, deep cinematic color grade",
+        },
+        "investigative_doc": {
+            "name": "Investigative Photojournalism (NatGeo / Reuters)",
+            "short_desc": "Vertical portrait 9:16 photojournalism style, candid street documentary photography, authentic raw lighting, natural environment, 50mm documentary lens, sharp focal depth",
+            "long_desc": "Widescreen 16:9 documentary establishing shot, authentic real-world grit, natural daylight, 35mm photojournalism lens, cinematic realism",
+        },
+        "cyberpunk_scifi": {
+            "name": "Cyberpunk & Futuristic Sci-Fi",
+            "short_desc": "Vertical 9:16 high-tech sci-fi aesthetic, glowing neon blue and magenta rim lighting, holographic UI overlays, futuristic machinery and metallic textures, volumetric fog, 8k render",
+            "long_desc": "Widescreen 16:9 futuristic cyberpunk panorama, glowing holographic displays, neon street reflections, atmospheric volumetric haze, 8k cinematic render",
+        },
+        "dark_satire_comedy": {
+            "name": "Dark Satire & Comedic Drama",
+            "short_desc": "Vertical 9:16 dramatic comedic framing, exaggerated expressive character reactions, vibrant saturated palette, punchy studio key lighting, crisp macro details of storytelling props",
+            "long_desc": "Widescreen 16:9 dramatic comedic scene, vibrant rich colors, expressive character actions, theatrical lighting, rich storytelling environment",
+        },
+        "3d_pixar_animation": {
+            "name": "3D Cinematic Animation (Pixar/Unreal 5)",
+            "short_desc": "Vertical 9:16 stylized 3D animated character render, soft subsurface scattering skin, expressive animated eyes, vibrant whimsical lighting, Octane render, 8k detail",
+            "long_desc": "Widescreen 16:9 3D animated movie still, lush detailed environment, whimsical cinematic lighting, Unreal Engine 5 render, rich textures",
+        }
+    }
+
+    style_cfg = STYLE_PRESETS.get(image_style, STYLE_PRESETS["cinematic_photorealism"])
+    style_defaults = style_cfg["short_desc"] if video_type == "short" else style_cfg["long_desc"]
+    style_name = style_cfg["name"]
+
     if video_type == "short":
-        style_defaults = (
-            "Vertical portrait 9:16 composition, subject centered in frame, "
-            "full subject visible, golden hour light, photorealistic 8k, "
-            "crisp focal detail, macro 85mm f/1.4 lens, shallow depth of field"
-        )
         max_scenes    = 18
         short_warning = est_dur_secs > 180
     else:
-        style_defaults = (
-            "Widescreen 16:9 cinematic shot, rule of thirds, expansive view, "
-            "warm amber light, 8k wallpaper quality, anamorphic lens flare, "
-            "shallow depth of field, cinematic color grade"
-        )
         max_scenes    = 9999
         short_warning = False
 
@@ -1099,15 +1146,23 @@ CRITICAL RULES:
     # ── Get pool of keys for per-scene rotation ──────────────────────────────
     raw_keys = os.environ.get("GEMINI_API_KEYS") or os.environ.get("GEMINI_API_KEY") or ""
     key_pool  = [k.strip() for k in raw_keys.replace("\n", ",").split(",") if k.strip()]
-    primary_model = os.environ.get("GEMINI_PRIMARY_MODEL") or "gemini-flash-latest"
+    primary_model = os.environ.get("GEMINI_PRIMARY_MODEL") or "gemini-flash-lite-latest"
 
-    def _call_gemini_with_key_pool(prompt: str, start_idx: int = 0, model: str = primary_model, timeout: int = 25) -> tuple[str, int]:
+    def _call_gemini_with_key_pool(prompt: str, start_idx: int = 0, model: str = primary_model, timeout: int = 35) -> tuple[str, int]:
         """Call Gemini, automatically trying each key and working models without hanging."""
         if not key_pool:
             raise Exception("No Gemini API keys available in environment")
         
         n_keys = len(key_pool)
-        models_to_try = [model, "gemini-flash-latest"]
+        models_to_try = [
+            model,
+            "gemini-flash-lite-latest",
+            "gemini-3.5-flash-lite",
+            "gemini-3.1-flash-lite",
+            "gemini-3.5-flash",
+            "gemini-3.6-flash",
+            "gemini-flash-latest"
+        ]
         # Remove duplicates preserving order
         models_to_try = list(dict.fromkeys([m for m in models_to_try if m]))
         last_err = None
@@ -1189,34 +1244,39 @@ Return JSON only — no markdown:
             start_k  = (last_key_idx + si) % n_keys
             eg_fns   = [_build_filename(si, ii) for ii in range(3)]
 
-            img_prompt = f"""Generate {n_imgs} distinct, cinematic image prompts for one video scene.
-These prompts are for FLUX AI text-to-image generator. Output must be realistic photography with clear actions and storytelling — NOT static portraits, NOT anime.
+            img_prompt = f"""You are an elite Google Flow (Nano Banana Pro / Imagen 3) prompt engineer specializing in viral {video_type} video production.
+Generate {n_imgs} distinct, highly cinematic image prompts for one video scene.
 
-VIDEO: "{title}" — Scene {si+1}: "{scene_title}"
-NARRATION: {excerpt}
-ASPECT: {aspect}
+VIDEO TITLE: "{title}"
+SCENE {si+1}: "{scene_title}" (~{duration_s}s)
+NARRATION EXCERPT: "{excerpt}"
+ASPECT RATIO: {aspect} ({'Vertical Portrait 9:16' if aspect == '9:16' else 'Widescreen 16:9'})
+AESTHETIC STYLE: {style_name}
 
-CINEMATOGRAPHY & STORYTELLING RULES:
-1. ACTION & PHYSICALITY FIRST: Describe characters actively doing things with visible hands, facial expressions, and physical props (e.g. "pinching nose shut with fingers", "holding up a printed utility bill with green stamp", "speaking into press microphones at wooden podium", "running through forest trail looking back in panic").
-2. VARY SHOT FRAMING ACROSS THE {n_imgs} PROMPTS:
-   - Medium Action Shot (50mm, eye-level): showing hands, props, character body, and immediate room/street context.
-   - Environmental Wide Shot (24mm/35mm, deep focus): showing full crowd, landscape, forest canopy, city street, or laboratory scale.
-   - Prop / Interaction Close-Up: focused on the key object (meter attached to bark, glowing smartphone screen, breath clip, bill) with natural lighting.
-3. NATURAL DESCRIPTIVE LANGUAGE (NO TAG SOUP): Do NOT spam comma-separated camera tags like "RAW photo, 85mm DSLR lens, f/1.8, 8k". Write fluent descriptive sentences about the scene, lighting, and mood.
-4. CHARACTER DIVERSITY: Specify age, gender, and attire matched to the script role (e.g. "A 52-year-old South Asian botanist in a white lab coat", "A 24-year-old Middle Eastern man in a t-shirt", "A 29-year-old Black woman at a cafe").
-5. Append filename: "Save this image as: <filename>."
-6. End with: Negative: {negative}.
+GOOGLE FLOW / NANO BANANA PRO PROMPT RULES:
+1. ACTION & PHYSICALITY FIRST: Describe characters actively doing things with visible hands, facial expressions, and physical props (e.g. "pinching nose shut with fingers in panic", "holding up a printed utility bill with bold red '$47.00' stamp", "speaking into a cluster of silver press microphones at a dark wooden podium", "running through misty forest trail looking back in panic").
+2. VARY CAMERA FRAMING & LENS ACROSS THE {n_imgs} PROMPTS:
+   - Medium Action Shot (50mm / 85mm): showing hands, props, character torso, and immediate room/street context.
+   - Environmental Wide Shot (24mm / 35mm deep focus): showing full crowd, landscape, forest canopy, city street, or laboratory scale.
+   - Prop / Interaction Macro Close-Up: focused on the key object (meter bolted to bark, glowing smartphone screen, breath clip, bill) with crisp macro detail.
+   - Dramatic Hero / Low-Angle Reaction Shot: capturing expressive facial reaction and dramatic lighting.
+3. LIGHTING & ATMOSPHERE: Include volumetric lighting, natural shadows, golden hour beams, neon rim light, or atmospheric fog.
+4. TEXT & LABELS: When relevant, specify crisp readable text in quotes (e.g. 'a digital meter displaying "0.05 / BREATH"', 'a paper bill stamped "OVERDUE"').
+5. COMPOSITION (ZERO-CROP): {style_defaults}.
+6. NO TAG SOUP: Write fluent, natural descriptive sentences. Do NOT list comma-separated meaningless tags.
+7. Append: "Save this image as: <filename>."
+8. End with: Negative: {negative}.
 
 Return JSON only — no markdown:
 {{"images": [
-  {{"image_index": 1, "filename": "{eg_fns[0]}", "scene_description": "...", "prompt": "<Cinematic shot framing of specific subject performing action with props and setting, natural lighting and authentic mood>. Save this image as: {eg_fns[0]}. Negative: {negative}."}},
+  {{"image_index": 1, "filename": "{eg_fns[0]}", "scene_description": "...", "prompt": "<Fluent descriptive prompt describing subject, action, physical props, lighting, and camera framing>. {style_defaults}. Save this image as: {eg_fns[0]}. Negative: {negative}."}},
   ...
 ]}}"""
 
             print(f"[studio] PHASE 2 — Scene {si+1}/{len(scene_plan)}: generating {n_imgs} prompts starting with key #{start_k+1}...")
             scene_fallback = False
             try:
-                img_raw, used_k = _call_gemini_with_key_pool(img_prompt, start_idx=start_k, model=primary_model, timeout=20)
+                img_raw, used_k = _call_gemini_with_key_pool(img_prompt, start_idx=start_k, model=primary_model, timeout=40)
                 img_data        = _parse_json(img_raw)
                 imgs_raw        = img_data if isinstance(img_data, list) else img_data.get("images", [])
                 imgs            = []
@@ -1254,7 +1314,7 @@ Return JSON only — no markdown:
             }, scene_fallback)
 
         scenes_map = {}
-        with concurrent.futures.ThreadPoolExecutor(max_workers=min(4, len(scene_plan))) as executor:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=min(3, len(scene_plan))) as executor:
             results = list(executor.map(_process_single_scene, enumerate(scene_plan)))
 
         for si, scene_obj, fb in sorted(results, key=lambda x: x[0]):
@@ -1354,6 +1414,60 @@ Return JSON only — no markdown:
         })
 
 
+@app.route("/api/studio/enhance_prompt", methods=["POST"])
+def studio_enhance_prompt():
+    """Enhance an individual image prompt specifically for Google Flow / Nano Banana Pro."""
+    req            = request.json or {}
+    base_prompt    = req.get("prompt", "")
+    video_type     = req.get("video_type", "short")
+    image_style    = req.get("image_style", "cinematic_photorealism")
+    filename       = req.get("filename", "image.png")
+    scene_excerpt  = req.get("script_excerpt", "")
+    
+    aspect = "9:16" if video_type == "short" else "16:9"
+    style_defaults = (
+        "Vertical portrait 9:16 composition, subject centered in frame, full subject visible, natural skin texture, volumetric cinematic lighting, photorealistic 8k, crisp focal detail, 85mm f/1.4 prime lens, shallow depth of field"
+        if video_type == "short" else
+        "Widescreen 16:9 cinematic shot, expansive rule-of-thirds composition, volumetric amber key lighting, photorealistic 8k, 35mm anamorphic lens flare, deep cinematic color grade"
+    )
+    negative = "nudity, naked, nsfw, explicit, sexual, uncensored, watermarks, text overlay, logo, blurry, low quality, cropped head, missing limbs, bad anatomy"
+
+    if os.environ.get("GEMINI_API_KEY") and base_prompt:
+        p = f"""You are a master Google Flow (Nano Banana Pro) image prompt engineer.
+Enhance and rewrite this image prompt into a breathtaking, ultra-cinematic prompt for {aspect} video generation.
+
+ORIGINAL PROMPT / IDEA: "{base_prompt}"
+SCENE SCRIPT EXCERPT: "{scene_excerpt}"
+TARGET ASPECT RATIO: {aspect}
+
+RULES:
+1. Describe characters performing concrete physical actions with hands, facial expressions, and physical props.
+2. Specify cinematic camera framing, lens focal length (e.g. 85mm f/1.4 or 24mm wide), and volumetric lighting.
+3. Natural descriptive sentences without comma tag soup.
+4. Append: "Save this image as: {filename}."
+5. End with: "Negative: {negative}."
+
+Return JSON only:
+{{"prompt": "<Enhanced cinematic prompt>. {style_defaults}. Save this image as: {filename}. Negative: {negative}.", "scene_description": "<one crisp sentence summary>"}}"""
+        try:
+            raw = call_gemini(p, timeout=20, json_mode=True)
+            d = json.loads(raw)
+            return jsonify({
+                "filename": filename,
+                "prompt": d.get("prompt", base_prompt),
+                "scene_description": d.get("scene_description", "")
+            })
+        except Exception as ex:
+            print(f"[studio] Enhance prompt fallback: {ex}")
+
+    enhanced = f"{base_prompt.rstrip('.')} — photorealistic 8k cinematic shot, volumetric dramatic lighting, authentic textures. {style_defaults}. Save this image as: {filename}. Negative: {negative}."
+    return jsonify({
+        "filename": filename,
+        "prompt": enhanced,
+        "scene_description": "Enhanced Google Flow cinematic prompt"
+    })
+
+
 @app.route("/api/studio/regenerate_prompt", methods=["POST"])
 def studio_regenerate_prompt():
     """Regenerate a single image prompt using AI or visual variation engine."""
@@ -1362,27 +1476,28 @@ def studio_regenerate_prompt():
     video_type     = req.get("video_type", "short")
     script_excerpt = req.get("script_excerpt", "")
     filename       = req.get("filename", "short_s001_img001.png")
+    image_style    = req.get("image_style", "cinematic_photorealism")
     
     aspect = "9:16" if video_type == "short" else "16:9"
     style_defaults = (
-        "Vertical portrait 9:16 composition, subject centered in frame, full subject visible, golden hour light, photorealistic 8k, crisp focal detail, macro 85mm f/1.4 lens, shallow depth of field"
+        "Vertical portrait 9:16 composition, subject centered in frame, full subject visible, natural skin texture, volumetric cinematic lighting, photorealistic 8k, crisp focal detail, macro 85mm f/1.4 lens, shallow depth of field"
         if video_type == "short" else
-        "Widescreen 16:9 cinematic shot, rule of thirds, expansive view, warm amber light, 8k wallpaper quality, anamorphic lens flare, shallow depth of field, cinematic color grade"
+        "Widescreen 16:9 cinematic shot, expansive rule-of-thirds composition, volumetric amber key lighting, photorealistic 8k, anamorphic lens flare, shallow depth of field, cinematic color grade"
     )
     negative = "nudity, naked, nsfw, explicit, sexual, uncensored, watermarks, text overlay, logo, blurry, low quality, cropped head, missing limbs, bad anatomy"
     
     prompt_text = None
     scene_desc  = ""
     if os.environ.get("GEMINI_API_KEY"):
-        p = f"""Create 1 cinematic image prompt for video '{title}'.
+        p = f"""Create 1 cinematic Google Flow (Nano Banana Pro) image prompt for video '{title}'.
 Aspect ratio: {aspect}.
 Scene excerpt: "{script_excerpt}".
 Save filename: {filename}.
-Rule: Start prompt with the HIGHLY SPECIFIC visual subject FIRST (at index 0), followed by style details: "{style_defaults}."
+Rule: Start prompt with the HIGHLY SPECIFIC visual subject performing action with props FIRST, followed by style details: "{style_defaults}."
 End prompt with: "Negative: {negative}."
-Return JSON: {{"prompt": "<specific visual subject>. {style_defaults}. Save this image as: {filename}. Negative: {negative}.", "scene_description": "..."}}"""
+Return JSON: {{"prompt": "<specific visual subject with action and lighting>. {style_defaults}. Save this image as: {filename}. Negative: {negative}.", "scene_description": "..."}}"""
         try:
-            raw = call_gemini(p, timeout=20, json_mode=True)
+            raw = call_gemini(p, timeout=25, json_mode=True)
             d = json.loads(raw)
             prompt_text = d.get("prompt")
             scene_desc  = d.get("scene_description", "")
@@ -1398,7 +1513,7 @@ Return JSON: {{"prompt": "<specific visual subject>. {style_defaults}. Save this
         ]
         chosen_angle = random.choice(angles)
         prompt_text = (
-            f"{script_excerpt[:120].rstrip('.')} — {chosen_angle}, dramatic cinematic lighting, rich colors, 8k quality. "
+            f"{script_excerpt[:120].rstrip('.')} — {chosen_angle}, volumetric cinematic lighting, rich authentic colors, photorealistic 8k. "
             f"{style_defaults}. Save this image as: {filename}. Negative: {negative}."
         )
         scene_desc = f"{chosen_angle.capitalize()} visualizing beat: '{script_excerpt[:60]}...'"
@@ -1415,13 +1530,14 @@ def studio_regenerate_scene():
     scene_index    = req.get("scene_index", 0)
     script_excerpt = req.get("script_excerpt", "")
     image_count    = req.get("image_count", 10)
+    image_style    = req.get("image_style", "cinematic_photorealism")
     
     prefix = "short" if video_type == "short" else "long"
     aspect = "9:16" if video_type == "short" else "16:9"
     style_defaults = (
-        "Vertical portrait 9:16 composition, subject centered in frame, full subject visible, golden hour light, photorealistic 8k, crisp focal detail, macro 85mm f/1.4 lens, shallow depth of field"
+        "Vertical portrait 9:16 composition, subject centered in frame, full subject visible, natural skin texture, volumetric cinematic lighting, photorealistic 8k, crisp focal detail, macro 85mm f/1.4 lens, shallow depth of field"
         if video_type == "short" else
-        "Widescreen 16:9 cinematic shot, rule of thirds, expansive view, warm amber light, 8k wallpaper quality, anamorphic lens flare, shallow depth of field, cinematic color grade"
+        "Widescreen 16:9 cinematic shot, expansive rule-of-thirds composition, volumetric amber key lighting, photorealistic 8k, anamorphic lens flare, shallow depth of field, cinematic color grade"
     )
     negative = "nudity, naked, nsfw, explicit, sexual, uncensored, watermarks, text overlay, logo, blurry, low quality, cropped head, missing limbs, bad anatomy"
 
@@ -1430,12 +1546,19 @@ def studio_regenerate_scene():
 
     images = []
     if os.environ.get("GEMINI_API_KEY"):
-        p = f"""Create {image_count} cinematic image prompts for Scene {scene_index+1} of '{title}'.
+        p = f"""You are an elite Google Flow (Nano Banana Pro) prompt engineer.
+Create {image_count} cinematic image prompts for Scene {scene_index+1} of '{title}'.
 Excerpt: "{script_excerpt}".
 Filenames: {_build_fn(scene_index, 0)} to {_build_fn(scene_index, image_count-1)}.
-Rule: Start prompts with the HIGHLY SPECIFIC visual subject FIRST (at index 0), followed by style details: "{style_defaults}."
-End prompts with: "Negative: {negative}."
-Return JSON: {{"images": [{{"filename": "...", "prompt": "<specific visual subject>. {style_defaults}. Save this image as: ... Negative: {negative}.", "scene_description": "..."}}]}}"""
+Aspect ratio: {aspect}.
+
+Rules:
+1. Describe characters actively doing things with hands, facial expressions, and physical props.
+2. Vary framing: Medium action shot (50mm/85mm), Environmental wide shot (24mm/35mm), Macro close-up on props, Low-angle hero reaction.
+3. Volumetric lighting and natural depth.
+4. End prompts with style defaults and: "Save this image as: <filename>. Negative: {negative}."
+
+Return JSON: {{"images": [{{"filename": "...", "prompt": "<specific visual subject performing action with props and lighting>. {style_defaults}. Save this image as: ... Negative: {negative}.", "scene_description": "..."}}]}}"""
         try:
             raw = call_gemini(p, timeout=40, json_mode=True)
             d = json.loads(raw)
@@ -1455,7 +1578,7 @@ Return JSON: {{"images": [{{"filename": "...", "prompt": "<specific visual subje
             fn = _build_fn(scene_index, ii)
             angle = ANGLE_VARIATIONS[ii % len(ANGLE_VARIATIONS)]
             prompt = (
-                f"{script_excerpt[:120].rstrip('.')} — {angle}, dramatic cinematic mood, rich color palette, high contrast lighting. "
+                f"{script_excerpt[:120].rstrip('.')} — {angle}, volumetric cinematic lighting, rich authentic colors, photorealistic 8k. "
                 f"{style_defaults}. Save this image as: {fn}. Negative: {negative}."
             )
             images.append({
@@ -2141,11 +2264,14 @@ def studio_generate_images(project_id):
         dest = images_dir / Path(fname).name
         if dest.exists() and not force and dest.stat().st_size > 1000:
             total_generated += 1
+            print(f"[image-gen] ⏩ [{total_generated}/{len(prompts)}] Already exists: {fname}", flush=True)
             continue
 
         if idx > 0:
             time.sleep(1.5)  # IP rate-limit buffer for batch generation
 
+        pct = int(((idx + 1) / len(prompts)) * 100)
+        print(f"[image-gen] 🎨 [Image {idx+1}/{len(prompts)} ({pct}%)] Generating {fname} via {provider}...", flush=True)
         seed = (idx * 101) + 42
         ok   = _download_pollinations_image(
             prompt, dest, width=width, height=height, seed=seed,
@@ -2153,8 +2279,10 @@ def studio_generate_images(project_id):
         )
         if ok:
             total_generated += 1
+            print(f"[image-gen] ✅ [{total_generated}/{len(prompts)}] Successfully saved: {fname}", flush=True)
         else:
             failed_images.append(fname)
+            print(f"[image-gen] ❌ [{idx+1}/{len(prompts)}] Failed to generate: {fname}", flush=True)
 
     all_imgs = list(images_dir.glob("*.png")) + list(images_dir.glob("*.jpg")) + list(images_dir.glob("*.jpeg")) + list(images_dir.glob("*.webp"))
     total    = len(all_imgs)
@@ -2528,9 +2656,30 @@ def studio_import_from_flow(project_id):
     if not all_img_defs:
         return jsonify({"error": "No image definitions found in project scenes"}), 400
 
+@app.route("/api/studio/launch_flow_chrome", methods=["POST"])
+def studio_launch_flow_chrome():
+    """Launch Google Chrome with remote debugging on port 9222."""
+    try:
+        sys_gen_path = str(PROJECT_ROOT / "scripts" / "generators")
+        if sys_gen_path not in sys.path:
+            sys.path.insert(0, sys_gen_path)
+        import flow_clippilot_direct_cdp
+        cdp_url = os.getenv("GOOGLE_FLOW_CDP_URL", "http://127.0.0.1:9222")
+        ok = flow_clippilot_direct_cdp.ensure_chrome_running(cdp_url)
+        return jsonify({"success": ok, "cdp_url": cdp_url, "running": ok})
+    except Exception as ex:
+        return jsonify({"success": False, "error": str(ex)}), 500
+
+
     async def _do_sync():
         from playwright.async_api import async_playwright
-        cdp_url = os.getenv("GOOGLE_FLOW_CDP_URL", "http://localhost:9222")
+        cdp_url = os.getenv("GOOGLE_FLOW_CDP_URL", "http://127.0.0.1:9222")
+        sys_gen_path = str(PROJECT_ROOT / "scripts" / "generators")
+        if sys_gen_path not in sys.path:
+            sys.path.insert(0, sys_gen_path)
+        import flow_clippilot_direct_cdp
+        flow_clippilot_direct_cdp.ensure_chrome_running(cdp_url)
+
         async with async_playwright() as pw:
             try:
                 browser = await pw.chromium.connect_over_cdp(cdp_url)
@@ -2625,8 +2774,8 @@ def studio_import_from_flow(project_id):
         return jsonify({"error": str(exc)}), 500
 
 
-def _run_render_job(job_id: str, project_dir: Path, meta: dict):
-    """Run the full ClipPilot pipeline in a background thread."""
+def _run_render_job(job_id: str, project_dir: Path, meta: dict, mode: str = "full"):
+    """Run the ClipPilot pipeline in a background thread with granular re-rendering mode support."""
     _RENDER_JOBS[job_id]["status"] = "running"
     log_lines: list[str] = []
 
@@ -2686,125 +2835,175 @@ def _run_render_job(job_id: str, project_dir: Path, meta: dict):
         emotion_evts = [e for e in sfx_events if e["type"] == "emotion"]
         if sfx_events:
             log(f"  Detected {len(sfx_only)} SFX tag(s) + {len(emotion_evts)} emotion tag(s)")
-        # Pure clean script for TTS narration (avoids Edge-TTS speaking SSML/XML tags aloud)
-        tts_text = clean_script
-        script   = clean_script   # use clean script everywhere downstream
+        # Clean script used for captions & manifest
+        script = clean_script
 
-        # ── Step 1: TTS Narration ──────────────────────────────────────────
-        voice_name = meta.get("voice", "en-US-AndrewMultilingualNeural")
-        log(f"Step 1/5: Synthesizing narration ({voice_name}, 48 kHz)...")
         wav = str(project_dir / "narration.wav")
-        res = tts.synthesize(tts_text, wav, voice=voice_name)
-        if not res.get("available"):
-            raise Exception(f"TTS failed: {res.get('reason')}")
-        duration = signals.probe(wav).duration_s or 0.0
-        log(f"  Narration: {duration:.1f}s  ({len(script.split())} words)")
-
-        # ── Step 2: 60 FPS Ken-Burns slideshow ────────────────────────────
+        mixed_wav = str(project_dir / "narration_sfx.wav")
         base = str(project_dir / "base.mp4")
-        log("Step 2/5: Building 60 FPS Ken-Burns slideshow...")
-        video = A.assemble_slideshow(image_paths, wav, base, fps=60)
-        if not video:
-            log("  Falling back to animated gradient title card...")
-            video = A.assemble_short(wav, base, title=title, fps=60)
-        if not video:
-            raise Exception("Slideshow assembly failed — check ffmpeg")
-        log("  Base video ready")
-
-        # ── Step 3: Karaoke captions ───────────────────────────────────────
-        log("Step 3/5: Generating karaoke captions...")
-        from clippilot.media import transcribe as TR
-        words_list: list = []
-        if TR.whisper_available():
-            try:
-                tr = TR.transcribe(video, model_size="base")
-                words_list = tr.get("words") or []
-            except Exception as exc:
-                log(f"  Whisper unavailable: {exc}")
-
-        COMBINE_MS = 820
-        timing_src = "tts-estimate"
-        if words_list:
-            pages = C.pages_for_clip(words_list, 0.0, duration, combine_within_ms=COMBINE_MS)
-            if pages:
-                timing_src = "whisper"
-            else:
-                words_list = []
-
-        if not words_list:
-            toks = tts.word_timings(script, duration)
-            raw_pages = C.create_tiktok_style_captions(toks, combine_within_ms=COMBINE_MS)["pages"]
-            pages = []
-            for p in raw_pages:
-                start = p["start_ms"] / 1000.0
-                dur_p = p["duration_ms"]
-                end   = start + (dur_p / 1000.0 if math.isfinite(dur_p) and dur_p > 0 else 2.0)
-                pages.append({"start": round(start, 3), "end": round(end, 3), "tokens": p.get("tokens", [])})
-
-        log(f"  {len(pages)} caption pages ({timing_src})")
-
-        # ── Post-Step 3: Mix SFX into narration ───────────────────────────
-        if sfx_only:
-            log(f"  Mixing {len(sfx_only)} SFX tag(s) into narration...")
-            # Build word_timings list for timestamp resolver
-            if words_list:
-                wt = [{"start_ms": int(w.get("start", 0) * 1000), "end_ms": int(w.get("end", 0) * 1000)}
-                      for w in words_list]
-            else:
-                wt = [{"start_ms": t["start_ms"], "end_ms": t["end_ms"]}
-                      for t in tts.word_timings(script, duration)]
-            sfx_ms = locate_sfx_timestamps(sfx_only, wt)
-            mixed_wav = str(project_dir / "narration_sfx.wav")
-            wav = mix_sfx_into_narration(wav, sfx_ms, _SFX_DIR, mixed_wav)
-            log(f"  SFX mix complete: {wav}")
-
-        w, h = (1080, 1920) if video_type == "short" else (1920, 1080)
-        ass   = str(project_dir / "captions.ass")
-        
-        # Apply custom user subtitle styles
-        sub_font = meta.get("subtitle_font", "Arial Black")
-        sub_color = meta.get("subtitle_color", "&H00FFFFFF")
-        sub_highlight = meta.get("subtitle_highlight", "&H0000FFFF")
-        sub_size = int(meta.get("subtitle_size", 100))
-        sub_pos = meta.get("subtitle_position", "bottom")
-        margin_v = 360 if sub_pos == "bottom" else (800 if sub_pos == "center" else 1400)
-        
-        custom_style = {
-            "font": sub_font,
-            "fontsize": sub_size,
-            "primary": sub_highlight,
-            "secondary": sub_color,
-            "margin_v": margin_v
-        }
-        style = {**E.skin_style("karaoke_yellow"), **custom_style}
-        E.write_ass_karaoke(pages, ass, width=w, height=h, **style)
-        p_ass = Path(ass)
-        p_ass.write_text(p_ass.read_text(encoding="utf-8").replace("WrapStyle: 2", "WrapStyle: 0"), encoding="utf-8")
-
-        # ── Step 4: Burn captions → Final MP4 ─────────────────────────────
-        log("Step 4/5: Burning captions & mixing audio into final video...")
+        ass = str(project_dir / "captions.ass")
         final_name = f"Final_{slug}.mp4"
         final_path = str(project_dir / final_name)
-        final = E.burn_subtitles(video, ass, final_path)
+        w, h = (1080, 1920) if video_type == "short" else (1920, 1080)
+        aspect_ratio = "9:16" if video_type == "short" else "16:9"
+        resolution   = "1080x1920 @ 60FPS" if video_type == "short" else "1920x1080 @ 60FPS"
+
+        # ── Audio Processing (Required for 'full', 'narration_only', or initial runs) ──
+        need_audio = mode in ("full", "narration_only") or not Path(wav).exists()
+        
+        if need_audio:
+            # Step A: Synthesize Speech (with expressive multi-emotion prosody)
+            voice_name = meta.get("voice", "en-US-AndrewMultilingualNeural")
+            log(f"Step 1/5: Synthesizing narration ({voice_name}, 48 kHz, {len(emotion_evts)} emotion tags)...")
+            res = tts.synthesize(script_raw, wav, voice=voice_name)
+            if not res.get("available"):
+                raise Exception(f"TTS failed: {res.get('reason')}")
+            duration = signals.probe(wav).duration_s or 0.0
+            log(f"  Narration: {duration:.1f}s  ({len(script.split())} words)")
+
+            # Step B: Transcribe with Whisper for perfect word timings & captions
+            log("Step 2/5: Transcribing narration for captions & SFX sync...")
+            from clippilot.media import transcribe as TR
+            words_list: list = []
+            if TR.whisper_available():
+                try:
+                    tr = TR.transcribe(wav, model_size="base")
+                    words_list = tr.get("words") or []
+                except Exception as exc:
+                    log(f"  Whisper fallback: {exc}")
+
+            COMBINE_MS = 820
+            timing_src = "tts-estimate"
+            if words_list:
+                pages = C.pages_for_clip(words_list, 0.0, duration, combine_within_ms=COMBINE_MS)
+                if pages:
+                    timing_src = "whisper"
+                else:
+                    words_list = []
+
+            if not words_list:
+                toks = tts.word_timings(script, duration)
+                raw_pages = C.create_tiktok_style_captions(toks, combine_within_ms=COMBINE_MS)["pages"]
+                pages = []
+                for p in raw_pages:
+                    start = p["start_ms"] / 1000.0
+                    dur_p = p["duration_ms"]
+                    end   = start + (dur_p / 1000.0 if math.isfinite(dur_p) and dur_p > 0 else 2.0)
+                    pages.append({"start": round(start, 3), "end": round(end, 3), "tokens": p.get("tokens", [])})
+
+            log(f"  {len(pages)} caption pages ({timing_src})")
+
+            # Step C: Mix all SFX markers into narration at exact timestamps
+            master_audio = wav
+            if sfx_only:
+                log(f"  Mixing {len(sfx_only)} SFX tag(s) into narration at exact timestamps...")
+                if words_list:
+                    wt = [{"start_ms": int(w.get("start", 0) * 1000), "end_ms": int(w.get("end", 0) * 1000)}
+                          for w in words_list]
+                else:
+                    wt = [{"start_ms": t["start_ms"], "end_ms": t["end_ms"]}
+                          for t in tts.word_timings(script, duration)]
+                sfx_ms = locate_sfx_timestamps(sfx_only, wt)
+                sfx_vol = float(meta.get("sfx_volume", 0.85))
+                master_audio = mix_sfx_into_narration(wav, sfx_ms, _SFX_DIR, mixed_wav, sfx_volume=sfx_vol)
+                log(f"  SFX mix complete: {master_audio}")
+
+            # Step D: Mix Background Music (BGM) if selected
+            bgm_preset = meta.get("bgm_preset", "none")
+            if bgm_preset and bgm_preset != "none":
+                bgm_file = PROJECT_ROOT / "packages" / "ClipPilot" / "assets" / "bgm" / f"{bgm_preset}.wav"
+                if bgm_file.exists():
+                    log(f"  Mixing Background Music Bed ({bgm_preset})...")
+                    bgm_mixed = str(project_dir / "master_audio_bgm.wav")
+                    vol = float(meta.get("bgm_volume", 0.12))
+                    cmd = [
+                        "ffmpeg", "-y", "-i", str(master_audio), "-stream_loop", "-1", "-i", str(bgm_file),
+                        "-filter_complex", f"[1:a]volume={vol}[bg];[0:a][bg]amix=inputs=2:duration=first:dropout_transition=2[a]",
+                        "-map", "[a]", "-c:a", "pcm_s16le", "-ar", "48000", bgm_mixed
+                    ]
+                    subprocess.run(cmd, capture_output=True, timeout=60)
+                    if Path(bgm_mixed).exists() and Path(bgm_mixed).stat().st_size > 0:
+                        master_audio = bgm_mixed
+
+            # Step E: Generate ASS karaoke subtitles
+            sub_font = meta.get("subtitle_font", "Arial Black")
+            sub_color = meta.get("subtitle_color", "&H00FFFFFF")
+            sub_highlight = meta.get("subtitle_highlight", "&H0000FFFF")
+            sub_size = int(meta.get("subtitle_size", 100))
+            sub_pos = meta.get("subtitle_position", "bottom")
+            margin_v = 360 if sub_pos == "bottom" else (800 if sub_pos == "center" else 1400)
+            custom_style = {
+                "font": sub_font, "fontsize": sub_size,
+                "primary": sub_highlight, "secondary": sub_color, "margin_v": margin_v
+            }
+            style = {**E.skin_style("karaoke_yellow"), **custom_style}
+            E.write_ass_karaoke(pages, ass, width=w, height=h, **style)
+            p_ass = Path(ass)
+            p_ass.write_text(p_ass.read_text(encoding="utf-8").replace("WrapStyle: 2", "WrapStyle: 0"), encoding="utf-8")
+
+        else:
+            # Use existing audio track
+            master_audio = str(project_dir / "master_audio_bgm.wav") if (project_dir / "master_audio_bgm.wav").exists() else (
+                str(project_dir / "narration_sfx.wav") if (project_dir / "narration_sfx.wav").exists() else wav
+            )
+            duration = signals.probe(master_audio).duration_s or 0.0
+
+        # ── Slideshow Processing (Required for 'full', 'slideshow_only', or when base.mp4 is missing) ──
+        need_slides = mode in ("full", "slideshow_only") or not Path(base).exists()
+        
+        if need_slides:
+            log("Step 3/5: Building 60 FPS Ken-Burns slideshow...")
+            video = A.assemble_slideshow(image_paths, master_audio, base, fps=60, log_fn=log)
+            if not video:
+                log("  Falling back to animated gradient title card...")
+                video = A.assemble_short(master_audio, base, title=title, fps=60)
+            if not video:
+                raise Exception("Slideshow assembly failed — check ffmpeg")
+            log("  Base video ready")
+        else:
+            video = base
+            log("  Using existing 60 FPS slideshow video (fast audio/caption update)...")
+
+        # ── Subtitles Re-styling (If mode is 'subtitles_only') ──
+        if mode == "subtitles_only":
+            log("Regenerating ASS subtitles styling...")
+            from clippilot.media import transcribe as TR
+            words_list = []
+            if TR.whisper_available():
+                try:
+                    tr = TR.transcribe(wav if Path(wav).exists() else master_audio, model_size="base")
+                    words_list = tr.get("words") or []
+                except Exception:
+                    pass
+            pages = C.pages_for_clip(words_list, 0.0, duration, combine_within_ms=820) if words_list else []
+            if not pages:
+                toks = tts.word_timings(script, duration)
+                raw_pages = C.create_tiktok_style_captions(toks, combine_within_ms=820)["pages"]
+                pages = [{"start": round(p["start_ms"]/1000.0, 3), "end": round((p["start_ms"]+p["duration_ms"])/1000.0, 3), "tokens": p.get("tokens", [])} for p in raw_pages]
+            
+            sub_font = meta.get("subtitle_font", "Arial Black")
+            sub_color = meta.get("subtitle_color", "&H00FFFFFF")
+            sub_highlight = meta.get("subtitle_highlight", "&H0000FFFF")
+            sub_size = int(meta.get("subtitle_size", 100))
+            sub_pos = meta.get("subtitle_position", "bottom")
+            margin_v = 360 if sub_pos == "bottom" else (800 if sub_pos == "center" else 1400)
+            custom_style = {
+                "font": sub_font, "fontsize": sub_size,
+                "primary": sub_highlight, "secondary": sub_color, "margin_v": margin_v
+            }
+            style = {**E.skin_style("karaoke_yellow"), **custom_style}
+            E.write_ass_karaoke(pages, ass, width=w, height=h, **style)
+            p_ass = Path(ass)
+            p_ass.write_text(p_ass.read_text(encoding="utf-8").replace("WrapStyle: 2", "WrapStyle: 0"), encoding="utf-8")
+
+        # ── Final Video Assembly: Burn Captions + Master Audio (SFX + BGM) ──
+        log("Step 4/5: Burning captions & embedding master 48kHz audio...")
+        final = E.burn_subtitles(video, ass, final_path, audio_path=master_audio)
         if not final:
             raise Exception("Caption burn-in failed — check ffmpeg / libass")
-            
-        # Optional BGM bed
-        bgm_preset = meta.get("bgm_preset", "none")
-        if bgm_preset and bgm_preset != "none":
-            bgm_file = PROJECT_ROOT / "packages" / "ClipPilot" / "assets" / "bgm" / f"{bgm_preset}.wav"
-            if bgm_file.exists():
-                log(f"  Mixing Background Music Bed ({bgm_preset})...")
-                bgm_out = str(project_dir / f"Final_{slug}_bgm.mp4")
-                vol = float(meta.get("bgm_volume", 0.12))
-                res_bgm = E.add_bgm(final_path, str(bgm_file), bgm_out, volume=vol)
-                if res_bgm:
-                    final_path = bgm_out
-                    final_name = Path(bgm_out).name
-                    
-        log(f"  Final: {final_name}")
+        log(f"  Final video ready: {final_name}")
 
-        # ── Step 5: manifest.json ──────────────────────────────────────────
+        # ── Step 5: Write manifest.json ────────────────────────────────────
         log("Step 5/5: Writing manifest.json...")
         per_dur  = duration / max(1, len(image_paths))
         timeline = []
@@ -2813,11 +3012,6 @@ def _run_render_job(job_id: str, project_dir: Path, meta: dict):
             et = min(duration, (idx + 1) * per_dur)
             pe = prompts_list[idx] if idx < len(prompts_list) else {}
             slide_f = project_dir / f"slide_{idx:02d}.mp4"
-            cap_text = (
-                pages[idx]["tokens"][0]["text"]
-                if idx < len(pages) and pages[idx].get("tokens")
-                else title
-            )
             timeline.append({
                 "clip_index":       idx,
                 "start_s":          round(st, 2),
@@ -2827,13 +3021,11 @@ def _run_render_job(job_id: str, project_dir: Path, meta: dict):
                 "slide_video_path": str(slide_f.resolve()) if slide_f.exists() else None,
                 "keyword":          keywords[idx % len(keywords)] if keywords else "",
                 "prompt":           pe.get("prompt", ""),
-                "caption_text":     cap_text,
+                "caption_text":     pe.get("filename", Path(img_path).name),
                 "filename":         pe.get("filename", Path(img_path).name),
             })
 
-        aspect_ratio = "9:16" if video_type == "short" else "16:9"
-        resolution   = "1080x1920 @ 60FPS" if video_type == "short" else "1920x1080 @ 60FPS"
-        hashtags     = (["#shorts"] if video_type == "short" else ["#youtube"]) + [f"#{t}" for t in tags[:6]]
+        hashtags = (["#shorts"] if video_type == "short" else ["#youtube"]) + [f"#{t}" for t in tags[:6]]
 
         manifest = {
             "project_info": {
@@ -2856,6 +3048,7 @@ def _run_render_job(job_id: str, project_dir: Path, meta: dict):
                 "video_path":       str(Path(final).resolve()),
                 "final_video_name": final_name,
                 "narration_path":   wav,
+                "master_audio_path": master_audio,
                 "captions_path":    ass,
                 "images_dir":       str((project_dir / "images").resolve()),
                 "image_count":      len(image_paths),
@@ -2894,7 +3087,7 @@ def _run_render_job(job_id: str, project_dir: Path, meta: dict):
         manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
 
         size_mb = Path(final).stat().st_size / (1024 * 1024)
-        log(f"\n[OK] Done! {duration:.1f}s · {resolution} · {size_mb:.1f} MB")
+        log(f"\n[OK] Done ({mode})! {duration:.1f}s · {resolution} · {size_mb:.1f} MB")
 
         _RENDER_JOBS[job_id].update({
             "status":        "done",
@@ -2903,6 +3096,7 @@ def _run_render_job(job_id: str, project_dir: Path, meta: dict):
             "duration_s":    round(duration, 2),
             "resolution":    resolution,
             "size_mb":       round(size_mb, 2),
+            "mode":          mode,
         })
 
     except Exception as exc:
@@ -2914,7 +3108,8 @@ def _run_render_job(job_id: str, project_dir: Path, meta: dict):
 
 @app.route("/api/studio/render/<path:project_id>", methods=["POST"])
 def studio_render(project_id):
-    """Kick off the rendering pipeline for a studio project (non-blocking)."""
+    """Kick off the rendering pipeline for a studio project (non-blocking).
+    Supports granular modes: 'full', 'narration_only', 'slideshow_only', 'subtitles_only'."""
     project_dir = OUTPUT_ROOT / project_id
     meta_path   = project_dir / "studio_meta.json"
     if not project_dir.exists():
@@ -2922,30 +3117,60 @@ def studio_render(project_id):
     if not meta_path.exists():
         return jsonify({"error": "studio_meta.json not found in project"}), 404
 
-    # Remove previous output artifacts to ensure a fresh, clean render
-    for old_file in list(project_dir.glob("Final_*.mp4")) + list(project_dir.glob("slide_*.mp4")) + [
-        project_dir / "manifest.json", project_dir / "base.mp4", project_dir / "slides_silent.mp4",
-        project_dir / "slides_concat.txt", project_dir / "narration.wav", project_dir / "narration_sfx.wav",
-        project_dir / "captions.ass"
-    ]:
-        try:
-            if old_file.exists():
-                old_file.unlink()
-        except Exception:
-            pass
+    data = request.get_json(silent=True) or {}
+    mode = data.get("mode", "full")
 
-    meta   = json.loads(meta_path.read_text(encoding="utf-8"))
+    # Update meta with any passed overrides (e.g. voice, sfx_volume, bgm_preset, subtitle styles)
+    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    for k, v in data.items():
+        if k != "mode" and v is not None:
+            meta[k] = v
+    meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
+
+    # Clean up according to mode
+    if mode == "full":
+        for old_file in list(project_dir.glob("Final_*.mp4")) + list(project_dir.glob("slide_*.mp4")) + [
+            project_dir / "manifest.json", project_dir / "base.mp4", project_dir / "slides_silent.mp4",
+            project_dir / "slides_concat.txt", project_dir / "narration.wav", project_dir / "narration_sfx.wav",
+            project_dir / "master_audio_bgm.wav", project_dir / "captions.ass"
+        ]:
+            try:
+                if old_file.exists():
+                    old_file.unlink()
+            except Exception:
+                pass
+    elif mode == "narration_only":
+        for old_file in list(project_dir.glob("Final_*.mp4")) + [
+            project_dir / "narration.wav", project_dir / "narration_sfx.wav",
+            project_dir / "master_audio_bgm.wav", project_dir / "captions.ass"
+        ]:
+            try:
+                if old_file.exists():
+                    old_file.unlink()
+            except Exception:
+                pass
+    elif mode == "slideshow_only":
+        for old_file in list(project_dir.glob("Final_*.mp4")) + list(project_dir.glob("slide_*.mp4")) + [
+            project_dir / "base.mp4", project_dir / "slides_silent.mp4", project_dir / "slides_concat.txt"
+        ]:
+            try:
+                if old_file.exists():
+                    old_file.unlink()
+            except Exception:
+                pass
+
     job_id = str(uuid.uuid4())[:8]
     _RENDER_JOBS[job_id] = {
         "status":        "starting",
         "project_id":    project_id,
-        "log":           "Initializing pipeline…",
+        "mode":          mode,
+        "log":           f"Initializing {mode} pipeline…",
         "video_path":    None,
         "manifest_path": None,
         "error":         None,
     }
-    threading.Thread(target=_run_render_job, args=(job_id, project_dir, meta), daemon=True).start()
-    return jsonify({"job_id": job_id, "status": "starting"})
+    threading.Thread(target=_run_render_job, args=(job_id, project_dir, meta, mode), daemon=True).start()
+    return jsonify({"job_id": job_id, "status": "starting", "mode": mode})
 
 
 @app.route("/api/studio/render_status/<job_id>", methods=["GET"])
@@ -3113,6 +3338,119 @@ def preview_voice(voice_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     return jsonify({"error": "Voice preview failed"}), 400
+
+
+@app.route("/studio/audio/<path:filepath>", methods=["GET"])
+def serve_studio_audio(filepath):
+    """Serve studio audio files (narration.wav, narration_sfx.wav, etc.)."""
+    full_path = OUTPUT_ROOT / filepath
+    if full_path.exists():
+        ext = full_path.suffix.lower()
+        mime = {".wav": "audio/wav", ".mp3": "audio/mpeg", ".aac": "audio/aac", ".m4a": "audio/mp4"}.get(ext, "audio/wav")
+        return send_file(full_path, mimetype=mime)
+    return jsonify({"error": "Audio file not found"}), 404
+
+
+@app.route("/studio/audio_preview/<filename>", methods=["GET"])
+def serve_audio_preview(filename):
+    """Serve synthesized audio preview files."""
+    preview_dir = PROJECT_ROOT / "packages" / "ClipPilot" / "data" / "audio_previews"
+    full_path = preview_dir / filename
+    if full_path.exists():
+        ext = full_path.suffix.lower()
+        mime = {".wav": "audio/wav", ".mp3": "audio/mpeg", ".aac": "audio/aac"}.get(ext, "audio/wav")
+        return send_file(full_path, mimetype=mime)
+    return jsonify({"error": "Preview not found"}), 404
+
+
+@app.route("/api/studio/preview_audio", methods=["POST"])
+def studio_preview_audio():
+    """Synthesize narration from script and mix all SFX & BGM tags for in-browser instant preview."""
+    try:
+        data = request.get_json(silent=True) or {}
+        script_raw = data.get("script", "")
+        if not script_raw.strip():
+            return jsonify({"error": "Script is empty"}), 400
+
+        voice_name = data.get("voice", "en-US-AndrewMultilingualNeural")
+        sfx_vol = float(data.get("sfx_volume", 0.85))
+        bgm_preset = data.get("bgm_preset", "none")
+        bgm_vol = float(data.get("bgm_volume", 0.12))
+
+        preview_dir = PROJECT_ROOT / "packages" / "ClipPilot" / "data" / "audio_previews"
+        preview_dir.mkdir(parents=True, exist_ok=True)
+        prev_id = str(uuid.uuid4())[:8]
+        raw_wav = str(preview_dir / f"prev_raw_{prev_id}.wav")
+        out_wav = str(preview_dir / f"prev_mix_{prev_id}.wav")
+
+        # Parse SFX & emotion markers
+        _sfx_gen_path = str(PROJECT_ROOT / "scripts" / "generators")
+        if _sfx_gen_path not in sys.path:
+            sys.path.insert(0, _sfx_gen_path)
+        from clippilot.media import signals, tts
+        from sfx_engine import parse_sfx_markers, locate_sfx_timestamps, mix_sfx_into_narration, generate_preset_sfx
+        _SFX_DIR = PROJECT_ROOT / "packages" / "ClipPilot" / "assets" / "sfx"
+        generate_preset_sfx(_SFX_DIR)
+
+        clean_script, sfx_events = parse_sfx_markers(script_raw)
+        sfx_only = [e for e in sfx_events if e["type"] == "sfx"]
+        emotion_evts = [e for e in sfx_events if e["type"] == "emotion"]
+
+        # Synthesize voice with emotion prosody
+        res = tts.synthesize(script_raw, raw_wav, voice=voice_name)
+        if not res.get("available") or not Path(raw_wav).exists():
+            return jsonify({"error": f"TTS synthesis failed: {res.get('reason')}"}), 500
+
+        dur = signals.probe(raw_wav).duration_s or 0.0
+
+        # Transcribe or estimate word timings
+        from clippilot.media import transcribe as TR
+        words_list = []
+        if TR.whisper_available():
+            try:
+                tr = TR.transcribe(raw_wav, model_size="base")
+                words_list = tr.get("words") or []
+            except Exception:
+                pass
+
+        if words_list:
+            wt = [{"start_ms": int(w.get("start", 0) * 1000), "end_ms": int(w.get("end", 0) * 1000)}
+                  for w in words_list]
+        else:
+            wt = [{"start_ms": t["start_ms"], "end_ms": t["end_ms"]}
+                  for t in tts.word_timings(clean_script, dur)]
+
+        # Mix SFX
+        master = raw_wav
+        if sfx_only:
+            sfx_ms = locate_sfx_timestamps(sfx_only, wt)
+            master = mix_sfx_into_narration(raw_wav, sfx_ms, _SFX_DIR, out_wav, sfx_volume=sfx_vol)
+
+        # Mix BGM if requested
+        if bgm_preset and bgm_preset != "none":
+            bgm_file = PROJECT_ROOT / "packages" / "ClipPilot" / "assets" / "bgm" / f"{bgm_preset}.wav"
+            if bgm_file.exists():
+                bgm_out = str(preview_dir / f"prev_bgm_{prev_id}.wav")
+                cmd = [
+                    "ffmpeg", "-y", "-i", str(master), "-stream_loop", "-1", "-i", str(bgm_file),
+                    "-filter_complex", f"[1:a]volume={bgm_vol}[bg];[0:a][bg]amix=inputs=2:duration=first:dropout_transition=2[a]",
+                    "-map", "[a]", "-c:a", "pcm_s16le", "-ar", "48000", bgm_out
+                ]
+                subprocess.run(cmd, capture_output=True, timeout=30)
+                if Path(bgm_out).exists() and Path(bgm_out).stat().st_size > 0:
+                    master = bgm_out
+
+        final_filename = Path(master).name
+        return jsonify({
+            "audio_url": f"/studio/audio_preview/{final_filename}",
+            "duration_s": round(dur, 2),
+            "sfx_count": len(sfx_only),
+            "emotion_count": len(emotion_evts),
+            "clean_script": clean_script,
+        })
+    except Exception as e:
+        import traceback
+        return jsonify({"error": str(e), "trace": traceback.format_exc()}), 500
 
 
 @app.route("/api/studio/preview_bgm/<bgm_preset>", methods=["GET"])

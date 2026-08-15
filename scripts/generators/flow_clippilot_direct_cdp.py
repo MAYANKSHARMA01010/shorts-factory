@@ -46,7 +46,7 @@ DEFAULT_FLOW_URL = os.getenv(
     "GOOGLE_FLOW_PROJECT_URL",
     "https://labs.google/fx/tools/flow"
 )
-CDP_URL = os.getenv("GOOGLE_FLOW_CDP_URL", "http://localhost:9222")
+CDP_URL = os.getenv("GOOGLE_FLOW_CDP_URL", "http://127.0.0.1:9222")
 GEN_WAIT_SECONDS = int(os.getenv("GOOGLE_FLOW_WAIT_SECONDS", "38"))
 COOLDOWN_SECONDS = int(os.getenv("GOOGLE_FLOW_COOLDOWN_SECONDS", "10"))
 GEN_TIMEOUT_SECONDS = int(os.getenv("GOOGLE_FLOW_TIMEOUT_SECONDS", "180"))
@@ -54,6 +54,70 @@ MAX_RETRIES = int(os.getenv("GOOGLE_FLOW_MAX_RETRIES", "2"))
 
 def log(msg: str):
     print(f"[flow-cdp {time.strftime('%H:%M:%S')}] {msg}", flush=True)
+
+def ensure_chrome_running(cdp_url: str = CDP_URL) -> bool:
+    """Ensure Google Chrome is actively running with remote debugging port enabled."""
+    import socket
+    import subprocess
+    import shutil
+    from urllib.parse import urlparse
+    parsed = urlparse(cdp_url)
+    host = parsed.hostname or "127.0.0.1"
+    port = parsed.port or 9222
+    
+    # 1. Check if port is already open
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.settimeout(1.0)
+    try:
+        s.connect((host, port))
+        s.close()
+        return True
+    except Exception:
+        pass
+
+    # 2. Try to launch Chrome with remote debugging on macOS/Linux/Windows
+    log(f"Chrome Remote Debugging (port {port}) is not active. Auto-launching Google Chrome...")
+    profile_dir = Path.home() / ".gemini" / "antigravity-browser-profile"
+    profile_dir.mkdir(parents=True, exist_ok=True)
+    
+    chrome_paths = [
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "/Applications/Chromium.app/Contents/MacOS/Chromium",
+        "google-chrome",
+        "google-chrome-stable",
+        "chromium",
+        r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+        r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+    ]
+    chrome_bin = None
+    for p in chrome_paths:
+        if os.path.exists(p) or (shutil.which(p) is not None):
+            chrome_bin = p
+            break
+
+    if chrome_bin:
+        cmd = [
+            chrome_bin,
+            f"--remote-debugging-port={port}",
+            f"--user-data-dir={profile_dir}",
+            DEFAULT_FLOW_URL
+        ]
+        try:
+            subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            for _ in range(12):
+                time.sleep(0.5)
+                s2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                s2.settimeout(0.5)
+                try:
+                    s2.connect((host, port))
+                    s2.close()
+                    log(f"✅ Google Chrome successfully connected on port {port}!")
+                    return True
+                except Exception:
+                    pass
+        except Exception as e:
+            log(f"Failed to auto-launch Chrome: {e}")
+    return False
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Prompt Loading
@@ -141,19 +205,45 @@ async def human_click(page, locator):
         await locator.click()
 
 async def find_flow_page(context, target_url: str):
-    """Find active Google Flow tab or open a fresh project."""
+    """Find active Google Flow project canvas tab or open/enter a project."""
+    # 1. Prefer tab that is already inside a project canvas
     for page in context.pages:
-        if "labs.google/fx/tools/flow/project/" in page.url:
-            return page
-    for page in context.pages:
-        if "labs.google/fx/tools/flow" in page.url:
+        if "/fx/tools/flow/project/" in page.url:
             return page
 
-    # If no flow page open, navigate
+    # 2. Check for general flow tabs
+    for page in context.pages:
+        if "labs.google/fx/tools/flow" in page.url:
+            # Check if there is a project card we can click into
+            try:
+                first_proj = page.locator('a[href*="/project/"]').first
+                if await first_proj.count() > 0:
+                    href = await first_proj.get_attribute("href")
+                    if href:
+                        target = f"https://labs.google{href}" if href.startswith("/") else href
+                        log(f"Entering Google Flow project canvas: {target}")
+                        await page.goto(target, wait_until="networkidle")
+                        await page.wait_for_timeout(2500)
+                        return page
+            except Exception as e:
+                log(f"Could not auto-navigate project link: {e}")
+            return page
+
+    # 3. If no flow page open, navigate to target_url
     log(f"Flow page not found in active tabs. Navigating to {target_url}...")
     page = await context.new_page()
     await page.goto(target_url, wait_until="domcontentloaded")
     await page.wait_for_timeout(3000)
+    try:
+        first_proj = page.locator('a[href*="/project/"]').first
+        if await first_proj.count() > 0:
+            href = await first_proj.get_attribute("href")
+            if href:
+                target = f"https://labs.google{href}" if href.startswith("/") else href
+                await page.goto(target, wait_until="networkidle")
+                await page.wait_for_timeout(2500)
+    except Exception:
+        pass
     return page
 
 async def generate_single_image(
@@ -186,27 +276,55 @@ async def generate_single_image(
     pre_srcs = set(await get_all_image_srcs(page))
     log(f"    1. Current images on board: {len(pre_srcs)}")
 
-    # 2. Human focus on prompt box
-    box = page.locator('div[role="textbox"][contenteditable="true"]').first
-    await box.wait_for(state="visible", timeout=15000)
+    # Ensure any open popups or asset dialogs are closed
+    try:
+        await page.keyboard.press("Escape")
+        await page.wait_for_timeout(200)
+    except Exception:
+        pass
+
+    # 2. Locate prompt box (Slate.js editor or contenteditable or textarea)
+    box = None
+    selectors = [
+        '[data-slate-editor="true"]',
+        'div[role="textbox"][contenteditable="true"]',
+        'div[role="textbox"]',
+        'textarea[placeholder*="create" i]',
+        'textarea',
+        '[contenteditable="true"]'
+    ]
+    for sel in selectors:
+        loc = page.locator(sel).first
+        if await loc.count() > 0:
+            try:
+                if await loc.is_visible():
+                    box = loc
+                    break
+            except Exception:
+                pass
+
+    if not box:
+        box = page.locator('[data-slate-editor="true"], div[role="textbox"][contenteditable="true"]').first
+        await box.wait_for(state="visible", timeout=15000)
+
     await human_click(page, box)
-    await page.wait_for_timeout(random.randint(250, 450))
+    await page.wait_for_timeout(random.randint(200, 350))
 
     # 3. Select all and clear existing draft
     await page.keyboard.press("Meta+a")
     await page.wait_for_timeout(random.randint(40, 80))
     await page.keyboard.press("Backspace")
-    await page.wait_for_timeout(random.randint(100, 200))
+    await page.wait_for_timeout(random.randint(80, 150))
 
-    # 4. Insert prompt using native paste simulation (insert_text)
-    log(f"    2. Pasting prompt ({len(prompt)} chars)...")
-    await page.keyboard.insert_text(prompt)
-    await page.wait_for_timeout(random.randint(500, 900))
+    # 4. Insert prompt using keystroke typing to update React synthetic state
+    log(f"    2. Typing prompt ({len(prompt)} chars)...")
+    await page.keyboard.type(prompt, delay=10)
+    await page.wait_for_timeout(random.randint(400, 700))
 
-    # 5. Human click on Submit / Create button
-    btn = page.locator("button:has-text('arrow_forward'), button:has(i:has-text('arrow_forward'))").first
-    if await btn.is_visible():
-        await human_click(page, btn)
+    # 5. Submit prompt (strictly target the circular right arrow submit button, NOT the + button)
+    arrow_btn = page.locator('button:has(i:has-text("arrow_forward")), button:has(span:has-text("arrow_forward"))').first
+    if await arrow_btn.count() > 0 and await arrow_btn.is_visible() and (await arrow_btn.get_attribute("aria-disabled")) != "true":
+        await human_click(page, arrow_btn)
     else:
         await page.keyboard.press("Enter")
 
@@ -222,13 +340,22 @@ async def generate_single_image(
         if cancel_check and cancel_check():
             raise InterruptedError("Generation was cancelled.")
 
-        # Check for Google Flow account block / unusual activity message
+        # Check for visible Google Flow account block / rate limit message
         try:
-            page_html = (await page.content()).lower()
-            if "unusual activity" in page_html and ("cooldown" in page_html or "cooling-off" in page_html or "failed" in page_html):
+            has_visible_error = await page.evaluate("""() => {
+                const els = document.querySelectorAll('[role="alert"], [class*="toast"], [class*="banner"], [class*="modal"]');
+                for (const el of els) {
+                    const text = (el.innerText || '').toLowerCase();
+                    if (el.offsetParent !== null && (text.includes("unusual activity") || text.includes("too much traffic"))) {
+                        return el.innerText;
+                    }
+                }
+                return null;
+            }""")
+            if has_visible_error:
                 raise RuntimeError(
-                    "Google Flow account is temporarily in cooldown ('We noticed some unusual activity'). "
-                    "Google requires a cooling-off period (15-30 mins) before accepting new prompts."
+                    f"Google Flow account alert: {has_visible_error}. "
+                    "Google requires a cooling-off period before accepting new prompts."
                 )
         except RuntimeError:
             raise
@@ -303,6 +430,8 @@ async def generate_flow_images_for_project(
             log(f"     Prompt: {it['clean_prompt'][:90]}...")
         return {"success": True, "dry_run": True, "total": len(to_do)}
 
+    ensure_chrome_running(CDP_URL)
+
     async with async_playwright() as pw:
         log(f"Connecting to Chrome on {CDP_URL}...")
         browser = await pw.chromium.connect_over_cdp(CDP_URL)
@@ -347,12 +476,13 @@ async def generate_flow_images_for_project(
             if progress_callback:
                 progress_callback(status_payload)
 
+            pct = int(((i + 1) / len(items)) * 100)
             log(f"\n{'━'*60}")
-            log(f"[{i+1}/{len(items)}] Scene {item['scene_idx']} Image {item['img_idx']} → {filename}")
+            log(f"🍌 [Image {i+1}/{len(items)} ({pct}%)] Scene {item['scene_idx']} Image {item['img_idx']} → {filename}")
             log(f"📝 {item['description']}")
 
             if not force and broll_p.exists() and images_p.exists() and broll_p.stat().st_size > 10000:
-                log(f"✓ Already exists ({broll_p.stat().st_size:,} bytes) — skipping.")
+                log(f"  ⏩ [Image {i+1}/{len(items)}] Already exists ({broll_p.stat().st_size:,} bytes) — skipping.")
                 success_count += 1
                 completed_filenames.append(filename)
                 continue
@@ -362,7 +492,7 @@ async def generate_flow_images_for_project(
                 if cancel_check and cancel_check():
                     break
                 try:
-                    log(f"  Attempt {attempt}/{MAX_RETRIES} generating {filename}...")
+                    log(f"  Attempt {attempt}/{MAX_RETRIES} generating [{i+1}/{len(items)}] {filename}...")
                     img_bytes = await generate_single_image(
                         flow_page,
                         prompt,
@@ -373,7 +503,7 @@ async def generate_flow_images_for_project(
                     )
                     broll_p.write_bytes(img_bytes)
                     images_p.write_bytes(img_bytes)
-                    log(f"  ✅ Saved: {broll_p.name} ({len(img_bytes):,} bytes)")
+                    log(f"  ✅ Saved [{success_count+1}/{len(items)}]: {broll_p.name} ({len(img_bytes):,} bytes)")
                     generated = True
                     break
                 except InterruptedError:
@@ -387,12 +517,19 @@ async def generate_flow_images_for_project(
                         error_count += 1
                         break
                     try:
-                        await flow_page.keyboard.press("Escape")
-                        await flow_page.wait_for_timeout(1000)
+                        if not flow_page.is_closed():
+                            await flow_page.keyboard.press("Escape")
+                            await flow_page.wait_for_timeout(1000)
                     except Exception:
                         pass
                     if attempt < MAX_RETRIES:
-                        await flow_page.wait_for_timeout(6000)
+                        try:
+                            if flow_page.is_closed():
+                                flow_page = await find_flow_page(context, target_flow_url)
+                            else:
+                                await flow_page.wait_for_timeout(4000)
+                        except Exception:
+                            pass
 
             if cancel_check and cancel_check():
                 log("🛑 Generation loop aborted due to cancellation.")
@@ -474,6 +611,8 @@ async def generate_single_flow_image_async(
     images_p = images_dir / filename
 
     clean_prompt = prompt.split("Save this image as:")[0].strip().rstrip(".")
+
+    ensure_chrome_running(CDP_URL)
 
     async with async_playwright() as pw:
         browser = await pw.chromium.connect_over_cdp(CDP_URL)
