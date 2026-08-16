@@ -1254,14 +1254,14 @@ ASPECT RATIO: {aspect} ({'Vertical Portrait 9:16' if aspect == '9:16' else 'Wide
 AESTHETIC STYLE: {style_name}
 
 GOOGLE FLOW / NANO BANANA PRO PROMPT RULES:
-1. ACTION & PHYSICALITY FIRST: Describe characters actively doing things with visible hands, facial expressions, and physical props (e.g. "pinching nose shut with fingers in panic", "holding up a printed utility bill with bold red '$47.00' stamp", "speaking into a cluster of silver press microphones at a dark wooden podium", "running through misty forest trail looking back in panic").
+1. ACTION & PHYSICALITY FIRST: Describe characters actively doing things with visible hands, facial expressions, and physical props (e.g. "pinching nose shut with fingers in shock", "holding up an official paper document with expressive reaction", "speaking into a cluster of silver press microphones at a dark wooden podium", "walking through misty forest trail looking around in wonder").
 2. VARY CAMERA FRAMING & LENS ACROSS THE {n_imgs} PROMPTS:
    - Medium Action Shot (50mm / 85mm): showing hands, props, character torso, and immediate room/street context.
    - Environmental Wide Shot (24mm / 35mm deep focus): showing full crowd, landscape, forest canopy, city street, or laboratory scale.
-   - Prop / Interaction Macro Close-Up: focused on the key object (meter bolted to bark, glowing smartphone screen, breath clip, bill) with crisp macro detail.
+   - Prop / Interaction Macro Close-Up: focused on the key object (meter attached to tree bark, glowing smartphone screen, futuristic breathing device) with crisp macro detail.
    - Dramatic Hero / Low-Angle Reaction Shot: capturing expressive facial reaction and dramatic lighting.
 3. LIGHTING & ATMOSPHERE: Include volumetric lighting, natural shadows, golden hour beams, neon rim light, or atmospheric fog.
-4. TEXT & LABELS: When relevant, specify crisp readable text in quotes (e.g. 'a digital meter displaying "0.05 / BREATH"', 'a paper bill stamped "OVERDUE"').
+4. STRICT SAFETY & COMPLIANCE: NEVER use currency symbols (like $, €, £), exact dollar amounts, fake currency stamps, or words like "panic", "bloody", "nude", "screwed". Describe visual story elements naturally.
 5. COMPOSITION (ZERO-CROP): {style_defaults}.
 6. NO TAG SOUP: Write fluent, natural descriptive sentences. Do NOT list comma-separated meaningless tags.
 7. Append: "Save this image as: <filename>."

@@ -47,9 +47,9 @@ DEFAULT_FLOW_URL = os.getenv(
     "https://labs.google/fx/tools/flow"
 )
 CDP_URL = os.getenv("GOOGLE_FLOW_CDP_URL", "http://127.0.0.1:9222")
-GEN_WAIT_SECONDS = int(os.getenv("GOOGLE_FLOW_WAIT_SECONDS", "38"))
-COOLDOWN_SECONDS = int(os.getenv("GOOGLE_FLOW_COOLDOWN_SECONDS", "10"))
-GEN_TIMEOUT_SECONDS = int(os.getenv("GOOGLE_FLOW_TIMEOUT_SECONDS", "180"))
+GEN_WAIT_SECONDS = int(os.getenv("GOOGLE_FLOW_WAIT_SECONDS", "18"))
+COOLDOWN_SECONDS = int(os.getenv("GOOGLE_FLOW_COOLDOWN_SECONDS", "4"))
+GEN_TIMEOUT_SECONDS = int(os.getenv("GOOGLE_FLOW_TIMEOUT_SECONDS", "120"))
 MAX_RETRIES = int(os.getenv("GOOGLE_FLOW_MAX_RETRIES", "2"))
 
 def log(msg: str):
@@ -89,35 +89,61 @@ def ensure_chrome_running(cdp_url: str = CDP_URL) -> bool:
         r"C:\Program Files\Google\Chrome\Application\chrome.exe",
         r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
     ]
-    chrome_bin = None
     for p in chrome_paths:
-        if os.path.exists(p) or (shutil.which(p) is not None):
-            chrome_bin = p
-            break
-
-    if chrome_bin:
-        cmd = [
-            chrome_bin,
-            f"--remote-debugging-port={port}",
-            f"--user-data-dir={profile_dir}",
-            DEFAULT_FLOW_URL
-        ]
-        try:
-            subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            for _ in range(12):
-                time.sleep(0.5)
-                s2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                s2.settimeout(0.5)
-                try:
-                    s2.connect((host, port))
-                    s2.close()
-                    log(f"✅ Google Chrome successfully connected on port {port}!")
-                    return True
-                except Exception:
-                    pass
-        except Exception as e:
-            log(f"Failed to auto-launch Chrome: {e}")
+        if shutil.which(p) or Path(p).exists():
+            cmd = [
+                str(p),
+                f"--remote-debugging-port={port}",
+                f"--user-data-dir={profile_dir}",
+                "--no-first-run",
+                "--no-default-browser-check",
+                DEFAULT_FLOW_URL
+            ]
+            try:
+                subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                for _ in range(12):
+                    time.sleep(0.5)
+                    s2 = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    s2.settimeout(0.5)
+                    try:
+                        s2.connect((host, port))
+                        s2.close()
+                        log(f"✅ Google Chrome successfully connected on port {port}!")
+                        return True
+                    except Exception:
+                        pass
+            except Exception as e:
+                log(f"Failed to auto-launch Chrome with {p}: {e}")
     return False
+
+
+def strip_prompt_metadata(prompt: str) -> str:
+    """Strip 'Save this image as: ...' and 'Negative: ...' suffixes from the prompt.
+    Returns the raw visual prompt exactly as Gemini generated it, unchanged."""
+    p = prompt.split("Save this image as:")[0].split("Negative:")[0].strip().rstrip(".")
+    return p
+
+
+def sanitize_prompt_for_flow_retry(prompt: str, aggressive: bool = False) -> str:
+    """ONLY used on retry after Google Flow explicitly rejects a prompt.
+    Applies minimal cleanup to try again without rewriting visual content.
+    """
+    import re
+    p = strip_prompt_metadata(prompt)
+
+    if aggressive:
+        # Ultra-clean fallback: take first 2 sentences + standard cinematic framing
+        sentences = [s.strip() for s in p.split(".") if s.strip()]
+        core = ". ".join(sentences[:2]) if sentences else p[:200]
+        p = f"{core}. Vertical 9:16 portrait composition, volumetric lighting, photorealistic 8k, crisp focal detail."
+        return p
+
+    # Light touch — only strip currency symbols and literal quoted text strings
+    import re
+    p = re.sub(r"[\$€£¥₹]\s*\d+([.,]\d+)?", "a stated amount", p)
+    p = re.sub(r"['\"][^'\"]{1,40}['\"]", "a written label", p)
+    p = re.sub(r"\s+", " ", p).strip()
+    return p
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Prompt Loading
@@ -264,13 +290,13 @@ async def generate_single_image(
     # 0. Wait for any previous in-flight generations on board to settle
     settle_start = time.time()
     while await has_in_flight_generations(page):
-        if time.time() - settle_start > 90:
-            log("    ⚠ Board settle wait exceeded 90s, proceeding cautiously...")
+        if time.time() - settle_start > 60:
+            log("    ⚠ Board settle wait exceeded 60s, proceeding cautiously...")
             break
         if cancel_check and cancel_check():
             raise InterruptedError("Generation was cancelled.")
         log("    ⏳ Waiting for existing in-flight tile on Flow board to finish rendering...")
-        await page.wait_for_timeout(4000)
+        await page.wait_for_timeout(2000)
 
     # 1. Snapshot existing image URLs
     pre_srcs = set(await get_all_image_srcs(page))
@@ -329,7 +355,7 @@ async def generate_single_image(
         await page.keyboard.press("Enter")
 
     start_time = time.time()
-    effective_wait = min_wait_s + random.uniform(3.0, 8.0)
+    effective_wait = min_wait_s + random.uniform(1.0, 3.0)
     log(f"    3. Submitted prompt! Enforcing stealth pacing (~{effective_wait:.1f}s)...")
 
     # 6. Poll for NEW image URL that was not in pre_srcs
@@ -362,6 +388,24 @@ async def generate_single_image(
         except Exception:
             pass
 
+        # Check if a Failed generation tile appeared on Flow board
+        try:
+            has_failed_tile = await page.evaluate("""() => {
+                const text = document.body.innerText || '';
+                return text.includes('Failed') && (text.includes('Oops') || text.includes('something went wrong'));
+            }""")
+            if has_failed_tile:
+                log("    ⚠️ Google Flow reported: 'Failed — Oops, something went wrong!'. Cleaning failed card...")
+                del_btn = page.locator('button:has(i:has-text("delete_forever")), button:has(span:has-text("Delete"))').first
+                if await del_btn.count() > 0 and await del_btn.is_visible():
+                    await human_click(page, del_btn)
+                    await page.wait_for_timeout(800)
+                raise RuntimeError("Google Flow rejected prompt (Failed / Safety Filter)")
+        except RuntimeError:
+            raise
+        except Exception:
+            pass
+
         curr_srcs = await get_all_image_srcs(page)
         diff = [s for s in curr_srcs if s not in pre_srcs]
         if diff:
@@ -370,7 +414,7 @@ async def generate_single_image(
                 new_img_src = diff[0]
                 log(f"    ✓ New image fully rendered on board: {new_img_src[:65]}...")
                 break
-        await page.wait_for_timeout(2000)
+        await page.wait_for_timeout(1500)
 
     if not new_img_src:
         raise TimeoutError(f"Generation timed out for {filename} after {timeout_s}s")
@@ -488,14 +532,22 @@ async def generate_flow_images_for_project(
                 continue
 
             generated = False
+            flow_rejected = False  # Track if Flow explicitly rejected previous attempt
             for attempt in range(1, MAX_RETRIES + 1):
                 if cancel_check and cancel_check():
                     break
                 try:
+                    # Attempt 1: send the exact Gemini-generated prompt (metadata stripped only)
+                    # Attempt 2+: only apply minimal safety cleanup if Flow previously rejected
+                    if attempt == 1:
+                        active_prompt = strip_prompt_metadata(prompt)
+                    else:
+                        active_prompt = sanitize_prompt_for_flow_retry(prompt, aggressive=(attempt > 2))
+                        log(f"  🔄 Retry {attempt}/{MAX_RETRIES} with safety-adjusted prompt: {active_prompt[:80]}...")
                     log(f"  Attempt {attempt}/{MAX_RETRIES} generating [{i+1}/{len(items)}] {filename}...")
                     img_bytes = await generate_single_image(
                         flow_page,
-                        prompt,
+                        active_prompt,
                         filename,
                         min_wait_s=GEN_WAIT_SECONDS,
                         timeout_s=GEN_TIMEOUT_SECONDS,
@@ -545,8 +597,8 @@ async def generate_flow_images_for_project(
 
             # Natural Human Cooldown with Jitter between images (if more images remain)
             if i + 1 < len(to_do):
-                jitter = random.uniform(COOLDOWN_SECONDS, COOLDOWN_SECONDS + 10.0)
-                log(f"  💤 Humanized cooldown {jitter:.1f}s before next prompt...")
+                jitter = random.uniform(COOLDOWN_SECONDS, COOLDOWN_SECONDS + 4.0)
+                log(f"  💤 Cooldown {jitter:.1f}s before next prompt...")
                 if progress_callback:
                     progress_callback({
                         "status": "cooling_down",
