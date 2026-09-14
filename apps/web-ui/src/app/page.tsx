@@ -218,17 +218,17 @@ export default function Dashboard() {
       fetch(`${API_URL}/api/studio/project/${encodeURIComponent(studioProjectId)}`)
         .then(r => r.json())
         .then(d => {
-          if (d.final_video && d.manifest) {
+          if (d.final_video) {
             setStudioRenderStatus({
               status: "done",
               stage: "complete",
               progress: 100,
               video_path: d.final_video,
-              duration_s: d.manifest?.assets?.duration_s,
-              resolution: d.manifest?.assets?.resolution,
-              size_mb: d.manifest?.assets?.size_mb,
-              manifest: d.manifest,
-              log: "✅ Video render complete! Output video and manifest loaded."
+              duration_s: d.manifest?.assets?.duration_s || d.manifest?.metadata?.duration_seconds || null,
+              resolution: d.manifest?.assets?.resolution || (d.meta?.video_type === "short" ? "1080x1920 (9:16)" : "1920x1080 (16:9)"),
+              size_mb: d.manifest?.assets?.size_mb || null,
+              manifest: d.manifest || null,
+              log: "✅ Video render complete! Final video ready."
             });
           }
         })

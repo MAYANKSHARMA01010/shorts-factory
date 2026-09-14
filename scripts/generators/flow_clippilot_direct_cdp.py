@@ -91,13 +91,15 @@ def ensure_chrome_running(cdp_url: str = CDP_URL) -> bool:
     ]
     for p in chrome_paths:
         if shutil.which(p) or Path(p).exists():
+            # Use the specific project URL from env if set, otherwise the generic Flow URL
+            launch_url = os.getenv("GOOGLE_FLOW_PROJECT_URL", DEFAULT_FLOW_URL)
             cmd = [
                 str(p),
                 f"--remote-debugging-port={port}",
                 f"--user-data-dir={profile_dir}",
                 "--no-first-run",
                 "--no-default-browser-check",
-                DEFAULT_FLOW_URL
+                launch_url
             ]
             try:
                 subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -164,7 +166,7 @@ def load_prompts(project_id: str) -> list[dict]:
     for s_idx, scene in enumerate(scenes, 1):
         for img in scene.get("images", []):
             raw_prompt: str = img.get("prompt", "")
-            clean = raw_prompt.split("Save this image as:")[0].strip().rstrip(".")
+            clean = strip_prompt_metadata(raw_prompt)
             filename: str = img.get("filename", f"short_s{s_idx:03d}_img{img.get('image_index', 0):03d}.png")
             items.append({
                 "filename": filename,

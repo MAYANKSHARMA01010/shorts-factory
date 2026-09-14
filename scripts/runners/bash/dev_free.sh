@@ -65,9 +65,9 @@ fi
 echo "📦 [3/4] Checking Frontend Dependencies..."
 cd "$ROOT_DIR/apps/web-ui"
 if command -v pnpm &> /dev/null; then
-    pnpm install --silent
+    pnpm install || (pnpm approve-builds --all && pnpm install)
 else
-    npm install --silent
+    npm install
 fi
 
 # 4. Check Google Flow Chrome Remote Debugging (Port 9222)

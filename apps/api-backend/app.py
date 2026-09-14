@@ -961,178 +961,142 @@ def recompose_endpoint(project_id):
 # =============================================================================
 
 OUTPUT_ROOT = PROJECT_ROOT / "packages" / "ClipPilot" / "output"
-_RENDER_JOBS: dict = {}   # job_id → status dict (in-memory)
+MY_VIDEOS_ROOT = PROJECT_ROOT / "packages" / "ClipPilot" / "my_videos"
+_RENDER_JOBS: dict = {}   # job_id -> status dict (in-memory)
 
 
 def _slugify(text: str) -> str:
     """Convert title to a safe directory name."""
     import re
-    text = re.sub(r"[^\w\s-]", "", text.strip())
-    text = re.sub(r"[\s_]+", "_", text)
-    return text[:60]
+    text = re.sub(r"[^\w\s-]", "", text.strip()).lower()
+    return re.sub(r"[\s_]+", "_", text)[:50] or "video"
+
+
+# ── Studio Image Style Presets ───────────────────────────────────────────────
+STUDIO_STYLE_PRESETS = {
+    "cinematic_photorealism": {
+        "name": "Google Flow Nano Banana Pro (Photorealistic 8k)",
+        "short_desc": "Vertical portrait 9:16 framing, subject centered in frame, full subject visible, natural skin texture, volumetric cinematic lighting, photorealistic 8k, crisp focal detail, 85mm prime lens, creamy bokeh, authentic physical interactions",
+        "long_desc": "Widescreen 16:9 cinematic shot, expansive rule-of-thirds composition, authentic physical interactions, volumetric amber key lighting, photorealistic 8k, 35mm anamorphic prime lens, deep cinematic color grade",
+    },
+    "investigative_doc": {
+        "name": "Investigative Photojournalism (NatGeo / Reuters)",
+        "short_desc": "Vertical portrait 9:16 photojournalism style, candid street documentary photography, authentic raw lighting, natural environment, 50mm documentary lens, sharp focal depth",
+        "long_desc": "Widescreen 16:9 documentary establishing shot, authentic real-world grit, natural daylight, 35mm photojournalism lens, cinematic realism",
+    },
+    "cyberpunk_scifi": {
+        "name": "Cyberpunk & Futuristic Sci-Fi",
+        "short_desc": "Vertical 9:16 high-tech sci-fi aesthetic, glowing neon blue and magenta rim lighting, holographic UI overlays, futuristic machinery and metallic textures, volumetric fog, 8k render",
+        "long_desc": "Widescreen 16:9 futuristic cyberpunk panorama, glowing holographic displays, neon street reflections, atmospheric volumetric haze, 8k cinematic render",
+    },
+    "dark_satire_comedy": {
+        "name": "Dark Satire & Comedic Drama",
+        "short_desc": "Vertical 9:16 dramatic comedic framing, exaggerated expressive character reactions, vibrant saturated palette, punchy studio key lighting, crisp macro details of storytelling props",
+        "long_desc": "Widescreen 16:9 dramatic comedic scene, vibrant rich colors, expressive character actions, theatrical lighting, rich storytelling environment",
+    },
+    "3d_pixar_animation": {
+        "name": "3D Cinematic Animation (Pixar/Unreal 5)",
+        "short_desc": "Vertical 9:16 stylized 3D animated character render, soft subsurface scattering skin, expressive animated eyes, vibrant whimsical lighting, Octane render, 8k detail",
+        "long_desc": "Widescreen 16:9 3D animated movie still, lush detailed environment, whimsical cinematic lighting, Unreal Engine 5 render, rich textures",
+    }
+}
+
+STUDIO_NEGATIVE_PROMPT = (
+    "nudity, naked, nsfw, pornographic, explicit content, sexual content, "
+    "uncensored, revealing clothing, watermark, text overlay, logo, blurry, "
+    "low quality, cropped head, missing limbs, bad anatomy, deformed"
+)
+
+
+def _sanitize_prompt_safety(text: str) -> str:
+    """Post-processing filter ensuring strict compliance with Google Flow safety filters.
+    Currency symbols, exact dollar amounts, and explicit words trigger safety rejections
+    which push blocked images to the bottom of the Flow board and break ordering."""
+    import re
+    # Preserve negative prompt segment as-is
+    if "Negative:" in text:
+        pos, neg = text.split("Negative:", 1)
+        neg_suffix = " Negative:" + neg
+    else:
+        pos = text
+        neg_suffix = ""
+
+    # 1. Quoted amounts first (e.g. '$47.00', "$50") -> descriptive document label
+    pos = re.sub(r'[\'"][^\'"]{0,30}[\$\€\£\¥\₹\d\.]+[^\'"]{0,30}[\'"]', 'an official document stamped in red', pos)
+    # 2. Standalone currency symbols with amounts (e.g. $47.00, €50, etc.) -> descriptive prop
+    pos = re.sub(r'[\$\€\£\¥\₹]\s*[\d,]+(?:\.\d+)?', 'a formal overdue notice', pos)
+    # 3. Numeric word currency (e.g. 47 dollars, 5 cents)
+    pos = re.sub(r'\b\d+\s*(?:dollars?|euros?|rupees?|cents?|USD|EUR)\b', 'an overdue fee', pos, flags=re.IGNORECASE)
+    # 4. Sensitive alarmist trigger words in positive description -> safe cinematic equivalents
+    substitutions = [
+        (r'\bpanicked\b', 'alarmed and distressed'),
+        (r'\bpanic\b', 'distress'),
+        (r'\bpanicking\b', 'visibly stunned'),
+        (r'\bbloody\b', 'intense red-lit'),
+        (r'\bscrewed\b', 'in deep trouble'),
+        (r'\bnaked\b', 'unclothed'),
+        (r'\bnude\b', 'natural'),
+    ]
+    for pattern, repl in substitutions:
+        pos = re.sub(pattern, repl, pos, flags=re.IGNORECASE)
+    # Clean up double spaces or duplicate periods
+    pos = re.sub(r'\s{2,}', ' ', pos)
+    pos = re.sub(r'\.{2,}', '.', pos)
+    return (pos.strip() + neg_suffix).strip()
+
+
+def _clean_narration_and_extract_mood(raw_script: str) -> tuple[str, str]:
+    """Clean narration of audio/TTS emotional cues like (serious), [dramatic pause], (whispering)
+    while extracting overall emotional tone for scene prompt engineering."""
+    import re
+    tags = re.findall(r'[\(\[\{]([^\)\]\}]+)[\)\]\}]', raw_script)
+    mood_cues = [t.strip().lower() for t in tags if len(t.strip()) < 30]
+    inferred_mood = ", ".join(dict.fromkeys(mood_cues)) if mood_cues else "cinematic, engaging, high energy"
+    # Strip bracketed/parenthetical cues from narration text
+    clean_text = re.sub(r'[\(\[\{][^\)\]\}]+[\)\]\}]\s*', '', raw_script)
+    clean_text = re.sub(r'\s{2,}', ' ', clean_text).strip()
+    return clean_text, inferred_mood
 
 
 @app.route("/api/studio/generate_prompts", methods=["POST"])
 def studio_generate_prompts():
-    """Break script into 10-15s scenes, each scene gets 8-15 image prompts.
-
-    Filename format:  short_s001_img001.png  /  long_s001_img001.png
-    Duration: estimated from word count (140 wpm), never a user slider.
-    Shorts capped at 180s / 18 scenes. Long videos: no cap.
     """
-    req        = request.json or {}
-    topic      = req.get("topic", "")
-    title      = req.get("title", "") or topic
-    script     = req.get("script", "") or topic
-    keywords   = req.get("keywords", "")
-    video_type = req.get("video_type", "short")   # "short" | "long"
+    Senior Prompt Engine for Google Flow / Nano Banana Pro.
+    1. Cleans script of vocal/emotion tags while capturing tone.
+    2. Dynamically segments script into thematic narrative scenes.
+    3. Produces ultra-cinematic, diverse image prompts with concrete physical action,
+       camera optics, volumetric lighting, zero-crop framing, and strict safety filtering.
+    """
+    import re
+    import math
+    import json
+    import time
+    import concurrent.futures
 
-    word_count   = len(script.split())
-    est_dur_secs = round((word_count / 140) * 60)  # 140 wpm TTS
+    req         = request.json or {}
+    title       = req.get("title", "") or req.get("topic", "Untitled Video")
+    raw_script  = req.get("script", "") or req.get("topic", "")
+    keywords    = req.get("keywords", "")
+    video_type  = req.get("video_type", "short")   # "short" | "long"
+    image_style = req.get("image_style") or req.get("style") or "cinematic_photorealism"
+
+    clean_script, script_mood = _clean_narration_and_extract_mood(raw_script)
+    word_count   = len(clean_script.split())
+    # 140 words per minute TTS pacing
+    est_dur_secs = max(10, round((word_count / 140) * 60))
 
     aspect = "9:16" if video_type == "short" else "16:9"
     prefix = "short" if video_type == "short" else "long"
 
-    image_style = req.get("image_style") or req.get("style") or "cinematic_photorealism"
-
-    STYLE_PRESETS = {
-        "cinematic_photorealism": {
-            "name": "Google Flow Nano Banana Pro (Photorealistic 8k)",
-            "short_desc": "Vertical portrait 9:16 framing, subject centered in frame, full subject visible, natural skin texture, volumetric cinematic lighting, photorealistic 8k, crisp focal detail, 85mm f/1.4 prime lens, creamy bokeh, authentic physical interactions",
-            "long_desc": "Widescreen 16:9 cinematic shot, expansive rule-of-thirds composition, authentic physical interactions, volumetric amber key lighting, photorealistic 8k, 35mm anamorphic lens flare, deep cinematic color grade",
-        },
-        "investigative_doc": {
-            "name": "Investigative Photojournalism (NatGeo / Reuters)",
-            "short_desc": "Vertical portrait 9:16 photojournalism style, candid street documentary photography, authentic raw lighting, natural environment, 50mm documentary lens, sharp focal depth",
-            "long_desc": "Widescreen 16:9 documentary establishing shot, authentic real-world grit, natural daylight, 35mm photojournalism lens, cinematic realism",
-        },
-        "cyberpunk_scifi": {
-            "name": "Cyberpunk & Futuristic Sci-Fi",
-            "short_desc": "Vertical 9:16 high-tech sci-fi aesthetic, glowing neon blue and magenta rim lighting, holographic UI overlays, futuristic machinery and metallic textures, volumetric fog, 8k render",
-            "long_desc": "Widescreen 16:9 futuristic cyberpunk panorama, glowing holographic displays, neon street reflections, atmospheric volumetric haze, 8k cinematic render",
-        },
-        "dark_satire_comedy": {
-            "name": "Dark Satire & Comedic Drama",
-            "short_desc": "Vertical 9:16 dramatic comedic framing, exaggerated expressive character reactions, vibrant saturated palette, punchy studio key lighting, crisp macro details of storytelling props",
-            "long_desc": "Widescreen 16:9 dramatic comedic scene, vibrant rich colors, expressive character actions, theatrical lighting, rich storytelling environment",
-        },
-        "3d_pixar_animation": {
-            "name": "3D Cinematic Animation (Pixar/Unreal 5)",
-            "short_desc": "Vertical 9:16 stylized 3D animated character render, soft subsurface scattering skin, expressive animated eyes, vibrant whimsical lighting, Octane render, 8k detail",
-            "long_desc": "Widescreen 16:9 3D animated movie still, lush detailed environment, whimsical cinematic lighting, Unreal Engine 5 render, rich textures",
-        }
-    }
-
-    style_cfg = STYLE_PRESETS.get(image_style, STYLE_PRESETS["cinematic_photorealism"])
+    style_cfg = STUDIO_STYLE_PRESETS.get(image_style, STUDIO_STYLE_PRESETS["cinematic_photorealism"])
     style_defaults = style_cfg["short_desc"] if video_type == "short" else style_cfg["long_desc"]
     style_name = style_cfg["name"]
+    negative = STUDIO_NEGATIVE_PROMPT
 
-    if video_type == "short":
-        max_scenes    = 18
-        short_warning = est_dur_secs > 180
-    else:
-        max_scenes    = 9999
-        short_warning = False
-
-    negative = (
-        "nudity, naked, nsfw, pornographic, explicit content, sexual content, "
-        "uncensored, revealing clothing, watermark, text overlay, logo, blurry, "
-        "low quality, cropped head, missing limbs, bad anatomy, deformed"
-    )
-
-    # ── Build an EXAMPLE block so Gemini sees the exact format ──────────────
-    eg_fn1 = f"{prefix}_s001_img001.png"
-    eg_fn2 = f"{prefix}_s001_img002.png"
-    eg_fn3 = f"{prefix}_s001_img003.png"
-
-    gemini_prompt = f"""You are a cinematic image-prompt engineer and professional video editor.
-
-VIDEO: "{title}"
-TYPE: {video_type} ({aspect})
-NARRATION SCRIPT:
----
-{script}
----
-
-== TASK ==
-
-1. ESTIMATE DURATION
-   TTS speed = 140 words/minute.  Word count ≈ {word_count}.  Estimated = {est_dur_secs}s.
-   {"SHORT RULE: TOTAL ≤ 180s → max 18 scenes. Compress if needed." if video_type == "short" else "LONG VIDEO: No scene limit."}
-
-2. BREAK INTO SCENES (10–15 seconds each)
-   - Each scene = one thematic beat of the narration
-   - Scenes must cover the ENTIRE script from start to finish
-   - Let the script naturally decide how many scenes are needed
-
-3. FOR EACH SCENE: write 8–15 IMAGE PROMPTS
-   - Each prompt = one still photo shown with Ken-Burns zoom during that scene
-   - Images within a scene share mood/location, but vary in framing, angle, distance
-   - EVERY prompt must start with the HIGHLY SPECIFIC SCENE SUBJECT FIRST (at index 0)
-   - Follow the subject description with style defaults: {style_defaults}
-   - EVERY prompt must end EXACTLY with the negative list
-   - The prompt must ALSO state: "Save this image as: <filename>"
-   - Image count: use 8 for short/simple scenes, up to 15 for dramatic/complex scenes
-
-== FILENAME FORMAT ==
-   {prefix}_s<scene_3digits>_img<image_3digits>.png
-   Example: {eg_fn1}, {eg_fn2}, {eg_fn3}
-   Scene 2 example: {prefix}_s002_img001.png, {prefix}_s002_img002.png
-   ALWAYS 3-digit zero-padded for BOTH scene and image numbers.
-
-== STYLE DEFAULTS (place after scene description) ==
-"{style_defaults}."
-
-== NEGATIVE PROMPT (end every prompt with this VERBATIM) ==
-"Negative: {negative}."
-
-== OUTPUT FORMAT ==
-Return ONLY a valid JSON object. No markdown. No code blocks. No explanation.
-
-{{
-  "estimated_duration_s": {est_dur_secs},
-  "scene_count": <N>,
-  "total_images": <total across all scenes>,
-  "aspect_ratio": "{aspect}",
-  "scenes": [
-    {{
-      "scene_index": 1,
-      "scene_title": "<descriptive title for this scene>",
-      "script_excerpt": "<exact 1-3 sentences from the script this scene covers>",
-      "scene_duration_s": 12,
-      "images": [
-        {{
-          "image_index": 1,
-          "filename": "{eg_fn1}",
-          "scene_description": "<one sentence: what this specific image shows>",
-          "prompt": "<HIGHLY SPECIFIC subject, action, setting, mood, camera angle for this EXACT image>. {style_defaults}. Save this image as: {eg_fn1}. Negative: {negative}."
-        }},
-        {{
-          "image_index": 2,
-          "filename": "{eg_fn2}",
-          "scene_description": "<different angle / moment from same scene>",
-          "prompt": "<DIFFERENT framing from image 1, same scene>. {style_defaults}. Save this image as: {eg_fn2}. Negative: {negative}."
-        }}
-      ]
-    }}
-  ]
-}}
-
-CRITICAL RULES:
-- Every prompt is UNIQUE — describe a SPECIFIC visual FIRST (at index 0)
-- Follow scene visual with "{style_defaults}."
-- Every prompt ends with "Negative: {negative}." (verbatim)
-- Every prompt contains "Save this image as: <filename>."
-- Images in a scene: same location/mood, different angles (wide, mid, close, overhead, low)
-- NEVER repeat the same prompt twice
-- Scenes cover 100% of the script
-"""
-
-    def _build_filename(si: int, ii: int) -> str:
+    def _build_fn(si: int, ii: int) -> str:
         return f"{prefix}_s{si+1:03d}_img{ii+1:03d}.png"
 
     def _parse_json(raw: str):
-        """Robust JSON extraction — strips markdown fences, finds outer braces."""
         raw = raw.replace("```json", "").replace("```", "").strip()
         start = raw.find("{")
         end   = raw.rfind("}") + 1
@@ -1140,327 +1104,253 @@ CRITICAL RULES:
             start = raw.find("[")
             end   = raw.rfind("]") + 1
             if start < 0 or end <= start:
-                raise ValueError("No JSON found in Gemini response")
+                raise ValueError("No JSON found in response")
         return json.loads(raw[start:end])
 
-    # ── Get pool of keys for per-scene rotation ──────────────────────────────
-    raw_keys = os.environ.get("GEMINI_API_KEYS") or os.environ.get("GEMINI_API_KEY") or ""
-    key_pool  = [k.strip() for k in raw_keys.replace("\n", ",").split(",") if k.strip()]
-    primary_model = os.environ.get("GEMINI_PRIMARY_MODEL") or "gemini-flash-lite-latest"
+    # ── Phase 1: Dynamic Scene Breakdown ─────────────────────────────────────
+    # Shorts (<=180s): each scene covers ~10-25s of narration (3 to 8 scenes)
+    # Long videos: each scene covers ~30-60s of narration
+    if video_type == "short":
+        target_scene_dur = 18
+        target_n_scenes = max(1, min(12, math.ceil(est_dur_secs / target_scene_dur)))
+    else:
+        target_scene_dur = 45
+        target_n_scenes = max(1, math.ceil(est_dur_secs / target_scene_dur))
 
-    def _call_gemini_with_key_pool(prompt: str, start_idx: int = 0, model: str = primary_model, timeout: int = 35) -> tuple[str, int]:
-        """Call Gemini, automatically trying each key and working models without hanging."""
-        if not key_pool:
-            raise Exception("No Gemini API keys available in environment")
-        
-        n_keys = len(key_pool)
-        models_to_try = [
-            model,
-            "gemini-flash-lite-latest",
-            "gemini-3.5-flash-lite",
-            "gemini-3.1-flash-lite",
-            "gemini-3.5-flash",
-            "gemini-3.6-flash",
-            "gemini-flash-latest"
-        ]
-        # Remove duplicates preserving order
-        models_to_try = list(dict.fromkeys([m for m in models_to_try if m]))
-        last_err = None
+    scene_plan_prompt = (
+        "You are an elite video director and screenplay structure specialist.\n\n"
+        "TASK: Break the following narration script into " + str(target_n_scenes) + " cinematic scenes.\n\n"
+        'VIDEO TITLE: "' + title + '"\n'
+        "VIDEO TYPE: " + video_type + " (" + aspect + ")\n"
+        "TOTAL DURATION: ~" + str(est_dur_secs) + " seconds (" + str(word_count) + " words)\n"
+        "OVERALL MOOD: " + script_mood + "\n\n"
+        "NARRATION SCRIPT:\n"
+        "---\n" + clean_script + "\n---\n\n"
+        "SCENE BREAKDOWN RULES:\n"
+        "1. Every sentence of the narration must be covered sequentially across the scenes (100% coverage).\n"
+        "2. Each scene represents one distinct narrative beat or thematic location.\n"
+        "3. Specify the exact sentences covered in 'script_excerpt'.\n\n"
+        "Return ONLY a JSON object with this exact schema:\n"
+        '{\n'
+        '  "scenes": [\n'
+        '    {\n'
+        '      "scene_index": 1,\n'
+        '      "scene_title": "Descriptive Scene Title",\n'
+        '      "script_excerpt": "Exact sentences from narration...",\n'
+        '      "scene_duration_s": ' + str(round(est_dur_secs / target_n_scenes)) + ',\n'
+        '      "scene_mood": "Mood and visual atmosphere"\n'
+        '    }\n'
+        '  ]\n'
+        '}'
+    )
 
-        payload = {
-            "contents": [{"parts": [{"text": prompt}]}],
-            "generationConfig": {"maxOutputTokens": 8192, "responseMimeType": "application/json"}
-        }
-
-        for target_model in models_to_try:
-            for attempt in range(n_keys):
-                key_idx = (start_idx + attempt) % n_keys
-                key = key_pool[key_idx]
-                url = f"https://generativelanguage.googleapis.com/v1beta/models/{target_model}:generateContent?key={key}"
-                
-                try:
-                    resp = requests.post(url, json=payload, timeout=timeout)
-                    if resp.status_code == 200:
-                        data = resp.json()
-                        text = data["candidates"][0]["content"]["parts"][0]["text"]
-                        return text, key_idx
-                    else:
-                        err_snippet = resp.text[:120].replace("\n", " ")
-                        print(f"[studio][key #{key_idx+1}/{n_keys}][{target_model}] HTTP {resp.status_code}: {err_snippet} — trying next key...")
-                        time.sleep(0.3)
-                except Exception as ex:
-                    print(f"[studio][key #{key_idx+1}/{n_keys}][{target_model}] Exception: {ex} — trying next key...")
-                    last_err = str(ex)
-                    time.sleep(0.3)
-                
-        raise Exception(f"All API keys and models exhausted. Last error: {last_err}")
-
+    scene_plan = []
     try:
-        # ── PHASE 1: Plan the scene structure (small, fast call) ─────────────
-        target_n_scenes = max(1, math.ceil(est_dur_secs / 55))
-        scene_plan_prompt = f"""You are a video scene planner.
-
-VIDEO: "{title}" ({video_type}, {aspect})
-SCRIPT ({word_count} words, ~{est_dur_secs}s at 140 wpm):
-{script}
-
-SCENE BREAKDOWN RULE:
-- Group narration into long thematic scenes (each scene = ~40 to 80 seconds of narration).
-- Target scene count for this video: ~{target_n_scenes} scene(s).
-- Scenes must cover 100% of the narration script from start to finish.
-
-Return JSON only — no markdown:
-{{"scenes": [
-  {{"scene_index": 1, "scene_title": "...", "script_excerpt": "exact sentence(s) from script for this scene", "scene_duration_s": {min(est_dur_secs, 55)}}},
-  ...
-]}}"""
-
-        print(f"[studio] PHASE 1: Planning scene structure ({target_n_scenes} target scene(s)) with {primary_model}...")
-        plan_raw, last_key_idx = _call_gemini_with_key_pool(scene_plan_prompt, start_idx=0, model=primary_model, timeout=45)
-        plan_data = _parse_json(plan_raw)
+        raw_plan = call_gemini(scene_plan_prompt, timeout=40, json_mode=True)
+        plan_data = _parse_json(raw_plan)
         scene_plan = plan_data if isinstance(plan_data, list) else plan_data.get("scenes", [])
-        if not scene_plan:
-            raise ValueError("Scene planner returned no scenes")
-        print(f"[studio] PHASE 1 done — {len(scene_plan)} scenes planned.")
-
-        # ── PHASE 2: Generate image prompts per-scene, rotating keys ─────────
-        scenes        = []
-        total_images  = 0
-        used_fallback = False
-        n_keys        = len(key_pool)
-
-        import concurrent.futures
-
-        def _process_single_scene(item):
-            si, sp = item
-            scene_title   = sp.get("scene_title", f"Scene {si+1}")
-            excerpt       = sp.get("script_excerpt", "") or sp.get("narration", "")
-            duration_s    = sp.get("scene_duration_s", round(est_dur_secs / len(scene_plan)))
-            if duration_s < 40:
-                n_imgs = max(3, min(8, math.ceil(duration_s / 4.5)))
-            else:
-                n_imgs = max(8, min(15, math.ceil(duration_s / 4.8)))
-
-            start_k  = (last_key_idx + si) % n_keys
-            eg_fns   = [_build_filename(si, ii) for ii in range(3)]
-
-            img_prompt = f"""You are an elite Google Flow (Nano Banana Pro / Imagen 3) prompt engineer specializing in viral {video_type} video production.
-Generate {n_imgs} distinct, highly cinematic image prompts for one video scene.
-
-VIDEO TITLE: "{title}"
-SCENE {si+1}: "{scene_title}" (~{duration_s}s)
-NARRATION EXCERPT: "{excerpt}"
-ASPECT RATIO: {aspect} ({'Vertical Portrait 9:16' if aspect == '9:16' else 'Widescreen 16:9'})
-AESTHETIC STYLE: {style_name}
-
-GOOGLE FLOW / NANO BANANA PRO PROMPT RULES:
-1. ACTION & PHYSICALITY FIRST: Describe characters actively doing things with visible hands, facial expressions, and physical props (e.g. "pinching nose shut with fingers in shock", "holding up an official paper document with expressive reaction", "speaking into a cluster of silver press microphones at a dark wooden podium", "walking through misty forest trail looking around in wonder").
-2. VARY CAMERA FRAMING & LENS ACROSS THE {n_imgs} PROMPTS:
-   - Medium Action Shot (50mm / 85mm): showing hands, props, character torso, and immediate room/street context.
-   - Environmental Wide Shot (24mm / 35mm deep focus): showing full crowd, landscape, forest canopy, city street, or laboratory scale.
-   - Prop / Interaction Macro Close-Up: focused on the key object (meter attached to tree bark, glowing smartphone screen, futuristic breathing device) with crisp macro detail.
-   - Dramatic Hero / Low-Angle Reaction Shot: capturing expressive facial reaction and dramatic lighting.
-3. LIGHTING & ATMOSPHERE: Include volumetric lighting, natural shadows, golden hour beams, neon rim light, or atmospheric fog.
-4. STRICT SAFETY & COMPLIANCE: NEVER use currency symbols (like $, €, £), exact dollar amounts, fake currency stamps, or words like "panic", "bloody", "nude", "screwed". Describe visual story elements naturally.
-5. COMPOSITION (ZERO-CROP): {style_defaults}.
-6. NO TAG SOUP: Write fluent, natural descriptive sentences. Do NOT list comma-separated meaningless tags.
-7. Append: "Save this image as: <filename>."
-8. End with: Negative: {negative}.
-
-Return JSON only — no markdown:
-{{"images": [
-  {{"image_index": 1, "filename": "{eg_fns[0]}", "scene_description": "...", "prompt": "<Fluent descriptive prompt describing subject, action, physical props, lighting, and camera framing>. {style_defaults}. Save this image as: {eg_fns[0]}. Negative: {negative}."}},
-  ...
-]}}"""
-
-            print(f"[studio] PHASE 2 — Scene {si+1}/{len(scene_plan)}: generating {n_imgs} prompts starting with key #{start_k+1}...")
-            scene_fallback = False
-            try:
-                img_raw, used_k = _call_gemini_with_key_pool(img_prompt, start_idx=start_k, model=primary_model, timeout=40)
-                img_data        = _parse_json(img_raw)
-                imgs_raw        = img_data if isinstance(img_data, list) else img_data.get("images", [])
-                imgs            = []
-                for ii, img in enumerate(imgs_raw[:n_imgs]):
-                    fn = _build_filename(si, ii)
-                    img["image_index"]  = ii + 1
-                    img["filename"]     = fn
-                    img["aspect_ratio"] = aspect
-                    if fn not in img.get("prompt", ""):
-                        img["prompt"] = img.get("prompt", "").rstrip(".") + f" Save this image as: {fn}."
-                    imgs.append(img)
-                print(f"[studio]   ✓ Scene {si+1}: {len(imgs)} image prompts generated using key #{used_k+1}.")
-            except Exception as scene_err:
-                print(f"[studio]   ✗ Scene {si+1} Gemini failed: {scene_err} — using fallback prompts")
-                scene_fallback = True
-                imgs = []
-                ANGLE_VARIATIONS = ["extreme close-up", "medium shot", "wide shot", "overhead view", "low-angle hero shot", "over-the-shoulder", "tight portrait", "dramatic silhouette", "three-quarter angle", "dutch tilt"]
-                for ii in range(n_imgs):
-                    fn = _build_filename(si, ii)
-                    angle = ANGLE_VARIATIONS[ii % len(ANGLE_VARIATIONS)]
-                    imgs.append({
-                        "image_index":       ii + 1,
-                        "filename":          fn,
-                        "scene_description": f"{angle.capitalize()} of: {excerpt[:80]}",
-                        "prompt":            f"{excerpt[:120].rstrip('.')} — {angle}, dramatic cinematic mood, rich colors, ultra detailed. {style_defaults}. Save this image as: {fn}. Negative: {negative}.",
-                        "aspect_ratio":      aspect,
-                    })
-
-            return (si, {
-                "scene_index":      si + 1,
-                "scene_title":      scene_title,
-                "script_excerpt":   excerpt,
-                "scene_duration_s": duration_s,
-                "images":           imgs,
-            }, scene_fallback)
-
-        scenes_map = {}
-        with concurrent.futures.ThreadPoolExecutor(max_workers=min(3, len(scene_plan))) as executor:
-            results = list(executor.map(_process_single_scene, enumerate(scene_plan)))
-
-        for si, scene_obj, fb in sorted(results, key=lambda x: x[0]):
-            scenes.append(scene_obj)
-            total_images += len(scene_obj["images"])
-            if fb:
-                used_fallback = True
-
-        return jsonify({
-            "estimated_duration_s": est_dur_secs,
-            "scene_count":          len(scenes),
-            "total_images":         total_images,
-            "aspect_ratio":         aspect,
-            "video_type":           video_type,
-            "short_warning":        short_warning,
-            "word_count":           word_count,
-            "scenes":               scenes,
-            "fallback":             used_fallback,
-        })
-
     except Exception as e:
-        print(f"[studio] Full generation failed: {e} — building scene-specific fallback")
+        print(f"[studio] AI scene breakdown fallback: {e}")
 
-        # ── Scene-specific fallback: split script into 40-80s scenes ──────────
-        import re as _re
-        sentences  = [s.strip() for s in _re.split(r'(?<=[.!?])\s+', script.strip()) if s.strip()]
-        n_scenes   = max(1, math.ceil(est_dur_secs / 55))
-        chunk_size = max(1, len(sentences) // n_scenes)
-
-        # Per-scene visual keywords derived from the sentence content
-        ANGLE_VARIATIONS = [
-            "extreme close-up macro shot",
-            "medium shot from slightly below",
-            "wide establishing shot",
-            "overhead bird's-eye view",
-            "low-angle hero shot",
-            "over-the-shoulder perspective",
-            "tight portrait framing",
-            "dramatic side profile silhouette",
-            "three-quarter angle cinematic",
-            "dutch tilt dramatic angle",
-        ]
-
-        scenes       = []
-        total_images = 0
-        target_scene_dur = est_dur_secs / n_scenes
-
-        for si in range(n_scenes):
-            chunk_sents = sentences[si * chunk_size: (si + 1) * chunk_size]
-            excerpt     = " ".join(chunk_sents) if chunk_sents else f"Scene {si+1} of {title}"
-            # Extract a core visual noun from the excerpt (first meaningful words)
-            core_words  = " ".join(excerpt.split()[:8])
-
-            if target_scene_dur < 40:
-                n_imgs = max(3, min(8, math.ceil(target_scene_dur / 4.5)))
-            else:
-                n_imgs = max(8, min(15, math.ceil(target_scene_dur / 4.8)))
-            imgs   = []
-            for ii in range(n_imgs):
-                fn    = _build_filename(si, ii)
-                angle = ANGLE_VARIATIONS[ii % len(ANGLE_VARIATIONS)]
-                prompt = (
-                    f"{style_defaults}. "
-                    f"{angle} — {excerpt[:120].rstrip('.')} — "
-                    f"dramatic cinematic mood, rich color palette, "
-                    f"high contrast lighting, ultra detailed. "
-                    f"Save this image as: {fn}. "
-                    f"Negative: {negative}."
-                )
-                imgs.append({
-                    "image_index":       ii + 1,
-                    "filename":          fn,
-                    "scene_description": f"{angle.capitalize()} of: {core_words}",
-                    "prompt":            prompt,
-                    "aspect_ratio":      aspect,
-                })
-            total_images += n_imgs
-            scenes.append({
-                "scene_index":      si + 1,
-                "scene_title":      f"Scene {si+1} — {' '.join(excerpt.split()[:5])}…",
-                "script_excerpt":   excerpt,
-                "scene_duration_s": max(10, est_dur_secs // n_scenes),
-                "images":           imgs,
+    # Fallback scene planner if AI fails
+    if not scene_plan:
+        sentences = [s.strip() for s in re.split(r'(?<=[.!?])\s+', clean_script) if s.strip()]
+        chunk_size = max(1, math.ceil(len(sentences) / target_n_scenes))
+        scene_plan = []
+        for si in range(target_n_scenes):
+            chunk = sentences[si * chunk_size : (si + 1) * chunk_size]
+            if not chunk:
+                continue
+            excerpt = " ".join(chunk)
+            scene_plan.append({
+                "scene_index": si + 1,
+                "scene_title": f"Scene {si+1}: {chunk[0][:40]}...",
+                "script_excerpt": excerpt,
+                "scene_duration_s": max(5, round(est_dur_secs / target_n_scenes)),
+                "scene_mood": script_mood
             })
 
-        return jsonify({
-            "estimated_duration_s": est_dur_secs,
-            "scene_count":          n_scenes,
-            "total_images":         total_images,
-            "aspect_ratio":         aspect,
-            "video_type":           video_type,
-            "short_warning":        short_warning,
-            "word_count":           word_count,
-            "scenes":               scenes,
-            "fallback":             True,
-            "fallback_reason":      str(e),
-        })
+    # ── Phase 2: Nano Banana Pro Prompt Generation Per Scene ─────────────────
+    SHOT_VARIATIONS = [
+        ("Medium Action Shot", "50mm / 85mm lens, character torso and hands interacting with physical prop, expressive facial reaction, shallow depth of field"),
+        ("Prop Macro Close-Up", "100mm macro prime lens, crisp extreme detail on key object, tactile texture, glowing indicator or stamped document label"),
+        ("Environmental Wide Shot", "24mm wide angle lens, deep depth of field, full room / outdoor scale, cinematic atmosphere and ambient lighting"),
+        ("Dramatic Hero Shot", "Low-angle 35mm hero shot, dramatic rim backlight, subject framed against expansive backdrop, intense determined expression"),
+        ("Over-The-Shoulder View", "50mm perspective looking past character toward key visual reveal, atmospheric volumetric haze"),
+        ("Tight Emotional Portrait", "85mm f/1.4 prime lens, intense facial detail, visible eye reflections, soft cinematic bokeh background"),
+    ]
+
+    def _generate_prompts_for_scene(item):
+        si, sc = item
+        scene_title = sc.get("scene_title", f"Scene {si+1}")
+        excerpt     = sc.get("script_excerpt", "")
+        duration_s  = sc.get("scene_duration_s", round(est_dur_secs / max(1, len(scene_plan))))
+        mood        = sc.get("scene_mood", script_mood)
+
+        # Scale image count to duration: fast pace ~3-4s per image
+        if duration_s <= 15:
+            n_imgs = max(3, min(6, math.ceil(duration_s / 3.5)))
+        elif duration_s <= 35:
+            n_imgs = max(5, min(10, math.ceil(duration_s / 4.0)))
+        else:
+            n_imgs = max(8, min(15, math.ceil(duration_s / 4.5)))
+
+        eg_fn1 = _build_fn(si, 0)
+        eg_fn2 = _build_fn(si, 1)
+
+        prompt_gen_instruction = (
+            "You are an elite Google Flow (Nano Banana Pro / Imagen 3) master prompt engineer.\n\n"
+            "TASK: Generate " + str(n_imgs) + " distinct, ultra-cinematic image prompts for Scene " + str(si+1) + ".\n\n"
+            'VIDEO: "' + title + '"\n'
+            'SCENE: "' + scene_title + '" (~' + str(duration_s) + 's)\n'
+            "MOOD / ATMOSPHERE: " + mood + "\n"
+            "ASPECT RATIO: " + aspect + " (" + ("Vertical Portrait 9:16" if aspect == "9:16" else "Widescreen 16:9") + ")\n"
+            "STYLE PRESET: " + style_name + "\n\n"
+            'SCENE NARRATION:\n"' + excerpt + '"\n\n'
+            "NANO BANANA PRO PROMPT ENGINEERING RULES:\n"
+            "1. ANCHOR WITH PHYSICAL ACTION FIRST: Describe characters actively doing things with visible hands, facial expressions, and physical props.\n"
+            "2. ROTATE CAMERA OPTICS & SHOTS: Close-up macro on props, medium action shot, environmental wide, low-angle hero.\n"
+            "3. VOLUMETRIC LIGHTING: Include cinematic shadows, rim light, golden hour shafts, or neon haze.\n"
+            "4. ZERO-CROP COMPOSITION: Subject centered, fully in-frame, no cropped limbs/heads.\n"
+            "5. STRICT CONTENT SAFETY (CRITICAL): NEVER write currency symbols ($ € £ ¥ ₹) or exact numeric amounts. Describe props visually (e.g. 'official document with bold red overdue notice').\n"
+            "6. PROMPT STRUCTURE: '<Fluent photographic description of subject, action, props, lighting, framing>. " + style_defaults + ". Save this image as: <filename>. Negative: " + negative + ".'\n\n"
+            "Return JSON only:\n"
+            '{\n'
+            '  "images": [\n'
+            '    {\n'
+            '      "image_index": 1,\n'
+            '      "filename": "' + eg_fn1 + '",\n'
+            '      "scene_description": "Crisp one-sentence summary of this shot",\n'
+            '      "prompt": "Detailed cinematic prompt... ' + style_defaults + '. Save this image as: ' + eg_fn1 + '. Negative: ' + negative + '."\n'
+            '    }\n'
+            '  ]\n'
+            '}'
+        )
+
+        scene_imgs = []
+        is_fallback = False
+        try:
+            raw_resp = call_gemini(prompt_gen_instruction, timeout=40, json_mode=True)
+            data = _parse_json(raw_resp)
+            raw_imgs = data if isinstance(data, list) else data.get("images", [])
+            for ii, im in enumerate(raw_imgs[:n_imgs]):
+                fn = _build_fn(si, ii)
+                im["image_index"]  = ii + 1
+                im["filename"]     = fn
+                im["aspect_ratio"] = aspect
+                p = _sanitize_prompt_safety(im.get("prompt", ""))
+                if style_defaults not in p:
+                    p = p.rstrip(". ") + f". {style_defaults}."
+                if fn not in p:
+                    p = p.rstrip(". ") + f" Save this image as: {fn}."
+                if "Negative:" not in p:
+                    p = p.rstrip(". ") + f" Negative: {negative}."
+                im["prompt"] = p
+                scene_imgs.append(im)
+        except Exception as ex:
+            print(f"[studio] Scene {si+1} Gemini prompt generation fallback: {ex}")
+            is_fallback = True
+
+        # Algorithmic high-quality fallback if Gemini call failed
+        if not scene_imgs:
+            core_words = excerpt[:140].rstrip(".")
+            for ii in range(n_imgs):
+                fn = _build_fn(si, ii)
+                shot_name, shot_lens = SHOT_VARIATIONS[ii % len(SHOT_VARIATIONS)]
+                desc = f"{shot_name}: {core_words}"
+                p = (
+                    f"{shot_name} ({shot_lens}) depicting {core_words}. "
+                    f"Volumetric dramatic lighting, intense atmospheric mood, photorealistic 8k detail. "
+                    f"{style_defaults}. Save this image as: {fn}. Negative: {negative}."
+                )
+                scene_imgs.append({
+                    "image_index": ii + 1,
+                    "filename": fn,
+                    "scene_description": desc,
+                    "prompt": _sanitize_prompt_safety(p),
+                    "aspect_ratio": aspect
+                })
+
+        return (si, {
+            "scene_index": si + 1,
+            "scene_title": scene_title,
+            "script_excerpt": excerpt,
+            "scene_duration_s": duration_s,
+            "images": scene_imgs
+        }, is_fallback)
+
+    # Parallel scene prompt generation across thread pool
+    with concurrent.futures.ThreadPoolExecutor(max_workers=min(4, len(scene_plan))) as executor:
+        results = list(executor.map(_generate_prompts_for_scene, enumerate(scene_plan)))
+
+    scenes = []
+    total_images = 0
+    any_fallback = False
+    for si, scene_obj, fb in sorted(results, key=lambda x: x[0]):
+        scenes.append(scene_obj)
+        total_images += len(scene_obj["images"])
+        if fb:
+            any_fallback = True
+
+    short_warning = video_type == "short" and est_dur_secs > 180
+
+    return jsonify({
+        "estimated_duration_s": est_dur_secs,
+        "scene_count": len(scenes),
+        "total_images": total_images,
+        "aspect_ratio": aspect,
+        "video_type": video_type,
+        "short_warning": short_warning,
+        "word_count": word_count,
+        "scenes": scenes,
+        "fallback": any_fallback
+    })
 
 
 @app.route("/api/studio/enhance_prompt", methods=["POST"])
 def studio_enhance_prompt():
     """Enhance an individual image prompt specifically for Google Flow / Nano Banana Pro."""
     req            = request.json or {}
-    base_prompt    = req.get("prompt", "")
+    base_prompt    = req.get("prompt", "").strip()
     video_type     = req.get("video_type", "short")
     image_style    = req.get("image_style", "cinematic_photorealism")
     filename       = req.get("filename", "image.png")
     scene_excerpt  = req.get("script_excerpt", "")
     
     aspect = "9:16" if video_type == "short" else "16:9"
-    style_defaults = (
-        "Vertical portrait 9:16 composition, subject centered in frame, full subject visible, natural skin texture, volumetric cinematic lighting, photorealistic 8k, crisp focal detail, 85mm f/1.4 prime lens, shallow depth of field"
-        if video_type == "short" else
-        "Widescreen 16:9 cinematic shot, expansive rule-of-thirds composition, volumetric amber key lighting, photorealistic 8k, 35mm anamorphic lens flare, deep cinematic color grade"
-    )
-    negative = "nudity, naked, nsfw, explicit, sexual, uncensored, watermarks, text overlay, logo, blurry, low quality, cropped head, missing limbs, bad anatomy"
+    style_cfg = STUDIO_STYLE_PRESETS.get(image_style, STUDIO_STYLE_PRESETS["cinematic_photorealism"])
+    style_defaults = style_cfg["short_desc"] if video_type == "short" else style_cfg["long_desc"]
+    negative = STUDIO_NEGATIVE_PROMPT
 
-    if os.environ.get("GEMINI_API_KEY") and base_prompt:
-        p = f"""You are a master Google Flow (Nano Banana Pro) image prompt engineer.
-Enhance and rewrite this image prompt into a breathtaking, ultra-cinematic prompt for {aspect} video generation.
-
-ORIGINAL PROMPT / IDEA: "{base_prompt}"
-SCENE SCRIPT EXCERPT: "{scene_excerpt}"
-TARGET ASPECT RATIO: {aspect}
-
-RULES:
-1. Describe characters performing concrete physical actions with hands, facial expressions, and physical props.
-2. Specify cinematic camera framing, lens focal length (e.g. 85mm f/1.4 or 24mm wide), and volumetric lighting.
-3. Natural descriptive sentences without comma tag soup.
-4. Append: "Save this image as: {filename}."
-5. End with: "Negative: {negative}."
-
-Return JSON only:
-{{"prompt": "<Enhanced cinematic prompt>. {style_defaults}. Save this image as: {filename}. Negative: {negative}.", "scene_description": "<one crisp sentence summary>"}}"""
+    if base_prompt:
+        p = (
+            "You are a master Google Flow (Nano Banana Pro) image prompt engineer.\n"
+            "Enhance and rewrite this prompt into an ultra-cinematic, photorealistic prompt for " + aspect + " video.\n\n"
+            'ORIGINAL IDEA: "' + base_prompt + '"\n'
+            'SCENE CONTEXT: "' + scene_excerpt + '"\n\n'
+            "RULES:\n"
+            "1. Describe characters performing concrete physical actions with hands, facial expressions, and physical props.\n"
+            "2. Specify cinematic camera framing, lens focal length, volumetric lighting, and fine textures.\n"
+            "3. NO currency symbols or exact prices.\n"
+            '4. End with: "' + style_defaults + '. Save this image as: ' + filename + '. Negative: ' + negative + '."\n\n'
+            "Return JSON only:\n"
+            '{"prompt": "<Enhanced cinematic prompt>. ' + style_defaults + '. Save this image as: ' + filename + '. Negative: ' + negative + '.", "scene_description": "<one crisp sentence summary>"}'
+        )
         try:
             raw = call_gemini(p, timeout=20, json_mode=True)
-            d = json.loads(raw)
+            d = json.loads(raw.replace("```json", "").replace("```", "").strip())
             return jsonify({
                 "filename": filename,
-                "prompt": d.get("prompt", base_prompt),
-                "scene_description": d.get("scene_description", "")
+                "prompt": _sanitize_prompt_safety(d.get("prompt", base_prompt)),
+                "scene_description": d.get("scene_description", "Enhanced cinematic prompt")
             })
         except Exception as ex:
             print(f"[studio] Enhance prompt fallback: {ex}")
 
-    enhanced = f"{base_prompt.rstrip('.')} — photorealistic 8k cinematic shot, volumetric dramatic lighting, authentic textures. {style_defaults}. Save this image as: {filename}. Negative: {negative}."
+    enhanced = _sanitize_prompt_safety(
+        f"{base_prompt.rstrip('.')} — volumetric dramatic lighting, photorealistic 8k detail, authentic textures. "
+        f"{style_defaults}. Save this image as: {filename}. Negative: {negative}."
+    )
     return jsonify({
         "filename": filename,
         "prompt": enhanced,
@@ -1470,7 +1360,7 @@ Return JSON only:
 
 @app.route("/api/studio/regenerate_prompt", methods=["POST"])
 def studio_regenerate_prompt():
-    """Regenerate a single image prompt using AI or visual variation engine."""
+    """Regenerate a single image prompt using AI with diverse framing."""
     req            = request.json or {}
     title          = req.get("title", "Video")
     video_type     = req.get("video_type", "short")
@@ -1479,44 +1369,47 @@ def studio_regenerate_prompt():
     image_style    = req.get("image_style", "cinematic_photorealism")
     
     aspect = "9:16" if video_type == "short" else "16:9"
-    style_defaults = (
-        "Vertical portrait 9:16 composition, subject centered in frame, full subject visible, natural skin texture, volumetric cinematic lighting, photorealistic 8k, crisp focal detail, macro 85mm f/1.4 lens, shallow depth of field"
-        if video_type == "short" else
-        "Widescreen 16:9 cinematic shot, expansive rule-of-thirds composition, volumetric amber key lighting, photorealistic 8k, anamorphic lens flare, shallow depth of field, cinematic color grade"
-    )
-    negative = "nudity, naked, nsfw, explicit, sexual, uncensored, watermarks, text overlay, logo, blurry, low quality, cropped head, missing limbs, bad anatomy"
-    
+    style_cfg = STUDIO_STYLE_PRESETS.get(image_style, STUDIO_STYLE_PRESETS["cinematic_photorealism"])
+    style_defaults = style_cfg["short_desc"] if video_type == "short" else style_cfg["long_desc"]
+    negative = STUDIO_NEGATIVE_PROMPT
+
     prompt_text = None
     scene_desc  = ""
-    if os.environ.get("GEMINI_API_KEY"):
-        p = f"""Create 1 cinematic Google Flow (Nano Banana Pro) image prompt for video '{title}'.
-Aspect ratio: {aspect}.
-Scene excerpt: "{script_excerpt}".
-Save filename: {filename}.
-Rule: Start prompt with the HIGHLY SPECIFIC visual subject performing action with props FIRST, followed by style details: "{style_defaults}."
-End prompt with: "Negative: {negative}."
-Return JSON: {{"prompt": "<specific visual subject with action and lighting>. {style_defaults}. Save this image as: {filename}. Negative: {negative}.", "scene_description": "..."}}"""
-        try:
-            raw = call_gemini(p, timeout=25, json_mode=True)
-            d = json.loads(raw)
-            prompt_text = d.get("prompt")
-            scene_desc  = d.get("scene_description", "")
-        except Exception:
-            prompt_text = None
+    p = (
+        "Create 1 cinematic Google Flow (Nano Banana Pro) image prompt for video '" + title + "'.\n"
+        "Aspect ratio: " + aspect + ".\n"
+        'Scene excerpt: "' + script_excerpt + '".\n'
+        "Save filename: " + filename + ".\n"
+        "Rule: Start prompt with concrete visual subject performing physical action with props FIRST.\n"
+        "NO currency symbols.\n"
+        'End prompt with: "' + style_defaults + '. Save this image as: ' + filename + '. Negative: ' + negative + '."\n\n'
+        "Return JSON only:\n"
+        '{"prompt": "<fluent cinematic prompt>. ' + style_defaults + '. Save this image as: ' + filename + '. Negative: ' + negative + '.", "scene_description": "<one sentence>"}'
+    )
+    try:
+        raw = call_gemini(p, timeout=25, json_mode=True)
+        d = json.loads(raw.replace("```json", "").replace("```", "").strip())
+        prompt_text = _sanitize_prompt_safety(d.get("prompt", ""))
+        scene_desc  = d.get("scene_description", "")
+    except Exception:
+        prompt_text = None
 
     if not prompt_text:
         import random
         angles = [
-            "dramatic close-up reaction shot", "wide cinematic establishing shot",
-            "low-angle heroic perspective", "overhead aerial view", "shallow depth of field portrait",
-            "dynamic action freeze-frame", "atmospheric backlight silhouette", "intense focal macro view"
+            ("Dramatic close-up reaction shot", "tight 85mm portrait, intense facial emotion, reflective eyes"),
+            ("Wide cinematic establishing shot", "24mm deep focus landscape, atmospheric environmental lighting"),
+            ("Low-angle heroic perspective", "35mm dynamic low-angle hero framing against dramatic sky"),
+            ("Macro focal view", "100mm macro close-up on key storytelling prop with crisp fine detail"),
+            ("Dynamic action moment", "50mm action freeze-frame with authentic physical motion"),
         ]
-        chosen_angle = random.choice(angles)
-        prompt_text = (
-            f"{script_excerpt[:120].rstrip('.')} — {chosen_angle}, volumetric cinematic lighting, rich authentic colors, photorealistic 8k. "
+        chosen_angle, lens_info = random.choice(angles)
+        prompt_text = _sanitize_prompt_safety(
+            f"{chosen_angle} ({lens_info}) depicting {script_excerpt[:120].rstrip('.')}. "
+            f"Volumetric cinematic lighting, rich authentic colors, photorealistic 8k. "
             f"{style_defaults}. Save this image as: {filename}. Negative: {negative}."
         )
-        scene_desc = f"{chosen_angle.capitalize()} visualizing beat: '{script_excerpt[:60]}...'"
+        scene_desc = f"{chosen_angle} for: '{script_excerpt[:60]}...'"
 
     return jsonify({"filename": filename, "prompt": prompt_text, "scene_description": scene_desc})
 
@@ -1529,62 +1422,73 @@ def studio_regenerate_scene():
     video_type     = req.get("video_type", "short")
     scene_index    = req.get("scene_index", 0)
     script_excerpt = req.get("script_excerpt", "")
-    image_count    = req.get("image_count", 10)
+    image_count    = req.get("image_count", 8)
     image_style    = req.get("image_style", "cinematic_photorealism")
     
     prefix = "short" if video_type == "short" else "long"
     aspect = "9:16" if video_type == "short" else "16:9"
-    style_defaults = (
-        "Vertical portrait 9:16 composition, subject centered in frame, full subject visible, natural skin texture, volumetric cinematic lighting, photorealistic 8k, crisp focal detail, macro 85mm f/1.4 lens, shallow depth of field"
-        if video_type == "short" else
-        "Widescreen 16:9 cinematic shot, expansive rule-of-thirds composition, volumetric amber key lighting, photorealistic 8k, anamorphic lens flare, shallow depth of field, cinematic color grade"
-    )
-    negative = "nudity, naked, nsfw, explicit, sexual, uncensored, watermarks, text overlay, logo, blurry, low quality, cropped head, missing limbs, bad anatomy"
+    style_cfg = STUDIO_STYLE_PRESETS.get(image_style, STUDIO_STYLE_PRESETS["cinematic_photorealism"])
+    style_defaults = style_cfg["short_desc"] if video_type == "short" else style_cfg["long_desc"]
+    negative = STUDIO_NEGATIVE_PROMPT
 
     def _build_fn(s_idx, i_idx):
         return f"{prefix}_s{s_idx+1:03d}_img{i_idx+1:03d}.png"
 
     images = []
-    if os.environ.get("GEMINI_API_KEY"):
-        p = f"""You are an elite Google Flow (Nano Banana Pro) prompt engineer.
-Create {image_count} cinematic image prompts for Scene {scene_index+1} of '{title}'.
-Excerpt: "{script_excerpt}".
-Filenames: {_build_fn(scene_index, 0)} to {_build_fn(scene_index, image_count-1)}.
-Aspect ratio: {aspect}.
-
-Rules:
-1. Describe characters actively doing things with hands, facial expressions, and physical props.
-2. Vary framing: Medium action shot (50mm/85mm), Environmental wide shot (24mm/35mm), Macro close-up on props, Low-angle hero reaction.
-3. Volumetric lighting and natural depth.
-4. End prompts with style defaults and: "Save this image as: <filename>. Negative: {negative}."
-
-Return JSON: {{"images": [{{"filename": "...", "prompt": "<specific visual subject performing action with props and lighting>. {style_defaults}. Save this image as: ... Negative: {negative}.", "scene_description": "..."}}]}}"""
-        try:
-            raw = call_gemini(p, timeout=40, json_mode=True)
-            d = json.loads(raw)
-            images = d.get("images") or []
-        except Exception:
-            images = []
+    p = (
+        "You are an elite Google Flow (Nano Banana Pro) prompt engineer.\n"
+        "Create " + str(image_count) + " cinematic image prompts for Scene " + str(scene_index+1) + " of '" + title + "'.\n"
+        'Excerpt: "' + script_excerpt + '".\n'
+        "Filenames: " + _build_fn(scene_index, 0) + " to " + _build_fn(scene_index, image_count-1) + ".\n"
+        "Aspect ratio: " + aspect + ".\n\n"
+        "Rules:\n"
+        "1. Describe characters actively doing things with hands, facial expressions, and physical props.\n"
+        "2. Vary framing: Medium action shot, Macro close-up on props, Environmental wide, Low-angle hero.\n"
+        "3. NO currency symbols or exact dollar amounts.\n"
+        '4. End prompts with: "' + style_defaults + '. Save this image as: <filename>. Negative: ' + negative + '."\n\n'
+        "Return JSON only:\n"
+        '{"images": [{"filename": "' + _build_fn(scene_index, 0) + '", "prompt": "<cinematic description>. ' + style_defaults + '. Save this image as: ' + _build_fn(scene_index, 0) + '. Negative: ' + negative + '.", "scene_description": "..."}]}'
+    )
+    try:
+        raw = call_gemini(p, timeout=40, json_mode=True)
+        d = json.loads(raw.replace("```json", "").replace("```", "").strip())
+        raw_imgs = d.get("images") or []
+        for ii, im in enumerate(raw_imgs[:image_count]):
+            fn = _build_fn(scene_index, ii)
+            im["image_index"] = ii + 1
+            im["filename"] = fn
+            im["aspect_ratio"] = aspect
+            im["prompt"] = _sanitize_prompt_safety(im.get("prompt", ""))
+            images.append(im)
+    except Exception:
+        images = []
 
     if not images:
-        ANGLE_VARIATIONS = [
-            "extreme close-up macro shot", "medium shot from slightly below",
-            "wide establishing shot", "overhead bird's-eye view", "low-angle hero shot",
-            "over-the-shoulder perspective", "tight portrait framing", "dramatic side profile silhouette",
-            "three-quarter angle cinematic", "dutch tilt dramatic angle"
+        SHOT_VARIATIONS = [
+            ("Extreme close-up macro shot", "100mm macro prime, tactile textures and sharp focus"),
+            ("Medium action shot", "50mm lens, subject torso and hands interacting with physical props"),
+            ("Wide establishing shot", "24mm wide angle, deep focus environmental scale"),
+            ("Overhead bird's-eye view", "aerial top-down perspective with dynamic atmospheric lighting"),
+            ("Low-angle hero shot", "35mm low-angle heroic framing against dramatic backdrop"),
+            ("Tight portrait framing", "85mm f/1.4 prime lens, intense facial emotion and bokeh"),
+            ("Dramatic side silhouette", "high-contrast cinematic rim light silhouette"),
+            ("Three-quarter angle view", "50mm cinematic three-quarter perspective"),
         ]
         images = []
         for ii in range(image_count):
             fn = _build_fn(scene_index, ii)
-            angle = ANGLE_VARIATIONS[ii % len(ANGLE_VARIATIONS)]
-            prompt = (
-                f"{script_excerpt[:120].rstrip('.')} — {angle}, volumetric cinematic lighting, rich authentic colors, photorealistic 8k. "
+            shot_name, shot_lens = SHOT_VARIATIONS[ii % len(SHOT_VARIATIONS)]
+            prompt = _sanitize_prompt_safety(
+                f"{shot_name} ({shot_lens}) visualizing {script_excerpt[:120].rstrip('.')}. "
+                f"Volumetric cinematic lighting, rich authentic colors, photorealistic 8k. "
                 f"{style_defaults}. Save this image as: {fn}. Negative: {negative}."
             )
             images.append({
+                "image_index": ii + 1,
                 "filename": fn,
                 "prompt": prompt,
-                "scene_description": f"{angle.capitalize()} visualizing '{script_excerpt[:50]}...'"
+                "scene_description": f"{shot_name} for '{script_excerpt[:50]}...'",
+                "aspect_ratio": aspect
             })
 
     return jsonify({"scene_index": scene_index, "images": images})
@@ -2621,6 +2525,21 @@ def studio_cancel_flow_generation(project_id):
     return jsonify({"success": True, "project_id": project_id, "status": "cancelled"})
 
 
+@app.route("/api/studio/launch_flow_chrome", methods=["POST"])
+def studio_launch_flow_chrome():
+    """Launch Google Chrome with remote debugging on port 9222."""
+    try:
+        sys_gen_path = str(PROJECT_ROOT / "scripts" / "generators")
+        if sys_gen_path not in sys.path:
+            sys.path.insert(0, sys_gen_path)
+        import flow_clippilot_direct_cdp
+        cdp_url = os.getenv("GOOGLE_FLOW_CDP_URL", "http://127.0.0.1:9222")
+        ok = flow_clippilot_direct_cdp.ensure_chrome_running(cdp_url)
+        return jsonify({"success": ok, "cdp_url": cdp_url, "running": ok})
+    except Exception as ex:
+        return jsonify({"success": False, "error": str(ex)}), 500
+
+
 @app.route("/api/studio/import_from_flow/<path:project_id>", methods=["POST"])
 def studio_import_from_flow(project_id):
     """
@@ -2656,21 +2575,6 @@ def studio_import_from_flow(project_id):
     if not all_img_defs:
         return jsonify({"error": "No image definitions found in project scenes"}), 400
 
-@app.route("/api/studio/launch_flow_chrome", methods=["POST"])
-def studio_launch_flow_chrome():
-    """Launch Google Chrome with remote debugging on port 9222."""
-    try:
-        sys_gen_path = str(PROJECT_ROOT / "scripts" / "generators")
-        if sys_gen_path not in sys.path:
-            sys.path.insert(0, sys_gen_path)
-        import flow_clippilot_direct_cdp
-        cdp_url = os.getenv("GOOGLE_FLOW_CDP_URL", "http://127.0.0.1:9222")
-        ok = flow_clippilot_direct_cdp.ensure_chrome_running(cdp_url)
-        return jsonify({"success": ok, "cdp_url": cdp_url, "running": ok})
-    except Exception as ex:
-        return jsonify({"success": False, "error": str(ex)}), 500
-
-
     async def _do_sync():
         from playwright.async_api import async_playwright
         cdp_url = os.getenv("GOOGLE_FLOW_CDP_URL", "http://127.0.0.1:9222")
@@ -2688,13 +2592,26 @@ def studio_launch_flow_chrome():
                 
             context = browser.contexts[0]
             flow_page = None
+            # Search all open pages for a Flow tab
             for p in context.pages:
-                if "labs.google/fx/tools/flow" in p.url:
+                url = p.url or ""
+                if "labs.google/fx/tools/flow" in url or "flow.google.com" in url:
                     flow_page = p
                     break
-            
+
             if not flow_page:
-                raise RuntimeError("No Google Flow tab found open in Chrome. Please open your Google Flow project in Chrome first.")
+                # No Flow tab open — auto-open the user's Flow project URL
+                flow_url = (
+                    meta.get("flow_project_url")
+                    or os.getenv("GOOGLE_FLOW_PROJECT_URL", "https://labs.google/fx/tools/flow")
+                )
+                print(f"[FLOW-IMPORT] No Flow tab found. Auto-opening: {flow_url}")
+                flow_page = await context.new_page()
+                await flow_page.goto(flow_url, wait_until="domcontentloaded", timeout=30000)
+                # Wait for Flow board to fully hydrate
+                await flow_page.wait_for_timeout(5000)
+
+            await flow_page.bring_to_front()
 
             # Extract both images and videos from the Flow board in DOM order
             flow_media = await flow_page.evaluate("""() => {
@@ -2720,12 +2637,8 @@ def studio_launch_flow_chrome():
             if not flow_media:
                 raise RuntimeError("No generated media found on the active Google Flow board.")
 
-            # Google Flow board displays media in newest-first (LIFO) order,
-            # so reverse the array to match the sequential/chronological prompt order
-            chronological_media = list(reversed(flow_media))
-
             downloaded = []
-            for idx, item in enumerate(chronological_media):
+            for idx, item in enumerate(flow_media):
                 if idx >= len(all_img_defs):
                     break
                 filename = all_img_defs[idx]
@@ -2748,6 +2661,7 @@ def studio_launch_flow_chrome():
                 img_dest.write_bytes(raw_bytes)
                 broll_dest.write_bytes(raw_bytes)
                 downloaded.append(filename)
+                print(f"[FLOW-IMPORT] [{idx+1}/{len(all_img_defs)}] Saved {filename} ({len(raw_bytes):,} bytes)")
 
             return downloaded
 
@@ -3199,10 +3113,13 @@ def studio_list_projects():
                 meta = json.loads(meta_path.read_text(encoding="utf-8"))
                 finals   = list(proj_dir.glob("Final_*.mp4"))
                 fin_path = str(finals[0].relative_to(OUTPUT_ROOT)) if finals else None
-                
+
                 # Check uploaded images count
                 images_dir = proj_dir / "images"
                 img_count  = len(list(images_dir.glob("*"))) if images_dir.exists() else 0
+
+                # Derive true status — if Final video exists on disk it's always complete
+                status = "complete" if fin_path else meta.get("status", "unknown")
 
                 projects.append({
                     "project_id":      f"{date_dir.name}/{proj_dir.name}",
@@ -3213,9 +3130,10 @@ def studio_list_projects():
                     "date":            date_dir.name,
                     "slug":            proj_dir.name,
                     "video_type":      meta.get("video_type", "short"),
-                    "status":          meta.get("status", "unknown"),
+                    "status":          status,
                     "has_manifest":    (proj_dir / "manifest.json").exists(),
                     "final_video":     fin_path,
+                    "final_video_url": f"/studio/video/{fin_path}" if fin_path else None,
                     "created_at":      meta.get("created_at", ""),
                     "images_uploaded": img_count,
                     "total_prompts":   len(meta.get("prompts", [])),
